@@ -1,0 +1,6 @@
+#ifndef SAMRAYDER_RAYMARCH_CORE
+#define SAMRAYDER_RAYMARCH_CORE
+
+
+
+#endif
