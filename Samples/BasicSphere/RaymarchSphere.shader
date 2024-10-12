@@ -50,7 +50,7 @@ Shader "Rayman/RaymarchSphere"
 		    if (!(ray.currentDist < 0.001)) discard;
         }
 
-        float3 GetNormal(const float3 pos)
+        float3 GetSphereNormal(const float3 pos)
 		{
 		    const float2 k = float2(1, -1) * 0.001;
 		    return normalize(float3(
@@ -143,7 +143,7 @@ Shader "Rayman/RaymarchSphere"
 			    RaymarchSphere(ray);
 
 				float depth = GetDepth(ray, input.wsPos);
-				float3 normal = GetNormal(ray.travelledPoint);
+				float3 normal = GetSphereNormal(ray.travelledPoint);
 
 				_Color.rgb = MixFog(_Color, input.fogFactorAndVertexLight.x);
 				
