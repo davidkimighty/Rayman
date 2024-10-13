@@ -22,6 +22,9 @@ inline Ray InitRay(const float3 origin, const int maxSteps, const float maxDist)
     ray.dir = normalize(origin - GetCameraPosition());
     ray.maxSteps = maxSteps;
     ray.maxDist = maxDist;
+    ray.currentDist = 0.;
+    ray.travelledPoint = ray.origin;
+    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
     return ray;
 }
 

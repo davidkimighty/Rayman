@@ -8,6 +8,12 @@ Shader "Rayman/RaymarchSphere"
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64
     	_MaxDist ("MaxDist", Float) = 100.
+    	
+    	[Header(Pass)][Space]
+    	[Enum(UnityEngine.Rendering.BlendMode)] _BlendSrc("Blend Src", Float) = 5 
+		[Enum(UnityEngine.Rendering.BlendMode)] _BlendDst("Blend Dst", Float) = 10
+	    [Enum(UnityEngine.Rendering.CullMode)] _Cull("Culling", Int) = 2
+	    [Toggle][KeyEnum(Off, On)] _ZWrite("ZWrite", Float) = 1
     }
     SubShader
     {
@@ -17,7 +23,7 @@ Shader "Rayman/RaymarchSphere"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
-        LOD 300
+        LOD 100
         
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -25,6 +31,7 @@ Shader "Rayman/RaymarchSphere"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
         
         #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Raymarching.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Lighting.hlsl"
         
 		float Circle(float3 pos)
 		{
@@ -50,7 +57,7 @@ Shader "Rayman/RaymarchSphere"
 		    if (!(ray.currentDist < 0.001)) discard;
         }
 
-        float3 GetSphereNormal(const float3 pos)
+        float3 GetNormal(const float3 pos)
 		{
 		    const float2 k = float2(1, -1) * 0.001;
 		    return normalize(float3(
@@ -66,6 +73,10 @@ Shader "Rayman/RaymarchSphere"
 			Name "Forward Lit"
 			Tags { "LightMode" = "UniversalForward" }
 			
+			Blend [_BlendSrc] [_BlendDst]
+		    ZWrite [_ZWrite]
+		    Cull [_Cull]
+		    
 			HLSLPROGRAM
             #pragma vertex Vert
             #pragma fragment Frag
@@ -137,18 +148,22 @@ Shader "Rayman/RaymarchSphere"
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
 				Ray ray = InitRay(input.wsPos, _MaxSteps, _MaxDist);
-				ray.currentDist = 0.;
-			    ray.travelledPoint = ray.origin;
-			    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
 			    RaymarchSphere(ray);
 
-				float depth = GetDepth(ray, input.wsPos);
-				float3 normal = GetSphereNormal(ray.travelledPoint);
+				const float depth = GetDepth(ray, input.wsPos);
+				const float3 normal = GetNormal(ray.travelledPoint);
 
-				_Color.rgb = MixFog(_Color, input.fogFactorAndVertexLight.x);
+				const half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
+				const Light mainLight = GetMainLight(shadowCoord);
+				const float diffuse = GetDiffuse(mainLight.direction, normal);
+				const float specular = GetSpecular(ray.dir, mainLight.direction, normal, 1000);
+				float3 color = _Color.rgb;
+				color *= diffuse + specular;
+				//color = GammaCorrection(color, ray.distTravelled);
+				color = MixFog(color, input.fogFactorAndVertexLight.x);
 				
 				FragOut output;
-				output.color = _Color;
+				output.color = float4(color, 1);
 				output.depth = depth;
 				return output;
 			}
