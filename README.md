@@ -16,10 +16,9 @@
 This Unity package provides Ray marching shader in Unity.
 
 # Changelog
-- [v0.1 GitHub Milestones]()
+- [v0.1.0 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/1?closed=1)
 
 <br />
-
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 <br />
