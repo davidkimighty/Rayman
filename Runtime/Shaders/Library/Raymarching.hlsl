@@ -1,8 +1,9 @@
 #ifndef RAYMAN_RAYMARCHING
 #define RAYMAN_RAYMARCHING
 
-#include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Camera.hlsl"
-#include "Packages/com.davidkimighty.rayman/Runtime/Shaders/TransformSpace.hlsl"
+#include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Camera.hlsl"
+#include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/TransformSpace.hlsl"
+#include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Shapes.hlsl"
 
 struct Ray
 {

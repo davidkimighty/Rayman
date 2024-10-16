@@ -1,7 +1,6 @@
 #ifndef RAYMAN_LIGHTING
 #define RAYMAN_LIGHTING
 
-#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 float GetDiffuse(float3 lightDir, float3 normal)
