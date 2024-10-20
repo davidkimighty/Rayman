@@ -2,19 +2,8 @@ Shader "Rayman/RaymarchSphere"
 {
     Properties
     {
-//        _Color ("Color", Color) = (1,1,1,1)
-//        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-    	[MainColor] _BaseColor("Color", Color) = (0.5, 0.5, 0.5, 1)
-		[HideInInspector][MainTexture] _BaseMap("Albedo", 2D) = "white" {}
-    	[Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.5
-	    _Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-	    [ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
-    	
-	    [Header(ClearCoat (Forward Only))][Space]
-	    [Toggle] _ClearCoat("Clear Coat", Float) = 0.0
-	    [HideInInspector] _ClearCoatMap("Clear Coat Map", 2D) = "white" {}
-	    _ClearCoatMask("Clear Coat Mask", Range(0.0, 1.0)) = 0.0
-	    _ClearCoatSmoothness("Clear Coat Smoothness", Range(0.0, 1.0)) = 1.0
+        _Color ("Color", Color) = (1,1,1,1)
+        _MainTex ("Albedo (RGB)", 2D) = "white" {}
         
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64
@@ -73,11 +62,6 @@ Shader "Rayman/RaymarchSphere"
 		        if (ray.currentDist < 0.001 || ray.distTravelled > ray.maxDist) break;
 		    }
 		    return ray.currentDist < 0.001;
-        }
-
-        void Raymarching(inout Ray ray)
-        {
-	        if (!RaymarchSphere(ray)) discard;
         }
 
         float3 GetNormal(const float3 pos)
@@ -185,6 +169,7 @@ Shader "Rayman/RaymarchSphere"
 				float depth : SV_Depth;
 			};
 
+			half4 _Color;
 			int _MaxSteps;
 			float _MaxDist;
 
@@ -215,63 +200,39 @@ Shader "Rayman/RaymarchSphere"
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
 				Ray ray = InitRay(input.wsPos, _MaxSteps, _MaxDist);
-			    Raymarching(ray);
+			    if (!RaymarchSphere(ray)) discard;
 				
 				const float3 normal = GetNormal2(ray.travelledPoint);
+				const float depth = GetDepth(ray, input.wsPos);
 				
-				/*
-				InputData inputData = (InputData)0;
-			    inputData.positionWS = ray.travelledPoint;
-			    inputData.normalWS = 2.0 * normal - 1.0;;
-			    inputData.viewDirectionWS = SafeNormalize(GetCameraPosition() - ray.travelledPoint);
-			    inputData.shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
-			    inputData.fogCoord = input.fogFactorAndVertexLight.x;
-			    inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
-			    inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
-
-				inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.csPos);
-				inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-				
-				SurfaceData surfaceData = (SurfaceData)0;
-				surfaceData.metallic = _Metallic;
-				surfaceData.smoothness = _Smoothness;
-				InitializeStandardLitSurfaceData(float2(0, 0), surfaceData);*/
-
 				// main light
 				half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
-				Light ml = GetMainLight(shadowCoord);
-				float bias = 0.0135;
-				float normalBias = bias * max(0.0, dot(ml.direction, normal));
-				shadowCoord.z += normalBias;
-				ml = GetMainLight(shadowCoord);
-				float shadowAttenuation = ml.shadowAttenuation;
+				const Light mainLight = GetMainLight(shadowCoord);
 				
-				const float md = GetDiffuse(ml.direction, normal);
-				const float ms = GetSpecular(ray.dir, ml.direction, normal, 1000) * md;
-				half3 shade = ml.color * (md + ms) * shadowAttenuation;
+				const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
+				const float mainSpecular = GetSpecular(ray.dir, mainLight.direction, normal, 1000) * mainDiffuse;
+
+				const float normalBias = 0.0135 * max(0.0, dot(mainLight.direction, normal));
+				shadowCoord.z += normalBias;
+				const Light mainLightWithBias = GetMainLight(shadowCoord);
+				half3 shade = mainLight.color * (mainDiffuse + mainSpecular) * mainLightWithBias.shadowAttenuation;
 			 
-				// other lights
+				// additional lights
 				const int count = GetAdditionalLightsCount();
 				for (int i = 0; i < count; ++i)
 			    {
-				    const Light sl = GetAdditionalLight(i, ray.travelledPoint);
-				    const float sd = GetDiffuse(sl.direction, normal) * sl.distanceAttenuation;
-				    const float ss = GetSpecular(ray.dir, ml.direction, normal, 1000) * sd;
-					shade += sl.color * (sd + ss);
+				    const Light light = GetAdditionalLight(i, ray.travelledPoint);
+				    const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
+				    const float specular = GetSpecular(ray.dir, mainLight.direction, normal, 1000) * diffuse;
+					shade += light.color * (diffuse + specular);
 			    }
 
-				half4 color = _BaseColor;
+				half4 color = _Color;
 				color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-				/*color = UniversalFragmentPBR(inputData, surfaceData);
-				color *= _BaseColor;
-				color.rgb = MixFog(color.rgb, inputData.fogCoord);
-				color.a = 1.;*/
-
-				//color = GammaCorrection(color, ray.distTravelled);
-
+				color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+				
 				FragOut output;
 				output.color = color;
-				const float depth = GetDepth(ray, input.wsPos);
 				output.depth = depth;
 				return output;
 			}
