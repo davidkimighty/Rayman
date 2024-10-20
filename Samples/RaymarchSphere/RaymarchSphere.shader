@@ -45,9 +45,11 @@ Shader "Rayman/RaymarchSphere"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
+        #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
         
         #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Raymarching.hlsl"
         #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Lighting.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Shadow.hlsl"
         
 		float Circle(float3 pos)
 		{
@@ -215,9 +217,9 @@ Shader "Rayman/RaymarchSphere"
 				Ray ray = InitRay(input.wsPos, _MaxSteps, _MaxDist);
 			    Raymarching(ray);
 				
-				const float3 normal = GetNormal(ray.travelledPoint);
+				const float3 normal = GetNormal2(ray.travelledPoint);
 				
-
+				/*
 				InputData inputData = (InputData)0;
 			    inputData.positionWS = ray.travelledPoint;
 			    inputData.normalWS = 2.0 * normal - 1.0;;
@@ -229,34 +231,41 @@ Shader "Rayman/RaymarchSphere"
 
 				inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.csPos);
 				inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-
+				
 				SurfaceData surfaceData = (SurfaceData)0;
-				InitializeStandardLitSurfaceData(float2(0, 0), surfaceData);
+				surfaceData.metallic = _Metallic;
+				surfaceData.smoothness = _Smoothness;
+				InitializeStandardLitSurfaceData(float2(0, 0), surfaceData);*/
 
-				// // main light
-				// const half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
-				// const Light ml = GetMainLight(shadowCoord);
-				// const float md = GetDiffuse(ml.direction, normal);
-				// const float ms = GetSpecular(ray.dir, ml.direction, normal, 1000) * md;
-				// half3 shade = ml.color * (md + ms) * UniversalFragmentPBR(inputData, surfaceData);
-			 //
-				// // other lights
-				// const int count = GetAdditionalLightsCount();
-				// for (int i = 0; i < count; ++i)
-			 //    {
-				//     const Light sl = GetAdditionalLight(i, ray.travelledPoint);
-				//     const float sd = GetDiffuse(sl.direction, normal) * sl.distanceAttenuation;
-				//     const float ss = GetSpecular(ray.dir, ml.direction, normal, 1000) * sd;
-				// 	shade += sl.color * (sd + ss);
-			 //    }
+				// main light
+				half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
+				Light ml = GetMainLight(shadowCoord);
+				float bias = 0.0135;
+				float normalBias = bias * max(0.0, dot(ml.direction, normal));
+				shadowCoord.z += normalBias;
+				ml = GetMainLight(shadowCoord);
+				float shadowAttenuation = ml.shadowAttenuation;
+				
+				const float md = GetDiffuse(ml.direction, normal);
+				const float ms = GetSpecular(ray.dir, ml.direction, normal, 1000) * md;
+				half3 shade = ml.color * (md + ms) * shadowAttenuation;
+			 
+				// other lights
+				const int count = GetAdditionalLightsCount();
+				for (int i = 0; i < count; ++i)
+			    {
+				    const Light sl = GetAdditionalLight(i, ray.travelledPoint);
+				    const float sd = GetDiffuse(sl.direction, normal) * sl.distanceAttenuation;
+				    const float ss = GetSpecular(ray.dir, ml.direction, normal, 1000) * sd;
+					shade += sl.color * (sd + ss);
+			    }
 
 				half4 color = _BaseColor;
-				//color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-				//color.rgb *= shade;
-				color = UniversalFragmentPBR(inputData, surfaceData);
+				color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+				/*color = UniversalFragmentPBR(inputData, surfaceData);
 				color *= _BaseColor;
 				color.rgb = MixFog(color.rgb, inputData.fogCoord);
-				color.a = 1.;
+				color.a = 1.;*/
 
 				//color = GammaCorrection(color, ray.distTravelled);
 
