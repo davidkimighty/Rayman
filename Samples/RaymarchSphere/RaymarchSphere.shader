@@ -2,9 +2,19 @@ Shader "Rayman/RaymarchSphere"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Albedo (RGB)", 2D) = "white" {}
-    	_GIIntensity ("GI Intensity", Range(0., 1.)) = 0.5
+//        _Color ("Color", Color) = (1,1,1,1)
+//        _MainTex ("Albedo (RGB)", 2D) = "white" {}
+    	[MainColor] _BaseColor("Color", Color) = (0.5, 0.5, 0.5, 1)
+		[HideInInspector][MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	[Gamma] _Metallic("Metallic", Range(0.0, 1.0)) = 0.5
+	    _Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+	    [ToggleOff] _EnvironmentReflections("Environment Reflections", Float) = 1.0
+    	
+	    [Header(ClearCoat (Forward Only))][Space]
+	    [Toggle] _ClearCoat("Clear Coat", Float) = 0.0
+	    [HideInInspector] _ClearCoatMap("Clear Coat Map", 2D) = "white" {}
+	    _ClearCoatMask("Clear Coat Mask", Range(0.0, 1.0)) = 0.0
+	    _ClearCoatSmoothness("Clear Coat Smoothness", Range(0.0, 1.0)) = 1.0
         
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64
@@ -21,6 +31,9 @@ Shader "Rayman/RaymarchSphere"
         Tags
         {
             "RenderPipeline" = "UniversalPipeline"
+        	"UniversalMaterialType" = "Lit"
+        	"RenderType" = "Opaque"
+			"Queue" = "Geometry"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
@@ -31,6 +44,7 @@ Shader "Rayman/RaymarchSphere"
         #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
         
         #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Raymarching.hlsl"
         #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Lighting.hlsl"
@@ -41,7 +55,7 @@ Shader "Rayman/RaymarchSphere"
 			return length(ToObject(pos) * GetScale()) - r;
 		}
 
-        void RaymarchSphere(inout Ray ray)
+        bool RaymarchSphere(inout Ray ray)
         {
 	        float multiplier = 1;
 			#ifdef OBJECT_SCALE
@@ -56,7 +70,12 @@ Shader "Rayman/RaymarchSphere"
 		        ray.travelledPoint += ray.dir * ray.currentDist;
 		        if (ray.currentDist < 0.001 || ray.distTravelled > ray.maxDist) break;
 		    }
-		    if (!(ray.currentDist < 0.001)) discard;
+		    return ray.currentDist < 0.001;
+        }
+
+        void Raymarching(inout Ray ray)
+        {
+	        if (!RaymarchSphere(ray)) discard;
         }
 
         float3 GetNormal(const float3 pos)
@@ -93,8 +112,37 @@ Shader "Rayman/RaymarchSphere"
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-            #pragma vertex Vert
-            #pragma fragment Frag
+			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+		    #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
+		    #pragma shader_feature_local_fragment _ALPHATEST_ON
+		    #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
+		    #pragma shader_feature_local_fragment _EMISSION
+		    #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+		    #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
+		    #pragma shader_feature_local_fragment _CLEARCOAT_ON
+		    #ifdef _CLEARCOAT_ON
+		        #define _CLEARCOAT
+		    #endif
+
+		    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+		    #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+		    #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+		    #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+		    #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+		    #pragma multi_compile_fragment _ _SHADOWS_SOFT
+		    #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+		    #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+		    #pragma multi_compile_fragment _ _LIGHT_LAYERS
+		    #pragma multi_compile_fragment _ _LIGHT_COOKIES
+		    #pragma multi_compile _ _CLUSTERED_RENDERING
+
+		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+		    #pragma multi_compile _ SHADOWS_SHADOWMASK
+		    #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+		    #pragma multi_compile _ LIGHTMAP_ON
+		    #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+		    #pragma multi_compile_fog
+		    #pragma multi_compile_fragment _ DEBUG_DISPLAY
 
 		    #pragma multi_compile_instancing
 		    #pragma instancing_options renderinglayer
@@ -103,6 +151,9 @@ Shader "Rayman/RaymarchSphere"
 		    #pragma prefer_hlslcc gles
 		    #pragma exclude_renderers d3d11_9x
 		    #pragma target 2.0
+            
+            #pragma vertex Vert
+            #pragma fragment Frag
 
 			struct Attributes
 			{
@@ -134,7 +185,6 @@ Shader "Rayman/RaymarchSphere"
 
 			int _MaxSteps;
 			float _MaxDist;
-            float4 _Color;
 
 			Varyings Vert (Attributes input)
 			{
@@ -159,39 +209,60 @@ Shader "Rayman/RaymarchSphere"
 
 			FragOut Frag (Varyings input)
 			{
-				UNITY_SETUP_INSTANCE_ID(i);
-				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
+				UNITY_SETUP_INSTANCE_ID(input);
+				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
 				Ray ray = InitRay(input.wsPos, _MaxSteps, _MaxDist);
-			    RaymarchSphere(ray);
-
-				const float depth = GetDepth(ray, input.wsPos);
-				const float3 normal = GetNormal2(ray.travelledPoint);
+			    Raymarching(ray);
 				
-				// main light
-				const half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
-				const Light ml = GetMainLight(shadowCoord);
-				const float md = GetDiffuse(ml.direction, normal);
-				const float ms = GetSpecular(ray.dir, ml.direction, normal, 1000) * md;
-				float3 shade = ml.color * (md + ms);
+				const float3 normal = GetNormal(ray.travelledPoint);
+				
 
-				// other lights
-				const int count = GetAdditionalLightsCount();
-				for (int i = 0; i < count; ++i)
-			    {
-				    const Light sl = GetAdditionalLight(i, ray.travelledPoint);
-				    const float sd = GetDiffuse(sl.direction, normal) * sl.distanceAttenuation;
-				    const float ss = GetSpecular(ray.dir, ml.direction, normal, 1000) * sd;
-					shade += sl.color * (sd + ss);
-			    }
+				InputData inputData = (InputData)0;
+			    inputData.positionWS = ray.travelledPoint;
+			    inputData.normalWS = 2.0 * normal - 1.0;;
+			    inputData.viewDirectionWS = SafeNormalize(GetCameraPosition() - ray.travelledPoint);
+			    inputData.shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
+			    inputData.fogCoord = input.fogFactorAndVertexLight.x;
+			    inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
+			    inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
 
-				float3 color = _Color.rgb;
-				color *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-				color = MixFog(color, input.fogFactorAndVertexLight.x);
+				inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.csPos);
+				inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+
+				SurfaceData surfaceData = (SurfaceData)0;
+				InitializeStandardLitSurfaceData(float2(0, 0), surfaceData);
+
+				// // main light
+				// const half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
+				// const Light ml = GetMainLight(shadowCoord);
+				// const float md = GetDiffuse(ml.direction, normal);
+				// const float ms = GetSpecular(ray.dir, ml.direction, normal, 1000) * md;
+				// half3 shade = ml.color * (md + ms) * UniversalFragmentPBR(inputData, surfaceData);
+			 //
+				// // other lights
+				// const int count = GetAdditionalLightsCount();
+				// for (int i = 0; i < count; ++i)
+			 //    {
+				//     const Light sl = GetAdditionalLight(i, ray.travelledPoint);
+				//     const float sd = GetDiffuse(sl.direction, normal) * sl.distanceAttenuation;
+				//     const float ss = GetSpecular(ray.dir, ml.direction, normal, 1000) * sd;
+				// 	shade += sl.color * (sd + ss);
+			 //    }
+
+				half4 color = _BaseColor;
+				//color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+				//color.rgb *= shade;
+				color = UniversalFragmentPBR(inputData, surfaceData);
+				color *= _BaseColor;
+				color.rgb = MixFog(color.rgb, inputData.fogCoord);
+				color.a = 1.;
+
 				//color = GammaCorrection(color, ray.distTravelled);
-				
+
 				FragOut output;
-				output.color = float4(color, 1);
+				output.color = color;
+				const float depth = GetDepth(ray, input.wsPos);
 				output.depth = depth;
 				return output;
 			}
@@ -208,12 +279,14 @@ Shader "Rayman/RaymarchSphere"
 			Cull [_Cull]
 
 			HLSLPROGRAM
-			#pragma vertex Vert
-			#pragma fragment Frag
-
-			#pragma multi_compile_instancing
 			#pragma shader_feature _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-			#pragma target 2.0
+		    #pragma multi_compile_instancing
+		    #pragma prefer_hlslcc gles
+		    #pragma exclude_renderers d3d11_9x
+		    #pragma target 2.0
+
+		    #pragma vertex Vert
+		    #pragma fragment Frag
 
 			struct Attributes
 			{
@@ -236,6 +309,18 @@ Shader "Rayman/RaymarchSphere"
 			    float4 color : SV_Target;
 			    float depth : SV_Depth;
 			};
+			
+			inline float4 GetShadowPositionHClip(float3 positionWS)
+			{
+			    //positionWS = CustomApplyShadowBias(positionWS, normalWS);
+			    float4 positionCS = TransformWorldToHClip(positionWS);
+			#if UNITY_REVERSED_Z
+			    positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+			#else
+			    positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
+			#endif
+			    return positionCS;
+			}
 
 			Varyings Vert(Attributes input)
 			{
@@ -263,13 +348,10 @@ Shader "Rayman/RaymarchSphere"
 			    ray.currentDist = 0.;
 			    ray.travelledPoint = ray.origin;
 			    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
-			    RaymarchSphere(ray);
+			    if (!RaymarchSphere(ray)) discard;
 				
 			    FragOut o;
-			    float4 pos = ray.distTravelled;
-				float currentDepth = pos.z / pos.w;
-				currentDepth = 0.52;
-				o.color = o.depth = currentDepth;
+				o.color = o.depth = GetDepth(ray.travelledPoint);
 			    return o;
 			}
 			ENDHLSL
