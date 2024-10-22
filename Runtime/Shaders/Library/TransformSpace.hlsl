@@ -21,9 +21,9 @@ inline float3 GetScale()
         length(float3(unity_ObjectToWorld[0].z, unity_ObjectToWorld[1].z, unity_ObjectToWorld[2].z)));
 }
 
-inline float GetDepth(const float3 wsPos)
+inline float GetDepth(const float3 posWS)
 {
-    float4 csPos = TransformWorldToHClip(wsPos);
+    float4 csPos = TransformWorldToHClip(posWS);
     float z = csPos.z / csPos.w;
     return z;
 }

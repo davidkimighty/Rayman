@@ -1,10 +1,16 @@
-Shader "Rayman/RaymarchSphere"
+Shader "Rayman/RaymarchSphereLit"
 {
     Properties
     {
+    	[Header(Sphere)][Space]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
-        
+    	_F0 ("Fresnel F0", Float) = 0.4
+    	_SpecularPow ("Specular Power", Float) = 1000.
+    	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
+    	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
+    	_RimPow ("Rim Power", Float) = 10.
+    	
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64
     	_MaxDist ("MaxDist", Float) = 100.
@@ -64,26 +70,16 @@ Shader "Rayman/RaymarchSphere"
 		    return ray.currentDist < 0.001;
         }
 
-        float3 GetNormal(const float3 pos)
-		{
-		    const float2 k = float2(1, -1) * 0.001;
-		    return normalize(float3(
-		        k.xyy * Circle(pos + k.xyy) +
-		        k.yyx * Circle(pos + k.yyx) +
-		        k.yxy * Circle(pos + k.yxy) +
-		        k.xxx * Circle(pos + k.xxx)));
-		}
-
-        float3 GetNormal2(float3 pos)
+        float3 GetNormal(float3 pos)
 		{
 		    float epsilon = 0.001;
-		    float3 dx = float3(epsilon, 0, 0);
-		    float3 dy = float3(0, epsilon, 0);
-		    float3 dz = float3(0, 0, epsilon);
+		    float3 x = float3(epsilon, 0, 0);
+		    float3 y = float3(0, epsilon, 0);
+		    float3 z = float3(0, 0, epsilon);
 		    
-		    float distX = Circle(pos + dx) - Circle(pos - dx);
-		    float distY = Circle(pos + dy) - Circle(pos - dy);
-		    float distZ = Circle(pos + dz) - Circle(pos - dz);
+		    float distX = Circle(pos + x) - Circle(pos - x);
+		    float distY = Circle(pos + y) - Circle(pos - y);
+		    float distZ = Circle(pos + z) - Circle(pos - z);
 		    return normalize(float3(distX, distY, distZ));
 		}
         ENDHLSL
@@ -153,10 +149,10 @@ Shader "Rayman/RaymarchSphere"
 
 			struct Varyings
 			{
-			    float4 csPos : SV_POSITION;
-				float4 ssPos : TEXCOORD0;
-			    float3 wsPos : TEXCOORD1;
-			    float3 wsNormal : TEXCOORD2;
+			    float4 posCS : SV_POSITION;
+				float4 posSS : TEXCOORD0;
+			    float3 posWS : TEXCOORD1;
+			    float3 normalWS : TEXCOORD2;
 				DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 3);
 				half4 fogFactorAndVertexLight : TEXCOORD4;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
@@ -170,8 +166,20 @@ Shader "Rayman/RaymarchSphere"
 			};
 
 			half4 _Color;
+			half4 _RimColor;
+			float _RimPow;
+			float _SpecularPow;
+			float _F0;
+			float _ShadowBiasVal;
 			int _MaxSteps;
 			float _MaxDist;
+
+			// Schlick approximation
+			float3 GetFresnelSchlick(float3 f0, float3 viewDir, float3 normalWS)
+			{
+			    float cosTheta = saturate(dot(normalWS, viewDir));
+			    return f0 + (1.0 - f0) * pow(1.0 - cosTheta, 5.0);
+			}
 
 			Varyings Vert (Attributes input)
 			{
@@ -181,16 +189,16 @@ Shader "Rayman/RaymarchSphere"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
 				VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
-				output.csPos = vertexInput.positionCS;
-				output.wsPos = vertexInput.positionWS;
-				output.wsNormal = TransformObjectToWorldNormal(input.normal);
+				output.posCS = vertexInput.positionCS;
+				output.posWS = vertexInput.positionWS;
+				output.normalWS = TransformObjectToWorldNormal(input.normal);
 
-				half3 vertexLight = VertexLighting(output.wsPos, output.wsNormal);
-				half fogFactor = ComputeFogFactor(output.csPos.z);
+				half3 vertexLight = VertexLighting(output.posWS, output.normalWS);
+				half fogFactor = ComputeFogFactor(output.posCS.z);
 				output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
 
 				OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
-				OUTPUT_SH(output.wsNormal.xyz, output.vertexSH);
+				OUTPUT_SH(output.normalWS.xyz, output.vertexSH);
 			    return output;
 			}
 
@@ -199,34 +207,42 @@ Shader "Rayman/RaymarchSphere"
 				UNITY_SETUP_INSTANCE_ID(input);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-				Ray ray = InitRay(input.wsPos, _MaxSteps, _MaxDist);
+				Ray ray = InitRay(input.posWS, _MaxSteps, _MaxDist);
 			    if (!RaymarchSphere(ray)) discard;
 				
-				const float3 normal = GetNormal2(ray.travelledPoint);
-				const float depth = GetDepth(ray, input.wsPos);
+				const float3 normal = GetNormal(ray.travelledPoint);
+				const float depth = GetDepth(ray, input.posWS);
+				const float3 viewDir = normalize(GetCameraPosition() - ray.travelledPoint);
+				const float fresnel = GetFresnelSchlick(_F0, viewDir, normal);
 				
 				// main light
 				half4 shadowCoord = TransformWorldToShadowCoord(ray.travelledPoint);
 				const Light mainLight = GetMainLight(shadowCoord);
 				
 				const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
-				const float mainSpecular = GetSpecular(ray.dir, mainLight.direction, normal, 1000) * mainDiffuse;
-
-				const float normalBias = 0.0135 * max(0.0, dot(mainLight.direction, normal));
+				float mainSpecular = GetSpecular(ray.dir, mainLight.direction, normal, _SpecularPow);
+				mainSpecular *= mainDiffuse * fresnel;
+				
+				const float normalBias = _ShadowBiasVal * max(0.0, dot(mainLight.direction, normal));
 				shadowCoord.z += normalBias;
 				const Light mainLightWithBias = GetMainLight(shadowCoord);
 				half3 shade = mainLight.color * (mainDiffuse + mainSpecular) * mainLightWithBias.shadowAttenuation;
-			 
+				
 				// additional lights
 				const int count = GetAdditionalLightsCount();
 				for (int i = 0; i < count; ++i)
 			    {
 				    const Light light = GetAdditionalLight(i, ray.travelledPoint);
 				    const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
-				    const float specular = GetSpecular(ray.dir, mainLight.direction, normal, 1000) * diffuse;
+				    float specular = GetSpecular(ray.dir, light.direction, normal, _SpecularPow);
+					specular *= diffuse * fresnel;
 					shade += light.color * (diffuse + specular);
 			    }
 
+				float rimIntensity = pow(1.0 - saturate(dot(normal, viewDir)), _RimPow);
+				float3 rim = _RimColor * rimIntensity;
+				shade += rim;
+				
 				half4 color = _Color;
 				color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 				color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
@@ -267,9 +283,9 @@ Shader "Rayman/RaymarchSphere"
 
 			struct Varyings
 			{
-			    float4 csPos : SV_POSITION;
-			    float3 wsPos : TEXCOORD0;
-			    float3 wsNormal : TEXCOORD1;
+			    float4 posCS : SV_POSITION;
+			    float3 posWS : TEXCOORD0;
+			    float3 normalWS : TEXCOORD1;
 			    UNITY_VERTEX_INPUT_INSTANCE_ID
 			    UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -279,18 +295,6 @@ Shader "Rayman/RaymarchSphere"
 			    float4 color : SV_Target;
 			    float depth : SV_Depth;
 			};
-			
-			inline float4 GetShadowPositionHClip(float3 positionWS)
-			{
-			    //positionWS = CustomApplyShadowBias(positionWS, normalWS);
-			    float4 positionCS = TransformWorldToHClip(positionWS);
-			#if UNITY_REVERSED_Z
-			    positionCS.z = min(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
-			#else
-			    positionCS.z = max(positionCS.z, positionCS.w * UNITY_NEAR_CLIP_VALUE);
-			#endif
-			    return positionCS;
-			}
 
 			Varyings Vert(Attributes input)
 			{
@@ -299,9 +303,9 @@ Shader "Rayman/RaymarchSphere"
 			    UNITY_TRANSFER_INSTANCE_ID(i, o);
 			    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
-			    o.csPos = TransformObjectToHClip(input.vertex.xyz);
-			    o.wsPos = TransformObjectToWorld(input.vertex.xyz);
-			    o.wsNormal = TransformObjectToWorldNormal(input.normal);
+			    o.posCS = TransformObjectToHClip(input.vertex.xyz);
+			    o.posWS = TransformObjectToWorld(input.vertex.xyz);
+			    o.normalWS = TransformObjectToWorldNormal(input.normal);
 			    return o;
 			}
 			
@@ -311,7 +315,7 @@ Shader "Rayman/RaymarchSphere"
 			    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
 			    Ray ray;
-				ray.origin = input.wsPos;
+				ray.origin = input.posWS;
 				ray.dir = GetCameraForward();
 				ray.maxSteps = 10;
 				ray.maxDist = 100;
