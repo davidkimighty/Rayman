@@ -11,9 +11,9 @@ Material:
   m_Shader: {fileID: 4800000, guid: 1010461a4b7d1474389546cef652315c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _CLEARCOAT_ON
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - _CLEARCOAT_ON
   - _ZWRITE_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -87,6 +87,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AddPrecomputedVelocity: 0
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Blend: 0
