@@ -13,24 +13,22 @@ Shader "Rayman/RaymarchSphereLit"
     	
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64
-    	_MaxDist ("MaxDist", Float) = 100.
+    	_MaxDist ("MaxDist", Float) = 100.0
     	
-    	[Header(Pass)][Space]
-    	[Enum(UnityEngine.Rendering.BlendMode)] _BlendSrc("Blend Src", Float) = 5 
-		[Enum(UnityEngine.Rendering.BlendMode)] _BlendDst("Blend Dst", Float) = 10
-	    [Enum(UnityEngine.Rendering.CullMode)] _Cull("Culling", Int) = 2
-	    [Toggle][KeyEnum(Off, On)] _ZWrite("ZWrite", Float) = 1
+    	[Header(Blending)][Space]
+    	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0 
+		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("DstBlend ", Float) = 0.0
+	    [Enum(UnityEngine.Rendering.CullMode)] _Cull("Culling", Int) = 2.0
+	    [Toggle][KeyEnum(Off, On)] _ZWrite("ZWrite", Float) = 1.0
     }
     SubShader
     {
         Tags
         {
+        	"RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
         	"UniversalMaterialType" = "Lit"
-        	"RenderType" = "Opaque"
-			"Queue" = "Geometry"
         	"IgnoreProjector" = "True"
-        	"DisableBatching" = "True"
         }
         LOD 100
         
@@ -88,56 +86,62 @@ Shader "Rayman/RaymarchSphereLit"
 		Pass
 		{
 			Name "Forward Lit"
-			Tags { "LightMode" = "UniversalForward" }
+			Tags
+			{
+				"LightMode" = "UniversalForward"
+			}
 			
-			Blend [_BlendSrc] [_BlendDst]
+			Blend [_SrcBlend] [_DstBlend]
 		    ZWrite [_ZWrite]
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-		    #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-		    #pragma shader_feature_local_fragment _ALPHATEST_ON
-		    #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
-		    #pragma shader_feature_local_fragment _EMISSION
-		    #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
-		    #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
-		    #pragma shader_feature_local_fragment _CLEARCOAT_ON
-		    #ifdef _CLEARCOAT_ON
-		        #define _CLEARCOAT
-		    #endif
-
-		    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
-		    #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
-		    #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
-		    #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
-		    #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
-		    #pragma multi_compile_fragment _ _SHADOWS_SOFT
-		    #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
-		    #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-		    #pragma multi_compile_fragment _ _LIGHT_LAYERS
-		    #pragma multi_compile_fragment _ _LIGHT_COOKIES
-		    #pragma multi_compile _ _CLUSTERED_RENDERING
-
-		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
-		    #pragma multi_compile _ SHADOWS_SHADOWMASK
-		    #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-		    #pragma multi_compile _ LIGHTMAP_ON
-		    #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-		    #pragma multi_compile_fog
-		    #pragma multi_compile_fragment _ DEBUG_DISPLAY
-
-		    #pragma multi_compile_instancing
-		    #pragma instancing_options renderinglayer
-		    #pragma multi_compile _ DOTS_INSTANCING_ON
-
-		    #pragma prefer_hlslcc gles
-		    #pragma exclude_renderers d3d11_9x
-		    #pragma target 2.0
-            
-            #pragma vertex Vert
+			#pragma target 2.0
+			
+			#pragma vertex Vert
             #pragma fragment Frag
 
+			#pragma shader_feature_local _NORMALMAP
+            #pragma shader_feature_local _PARALLAXMAP
+            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
+            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
+            #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
+            #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
+            #pragma shader_feature_local_fragment _EMISSION
+            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+            #pragma shader_feature_local_fragment _OCCLUSIONMAP
+            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
+            #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
+            #pragma shader_feature_local_fragment _SPECULAR_SETUP
+			
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+            #pragma multi_compile_fragment _ _LIGHT_COOKIES
+            #pragma multi_compile _ _LIGHT_LAYERS
+            #pragma multi_compile _ _FORWARD_PLUS
+
+		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            #pragma multi_compile _ SHADOWS_SHADOWMASK
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_fog
+            #pragma multi_compile_fragment _ DEBUG_DISPLAY
+		    
+            #pragma multi_compile_instancing
+            #pragma instancing_options renderinglayer
+			
 			struct Attributes
 			{
             	float4 vertex : POSITION;
@@ -259,21 +263,30 @@ Shader "Rayman/RaymarchSphereLit"
 		Pass
 		{
 			Name "Shadow Caster"
-			Tags { "LightMode" = "ShadowCaster" }
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
 
 			ZWrite On
 			ZTest LEqual
+			ColorMask 0
 			Cull [_Cull]
 
 			HLSLPROGRAM
-			#pragma shader_feature _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-		    #pragma multi_compile_instancing
-		    #pragma prefer_hlslcc gles
-		    #pragma exclude_renderers d3d11_9x
-		    #pragma target 2.0
+			#pragma target 2.0
 
 		    #pragma vertex Vert
 		    #pragma fragment Frag
+
+			#pragma shader_feature_local _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+
+			#pragma multi_compile_instancing
+
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
 			struct Attributes
 			{
