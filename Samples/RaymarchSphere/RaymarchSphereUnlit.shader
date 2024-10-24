@@ -1,14 +1,15 @@
-Shader "Rayman/RaymarchSphereLit"
+Shader "Rayman/RaymarchSphereUnlit"
 {
     Properties
     {
     	[Header(Sphere)][Space]
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Albedo (RGB)", 2D) = "white" {}
+    	
     	_F0 ("Fresnel F0", Float) = 0.4
     	_SpecularPow ("Specular Power", Float) = 1000.
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
-    	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
+    	_RimColor ("Rim Color", Color) = (0.7, 0.7, 0.7, 1)
     	_RimPow ("Rim Power", Float) = 10.
     	
         [Header(Raymarching)][Space]
@@ -27,8 +28,8 @@ Shader "Rayman/RaymarchSphereLit"
         {
             "RenderPipeline" = "UniversalPipeline"
         	"UniversalMaterialType" = "Lit"
-        	"RenderType" = "Opaque"
-			"Queue" = "Geometry"
+        	"RenderType" = "Transparent"
+			"Queue" = "Transparent"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
@@ -87,7 +88,7 @@ Shader "Rayman/RaymarchSphereLit"
 
 		Pass
 		{
-			Name "Forward Lit"
+			Name "Forward Unlit"
 			Tags { "LightMode" = "UniversalForward" }
 			
 			Blend [_BlendSrc] [_BlendDst]
@@ -251,6 +252,8 @@ Shader "Rayman/RaymarchSphereLit"
 				FragOut output;
 				output.color = color;
 				output.depth = depth;
+				
+				AlphaDiscard(output.color.a, _Cutoff);
 				return output;
 			}
             ENDHLSL
@@ -326,7 +329,8 @@ Shader "Rayman/RaymarchSphereLit"
 			    if (!RaymarchSphere(ray)) discard;
 				
 			    FragOut o;
-				o.color = o.depth = GetDepth(ray.travelledPoint);
+				o.color = half4(0.5, 0.5, 0.5, 0.5);
+				o.depth = GetDepth(ray.travelledPoint);
 			    return o;
 			}
 			ENDHLSL
