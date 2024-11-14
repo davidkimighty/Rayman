@@ -1,29 +1,31 @@
-using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
 {
+    [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
         private static readonly int ShapeCountId = Shader.PropertyToID("_ShapeCount");
         private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         
         [SerializeField] private Renderer _renderer;
+        [SerializeField] private Material _matRef;
         [SerializeField] private List<RaymarchShape> _shapes = new();
         
         private ShapeData[] _shapesData;
         private ComputeBuffer _shapeBuffer;
+        private Material _mat;
 
         private void Awake()
         {
-            Material mat = new Material(_renderer.material);
-            _renderer.material = mat;
-            InitShapeBuffer(mat, _shapes.Count);
+            _mat = new Material(_matRef);
+            _renderer.material = _mat;
+            InitShapeBuffer(_mat, _shapes.Count);
         }
 
-        private void LateUpdate()
+        private void Update()
         {
             UpdateShapeBuffer();
         }
@@ -40,6 +42,8 @@ namespace Rayman
 
         private void UpdateShapeBuffer()
         {
+            if (_shapesData == null) return;
+            
             for (int i = 0; i < _shapesData.Length; i++)
             {
                 RaymarchShape shape = _shapes[i];
@@ -57,6 +61,30 @@ namespace Rayman
             }
             _shapeBuffer.SetData(_shapesData);
         }
+        
+#if UNITY_EDITOR
+        private void OnGUI()
+        {
+            if (_shapesData == null)
+            {
+                InitShapeBuffer(_mat, _shapes.Count);
+                UpdateShapeBuffer();
+            }
+        }
+
+        [ContextMenu("Find All Shapes")]
+        private void FindAllShapes()
+        {
+            _shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
+        }
+
+        [ContextMenu("Reset Buffer")]
+        private void ResetBuffer()
+        {
+            InitShapeBuffer(_mat, _shapes.Count);
+            UpdateShapeBuffer();
+        }
+#endif
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

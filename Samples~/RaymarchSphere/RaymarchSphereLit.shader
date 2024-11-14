@@ -40,9 +40,9 @@ Shader "Rayman/RaymarchSphereLit"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
         
-        #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Raymarching.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Lighting.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Runtime/Shaders/Library/Shadow.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Raymarching.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Shadow.hlsl"
 
         static const float epsilon = 0.001;
         
@@ -54,15 +54,10 @@ Shader "Rayman/RaymarchSphereLit"
 
         bool RaymarchSphere(inout Ray ray)
         {
-	        float multiplier = 1;
-			#ifdef OBJECT_SCALE
-			    float3 localRayDir = normalize(mul(unity_WorldToObject, ray.dir));
-			    multiplier *= length(mul(unity_ObjectToWorld, localRayDir));
-			#endif
-		    
+	        float scale = 1.;
 		    for (int i = 0; i < ray.maxSteps; i++)
 		    {
-		        ray.currentDist = Circle(ray.travelledPoint) * multiplier;
+		        ray.currentDist = Circle(ray.travelledPoint) * scale;
 		        ray.distTravelled += ray.currentDist;
 		        ray.travelledPoint += ray.dir * ray.currentDist;
 		        if (ray.currentDist < epsilon || ray.distTravelled > ray.maxDist) break;
@@ -70,7 +65,7 @@ Shader "Rayman/RaymarchSphereLit"
 		    return ray.currentDist < epsilon;
         }
 
-        float3 GetNormal(float3 pos)
+        float3 GetCircleNormal(float3 pos)
 		{
 		    float3 x = float3(epsilon, 0, 0);
 		    float3 y = float3(0, epsilon, 0);
@@ -179,13 +174,6 @@ Shader "Rayman/RaymarchSphereLit"
 			int _MaxSteps;
 			float _MaxDist;
 
-			// Schlick approximation
-			float3 GetFresnelSchlick(float3 f0, float3 viewDir, float3 normalWS)
-			{
-			    float cosTheta = saturate(dot(normalWS, viewDir));
-			    return f0 + (1.0 - f0) * pow(1.0 - cosTheta, 5.0);
-			}
-
 			Varyings Vert (Attributes input)
 			{
 			    Varyings output = (Varyings)0;
@@ -215,7 +203,7 @@ Shader "Rayman/RaymarchSphereLit"
 				Ray ray = InitRay(input.posWS, _MaxSteps, _MaxDist);
 			    if (!RaymarchSphere(ray)) discard;
 				
-				const float3 normal = GetNormal(ray.travelledPoint);
+				const float3 normal = GetCircleNormal(ray.travelledPoint);
 				const float depth = GetDepth(ray, input.posWS);
 				const float3 viewDir = normalize(GetCameraPosition() - ray.travelledPoint);
 				const float fresnel = GetFresnelSchlick(_F0, viewDir, normal);
