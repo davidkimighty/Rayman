@@ -20,6 +20,8 @@ struct Shape
     int operation;
     float smoothness;
     half4 color;
+    half4 emissionColor;
+    float emissionIntensity;
 };
 
 int _ShapeCount;

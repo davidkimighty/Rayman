@@ -30,6 +30,8 @@ namespace Rayman
             public Operations Operation;
             public float Smoothness;
             public Color Color;
+            [ColorUsage(true, true)] public Color EmissionColor;
+            [Range(0, 1f)] public float EmissionIntensity;
         }
 
         [SerializeField] private Setting _setting;

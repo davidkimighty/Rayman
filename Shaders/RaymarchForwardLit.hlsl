@@ -40,6 +40,8 @@ float _MaxDist;
 float _F0;
 float _SpecularPow;
 float _ShadowBiasVal;
+half4 _RimColor;
+float _RimPow;
 
 Varyings Vert (Attributes input)
 {
@@ -81,7 +83,7 @@ FragOutput Frag (Varyings input)
 	const Light mainLight = GetMainLight(shadowCoord);
 	
 	const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
-	float mainSpecular = GetSpecular(ray.dir, mainLight.direction, normal, _SpecularPow);
+	float mainSpecular = GetSpecular(ray.dir, mainLight.direction, normal, _SpecularPow * 100);
 	mainSpecular *= mainDiffuse * fresnel;
 	
 	const float normalBias = _ShadowBiasVal * max(0.0, dot(mainLight.direction, normal));
@@ -95,14 +97,14 @@ FragOutput Frag (Varyings input)
     {
 	    const Light light = GetAdditionalLight(i, ray.travelledPoint);
 	    const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
-	    float specular = GetSpecular(ray.dir, light.direction, normal, _SpecularPow);
+	    float specular = GetSpecular(ray.dir, light.direction, normal, _SpecularPow * 100);
 		specular *= diffuse * fresnel;
 		shade += light.color * (diffuse + specular);
     }
 
-	// float rimIntensity = pow(1.0 - saturate(dot(normal, viewDir)), _RimPow);
-	// float3 rim = _RimColor * rimIntensity;
-	// shade += rim;
+	float rimIntensity = pow(1.0 - saturate(dot(normal, viewDir)), 1.0 / _RimPow);
+	float3 rim = _RimColor * rimIntensity;
+	shade += rim;
 	
 	color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);

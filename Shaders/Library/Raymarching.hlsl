@@ -36,7 +36,7 @@ inline float Map(const float3 rayPos)
     Shape base = _ShapeBuffer[0];
     float3 basePos = GetShapePosition(rayPos, base.transform);
     float totalDist = GetShapeDistance(basePos, base.type, base.size);
-    
+
     for (int i = 1; i < _ShapeCount; i++)
     {
         Shape shape = _ShapeBuffer[i];
@@ -53,8 +53,8 @@ inline float Map(const float3 rayPos, out half4 color)
     Shape base = _ShapeBuffer[0];
     float3 basePos = GetShapePosition(rayPos, base.transform);
     float totalDist = GetShapeDistance(basePos, base.type, base.size);
-    color = base.color;
-    
+    color = base.color + base.emissionColor * base.emissionIntensity;
+
     for (int i = 1; i < _ShapeCount; i++)
     {
         Shape shape = _ShapeBuffer[i];
@@ -63,7 +63,7 @@ inline float Map(const float3 rayPos, out half4 color)
 
         float blend = 0.;
         totalDist = CombineShape(totalDist, dist, shape.operation, shape.smoothness, blend);
-        color = lerp(color, shape.color, blend);
+        color = lerp(color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
     }
     return totalDist;
 }
@@ -103,7 +103,7 @@ inline float3 GetNormal(float3 pos)
     float3 x = float3(Epsilon, 0, 0);
     float3 y = float3(0, Epsilon, 0);
     float3 z = float3(0, 0, Epsilon);
-		    
+
     float distX = Map(pos + x) - Map(pos - x);
     float distY = Map(pos + y) - Map(pos - y);
     float distZ = Map(pos + z) - Map(pos - z);

@@ -46,7 +46,7 @@ FragOut Frag(Varyings input)
     Ray ray;
     ray.origin = input.posWS;
     ray.dir = GetCameraForward();
-    ray.maxSteps = 10;
+    ray.maxSteps = 32;
     ray.maxDist = 100;
     ray.currentDist = 0.;
     ray.travelledPoint = ray.origin;

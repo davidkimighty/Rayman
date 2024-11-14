@@ -57,6 +57,8 @@ namespace Rayman
                     Operation = (int)shape.ShapeSetting.Operation,
                     Smoothness = shape.ShapeSetting.Smoothness,
                     Color = shape.ShapeSetting.Color,
+                    EmissionColor = shape.ShapeSetting.EmissionColor,
+                    EmissionIntensity = shape.ShapeSetting.EmissionIntensity,
                 };
             }
             _shapeBuffer.SetData(_shapesData);
@@ -90,7 +92,7 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
-        public const int Stride = sizeof(float) * 16 + sizeof(int) * 2 + sizeof(float) * 8;
+        public const int Stride = sizeof(float) * 29 + sizeof(int) * 2;
 
         public Matrix4x4 Transform;
         public int Type;
@@ -98,5 +100,7 @@ namespace Rayman
         public int Operation;
         public float Smoothness;
         public Vector4 Color;
+        public Vector4 EmissionColor;
+        public float EmissionIntensity;
     }
 }
