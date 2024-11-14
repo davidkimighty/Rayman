@@ -4,13 +4,13 @@ Shader "Rayman/RaymarchShape"
     {
         [Header(Sphere)][Space]
     	_F0 ("Fresnel F0", Float) = 0.4
-    	_SpecularPow ("Specular Power", Float) = 1000.
+    	_SpecularPow ("Specular Power", Float) = 10.0
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_RimPow ("Rim Power", Float) = 10.
+    	_RimPow ("Rim Power", Float) = 0.1
     	
         [Header(Raymarching)][Space]
-    	_MaxSteps ("MaxSteps", Int) = 64
+    	_MaxSteps ("MaxSteps", Int) = 128
     	_MaxDist ("MaxDist", Float) = 100.0
     	
     	[Header(Blending)][Space]

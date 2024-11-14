@@ -13,6 +13,11 @@
       "displayName": "Basic Sphere",
       "description": "SDF Sphere",
       "path": "Samples~/RaymarchSphere"
+    },
+    {
+      "displayName": "Shapes",
+      "description": "Raymarch shapes.",
+      "path": "Samples~/Shapes"
     }
   ]
 }
