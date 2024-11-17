@@ -69,6 +69,11 @@ namespace Rayman
         {
             if (_shapesData == null)
             {
+                if (_mat == null)
+                {
+                    _mat = new Material(_matRef);
+                    _renderer.material = _mat;
+                }
                 InitShapeBuffer(_mat, _shapes.Count);
                 UpdateShapeBuffer();
             }
