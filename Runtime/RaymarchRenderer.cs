@@ -78,18 +78,18 @@ namespace Rayman
                 UpdateShapeBuffer();
             }
         }
+        
+        [ContextMenu("Reset Shape Buffer")]
+        public void ResetShapeBuffer()
+        {
+            InitShapeBuffer(_mat, _shapes.Count);
+            UpdateShapeBuffer();
+        }
 
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
         {
             _shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
-        }
-
-        [ContextMenu("Reset Buffer")]
-        private void ResetBuffer()
-        {
-            InitShapeBuffer(_mat, _shapes.Count);
-            UpdateShapeBuffer();
         }
 #endif
     }
