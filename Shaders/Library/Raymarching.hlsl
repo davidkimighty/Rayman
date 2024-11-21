@@ -33,36 +33,52 @@ inline Ray InitRay(const float3 origin, const int maxSteps, const float maxDist)
 
 inline float Map(const float3 rayPos)
 {
-    Shape base = _ShapeBuffer[0];
-    float3 basePos = GetShapePosition(rayPos, base.transform);
-    float totalDist = GetShapeDistance(basePos, base.type, base.size);
+    Shape shape = _ShapeBuffer[0];
+    float3 pos = GetShapePosition(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+    if (shape.operationEnabled > 0)
+        ApplyOperationPositionById(pos, 0);
+#endif
+    float totalDist = GetShapeDistance(pos, shape.type, shape.size, shape.roundness);
 
     for (int i = 1; i < _ShapeCount; i++)
     {
-        Shape shape = _ShapeBuffer[i];
-        float3 pos = GetShapePosition(rayPos, shape.transform);
-        float dist = GetShapeDistance(pos, shape.type, shape.size);
+        shape = _ShapeBuffer[i];
+        pos = GetShapePosition(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+        if (shape.operationEnabled > 0)
+            ApplyOperationPositionById(pos, i);
+#endif
+        float dist = GetShapeDistance(pos, shape.type, shape.size, shape.roundness);
         float blend = 0.;
-        totalDist = CombineShape(totalDist, dist, shape.operation, shape.smoothness, blend);
+        totalDist = CombineShape(totalDist, dist, shape.combination, shape.smoothness, blend);
     }
     return totalDist;
 }
 
 inline float Map(const float3 rayPos, out half4 color)
 {
-    Shape base = _ShapeBuffer[0];
-    float3 basePos = GetShapePosition(rayPos, base.transform);
-    float totalDist = GetShapeDistance(basePos, base.type, base.size);
-    color = base.color + base.emissionColor * base.emissionIntensity;
+    Shape shape = _ShapeBuffer[0];
+    float3 pos = GetShapePosition(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+    if (shape.operationEnabled > 0)
+        ApplyOperationPositionById(pos, 0);
+#endif
+    float totalDist = GetShapeDistance(pos, shape.type, shape.size, shape.roundness);
+    color = shape.color + shape.emissionColor * shape.emissionIntensity;
 
     for (int i = 1; i < _ShapeCount; i++)
     {
-        Shape shape = _ShapeBuffer[i];
-        float3 pos = GetShapePosition(rayPos, shape.transform);
-        float dist = GetShapeDistance(pos, shape.type, shape.size);
+        shape = _ShapeBuffer[i];
+        pos = GetShapePosition(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+        if (shape.operationEnabled > 0)
+            ApplyOperationPositionById(pos, i);
+#endif
+        float dist = GetShapeDistance(pos, shape.type, shape.size, shape.roundness);
 
         float blend = 0.;
-        totalDist = CombineShape(totalDist, dist, shape.operation, shape.smoothness, blend);
+        totalDist = CombineShape(totalDist, dist, shape.combination, shape.smoothness, blend);
         color = lerp(color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
     }
     return totalDist;

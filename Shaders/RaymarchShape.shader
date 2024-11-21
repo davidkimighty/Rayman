@@ -2,19 +2,19 @@ Shader "Rayman/RaymarchShape"
 {
     Properties
     {
-        [Header(Sphere)][Space]
+        [Header(Shade)][Space]
     	_F0 ("Fresnel F0", Float) = 0.4
     	_SpecularPow ("Specular Power", Float) = 10.0
-    	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
     	_RimPow ("Rim Power", Float) = 0.1
+    	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
     	
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 128
     	_MaxDist ("MaxDist", Float) = 100.0
     	
     	[Header(Blending)][Space]
-    	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0 
+    	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
 		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("DstBlend ", Float) = 0.0
 	    [Enum(UnityEngine.Rendering.CullMode)] _Cull("Culling", Int) = 2.0
 	    [Toggle][KeyEnum(Off, On)] _ZWrite("ZWrite", Float) = 1.0
@@ -47,6 +47,8 @@ Shader "Rayman/RaymarchShape"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
+
+			#pragma shader_feature _OPERATION_FEATURE
 
 			#pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local _PARALLAXMAP
