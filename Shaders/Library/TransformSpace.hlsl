@@ -13,6 +13,11 @@ inline float3 ToWorld(const float3 pos)
     return mul(unity_ObjectToWorld, float4(pos, 1.)).xyz;
 }
 
+inline float3 GetPosition()
+{
+    return float3(unity_ObjectToWorld[3].x, unity_ObjectToWorld[3].y, unity_ObjectToWorld[3].z);
+}
+
 inline float3 GetScale()
 {
     return float3(
