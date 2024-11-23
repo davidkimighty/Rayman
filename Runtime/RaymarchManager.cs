@@ -3,11 +3,20 @@ using UnityEngine;
 
 namespace Rayman
 {
+    [ExecuteInEditMode]
     public class RaymarchManager : MonoBehaviour
     {
         [SerializeField] private List<RaymarchRenderer> _raymarchRenderers;
         
 #if UNITY_EDITOR
+        private void OnGUI()
+        {
+            if (GUILayout.Button("Refresh Buffers"))
+            {
+                ResetAllShapeBuffer();
+            }
+        }
+
         [ContextMenu("Find All Renderers")]
         private void FindAllRenderers()
         {

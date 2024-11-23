@@ -9,7 +9,7 @@ Shader "Rayman/RaymarchSphereLit"
     	_SpecularPow ("Specular Power", Float) = 1000.
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_RimPow ("Rim Power", Float) = 10.
+    	_RimPow ("Rim Power", Float) = 0.5
     	
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 64

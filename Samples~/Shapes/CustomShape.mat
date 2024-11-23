@@ -31,9 +31,9 @@ Material:
     - _F0: 0.4
     - _MaxDist: 100
     - _MaxSteps: 128
-    - _RimPow: 0.1
-    - _ShadowBiasVal: 0.015
-    - _SpecularPow: 10
+    - _RimPow: 0.3
+    - _ShadowBiasVal: 0.1
+    - _SpecularPow: 8
     - _SrcBlend: 1
     - _ZWrite: 1
     m_Colors:
