@@ -35,10 +35,12 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Shadow.hlsl"
 
-		inline float CustomMap(const float3 rayPos, out half4 color)
+		inline float CustomMap(const float3 pos, out half4 color)
         {
-			color = 1.0;
-			return length(ToObject(rayPos)) - 0.5;
+			color = half4(0.9, 0.6, 0.3, 1.0);
+        	float s = length(ToObject(pos)) - 0.4;
+        	float d = sin(7.1 * pos.x) * sin(6.2 * pos.y) * sin(0.1 * pos.z);
+			return s + d;
         }
 
         inline float3 GetCustomNormal(float3 pos)
