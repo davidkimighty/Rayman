@@ -9,14 +9,6 @@ namespace Rayman
     [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
-        [Serializable]
-        public class Setting
-        {
-            public int MaxSteps = 64;
-            public float MaxDistance = 100f;
-            public float ShadowBias = 0.1f;
-        }
-        
         private static readonly int ShapeCountId = Shader.PropertyToID("_ShapeCount");
         private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         private static readonly int OperationCountId = Shader.PropertyToID("_OperationCount");
@@ -28,14 +20,14 @@ namespace Rayman
         
         [SerializeField] private Renderer _renderer;
         [SerializeField] private Material _matRef;
-        [SerializeField] private Setting _setting;
+        [SerializeField] private RaymarchSetting _setting;
         [SerializeField] private List<RaymarchShape> _shapes = new();
         
-        private ShapeData[] _shapesData;
-        private ComputeBuffer _shapeBuffer;
-        private OperationData[] _operationData;
-        private ComputeBuffer _operationBuffer;
         private Material _mat;
+        private ComputeBuffer _shapeBuffer;
+        private ComputeBuffer _operationBuffer;
+        private ShapeData[] _shapeData;
+        private OperationData[] _operationData;
 
         private void Awake()
         {
@@ -61,7 +53,7 @@ namespace Rayman
             if (count == 0) return;
             
             _shapeBuffer = new ComputeBuffer(count, ShapeData.Stride);
-            _shapesData = new ShapeData[count];
+            _shapeData = new ShapeData[count];
         
             mat.SetInt(ShapeCountId, count);
             mat.SetBuffer(ShapeBufferId, _shapeBuffer);
@@ -82,14 +74,14 @@ namespace Rayman
 
         private void UpdateShapeBuffer()
         {
-            if (_shapeBuffer == null || _shapesData == null) return;
+            if (_shapeBuffer == null || _shapeData == null) return;
             
-            for (int i = 0; i < _shapesData.Length; i++)
+            for (int i = 0; i < _shapeData.Length; i++)
             {
                 RaymarchShape shape = _shapes[i];
                 Matrix4x4 matrix = Matrix4x4.TRS(shape.transform.position, shape.transform.rotation, shape.transform.lossyScale);
                 
-                _shapesData[i] = new ShapeData
+                _shapeData[i] = new ShapeData
                 {
                     Transform = Matrix4x4.Inverse(matrix),
                     Type = (int)shape.ShapeSetting.Type,
@@ -103,7 +95,7 @@ namespace Rayman
                     OperationEnabled = shape.ShapeSetting.Operation.Enabled ? 1 : 0
                 };
             }
-            _shapeBuffer.SetData(_shapesData);
+            _shapeBuffer.SetData(_shapeData);
         }
 
         private void UpdateOperationBuffer()
@@ -140,7 +132,7 @@ namespace Rayman
 
         private void OnGUI()
         {
-            if (_shapesData == null)
+            if (_shapeData == null)
             {
                 if (_mat == null)
                 {
@@ -172,6 +164,14 @@ namespace Rayman
             _shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
         }
 #endif
+    }
+    
+    [Serializable]
+    public class RaymarchSetting
+    {
+        public int MaxSteps = 64;
+        public float MaxDistance = 100f;
+        public float ShadowBias = 0.1f;
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]

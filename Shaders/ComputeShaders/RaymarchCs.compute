@@ -1,0 +1,100 @@
+#pragma kernel CSMain
+
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+
+struct Shape
+{
+    int groupId;
+    int id;
+    float4x4 transform;
+    int type;
+    float3 size;
+    float roundness;
+    int combination;
+    float smoothness;
+};
+
+struct RaymarchResult
+{
+    float3 hitPoint;
+    float travelDistance;
+};
+
+float screenWidth;
+float screenHeight;
+float4 cameraPosition;
+float4x4 cameraToWorld;
+float4x4 inverseProjectionMatrix;
+float4x4 viewProjectionMatrix;
+
+int raymarchMaxSteps;
+int raymarchMaxDistance;
+
+int shapeCount;
+StructuredBuffer<Shape> shapeBuffer;
+RWStructuredBuffer<RaymarchResult> resultBuffer;
+RWTexture2D<float4> resultTexture; // for debugging
+
+inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
+{
+    float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+    float blend = 0;
+    totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
+    return blend;
+}
+
+inline float Map(const float3 rayPos)
+{
+    float totalDist = raymarchMaxDistance;
+    for (int i = 0; i < shapeCount; i++)
+    {
+        Shape shape = shapeBuffer[i];
+        float3 pos = ApplyMatrix(rayPos, shape.transform);
+        BlendDistance(totalDist, pos, shape);
+    }
+    return totalDist;
+}
+
+inline float NormalMap(const float3 rayPos)
+{
+    float totalDist = raymarchMaxDistance;
+    for (int i = 0; i < shapeCount; i++)
+    {
+        Shape shape = shapeBuffer[i];
+        float3 pos = ApplyMatrix(rayPos, shape.transform);
+        float blend = BlendDistance(totalDist, pos, shape);
+    }
+    return totalDist;
+}
+
+[numthreads(16,16,1)]
+void CSMain (uint3 id : SV_DispatchThreadID)
+{
+    const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
+    const float2 ndc = uv * 2.0 - 1.0;
+
+    const float4 posCS = float4(ndc, 1.0, 1.0);
+    float4 posVS = mul(inverseProjectionMatrix, posCS);
+    posVS /= posVS.w;
+    const float3 rayDir = normalize(posVS.xyz);
+    const float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
+    
+    Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    if (!Raymarch(ray))
+    {
+        resultTexture[id.xy] = float4(0, 0, 0, 0);
+        return;
+    }
+
+    float depth = GetDepth(cameraPosition.xyz, viewProjectionMatrix);
+    
+    RaymarchResult r = (RaymarchResult)0;
+    // r.hitPoint = ray.travelledPoint;
+    // r.travelDistance = ray.distTravelled;
+    // _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x] = r;
+    resultTexture[id.xy] = float4(1, 0.5, 0, 1.0);
+    //resultTexture[id.xy] = float4(uv, 0, 1);
+}

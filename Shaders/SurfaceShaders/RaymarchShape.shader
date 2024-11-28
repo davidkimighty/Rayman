@@ -29,6 +29,100 @@ Shader "Rayman/RaymarchShape"
         	"IgnoreProjector" = "True"
         }
         LOD 200
+        
+        HLSLINCLUDE
+		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+		
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+		
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
+
+		struct Shape
+		{
+			float4x4 transform;
+			int type;
+			float3 size;
+			float roundness;
+			int combination;
+			float smoothness;
+			half4 color;
+			half4 emissionColor;
+			float emissionIntensity;
+			int operationEnabled;
+		};
+
+		struct Operation
+		{
+			int id;
+			int type;
+			float amount;
+		};
+
+		half4 _Color;
+		float _MaxDist;
+		int _ShapeCount;
+		StructuredBuffer<Shape> _ShapeBuffer;
+		int _OperationCount;
+		StructuredBuffer<Operation> _OperationBuffer;
+		
+		inline void ApplyOperationPositionById(inout float3 pos, const int id)
+		{
+			for (int i = 0; i < _OperationCount; i++)
+			{
+				Operation o = _OperationBuffer[i];
+				if (o.id != id) continue;
+		                
+				pos = ApplyOperation(pos, o.type, o.amount);
+				break;
+			}
+		}
+
+		inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
+		{
+			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+			float blend = 0;
+			totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
+			return blend;
+		}
+
+		inline float Map(const float3 rayPos)
+		{
+			float totalDist = _MaxDist;
+			_Color = _ShapeBuffer[0].color;
+			for (int i = 0; i < _ShapeCount; i++)
+			{
+				Shape shape = _ShapeBuffer[i];
+				float3 pos = ApplyMatrix(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+				if (shape.operationEnabled > 0)
+					ApplyOperationPositionById(pos, i);
+#endif
+				float blend = BlendDistance(totalDist, pos, shape);
+				_Color = lerp(_Color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+			}
+			return totalDist;
+		}
+
+		inline float NormalMap(const float3 rayPos)
+		{
+			float totalDist = _MaxDist;
+			for (int i = 0; i < _ShapeCount; i++)
+			{
+				Shape shape = _ShapeBuffer[i];
+				float3 pos = ApplyMatrix(rayPos, shape.transform);
+#ifdef _OPERATION_FEATURE
+				if (shape.operationEnabled > 0)
+					ApplyOperationPositionById(pos, i);
+#endif
+				BlendDistance(totalDist, pos, shape);
+			}
+			return totalDist;
+		}
+        ENDHLSL
 
         Pass
 		{
@@ -91,7 +185,7 @@ Shader "Rayman/RaymarchShape"
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/RaymarchForwardLit.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/SurfaceShaders/RaymarchForwardLit.hlsl"
             ENDHLSL
 		}
 
@@ -121,7 +215,7 @@ Shader "Rayman/RaymarchShape"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/RaymarchShadowCaster.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/SurfaceShaders/RaymarchShadowCaster.hlsl"
 			ENDHLSL
 		}
     }

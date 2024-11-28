@@ -1,8 +1,6 @@
 ﻿#ifndef RAYMAN_SHADOWCASTER
 #define RAYMAN_SHADOWCASTER
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Raymarching.hlsl"
-
 struct Attributes
 {
     float4 vertex : POSITION;
@@ -43,18 +41,11 @@ FragOut Frag(Varyings input)
     UNITY_SETUP_INSTANCE_ID(i);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-    Ray ray;
-    ray.origin = input.posWS;
-    ray.dir = GetCameraForward();
-    ray.maxSteps = 32;
-    ray.maxDist = 100;
-    ray.currentDist = 0.;
-    ray.travelledPoint = ray.origin;
-    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
+    Ray ray = CreateRay(input.posWS, GetCameraForward(), 32, 100);
     if (!Raymarch(ray)) discard;
 				
     FragOut o;
-    o.color = o.depth = GetDepth(ray.travelledPoint);
+    o.color = o.depth = GetDepth(ray.hitPoint);
     return o;
 }
 

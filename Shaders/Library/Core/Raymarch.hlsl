@@ -1,0 +1,39 @@
+﻿#ifndef RAYMAN_RAYMARCH
+#define RAYMAN_RAYMARCH
+
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
+
+#define EPSILON (0.001)
+
+// Must be implemented by the including shader.
+inline float Map(const float3 rayPos);
+
+inline bool Raymarch(inout Ray ray)
+{
+    float dist = 0;
+    for (int i = 0; i < ray.maxSteps; i++)
+    {
+        dist = Map(ray.hitPoint);
+        ray.travelDistance += dist;
+        ray.hitPoint += ray.dir * dist;
+        if (dist < EPSILON || ray.travelDistance > ray.maxDistance) break;
+    }
+    return dist < EPSILON;
+}
+
+// Must be implemented by the including shader.
+inline float NormalMap(const float3 rayPos);
+
+inline float3 GetNormal(const float3 pos)
+{
+    float3 x = float3(EPSILON, 0, 0);
+    float3 y = float3(0, EPSILON, 0);
+    float3 z = float3(0, 0, EPSILON);
+
+    float distX = NormalMap(pos + x) - NormalMap(pos - x);
+    float distY = NormalMap(pos + y) - NormalMap(pos - y);
+    float distZ = NormalMap(pos + z) - NormalMap(pos - z);
+    return normalize(float3(distX, distY, distZ));
+}
+
+#endif

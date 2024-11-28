@@ -28,8 +28,8 @@ inline float3 GetScale()
 
 inline float GetDepth(const float3 posWS)
 {
-    float4 csPos = TransformWorldToHClip(posWS);
-    float z = csPos.z / csPos.w;
+    float4 posCS = TransformWorldToHClip(posWS);
+    float z = posCS.z / posCS.w;
     return z;
 }
 

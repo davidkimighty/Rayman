@@ -40,11 +40,15 @@ Shader "Rayman/RaymarchSphereLit"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
         #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/SpaceTransforms.hlsl"
         
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Raymarching.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Shadow.hlsl"
 
-        static const float epsilon = 0.001;
+        static const float EPSILON = 0.001;
         
 		float Circle(float3 pos)
 		{
@@ -53,23 +57,23 @@ Shader "Rayman/RaymarchSphereLit"
 		}
 
         bool RaymarchSphere(inout Ray ray)
-        {
-	        float scale = 1.;
+		{
+		    float dist = 0;
 		    for (int i = 0; i < ray.maxSteps; i++)
 		    {
-		        ray.currentDist = Circle(ray.travelledPoint) * scale;
-		        ray.distTravelled += ray.currentDist;
-		        ray.travelledPoint += ray.dir * ray.currentDist;
-		        if (ray.currentDist < epsilon || ray.distTravelled > ray.maxDist) break;
+		        dist = Circle(ray.hitPoint);
+		        ray.travelDistance += dist;
+		        ray.hitPoint += ray.dir * dist;
+		        if (dist < EPSILON || ray.travelDistance > ray.maxDistance) break;
 		    }
-		    return ray.currentDist < epsilon;
-        }
+		    return dist < EPSILON;
+		}
 
         float3 GetCircleNormal(float3 pos)
 		{
-		    float3 x = float3(epsilon, 0, 0);
-		    float3 y = float3(0, epsilon, 0);
-		    float3 z = float3(0, 0, epsilon);
+		    float3 x = float3(EPSILON, 0, 0);
+		    float3 y = float3(0, EPSILON, 0);
+		    float3 z = float3(0, 0, EPSILON);
 		    
 		    float distX = Circle(pos + x) - Circle(pos - x);
 		    float distY = Circle(pos + y) - Circle(pos - y);
@@ -195,16 +199,17 @@ Shader "Rayman/RaymarchSphereLit"
 				UNITY_SETUP_INSTANCE_ID(input);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-				Ray ray = InitRay(input.posWS, _MaxSteps, _MaxDist);
+				float3 rayDir = normalize(input.posWS - GetCameraPosition());
+				Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
 			    if (!RaymarchSphere(ray)) discard;
 				
-				const float3 normal = GetCircleNormal(ray.travelledPoint);
-				const float depth = GetDepth(ray, input.posWS);
-				const float3 viewDir = normalize(GetCameraPosition() - ray.travelledPoint);
+				const float3 normal = GetCircleNormal(ray.hitPoint);
+				const float depth = GetDepth(input.posWS);
+				const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
 				const float fresnel = GetFresnelSchlick(viewDir, normal);
 				
-				half3 shade = MainLightShade(ray.travelledPoint, ray.dir, normal, fresnel);
-				AdditionalLightsShade(ray.travelledPoint, ray.dir, normal, fresnel, shade);
+				half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
+				AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
 				shade += RimLightShade(normal, viewDir);
 				
 				half4 color = _Color;
@@ -286,19 +291,12 @@ Shader "Rayman/RaymarchSphereLit"
 			{
 			    UNITY_SETUP_INSTANCE_ID(i);
 			    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-
-			    Ray ray;
-				ray.origin = input.posWS;
-				ray.dir = GetCameraForward();
-				ray.maxSteps = 10;
-				ray.maxDist = 100;
-			    ray.currentDist = 0.;
-			    ray.travelledPoint = ray.origin;
-			    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
+				
+				Ray ray = CreateRay(input.posWS, GetCameraForward(), 32, 100);
 			    if (!RaymarchSphere(ray)) discard;
 				
 			    FragOut o;
-				o.color = o.depth = GetDepth(ray.travelledPoint);
+				o.color = o.depth = GetDepth(ray.hitPoint);
 			    return o;
 			}
 			ENDHLSL

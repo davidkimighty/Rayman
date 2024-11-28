@@ -31,41 +31,33 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
         LOD 100
         
         HLSLINCLUDE
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Raymarching.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+        
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Shadow.hlsl"
 
-		inline float CustomMap(const float3 pos, out half4 color)
-        {
-			color = half4(0.9, 0.6, 0.3, 1.0);
-        	float s = length(ToObject(pos)) - 0.4;
-        	float d = sin(7.1 * pos.x) * sin(6.2 * pos.y) * sin(0.1 * pos.z);
-			return s + d;
-        }
+        half4 _Color;
 
-        inline float3 GetCustomNormal(float3 pos)
+        inline float Map(const float3 rayPos)
 		{
-		    float3 x = float3(Epsilon, 0, 0);
-		    float3 y = float3(0, Epsilon, 0);
-		    float3 z = float3(0, 0, Epsilon);
-
-			half4 color = 0;
-		    float distX = CustomMap(pos + x, color) - CustomMap(pos - x, color);
-		    float distY = CustomMap(pos + y, color) - CustomMap(pos - y, color);
-		    float distZ = CustomMap(pos + z, color) - CustomMap(pos - z, color);
-		    return normalize(float3(distX, distY, distZ));
+			_Color = half4(0.9, 0.6, 0.3, 1.0);
+        	float s = length(ToObject(rayPos)) - 0.4;
+        	float d = sin(7.1 * rayPos.x) * sin(6.2 * rayPos.y) * sin(0.1 * rayPos.z);
+			return s + d;
 		}
 
-        inline bool CustomRaymarch(inout Ray ray, out half4 color)
+		inline float NormalMap(const float3 rayPos)
 		{
-		    for (int i = 0; i < ray.maxSteps; i++)
-		    {
-		        ray.currentDist = CustomMap(ray.travelledPoint, color) * GetScale();
-		        ray.distTravelled += ray.currentDist;
-		        ray.travelledPoint += ray.dir * ray.currentDist;
-		        if (ray.currentDist < Epsilon || ray.distTravelled > ray.maxDist) break;
-		    }
-		    return ray.currentDist < Epsilon;
+			float s = length(ToObject(rayPos)) - 0.4;
+        	float d = sin(7.1 * rayPos.x) * sin(6.2 * rayPos.y) * sin(0.1 * rayPos.z);
+			return s + d;
 		}
         ENDHLSL
 
@@ -185,24 +177,24 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 				UNITY_SETUP_INSTANCE_ID(input);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-				half4 color = 0;
-				Ray ray = InitRay(input.posWS, _MaxSteps, _MaxDist);
-			    if (!CustomRaymarch(ray, color)) discard;
+				float3 rayDir = normalize(input.posWS - GetCameraPosition());
+				Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
+			    if (!Raymarch(ray)) discard;
 				
-				const float3 normal = GetCustomNormal(ray.travelledPoint);
-				const float depth = GetDepth(ray, input.posWS);
-				const float3 viewDir = normalize(GetCameraPosition() - ray.travelledPoint);
+				const float3 normal = GetNormal(ray.hitPoint);
+				const float depth = GetDepth(input.posWS);
+				const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
 				const float fresnel = GetFresnelSchlick(viewDir, normal);
 				
-				half3 shade = MainLightShade(ray.travelledPoint, ray.dir, normal, fresnel);
-				AdditionalLightsShade(ray.travelledPoint, ray.dir, normal, fresnel, shade);
+				half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
+				AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
 				shade += RimLightShade(normal, viewDir);
 				
-				color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-				color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+				_Color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+				_Color.rgb = MixFog(_Color.rgb, input.fogFactorAndVertexLight.x);
 				
 				FragOutput output;
-				output.color = color;
+				output.color = _Color;
 				output.depth = depth;
 				return output;
 			}
@@ -277,20 +269,11 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 			    UNITY_SETUP_INSTANCE_ID(i);
 			    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
-			    Ray ray;
-			    ray.origin = input.posWS;
-			    ray.dir = GetCameraForward();
-			    ray.maxSteps = 32;
-			    ray.maxDist = 100;
-			    ray.currentDist = 0.;
-			    ray.travelledPoint = ray.origin;
-			    ray.distTravelled = length(ray.travelledPoint - GetCameraPosition());
-
-				half4 color = 0;
-				if (!CustomRaymarch(ray, color)) discard;
+			    Ray ray = CreateRay(input.posWS, GetCameraForward(), 32, 100);
+				if (!Raymarch(ray)) discard;
 							
 			    FragOut o;
-			    o.color = o.depth = GetDepth(ray.travelledPoint);
+			    o.color = o.depth = GetDepth(ray.hitPoint);
 			    return o;
 			}
 			ENDHLSL

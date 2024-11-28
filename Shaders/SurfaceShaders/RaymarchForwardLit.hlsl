@@ -1,10 +1,8 @@
 ﻿#ifndef RAYMAN_FORWARDLIT
 #define RAYMAN_FORWARDLIT
 
-#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Raymarching.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct Attributes
@@ -36,7 +34,6 @@ struct FragOutput
 };
 
 int _MaxSteps;
-float _MaxDist;
 
 Varyings Vert (Attributes input)
 {
@@ -64,24 +61,24 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	half4 color = 0;
-	Ray ray = InitRay(input.posWS, _MaxSteps, _MaxDist);
-    if (!Raymarch(ray, color)) discard;
+	float3 rayDir = normalize(input.posWS - GetCameraPosition());
+	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
+    if (!Raymarch(ray)) discard;
 	
-	const float3 normal = GetNormal(ray.travelledPoint);
-	const float depth = GetDepth(ray, input.posWS);
-	const float3 viewDir = normalize(GetCameraPosition() - ray.travelledPoint);
+	const float3 normal = GetNormal(ray.hitPoint);
+	const float depth = GetDepth(input.posWS);
+	const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
 	const float fresnel = GetFresnelSchlick(viewDir, normal);
 	
-	half3 shade = MainLightShade(ray.travelledPoint, ray.dir, normal, fresnel);
-	AdditionalLightsShade(ray.travelledPoint, ray.dir, normal, fresnel, shade);
+	half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
+	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
 	shade += RimLightShade(normal, viewDir);
 	
-	color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+	_Color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+	_Color.rgb = MixFog(_Color.rgb, input.fogFactorAndVertexLight.x);
 	
 	FragOutput output;
-	output.color = color;
+	output.color = _Color;
 	output.depth = depth;
 	return output;
 }
