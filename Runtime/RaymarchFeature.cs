@@ -199,6 +199,8 @@ namespace Rayman
         /// <inheritdoc/>
         public override void Create()
         {
+            if (computeShader == null) return;
+            
             computePass = new RaymarchComputePass(computeShader, setting);
 #if RAYMARCH_DEBUG_ENABLED
             computePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
