@@ -31,6 +31,8 @@ Shader "Rayman/RaymarchShape"
         LOD 200
         
         HLSLINCLUDE
+        #pragma shader_feature _OPERATION_FEATURE
+        
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 		
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
@@ -141,8 +143,6 @@ Shader "Rayman/RaymarchShape"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
-
-			#pragma shader_feature _OPERATION_FEATURE
 
 			#pragma shader_feature_local _NORMALMAP
             #pragma shader_feature_local _PARALLAXMAP

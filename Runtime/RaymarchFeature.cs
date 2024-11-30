@@ -1,4 +1,4 @@
-#define RAYMARCH_DEBUG_ENABLED
+//#define RAYMARCH_DEBUG_ENABLED
 
 using System;
 using System.Collections.Generic;
@@ -200,7 +200,12 @@ namespace Rayman
         public override void Create()
         {
             computePass = new RaymarchComputePass(computeShader, setting);
+#if RAYMARCH_DEBUG_ENABLED
             computePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+            computeShader.EnableKeyword("RAYMARCH_DEBUG_ENABLED");
+#else
+            computePass.renderPassEvent = RenderPassEvent.BeforeRenderingPrePasses;
+#endif
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -238,9 +243,11 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ComputeResultData
     {
-        public const int Stride = sizeof(float) * 4;
+        public const int Stride = sizeof(float) * 5 + sizeof(float) * 3;
 
         public Vector3 HitPoint;
         public float TravelDistance;
+        public float LastHitDistance;
+        public Vector3 DebugColor;
     }
 }

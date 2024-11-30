@@ -25,6 +25,11 @@ Shader "Rayman/RaymarchShapeCs"
         	"IgnoreProjector" = "True"
         }
         LOD 200
+        
+        HLSLINCLUDE
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
+		
+        ENDHLSL
 
         Pass
 		{
@@ -70,82 +75,59 @@ Shader "Rayman/RaymarchShapeCs"
             // #pragma multi_compile_instancing
             // #pragma instancing_options renderinglayer
 
-			//#include "Packages/com.davidkimighty.rayman/Shaders/RaymarchForwardLit.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			
 			struct appdata
 			{
 			    float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+			    float2 uv : TEXCOORD0;
 			};
 
 			struct v2f
 			{
-				float4 vertex : SV_POSITION;
-			    float2 uv : TEXCOORD0;
+				float4 posCS : SV_POSITION;
+				float2 uvSS : TEXCOORD0;
 			};
 
 			struct output
 			{
 			    float4 color : SV_Target;
-			    float depth : SV_Depth;
+			    //float depth : SV_Depth;
 			};
 
 			struct RaymarchResult
 			{
 			    float3 hitPoint;
 			    float travelDistance;
+				float lastHitDistance;
+				float3 debugColor;
 			};
 
-			StructuredBuffer<RaymarchResult> _ResultBuffer;
-
-			inline float GetD(const float3 posWS)
-			{
-			    float4 csPos = TransformWorldToHClip(posWS);
-			    float z = csPos.z / csPos.w;
-			    return z;
-			}
-			
-			inline float GetDepth(const float td, const float3 wsPos)
-			{
-			    float lengthToSurface = length(wsPos - UNITY_MATRIX_I_V._m03_m13_m23);
-			    return td - lengthToSurface < 0.001 ? GetD(wsPos) : GetD(td);
-			}
+			StructuredBuffer<RaymarchResult> resultBuffer;
 
 			v2f vert (appdata v)
 			{
 			    v2f o = (v2f)0;
-				o.vertex = TransformObjectToHClip(v.vertex);
-				o.uv = v.uv;
+				o.posCS = TransformObjectToHClip(v.vertex);
+				o.uvSS = o.posCS.xy / o.posCS.w * 0.5 + 0.5;
 			    return o;
 			}
 
 			output frag (v2f i)
 			{
-				// UNITY_SETUP_INSTANCE_ID(i);
-				// UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
-				uint2 pixelCoord = uint2(i.vertex.xy * _ScreenParams.xy);
-				RaymarchResult result = _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
+				uint2 pixelCoord = uint2(i.uvSS * float2(_ScreenParams.x, _ScreenParams.y));
+				RaymarchResult result = resultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
 
-				float4 color = float4(result.travelDistance, 0, 0, 1);
+				float4 color = float4(result.debugColor.xy, 0, 1);
 				
-				// float2 screenResolution = _ScreenParams.xy;
-				// float2 uv = (2 * i.vertex.xy - screenResolution)/screenResolution.y;
-				//
-				// uint2 pixelIndex = uint2(uv * screenResolution);
-			 //    RaymarchResult result = _ResultBuffer[pixelIndex];
-				if (result.travelDistance < 0)
-				{
-					discard;
-				}
-
+				if (result.lastHitDistance > 0.001) discard;
 				
-				float depth = GetDepth(result.travelDistance, i.vertex);
+				//const float depth = GetDepth(i.posWS);
 
 				output o;
 				o.color = color;
-				o.depth = depth;
+				//o.depth = depth;
 				return o;
 			}
             ENDHLSL

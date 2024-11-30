@@ -10,15 +10,14 @@ inline float Map(const float3 rayPos);
 
 inline bool Raymarch(inout Ray ray)
 {
-    float dist = 0;
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        dist = Map(ray.hitPoint);
-        ray.travelDistance += dist;
-        ray.hitPoint += ray.dir * dist;
-        if (dist < EPSILON || ray.travelDistance > ray.maxDistance) break;
+        ray.lastHitDistance = Map(ray.hitPoint);
+        ray.travelDistance += ray.lastHitDistance;
+        ray.hitPoint += ray.dir * ray.lastHitDistance;
+        if (ray.lastHitDistance < EPSILON || ray.travelDistance > ray.maxDistance) break;
     }
-    return dist < EPSILON;
+    return ray.lastHitDistance < EPSILON;
 }
 
 // Must be implemented by the including shader.

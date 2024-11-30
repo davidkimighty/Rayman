@@ -1,5 +1,7 @@
 #pragma kernel CSMain
 
+//#pragma multi_compile RAYMARCH_DEBUG_ENABLED
+
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
@@ -21,6 +23,8 @@ struct RaymarchResult
 {
     float3 hitPoint;
     float travelDistance;
+    float lastDistance;
+    float3 debugColor;
 };
 
 float screenWidth;
@@ -36,7 +40,9 @@ int raymarchMaxDistance;
 int shapeCount;
 StructuredBuffer<Shape> shapeBuffer;
 RWStructuredBuffer<RaymarchResult> resultBuffer;
-RWTexture2D<float4> resultTexture; // for debugging
+#if RAYMARCH_DEBUG_ENABLED
+RWTexture2D<float4> resultTexture;
+#endif
 
 inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
 {
@@ -76,25 +82,35 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
     const float2 ndc = uv * 2.0 - 1.0;
 
-    const float4 posCS = float4(ndc, 1.0, 1.0);
-    float4 posVS = mul(inverseProjectionMatrix, posCS);
-    posVS /= posVS.w;
-    const float3 rayDir = normalize(posVS.xyz);
-    const float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
+    const float4 posCS = float4(ndc, 0.0, 1.0);
+    // float4 posVS = mul(inverseProjectionMatrix, posCS);
+    // posVS /= posVS.w;
+    // const float3 rayDir = normalize(posVS.xyz);
+    // const float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
+    float4 posWS = mul(cameraToWorld, mul(inverseProjectionMatrix, posCS));
+    posWS /= posWS.w;
+    float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
     
-    Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    Ray ray = CreateRay(posWS.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+#if RAYMARCH_DEBUG_ENABLED
     if (!Raymarch(ray))
     {
         resultTexture[id.xy] = float4(0, 0, 0, 0);
         return;
     }
+    resultTexture[id.xy] = float4(1, 1, 0, 1);
+#else
+    Raymarch(ray);
 
-    float depth = GetDepth(cameraPosition.xyz, viewProjectionMatrix);
+    RaymarchResult result = (RaymarchResult)0;
+    result.hitPoint = ray.hitPoint;
+    result.travelDistance = ray.travelDistance;
+    result.lastDistance = ray.lastHitDistance;
+    result.debugColor = float3(ndc, 0);
     
-    RaymarchResult r = (RaymarchResult)0;
-    // r.hitPoint = ray.travelledPoint;
-    // r.travelDistance = ray.distTravelled;
-    // _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x] = r;
-    resultTexture[id.xy] = float4(1, 0.5, 0, 1.0);
-    //resultTexture[id.xy] = float4(uv, 0, 1);
+    uint index = id.y * screenWidth + id.x;
+    resultBuffer[index] = result;
+#endif
+    
+    float depth = GetDepth(cameraPosition.xyz, viewProjectionMatrix);
 }
