@@ -33,4 +33,12 @@ inline float GetDepth(const float3 posWS)
     return z;
 }
 
+inline float4 ComputeNonStereoScreenPos(float4 pos)
+{
+    float4 p = pos * 0.5f;
+    p.xy = float2(p.x, p.y * _ProjectionParams.x) + p.w;
+    p.zw = pos.zw;
+    return p;
+}
+
 #endif

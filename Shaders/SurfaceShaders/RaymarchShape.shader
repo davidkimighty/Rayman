@@ -46,6 +46,7 @@ Shader "Rayman/RaymarchShape"
 		struct Shape
 		{
 			float4x4 transform;
+        	float3 lossyScale;
 			int type;
 			float3 size;
 			float roundness;
@@ -85,7 +86,7 @@ Shader "Rayman/RaymarchShape"
 
 		inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
 		{
-			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) * GetScale();
+			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
 			float blend = 0;
 			totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
 			return blend;
@@ -98,7 +99,7 @@ Shader "Rayman/RaymarchShape"
 			for (int i = 0; i < _ShapeCount; i++)
 			{
 				Shape shape = _ShapeBuffer[i];
-				float3 pos = ApplyMatrix(rayPos, shape.transform);
+				float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
 #ifdef _OPERATION_FEATURE
 				if (shape.operationEnabled > 0)
 					ApplyOperationPositionById(pos, i);
@@ -115,7 +116,7 @@ Shader "Rayman/RaymarchShape"
 			for (int i = 0; i < _ShapeCount; i++)
 			{
 				Shape shape = _ShapeBuffer[i];
-				float3 pos = ApplyMatrix(rayPos, shape.transform);
+				float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
 #ifdef _OPERATION_FEATURE
 				if (shape.operationEnabled > 0)
 					ApplyOperationPositionById(pos, i);

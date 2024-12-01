@@ -59,6 +59,6 @@ namespace Rayman
 
         [SerializeField] private Setting _setting;
 
-        public Setting ShapeSetting => _setting;
+        public Setting Settings => _setting;
     }
 }

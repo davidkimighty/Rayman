@@ -243,7 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
+  raymarchFeature: {fileID: -2215061935436386786, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   raymarchRenderer: {fileID: 85665592}
   matRef: {fileID: 0}
   setting:

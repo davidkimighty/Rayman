@@ -1,6 +1,6 @@
 #pragma kernel CSMain
 
-#pragma multi_compile RAYMARCH_DEBUG_ENABLED
+//#pragma multi_compile RAYMARCH_DEBUG_ENABLED
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
@@ -12,6 +12,7 @@ struct Shape
     int groupId;
     int id;
     float4x4 transform;
+    float3 lossyScale;
     int type;
     float3 size;
     float roundness;
@@ -58,6 +59,7 @@ inline float Map(const float3 rayPos)
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
+        //float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         float3 pos = ApplyMatrix(rayPos, shape.transform);
         BlendDistance(totalDist, pos, shape);
     }
@@ -70,6 +72,7 @@ inline float NormalMap(const float3 rayPos)
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
+        //float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         float3 pos = ApplyMatrix(rayPos, shape.transform);
         BlendDistance(totalDist, pos, shape);
     }
@@ -79,16 +82,18 @@ inline float NormalMap(const float3 rayPos)
 [numthreads(16,16,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    const float2 uv = (float2(id.xy) + 0.5) / float2(screenWidth, screenHeight);
+    const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
     const float2 ndc = uv * 2.0 - 1.0;
 
     const float4 posCS = float4(ndc, 0.0, 1.0);
     float4 posVS = mul(inverseProjectionMatrix, posCS);
     posVS /= posVS.w;
-    float4 posWS = mul(cameraToWorld, posVS);
-    float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
+    // float4 posWS = mul(cameraToWorld, posVS);
+    // float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
+    float3 rayDir = normalize(posVS.xyz);
+    float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
     
-    Ray ray = CreateRay(posWS.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
 #if RAYMARCH_DEBUG_ENABLED
     if (!Raymarch(ray))
     {

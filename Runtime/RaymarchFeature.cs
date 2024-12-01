@@ -1,4 +1,4 @@
-#define RAYMARCH_DEBUG_ENABLED
+//#define RAYMARCH_DEBUG_ENABLED
 
 using System;
 using System.Collections.Generic;
@@ -123,7 +123,6 @@ namespace Rayman
                 cgContext.cmd.SetComputeVectorParam(data.Cs, "cameraPosition", Camera.main.transform.position);
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "cameraToWorld", Camera.main.cameraToWorldMatrix);
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "inverseProjectionMatrix", Camera.main.projectionMatrix.inverse);
-                cgContext.cmd.SetComputeMatrixParam(data.Cs, "inverseProjectionMatrix", Camera.main.projectionMatrix.inverse);
                 Matrix4x4 viewProjectionMatrix = Camera.main.projectionMatrix * Camera.main.worldToCameraMatrix;
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "viewProjectionMatrix", viewProjectionMatrix);
                 
@@ -167,16 +166,17 @@ namespace Rayman
                     ComputeRaymarchRenderer renderer = renderers[i];
                     for (int j = 0; j < renderer.Shapes.Count; j++)
                     {
-                        RaymarchShape.Setting settings = renderer.Shapes[j].ShapeSetting;
+                        RaymarchShape shape = renderer.Shapes[j];
                         shapeData[i] = new ComputeShapeData
                         {
                             GroupId = i, Id = j,
-                            Transform = renderer.Shapes[j].transform.worldToLocalMatrix,
-                            Type = (int)settings.Type,
-                            Size = settings.Size,
-                            Roundness = settings.Roundness,
-                            Combination = (int)settings.Combination,
-                            Smoothness = settings.Roundness,
+                            Transform = shape.transform.worldToLocalMatrix,
+                            LossyScale = shape.transform.lossyScale,
+                            Type = (int)shape.Settings.Type,
+                            Size = shape.Settings.Size,
+                            Roundness = shape.Settings.Roundness,
+                            Combination = (int)shape.Settings.Combination,
+                            Smoothness = shape.Settings.Roundness,
                         };
                     }
                 }
@@ -229,11 +229,12 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ComputeShapeData
     {
-        public const int Stride = sizeof(float) * 21 + sizeof(int) * 4;
+        public const int Stride = sizeof(float) * 24 + sizeof(int) * 4;
 
         public int GroupId;
         public int Id;
         public Matrix4x4 Transform;
+        public Vector3 LossyScale;
         public int Type;
         public Vector3 Size;
         public float Roundness;

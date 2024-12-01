@@ -77,7 +77,7 @@ Shader "Rayman/RaymarchShapeCs"
 
 			#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-			
+
 			struct appdata
 			{
 			    float4 vertex : POSITION;
@@ -120,7 +120,7 @@ Shader "Rayman/RaymarchShapeCs"
 				
 				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
 				o.posCS = vertexInput.positionCS;
-				//o.posCS = TransformObjectToHClip(v.vertex);
+				o.posSS = ComputeNonStereoScreenPos(o.posCS);
 				o.posWS = vertexInput.positionWS;
 				o.uvSS = o.posCS.xy / o.posCS.w * 0.5 + 0.5;
 			    return o;
@@ -128,10 +128,10 @@ Shader "Rayman/RaymarchShapeCs"
 
 			output frag (v2f i)
 			{
-				uint2 pixelCoord = uint2(i.uvSS * _ScreenParams.xy);
+				uint2 pixelCoord = uint2(i.posSS.xy * _ScreenParams.xy);
 				RaymarchResult result = resultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
 				
-				if (result.lastHitDistance > 0.001) discard;
+				//if (result.lastHitDistance > 0.001) discard;
 
 				float4 color = float4(result.debugColor.xy, 0, 1);
 				//const float depth = GetDepth(i.posWS);

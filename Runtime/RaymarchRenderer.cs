@@ -38,7 +38,7 @@ namespace Rayman
             _renderer.material = _mat;
             
             InitShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.ShapeSetting.Operation.Enabled));
+            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
         }
 
         private void Update()
@@ -79,20 +79,19 @@ namespace Rayman
             for (int i = 0; i < _shapeData.Length; i++)
             {
                 RaymarchShape shape = _shapes[i];
-                Matrix4x4 matrix = Matrix4x4.TRS(shape.transform.position, shape.transform.rotation, shape.transform.lossyScale);
-                
                 _shapeData[i] = new ShapeData
                 {
-                    Transform = Matrix4x4.Inverse(matrix),
-                    Type = (int)shape.ShapeSetting.Type,
-                    Size = shape.ShapeSetting.Size,
-                    Roundness = shape.ShapeSetting.Roundness,
-                    Combination = (int)shape.ShapeSetting.Combination,
-                    Smoothness = shape.ShapeSetting.Smoothness,
-                    Color = shape.ShapeSetting.Color,
-                    EmissionColor = shape.ShapeSetting.EmissionColor,
-                    EmissionIntensity = shape.ShapeSetting.EmissionIntensity,
-                    OperationEnabled = shape.ShapeSetting.Operation.Enabled ? 1 : 0
+                    Transform = shape.transform.worldToLocalMatrix,
+                    LossyScale = shape.transform.lossyScale,
+                    Type = (int)shape.Settings.Type,
+                    Size = shape.Settings.Size,
+                    Roundness = shape.Settings.Roundness,
+                    Combination = (int)shape.Settings.Combination,
+                    Smoothness = shape.Settings.Smoothness,
+                    Color = shape.Settings.Color,
+                    EmissionColor = shape.Settings.EmissionColor,
+                    EmissionIntensity = shape.Settings.EmissionIntensity,
+                    OperationEnabled = shape.Settings.Operation.Enabled ? 1 : 0
                 };
             }
             _shapeBuffer.SetData(_shapeData);
@@ -105,7 +104,7 @@ namespace Rayman
             int j = 0;
             for (int i = 0; i < _shapes.Count(); i++)
             {
-                RaymarchShape.Operation operation = _shapes[i].ShapeSetting.Operation;
+                RaymarchShape.Operation operation = _shapes[i].Settings.Operation;
                 if (!operation.Enabled) continue;
                 
                 _operationData[j] = new OperationData
@@ -141,7 +140,7 @@ namespace Rayman
                 }
                 
                 InitShapeBuffer(_mat, _shapes.Count);
-                InitOperationBuffer(_mat, _shapes.Count(s => s.ShapeSetting.Operation.Enabled));
+                InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
                 
                 UpdateShapeBuffer();
                 UpdateOperationBuffer();
@@ -152,7 +151,7 @@ namespace Rayman
         public void ResetShapeBuffer()
         {
             InitShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.ShapeSetting.Operation.Enabled));
+            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
                 
             UpdateShapeBuffer();
             UpdateOperationBuffer();
@@ -177,9 +176,10 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
-        public const int Stride = sizeof(float) * 30 + sizeof(int) * 3;
+        public const int Stride = sizeof(float) * 33 + sizeof(int) * 3;
 
         public Matrix4x4 Transform;
+        public Vector3 LossyScale;
         public int Type;
         public Vector3 Size;
         public float Roundness;
