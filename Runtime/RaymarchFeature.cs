@@ -1,4 +1,4 @@
-//#define RAYMARCH_DEBUG_ENABLED
+#define RAYMARCH_DEBUG_ENABLED
 
 using System;
 using System.Collections.Generic;
@@ -167,12 +167,11 @@ namespace Rayman
                     ComputeRaymarchRenderer renderer = renderers[i];
                     for (int j = 0; j < renderer.Shapes.Count; j++)
                     {
-                        Transform trans = renderer.Shapes[j].transform;
                         RaymarchShape.Setting settings = renderer.Shapes[j].ShapeSetting;
                         shapeData[i] = new ComputeShapeData
                         {
                             GroupId = i, Id = j,
-                            Transform = Matrix4x4.Inverse(Matrix4x4.TRS(trans.position, trans.rotation, trans.lossyScale)),
+                            Transform = renderer.Shapes[j].transform.worldToLocalMatrix,
                             Type = (int)settings.Type,
                             Size = settings.Size,
                             Roundness = settings.Roundness,

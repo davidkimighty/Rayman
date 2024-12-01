@@ -85,7 +85,7 @@ Shader "Rayman/RaymarchShape"
 
 		inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
 		{
-			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) * GetScale();
 			float blend = 0;
 			totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
 			return blend;

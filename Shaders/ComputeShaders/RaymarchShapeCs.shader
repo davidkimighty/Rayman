@@ -82,12 +82,17 @@ Shader "Rayman/RaymarchShapeCs"
 			{
 			    float4 vertex : POSITION;
 			    float2 uv : TEXCOORD0;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct v2f
 			{
 				float4 posCS : SV_POSITION;
-				float2 uvSS : TEXCOORD0;
+				float4 posSS : TEXCOORD0;
+				float3 posWS : TEXCOORD1;
+				float2 uvSS : TEXCOORD2;
+				UNITY_VERTEX_INPUT_INSTANCE_ID
+				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			struct output
@@ -109,20 +114,26 @@ Shader "Rayman/RaymarchShapeCs"
 			v2f vert (appdata v)
 			{
 			    v2f o = (v2f)0;
-				o.posCS = TransformObjectToHClip(v.vertex);
+				UNITY_SETUP_INSTANCE_ID(v);
+			    UNITY_TRANSFER_INSTANCE_ID(v, o);
+			    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+				
+				VertexPositionInputs vertexInput = GetVertexPositionInputs(v.vertex.xyz);
+				o.posCS = vertexInput.positionCS;
+				//o.posCS = TransformObjectToHClip(v.vertex);
+				o.posWS = vertexInput.positionWS;
 				o.uvSS = o.posCS.xy / o.posCS.w * 0.5 + 0.5;
 			    return o;
 			}
 
 			output frag (v2f i)
 			{
-				uint2 pixelCoord = uint2(i.uvSS * float2(_ScreenParams.x, _ScreenParams.y));
+				uint2 pixelCoord = uint2(i.uvSS * _ScreenParams.xy);
 				RaymarchResult result = resultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
-
-				float4 color = float4(result.debugColor.xy, 0, 1);
 				
 				if (result.lastHitDistance > 0.001) discard;
-				
+
+				float4 color = float4(result.debugColor.xy, 0, 1);
 				//const float depth = GetDepth(i.posWS);
 
 				output o;

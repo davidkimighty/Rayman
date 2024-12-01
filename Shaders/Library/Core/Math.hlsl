@@ -3,7 +3,7 @@
 
 inline float3 ApplyMatrix(const float3 pos, const float4x4 transform)
 {
-    return mul(transform, float4(pos, 1.));
+    return mul(transform, float4(pos, 1.0)).xyz;
 }
 
 inline float GetDepth(const float3 posWS, const float4x4 viewProj)

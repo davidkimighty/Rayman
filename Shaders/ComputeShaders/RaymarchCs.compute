@@ -1,6 +1,6 @@
 #pragma kernel CSMain
 
-//#pragma multi_compile RAYMARCH_DEBUG_ENABLED
+#pragma multi_compile RAYMARCH_DEBUG_ENABLED
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
@@ -23,7 +23,7 @@ struct RaymarchResult
 {
     float3 hitPoint;
     float travelDistance;
-    float lastDistance;
+    float lastHitDistance;
     float3 debugColor;
 };
 
@@ -71,7 +71,7 @@ inline float NormalMap(const float3 rayPos)
     {
         Shape shape = shapeBuffer[i];
         float3 pos = ApplyMatrix(rayPos, shape.transform);
-        float blend = BlendDistance(totalDist, pos, shape);
+        BlendDistance(totalDist, pos, shape);
     }
     return totalDist;
 }
@@ -79,16 +79,13 @@ inline float NormalMap(const float3 rayPos)
 [numthreads(16,16,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
+    const float2 uv = (float2(id.xy) + 0.5) / float2(screenWidth, screenHeight);
     const float2 ndc = uv * 2.0 - 1.0;
 
     const float4 posCS = float4(ndc, 0.0, 1.0);
-    // float4 posVS = mul(inverseProjectionMatrix, posCS);
-    // posVS /= posVS.w;
-    // const float3 rayDir = normalize(posVS.xyz);
-    // const float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
-    float4 posWS = mul(cameraToWorld, mul(inverseProjectionMatrix, posCS));
-    posWS /= posWS.w;
+    float4 posVS = mul(inverseProjectionMatrix, posCS);
+    posVS /= posVS.w;
+    float4 posWS = mul(cameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
     
     Ray ray = CreateRay(posWS.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
@@ -98,14 +95,14 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         resultTexture[id.xy] = float4(0, 0, 0, 0);
         return;
     }
-    resultTexture[id.xy] = float4(1, 1, 0, 1);
+    resultTexture[id.xy] = float4(ndc, 0, 1);
 #else
     Raymarch(ray);
 
     RaymarchResult result = (RaymarchResult)0;
     result.hitPoint = ray.hitPoint;
     result.travelDistance = ray.travelDistance;
-    result.lastDistance = ray.lastHitDistance;
+    result.lastHitDistance = ray.lastHitDistance;
     result.debugColor = float3(ndc, 0);
     
     uint index = id.y * screenWidth + id.x;
