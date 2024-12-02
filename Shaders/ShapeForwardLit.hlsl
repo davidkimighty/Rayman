@@ -33,8 +33,6 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-int _MaxSteps;
-
 Varyings Vert (Attributes input)
 {
     Varyings output = (Varyings)0;

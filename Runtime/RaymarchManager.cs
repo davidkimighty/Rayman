@@ -9,14 +9,6 @@ namespace Rayman
         [SerializeField] private List<RaymarchRenderer> _raymarchRenderers;
         
 #if UNITY_EDITOR
-        private void OnGUI()
-        {
-            if (GUILayout.Button("Refresh Buffers"))
-            {
-                ResetAllShapeBuffer();
-            }
-        }
-
         [ContextMenu("Find All Renderers")]
         private void FindAllRenderers()
         {

@@ -33,6 +33,7 @@ Shader "Rayman/RaymarchShape"
         HLSLINCLUDE
         #pragma shader_feature _OPERATION_FEATURE
         
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 		
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
@@ -65,12 +66,13 @@ Shader "Rayman/RaymarchShape"
 			float amount;
 		};
 
-		half4 _Color;
+        int _MaxSteps;
 		float _MaxDist;
 		int _ShapeCount;
+        int _OperationCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
-		int _OperationCount;
 		StructuredBuffer<Operation> _OperationBuffer;
+        float4 _Color;
 		
 		inline void ApplyOperationPositionById(inout float3 pos, const int id)
 		{
@@ -92,14 +94,14 @@ Shader "Rayman/RaymarchShape"
 			return blend;
 		}
 
-		inline float Map(const float3 rayPos)
+		inline float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDist;
 			_Color = _ShapeBuffer[0].color;
 			for (int i = 0; i < _ShapeCount; i++)
 			{
 				Shape shape = _ShapeBuffer[i];
-				float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
+				float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
 #ifdef _OPERATION_FEATURE
 				if (shape.operationEnabled > 0)
 					ApplyOperationPositionById(pos, i);
@@ -144,21 +146,6 @@ Shader "Rayman/RaymarchShape"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
-
-			#pragma shader_feature_local _NORMALMAP
-            #pragma shader_feature_local _PARALLAXMAP
-            #pragma shader_feature_local _RECEIVE_SHADOWS_OFF
-            #pragma shader_feature_local _ _DETAIL_MULX2 _DETAIL_SCALED
-            #pragma shader_feature_local_fragment _SURFACE_TYPE_TRANSPARENT
-            #pragma shader_feature_local_fragment _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _ _ALPHAPREMULTIPLY_ON _ALPHAMODULATE_ON
-            #pragma shader_feature_local_fragment _EMISSION
-            #pragma shader_feature_local_fragment _METALLICSPECGLOSSMAP
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-            #pragma shader_feature_local_fragment _OCCLUSIONMAP
-            #pragma shader_feature_local_fragment _SPECULARHIGHLIGHTS_OFF
-            #pragma shader_feature_local_fragment _ENVIRONMENTREFLECTIONS_OFF
-            #pragma shader_feature_local_fragment _SPECULAR_SETUP
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -208,9 +195,6 @@ Shader "Rayman/RaymarchShape"
 
 		    #pragma vertex Vert
 		    #pragma fragment Frag
-
-			#pragma shader_feature_local _ALPHATEST_ON
-            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
 
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE

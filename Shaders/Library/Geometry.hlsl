@@ -1,8 +1,6 @@
 #ifndef RAYMAN_GEOMETRY
 #define RAYMAN_GEOMETRY
 
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
 inline float3 ToObject(const float3 pos)
 {
     return mul(unity_WorldToObject, float4(pos, 1.)).xyz;

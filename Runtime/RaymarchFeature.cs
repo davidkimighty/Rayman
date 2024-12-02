@@ -70,7 +70,7 @@ namespace Rayman
             {
                 int count = renderers.Sum(r => r.Shapes.Count);
                 if (count == 0) return;
-                
+
                 SetupBuffers(count);
                 UpdateData();
 #if RAYMARCH_DEBUG_ENABLED
@@ -134,8 +134,8 @@ namespace Rayman
 #if RAYMARCH_DEBUG_ENABLED
                 cgContext.cmd.SetComputeTextureParam(data.Cs, mainKernel, "resultTexture", data.ResultTextureHandle);
 #endif
-                int threadGroupsX = Mathf.CeilToInt(Camera.main.pixelWidth / 16.0f);
-                int threadGroupsY = Mathf.CeilToInt(Camera.main.pixelHeight / 16.0f);
+                int threadGroupsX = Mathf.CeilToInt(Camera.main.pixelWidth / 8.0f);
+                int threadGroupsY = Mathf.CeilToInt(Camera.main.pixelHeight / 8.0f);
                 cgContext.cmd.DispatchCompute(data.Cs, mainKernel, threadGroupsX, threadGroupsY, 1);
             }
 
@@ -160,27 +160,32 @@ namespace Rayman
             private void UpdateData()
             {
                 if (shapeBuffer == null) return;
-                
+
+                int shapeIndex = 0;
                 for (int i = 0; i < renderers.Count; i++)
                 {
                     ComputeRaymarchRenderer renderer = renderers[i];
                     for (int j = 0; j < renderer.Shapes.Count; j++)
                     {
-                        RaymarchShape shape = renderer.Shapes[j];
-                        shapeData[i] = new ComputeShapeData
+                        Matrix4x4 transform = renderer.Shapes[j].transform.worldToLocalMatrix;
+                        Vector3 lossyScale = renderer.Shapes[j].transform.lossyScale;
+                        RaymarchShape.Setting settings = renderer.Shapes[j].Settings;
+                        shapeData[shapeIndex] = new ComputeShapeData
                         {
-                            GroupId = i, Id = j,
-                            Transform = shape.transform.worldToLocalMatrix,
-                            LossyScale = shape.transform.lossyScale,
-                            Type = (int)shape.Settings.Type,
-                            Size = shape.Settings.Size,
-                            Roundness = shape.Settings.Roundness,
-                            Combination = (int)shape.Settings.Combination,
-                            Smoothness = shape.Settings.Roundness,
-                            Color = shape.Settings.Color,
-                            EmissionColor = shape.Settings.EmissionColor,
-                            EmissionIntensity = shape.Settings.EmissionIntensity
+                            GroupId = i,
+                            Id = j,
+                            Transform = transform,
+                            LossyScale = lossyScale,
+                            Type = (int)settings.Type,
+                            Size = settings.Size,
+                            Roundness = settings.Roundness,
+                            Combination = (int)settings.Combination,
+                            Smoothness = settings.Smoothness,
+                            Color = settings.Color,
+                            EmissionColor = settings.EmissionColor,
+                            EmissionIntensity = settings.EmissionIntensity
                         };
+                        shapeIndex++;
                     }
                 }
                 shapeBuffer.SetData(shapeData);
@@ -223,9 +228,10 @@ namespace Rayman
 
             if (renderingData.cameraData.camera == Camera.main)
             {
-                computePass.Setup();
-                renderer.EnqueuePass(computePass);
+                
             }
+            computePass.Setup();
+            renderer.EnqueuePass(computePass);
         }
     }
     

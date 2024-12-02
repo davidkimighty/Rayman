@@ -6,13 +6,13 @@
 #define EPSILON (0.001)
 
 // Must be implemented by the including shader.
-inline float Map(const float3 rayPos);
+inline float Map(inout Ray ray);
 
 inline bool Raymarch(inout Ray ray)
 {
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        ray.lastHitDistance = Map(ray.hitPoint);
+        ray.lastHitDistance = Map(ray);
         ray.travelDistance += ray.lastHitDistance;
         ray.hitPoint += ray.dir * ray.lastHitDistance;
         if (ray.lastHitDistance < EPSILON || ray.travelDistance > ray.maxDistance) break;

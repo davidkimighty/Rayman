@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -29,6 +28,14 @@ namespace Rayman
         {
             raymarchFeature.ComputePass.AddRenderer(this);
         }
+        
+#if UNITY_EDITOR
+        [ContextMenu("Find All Shapes")]
+        private void FindAllShapes()
+        {
+            shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
+        }
+#endif
     }
 }
 

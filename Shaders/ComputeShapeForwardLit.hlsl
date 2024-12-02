@@ -57,7 +57,7 @@ output frag (v2f i)
     AdditionalLightsShade(result.hitPoint, result.rayDirection, result.normal, fresnel, shade);
     shade += RimLightShade(result.normal, viewDir);
 
-    half4 color = result.color;
+    float4 color = result.color;
     color.rgb *= shade + SAMPLE_GI(i.lightmapUV, i.vertexSH, result.normal);
     color.rgb = MixFog(color.rgb, i.fogFactorAndVertexLight.x);
     

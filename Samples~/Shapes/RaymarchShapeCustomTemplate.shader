@@ -45,11 +45,11 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 
         half4 _Color;
 
-        inline float Map(const float3 rayPos)
+        inline float Map(inout Ray ray)
 		{
 			_Color = half4(0.9, 0.6, 0.3, 1.0);
-        	float s = length(ToObject(rayPos)) - 0.4;
-        	float d = sin(7.1 * rayPos.x) * sin(6.2 * rayPos.y) * sin(0.1 * rayPos.z);
+        	float s = length(ToObject(ray.hitPoint)) - 0.4;
+        	float d = sin(7.1 * ray.hitPoint.x) * sin(6.2 * ray.hitPoint.y) * sin(0.1 * ray.hitPoint.z);
 			return s + d;
 		}
 

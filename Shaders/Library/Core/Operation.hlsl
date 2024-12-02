@@ -13,25 +13,25 @@ inline float SmoothUnion(const float d1, const float d2, const float k, out floa
 
 inline float SmoothSubtract(const float d1, const float d2, const float k, out float h)
 {
-    h = clamp(0.5 - 0.5 * (d1 + d2) / k, 0., 1.);
+    h = clamp(0.5 - 0.5 * (d1 + d2) / k, 0.0, 1.0);
     return lerp(d1, -d2, h) + k * h * (1. - h);
 }
 
 inline float SmoothIntersect(const float d1, const float d2, const float k, out float h)
 {
-    h = clamp(0.5 - 0.5 * (d1 - d2) / k, 0., 1.);
-    return lerp(d1, d2, h) + k * h * (1. - h);
+    h = clamp(0.5 - 0.5 * (d1 - d2) / k, 0.0, 1.0);
+    return lerp(d1, d2, h) + k * h * (1.0 - h);
 }
 
 inline float SmoothMin(const float a, const float b, const float k)
 {
-    float h = max(k - abs(a - b), 0.);
+    float h = max(k - abs(a - b), 0.0);
     return min(a, b) - h * h * 0.25 / k;
 }
 
 inline float SmoothMax(const float a, const float b, const float k, const float h)
 {
-    return lerp(a, b, h) + k * h * (1. - h);
+    return lerp(a, b, h) + k * h * (1.0 - h);
 }
 
 inline float CombineShapes(const float primary, const float secondary, const int operation,

@@ -59,22 +59,26 @@ inline float BlendDistance(inout float totalDist, const float3 pos, const Shape 
     return blend;
 }
 
-inline float Map(const float3 rayPos)
+inline float Map(inout Ray ray)
 {
     float totalDist = raymarchMaxDistance;
+    float4 localColor = shapeBuffer[0].color;
+    
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
-        float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
+        float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
         float blend = BlendDistance(totalDist, pos, shape);
-        color = lerp(color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+        localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
     }
+    color = localColor;
     return totalDist;
 }
 
 inline float NormalMap(const float3 rayPos)
 {
     float totalDist = raymarchMaxDistance;
+    
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
@@ -84,7 +88,7 @@ inline float NormalMap(const float3 rayPos)
     return totalDist;
 }
 
-[numthreads(16,16,1)]
+[numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
     const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
@@ -97,18 +101,18 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float4 posWS = mul(cameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
-
+    
     // float3 rayDir = normalize(posVS.xyz);
     // float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
-    //Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    // Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
     
 #if RAYMARCH_DEBUG_ENABLED
     if (!Raymarch(ray))
+        resultTexture[id.xy] = 0;
+    else
     {
-        resultTexture[id.xy] = float4(0, 0, 0, 1);
-        return;
+        resultTexture[id.xy] = float4(color);
     }
-    resultTexture[id.xy] = float4(ndc, 0, 1);
 #else
     Raymarch(ray);
 
@@ -123,6 +127,4 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     uint index = id.y * screenWidth + id.x;
     resultBuffer[index] = result;
 #endif
-    
-    float depth = GetDepth(cameraPosition.xyz, viewProjectionMatrix);
 }
