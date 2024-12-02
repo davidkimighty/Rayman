@@ -18,6 +18,9 @@ struct Shape
     float roundness;
     int combination;
     float smoothness;
+    float4 color;
+    float4 emissionColor;
+    float emissionIntensity;
 };
 
 struct RaymarchResult
@@ -25,7 +28,9 @@ struct RaymarchResult
     float3 hitPoint;
     float travelDistance;
     float lastHitDistance;
-    float3 debugColor;
+    float3 rayDirection;
+    float4 color;
+    float3 normal;
 };
 
 float screenWidth;
@@ -37,10 +42,11 @@ float4x4 viewProjectionMatrix;
 
 int raymarchMaxSteps;
 int raymarchMaxDistance;
-
 int shapeCount;
 StructuredBuffer<Shape> shapeBuffer;
+
 RWStructuredBuffer<RaymarchResult> resultBuffer;
+float4 color;
 #if RAYMARCH_DEBUG_ENABLED
 RWTexture2D<float4> resultTexture;
 #endif
@@ -59,9 +65,9 @@ inline float Map(const float3 rayPos)
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
-        //float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
-        float3 pos = ApplyMatrix(rayPos, shape.transform);
-        BlendDistance(totalDist, pos, shape);
+        float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
+        float blend = BlendDistance(totalDist, pos, shape);
+        color = lerp(color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
     }
     return totalDist;
 }
@@ -72,8 +78,7 @@ inline float NormalMap(const float3 rayPos)
     for (int i = 0; i < shapeCount; i++)
     {
         Shape shape = shapeBuffer[i];
-        //float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
-        float3 pos = ApplyMatrix(rayPos, shape.transform);
+        float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         BlendDistance(totalDist, pos, shape);
     }
     return totalDist;
@@ -88,16 +93,19 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     const float4 posCS = float4(ndc, 0.0, 1.0);
     float4 posVS = mul(inverseProjectionMatrix, posCS);
     posVS /= posVS.w;
-    // float4 posWS = mul(cameraToWorld, posVS);
-    // float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
-    float3 rayDir = normalize(posVS.xyz);
-    float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
     
-    Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    float4 posWS = mul(cameraToWorld, posVS);
+    float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
+    Ray ray = CreateRay(posWS.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+
+    // float3 rayDir = normalize(posVS.xyz);
+    // float3 rayDirWS = normalize(mul((float3x3)cameraToWorld, rayDir));
+    //Ray ray = CreateRay(cameraPosition.xyz, rayDirWS, raymarchMaxSteps, raymarchMaxDistance);
+    
 #if RAYMARCH_DEBUG_ENABLED
     if (!Raymarch(ray))
     {
-        resultTexture[id.xy] = float4(0, 0, 0, 0);
+        resultTexture[id.xy] = float4(0, 0, 0, 1);
         return;
     }
     resultTexture[id.xy] = float4(ndc, 0, 1);
@@ -108,7 +116,9 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     result.hitPoint = ray.hitPoint;
     result.travelDistance = ray.travelDistance;
     result.lastHitDistance = ray.lastHitDistance;
-    result.debugColor = float3(ndc, 0);
+    result.rayDirection = ray.dir;
+    result.color = color;
+    result.normal = GetNormal(ray.hitPoint);
     
     uint index = id.y * screenWidth + id.x;
     resultBuffer[index] = result;

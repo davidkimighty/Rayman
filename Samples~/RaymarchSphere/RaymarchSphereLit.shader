@@ -45,7 +45,7 @@ Shader "Rayman/RaymarchSphereLit"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
         static const float EPSILON = 0.001;

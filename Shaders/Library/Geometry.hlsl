@@ -1,5 +1,5 @@
-#ifndef RAYMAN_TRANSFORMSPACE
-#define RAYMAN_TRANSFORMSPACE
+#ifndef RAYMAN_GEOMETRY
+#define RAYMAN_GEOMETRY
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
@@ -33,12 +33,19 @@ inline float GetDepth(const float3 posWS)
     return z;
 }
 
-inline float4 ComputeNonStereoScreenPos(float4 pos)
+inline float2 GetScreenPosition(const float2 posCS)
 {
-    float4 p = pos * 0.5f;
-    p.xy = float2(p.x, p.y * _ProjectionParams.x) + p.w;
-    p.zw = pos.zw;
-    return p;
+#if UNITY_UV_STARTS_AT_TOP
+    float2 pixelPos = float2(posCS.x, (_ProjectionParams.x < 0) ? (_ScreenParams.y - posCS.y) : posCS.y);
+#else
+    float2 pixelPos = float2(posCS.x, (_ProjectionParams.x > 0) ? (_ScreenParams.y - posCS.y) : posCS.y);
+#endif
+		  
+    float2 ndcPos = pixelPos.xy / _ScreenParams.xy;
+    ndcPos.y = 1.0f - ndcPos.y;
+    float4 pos = float4(ndcPos.xy, 0, 0);
+    float2 screenPos = all(isfinite(pos)) ? half4(pos.x, pos.y, pos.z, 1.0) : float4(1.0f, 0.0f, 1.0f, 1.0f);
+    return screenPos;
 }
 
 #endif

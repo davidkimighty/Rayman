@@ -12,7 +12,6 @@ struct Varyings
 {
     float4 posCS : SV_POSITION;
     float3 posWS : TEXCOORD0;
-    float3 normalWS : TEXCOORD1;
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -32,7 +31,6 @@ Varyings Vert(Attributes input)
 
     o.posCS = TransformObjectToHClip(input.vertex.xyz);
     o.posWS = TransformObjectToWorld(input.vertex.xyz);
-    o.normalWS = TransformObjectToWorldNormal(input.normal);
     return o;
 }
 			

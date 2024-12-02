@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: New Material
+  m_Name: RaymarchShapeCs
   m_Shader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

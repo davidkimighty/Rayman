@@ -40,7 +40,7 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
         half4 _Color;

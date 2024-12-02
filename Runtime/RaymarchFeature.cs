@@ -177,6 +177,9 @@ namespace Rayman
                             Roundness = shape.Settings.Roundness,
                             Combination = (int)shape.Settings.Combination,
                             Smoothness = shape.Settings.Roundness,
+                            Color = shape.Settings.Color,
+                            EmissionColor = shape.Settings.EmissionColor,
+                            EmissionIntensity = shape.Settings.EmissionIntensity
                         };
                     }
                 }
@@ -229,7 +232,7 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ComputeShapeData
     {
-        public const int Stride = sizeof(float) * 24 + sizeof(int) * 4;
+        public const int Stride = sizeof(float) * 33 + sizeof(int) * 4;
 
         public int GroupId;
         public int Id;
@@ -240,16 +243,21 @@ namespace Rayman
         public float Roundness;
         public int Combination;
         public float Smoothness;
+        public Vector4 Color;
+        public Vector4 EmissionColor;
+        public float EmissionIntensity;
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ComputeResultData
     {
-        public const int Stride = sizeof(float) * 5 + sizeof(float) * 3;
+        public const int Stride = sizeof(float) * 15;
 
         public Vector3 HitPoint;
         public float TravelDistance;
         public float LastHitDistance;
-        public Vector3 DebugColor;
+        public Vector3 RayDirection;
+        public Vector4 Color;
+        public Vector3 Normal;
     }
 }

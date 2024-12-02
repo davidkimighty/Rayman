@@ -41,7 +41,7 @@ Shader "Rayman/RaymarchShape"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 		
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/TransformSpace.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
 		struct Shape
 		{
@@ -186,7 +186,7 @@ Shader "Rayman/RaymarchShape"
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/SurfaceShaders/RaymarchForwardLit.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/ShapeForwardLit.hlsl"
             ENDHLSL
 		}
 
@@ -216,7 +216,7 @@ Shader "Rayman/RaymarchShape"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/SurfaceShaders/RaymarchShadowCaster.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/ShapeShadowCaster.hlsl"
 			ENDHLSL
 		}
     }

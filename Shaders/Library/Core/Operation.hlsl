@@ -37,6 +37,7 @@ inline float SmoothMax(const float a, const float b, const float k, const float 
 inline float CombineShapes(const float primary, const float secondary, const int operation,
     const float smoothness, out float blendValue)
 {
+    blendValue = 0;
     if (primary < -0.5)
         return secondary;
 

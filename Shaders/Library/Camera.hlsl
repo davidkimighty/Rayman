@@ -1,8 +1,6 @@
 #ifndef RAYMAN_CAMERA
 #define RAYMAN_CAMERA
 
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-
 inline float3 GetCameraPosition()
 {
     return UNITY_MATRIX_I_V._m03_m13_m23;
