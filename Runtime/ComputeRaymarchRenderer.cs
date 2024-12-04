@@ -1,32 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Rayman
 {
+    [ExecuteInEditMode]
     public class ComputeRaymarchRenderer : MonoBehaviour
     {
         [SerializeField] private RaymarchFeature raymarchFeature;
-        [SerializeField] private Renderer raymarchRenderer;
-        [SerializeField] private Material matRef;
-        [SerializeField] private RaymarchSetting setting;
+        [SerializeField] private bool selfRegister;
         [SerializeField] private List<RaymarchShape> shapes = new();
 
+        [SerializeField] private Renderer raymarchRenderer;
+        
         public List<RaymarchShape> Shapes => shapes;
 
         private void OnEnable()
         {
-            RenderPipelineManager.beginCameraRendering += RegisterRenderer;
+            if (selfRegister)
+                RegisterRenderer();
         }
 
         private void OnDisable()
         {
-            RenderPipelineManager.beginCameraRendering -= RegisterRenderer;
+            if (selfRegister)
+                DeregisterRenderer();
         }
 
-        private void RegisterRenderer(ScriptableRenderContext context, Camera camera)
+        [ContextMenu("Register Renderer")]
+        public void RegisterRenderer()
         {
-            raymarchFeature.ComputePass.AddRenderer(this);
+            raymarchFeature?.AddRenderer(this);
+        }
+
+        [ContextMenu("Deregister Renderer")]
+        public void DeregisterRenderer()
+        {
+            raymarchFeature?.RemoveRenderer(this);
         }
         
 #if UNITY_EDITOR

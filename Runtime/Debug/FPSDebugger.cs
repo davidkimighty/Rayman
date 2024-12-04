@@ -34,7 +34,7 @@ namespace Rayman.Debug
         
         public string GetDebugMessage()
         {
-            return $"FPS   {_frameValue,3} [{_msValue:00.00} ms]";
+            return $"FPS   {_frameValue,3} [ {_msValue:00.00} ms ]";
         }
 
         private float GetAverageFPS()

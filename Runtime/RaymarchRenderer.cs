@@ -37,17 +37,17 @@ namespace Rayman
             _mat.SetFloat(ShadowBiasId, _setting.ShadowBias);
             _renderer.material = _mat;
             
-            InitShapeBuffer(_mat, _shapes.Count);
+            SetupShapeBuffer(_mat, _shapes.Count);
             InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
         }
 
         private void Update()
         {
-            UpdateShapeBuffer();
-            UpdateOperationBuffer();
+            UpdateShapeData();
+            UpdateOperationData();
         }
 
-        private void InitShapeBuffer(Material mat, int count)
+        private void SetupShapeBuffer(Material mat, int count)
         {
             _shapeBuffer?.Release();
             if (count == 0) return;
@@ -72,7 +72,7 @@ namespace Rayman
             mat.EnableKeyword("_OPERATION_FEATURE");
         }
 
-        private void UpdateShapeBuffer()
+        private void UpdateShapeData()
         {
             if (_shapeBuffer == null || _shapeData == null) return;
             
@@ -97,7 +97,7 @@ namespace Rayman
             _shapeBuffer.SetData(_shapeData);
         }
 
-        private void UpdateOperationBuffer()
+        private void UpdateOperationData()
         {
             if (_operationBuffer == null || _operationData == null) return;
 
@@ -139,22 +139,22 @@ namespace Rayman
                     _renderer.material = _mat;
                 }
                 
-                InitShapeBuffer(_mat, _shapes.Count);
+                SetupShapeBuffer(_mat, _shapes.Count);
                 InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
                 
-                UpdateShapeBuffer();
-                UpdateOperationBuffer();
+                UpdateShapeData();
+                UpdateOperationData();
             }
         }
         
         [ContextMenu("Reset Shape Buffer")]
         public void ResetShapeBuffer()
         {
-            InitShapeBuffer(_mat, _shapes.Count);
+            SetupShapeBuffer(_mat, _shapes.Count);
             InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
                 
-            UpdateShapeBuffer();
-            UpdateOperationBuffer();
+            UpdateShapeData();
+            UpdateOperationData();
         }
 
         [ContextMenu("Find All Shapes")]

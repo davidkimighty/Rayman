@@ -712,6 +712,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &528597430
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 528597432}
+  - component: {fileID: 528597431}
+  m_Layer: 0
+  m_Name: RaymarchManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &528597431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528597430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46fcde4fbf5b3bc42a88eaeb4f3e45be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
+  renderers:
+  - {fileID: 1266192020}
+  - {fileID: 639374693}
+  - {fileID: 534641279}
+  - {fileID: 1904251638}
+  - {fileID: 1150000251}
+  - {fileID: 2080788716}
+  - {fileID: 887386796}
+  - {fileID: 865560570}
+  - {fileID: 2098189508}
+  enableRaymarchDebug: 0
+--- !u!4 &528597432
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528597430}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &534641278
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,12 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 534641280}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 770834589}
   - {fileID: 2079614492}
@@ -767,6 +818,7 @@ MonoBehaviour:
   - {fileID: 2073008838}
   - {fileID: 1082504776}
   - {fileID: 920050836}
+  raymarchRenderer: {fileID: 534641280}
 --- !u!23 &534641280
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -912,12 +964,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 639374694}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 1203570458}
   - {fileID: 1321550683}
@@ -935,6 +982,7 @@ MonoBehaviour:
   - {fileID: 76417817}
   - {fileID: 1921113116}
   - {fileID: 467087333}
+  raymarchRenderer: {fileID: 639374694}
 --- !u!23 &639374694
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1257,12 +1305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 865560571}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 427279030}
   - {fileID: 1916772256}
@@ -1280,6 +1323,7 @@ MonoBehaviour:
   - {fileID: 2047147561}
   - {fileID: 1923368796}
   - {fileID: 252112919}
+  raymarchRenderer: {fileID: 865560571}
 --- !u!23 &865560571
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1392,12 +1436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 887386797}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 2044337923}
   - {fileID: 52683841}
@@ -1415,6 +1454,7 @@ MonoBehaviour:
   - {fileID: 643624514}
   - {fileID: 2059092818}
   - {fileID: 42412595}
+  raymarchRenderer: {fileID: 887386797}
 --- !u!23 &887386797
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1752,12 +1792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 1150000252}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 496755711}
   - {fileID: 253949107}
@@ -1775,6 +1810,7 @@ MonoBehaviour:
   - {fileID: 375741074}
   - {fileID: 592654190}
   - {fileID: 1666094142}
+  raymarchRenderer: {fileID: 1150000252}
 --- !u!23 &1150000252
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1988,12 +2024,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 1266192021}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 1502393379}
   - {fileID: 702844967}
@@ -2011,6 +2042,7 @@ MonoBehaviour:
   - {fileID: 1047443650}
   - {fileID: 1497301949}
   - {fileID: 752848368}
+  raymarchRenderer: {fileID: 1266192021}
 --- !u!23 &1266192021
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2897,12 +2929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 1904251639}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 1014933506}
   - {fileID: 136210112}
@@ -2920,6 +2947,7 @@ MonoBehaviour:
   - {fileID: 1818611137}
   - {fileID: 272033080}
   - {fileID: 860230452}
+  raymarchRenderer: {fileID: 1904251639}
 --- !u!23 &1904251639
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3340,12 +3368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 2080788717}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 2106157984}
   - {fileID: 1030439452}
@@ -3363,6 +3386,7 @@ MonoBehaviour:
   - {fileID: 262351355}
   - {fileID: 1134323003}
   - {fileID: 905038276}
+  raymarchRenderer: {fileID: 2080788717}
 --- !u!23 &2080788717
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3475,12 +3499,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  raymarchRenderer: {fileID: 2098189509}
-  matRef: {fileID: 0}
-  setting:
-    MaxSteps: 64
-    MaxDistance: 100
-    ShadowBias: 0.1
+  selfRegister: 0
   shapes:
   - {fileID: 160107741}
   - {fileID: 432939462}
@@ -3498,6 +3517,7 @@ MonoBehaviour:
   - {fileID: 1235379032}
   - {fileID: 2085385942}
   - {fileID: 1183221280}
+  raymarchRenderer: {fileID: 2098189509}
 --- !u!23 &2098189509
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3861,6 +3881,7 @@ MonoBehaviour:
   _debugProviders:
   - {fileID: 569951168681609677}
   _debugMessageText: {fileID: 5473748043065805945}
+  _interval: 0.1
 --- !u!114 &5473748043065805945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3985,6 +4006,7 @@ SceneRoots:
   - {fileID: 1269901868}
   - {fileID: 484591985}
   - {fileID: 891381742665481622}
+  - {fileID: 528597432}
   - {fileID: 2098189511}
   - {fileID: 639374696}
   - {fileID: 534641282}

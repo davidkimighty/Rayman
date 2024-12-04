@@ -1,5 +1,3 @@
-//#define RAYMARCH_DEBUG_ENABLED
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +12,19 @@ namespace Rayman
     public class RaymarchFeature : ScriptableRendererFeature
     {
         [Serializable]
-        public class Setting
+        public struct Setting
         {
-            public int RaymarchMaxSteps = 128;
-            public int RaymarchMaxDistance = 100;
+            [HideInInspector] public bool ReinitSetting;
+            [HideInInspector] public bool RebuildBuffers;
+            
+            public int MaxSteps;
+            public int MaxDistance;
+
+            public void SetTriggers(bool state)
+            {
+                ReinitSetting = state;
+                RebuildBuffers = state;
+            }
         }
         
         public class RaymarchComputePass : ScriptableRenderPass
@@ -25,7 +32,6 @@ namespace Rayman
             private class PassData
             {
                 public ComputeShader Cs;
-                public Setting Setting;
                 public BufferHandle ShapeBufferHandle;
                 public BufferHandle ResultBufferHandle;
 #if RAYMARCH_DEBUG_ENABLED
@@ -34,48 +40,15 @@ namespace Rayman
             }
             
             private ComputeShader cs;
-            private Setting setting;
             private GraphicsBuffer shapeBuffer;
             private GraphicsBuffer resultBuffer;
             private ComputeShapeData[] shapeData;
             private ComputeResultData[] resultData;
-            
-            private List<ComputeRaymarchRenderer> renderers = new();
             private int prevCount = -1;
-            private bool needRefresh = true;
 
-            public RaymarchComputePass(ComputeShader cs, Setting setting)
+            public RaymarchComputePass(ComputeShader cs)
             {
                 this.cs = cs;
-                this.setting = setting;
-            }
-
-            public void AddRenderer(ComputeRaymarchRenderer renderer)
-            {
-                if (renderers.Contains(renderer) || renderer.Shapes.Count == 0) return;
-                
-                renderers.Add(renderer);
-                needRefresh = true;
-            }
-            
-            public void RemoveRenderer(ComputeRaymarchRenderer renderer)
-            {
-                if (!renderers.Contains(renderer)) return;
-                
-                renderers.Remove(renderer);
-                needRefresh = true;
-            }
-            
-            public void Setup()
-            {
-                int count = renderers.Sum(r => r.Shapes.Count);
-                if (count == 0) return;
-
-                SetupBuffers(count);
-                UpdateData();
-#if RAYMARCH_DEBUG_ENABLED
-                requiresIntermediateTexture = true;
-#endif
             }
 
             public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
@@ -92,11 +65,11 @@ namespace Rayman
                 destinationDesc.clearBuffer = false;
                 destinationDesc.enableRandomWrite = true;
                 TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
+                resourceData.cameraColor = destination;
 #endif
                 using (var builder = renderGraph.AddComputePass("Raymarch ComputePass", out PassData passData))
                 {
                     passData.Cs = cs;
-                    passData.Setting = setting;
                     passData.ShapeBufferHandle = shapeBufferHandle;
                     passData.ResultBufferHandle = resultBufferHandle;
                     
@@ -108,26 +81,29 @@ namespace Rayman
 #endif
                     builder.SetRenderFunc((PassData data, ComputeGraphContext cgContext) => ExecutePass(data, cgContext));
                 }
-                
-                //resultBuffer.GetData(resultData);
+            }
+
+            public void Setup(List<ComputeRaymarchRenderer> renderers, Setting setting)
+            {
+                int count = renderers.Sum(r => r.Shapes.Count);
+                if (count == 0) return;
+
+                SetupSettings(setting);
+                SetupBuffers(count, setting.RebuildBuffers);
+                UpdateShapeData(renderers);
 #if RAYMARCH_DEBUG_ENABLED
-                resourceData.cameraColor = destination;
+                requiresIntermediateTexture = true;
 #endif
             }
             
             private static void ExecutePass(PassData data, ComputeGraphContext cgContext)
             {
                 int mainKernel = data.Cs.FindKernel("CSMain");
-                cgContext.cmd.SetComputeFloatParam(data.Cs, "screenWidth", Camera.main.pixelWidth);
-                cgContext.cmd.SetComputeFloatParam(data.Cs, "screenHeight", Camera.main.pixelHeight);
                 cgContext.cmd.SetComputeVectorParam(data.Cs, "cameraPosition", Camera.main.transform.position);
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "cameraToWorld", Camera.main.cameraToWorldMatrix);
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "inverseProjectionMatrix", Camera.main.projectionMatrix.inverse);
                 Matrix4x4 viewProjectionMatrix = Camera.main.projectionMatrix * Camera.main.worldToCameraMatrix;
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, "viewProjectionMatrix", viewProjectionMatrix);
-                
-                cgContext.cmd.SetComputeIntParam(data.Cs, "raymarchMaxSteps", data.Setting.RaymarchMaxSteps);
-                cgContext.cmd.SetComputeIntParam(data.Cs, "raymarchMaxDistance", data.Setting.RaymarchMaxDistance);
                 
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, ShapeBufferId, data.ShapeBufferHandle);
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, ResultBufferId, data.ResultBufferHandle);
@@ -139,9 +115,19 @@ namespace Rayman
                 cgContext.cmd.DispatchCompute(data.Cs, mainKernel, threadGroupsX, threadGroupsY, 1);
             }
 
-            private void SetupBuffers(int count)
+            private void SetupSettings(Setting setting)
             {
-                if (prevCount == count || !needRefresh) return;
+                if (!setting.ReinitSetting) return;
+                
+                cs.SetInt(ScreenWidthId, Camera.main.pixelWidth);
+                cs.SetInt(ScreenHeightId, Camera.main.pixelHeight);
+                cs.SetInt(RaymarchMaxStepsId, setting.MaxSteps);
+                cs.SetInt(RaymarchMaxDistanceId, setting.MaxDistance);
+            }
+            
+            private void SetupBuffers(int count, bool rebuild)
+            {
+                if (prevCount == count || !rebuild) return;
                 
                 shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, ComputeShapeData.Stride);
                 shapeData = new ComputeShapeData[count];
@@ -154,19 +140,40 @@ namespace Rayman
 
                 cs.SetInt(ShapeCountId, count);
                 prevCount = count;
-                needRefresh = false;
             }
 
-            private void UpdateData()
+            private void UpdateShapeData(List<ComputeRaymarchRenderer> renderers)
             {
                 if (shapeBuffer == null) return;
 
                 int shapeIndex = 0;
+                // foreach (RaymarchShape pair in renderers.SelectMany(r => r.Shapes))
+                // {
+                //     Matrix4x4 transform = pair.transform.worldToLocalMatrix;
+                //     Vector3 lossyScale = pair.transform.lossyScale;
+                //     RaymarchShape.Setting settings = pair.Settings;
+                //     shapeData[shapeIndex] = new ComputeShapeData
+                //     {
+                //         Transform = transform,
+                //         LossyScale = lossyScale,
+                //         Type = (int)settings.Type,
+                //         Size = settings.Size,
+                //         Roundness = settings.Roundness,
+                //         Combination = (int)settings.Combination,
+                //         Smoothness = settings.Smoothness,
+                //         Color = settings.Color,
+                //         EmissionColor = settings.EmissionColor,
+                //         EmissionIntensity = settings.EmissionIntensity
+                //     };
+                //     shapeIndex++;
+                // }
                 for (int i = 0; i < renderers.Count; i++)
                 {
                     ComputeRaymarchRenderer renderer = renderers[i];
                     for (int j = 0; j < renderer.Shapes.Count; j++)
                     {
+                        if (renderer.Shapes[j] == null) continue;
+                        
                         Matrix4x4 transform = renderer.Shapes[j].transform.worldToLocalMatrix;
                         Vector3 lossyScale = renderer.Shapes[j].transform.lossyScale;
                         RaymarchShape.Setting settings = renderer.Shapes[j].Settings;
@@ -192,28 +199,36 @@ namespace Rayman
             }
         }
 
+        public const string DebugKeyword = "RAYMARCH_DEBUG_ENABLED";
+        
         private static readonly int ShapeCountId = Shader.PropertyToID("shapeCount");
         private static readonly int ShapeBufferId = Shader.PropertyToID("shapeBuffer");
         private static readonly int ResultBufferId = Shader.PropertyToID("resultBuffer");
         
+        private static readonly int ScreenWidthId = Shader.PropertyToID("screenWidth");
+        private static readonly int ScreenHeightId = Shader.PropertyToID("screenHeight");
+        private static readonly int RaymarchMaxStepsId = Shader.PropertyToID("maxSteps");
+        private static readonly int RaymarchMaxDistanceId = Shader.PropertyToID("maxDistance");
+        
         [SerializeField] private ComputeShader computeShader;
         [SerializeField] private Setting setting;
+        [SerializeField] private List<ComputeRaymarchRenderer> renderers = new();
         
         private RaymarchComputePass computePass;
         
-        public RaymarchComputePass ComputePass => computePass;
-
-        /// <inheritdoc/>
         public override void Create()
         {
             if (computeShader == null) return;
             
-            computePass = new RaymarchComputePass(computeShader, setting);
+            setting.SetTriggers(true);
+            
+            computePass = new RaymarchComputePass(computeShader);
 #if RAYMARCH_DEBUG_ENABLED
             computePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-            computeShader.EnableKeyword("RAYMARCH_DEBUG_ENABLED");
+            computeShader.EnableKeyword(DebugKeyword);
 #else
             computePass.renderPassEvent = RenderPassEvent.BeforeRenderingPrePasses;
+            computeShader.DisableKeyword(DebugKeyword);
 #endif
         }
 
@@ -228,10 +243,33 @@ namespace Rayman
 
             if (renderingData.cameraData.camera == Camera.main)
             {
+                computePass.Setup(renderers, setting);
+                setting.SetTriggers(false);
                 
+                renderer.EnqueuePass(computePass);
             }
-            computePass.Setup();
-            renderer.EnqueuePass(computePass);
+        }
+        
+        public void AddRenderer(ComputeRaymarchRenderer renderer)
+        {
+            if (renderers.Contains(renderer) || renderer.Shapes.Count == 0) return;
+                
+            renderers.Add(renderer);
+            setting.RebuildBuffers = true;
+        }
+            
+        public void RemoveRenderer(ComputeRaymarchRenderer renderer)
+        {
+            if (!renderers.Contains(renderer)) return;
+                
+            renderers.Remove(renderer);
+            setting.RebuildBuffers = true;
+        }
+
+        public void ClearAndRegister(List<ComputeRaymarchRenderer> renderers)
+        {
+            this.renderers.Clear();
+            this.renderers.AddRange(renderers);
         }
     }
     

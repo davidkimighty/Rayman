@@ -177,25 +177,25 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 				UNITY_SETUP_INSTANCE_ID(input);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-				float3 rayDir = normalize(input.posWS - GetCameraPosition());
-				Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
-			    if (!Raymarch(ray)) discard;
-				
-				const float3 normal = GetNormal(ray.hitPoint);
-				const float depth = GetDepth(input.posWS);
-				const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
-				const float fresnel = GetFresnelSchlick(viewDir, normal);
-				
-				half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
-				AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
-				shade += RimLightShade(normal, viewDir);
-				
-				_Color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-				_Color.rgb = MixFog(_Color.rgb, input.fogFactorAndVertexLight.x);
+				// float3 rayDir = normalize(input.posWS - GetCameraPosition());
+				// Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
+			 //    if (!Raymarch(ray)) discard;
+				//
+				// const float3 normal = GetNormal(ray.hitPoint);
+				// const float depth = GetDepth(input.posWS);
+				// const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
+				// const float fresnel = GetFresnelSchlick(viewDir, normal);
+				//
+				// half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
+				// AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
+				// shade += RimLightShade(normal, viewDir);
+				//
+				// _Color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+				// _Color.rgb = MixFog(_Color.rgb, input.fogFactorAndVertexLight.x);
 				
 				FragOutput output;
 				output.color = _Color;
-				output.depth = depth;
+				output.depth = 0;
 				return output;
 			}
             ENDHLSL
@@ -270,7 +270,7 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 			    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(i);
 
 			    Ray ray = CreateRay(input.posWS, GetCameraForward(), 32, 100);
-				if (!Raymarch(ray)) discard;
+				//if (!Raymarch(ray)) discard;
 							
 			    FragOut o;
 			    o.color = o.depth = GetDepth(ray.hitPoint);

@@ -67,18 +67,6 @@ Shader "Rayman/RaymarchShapeCs"
 	        #pragma multi_compile_fragment _ DEBUG_DISPLAY
 	        #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
 
-			#define ATTRIBUTES_NEED_NORMAL
-	        #define ATTRIBUTES_NEED_TANGENT
-	        #define FEATURES_GRAPH_VERTEX_NORMAL_OUTPUT
-	        #define FEATURES_GRAPH_VERTEX_TANGENT_OUTPUT
-	        #define VARYINGS_NEED_POSITION_WS
-	        #define VARYINGS_NEED_NORMAL_WS
-	        #define FEATURES_GRAPH_VERTEX
-
-	        #define SHADERPASS SHADERPASS_UNLIT
-	        #define _FOG_FRAGMENT 1
-	        #define _ALPHATEST_ON 1
-
 			#pragma vertex vert
             #pragma fragment frag
 
