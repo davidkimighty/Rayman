@@ -1,4 +1,4 @@
-Shader "Rayman/RaymarchShapeCs"
+Shader "Rayman/ComputeRaymarchShape"
 {
     Properties
     {

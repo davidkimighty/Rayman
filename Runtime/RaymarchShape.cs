@@ -32,7 +32,7 @@ namespace Rayman
         Bend,
     }
 
-    public class RaymarchShape : MonoBehaviour
+    public class RaymarchShape : MonoBehaviour, IBoundsSource
     {
         [Serializable]
         public class Operation
@@ -57,8 +57,23 @@ namespace Rayman
             public Operation Operation;
         }
 
-        [SerializeField] private Setting _setting;
+        [SerializeField] private Setting settings;
 
-        public Setting Settings => _setting;
+        public Setting Settings => settings;
+
+        public T GetBounds<T>() where T : struct, IBounds<T>
+        {
+            if (typeof(T) == typeof(AABB))
+            {
+                Vector3 half = settings.Size;
+                Vector3 position = transform.position;
+                return (T)(object)new AABB
+                {
+                    Min = position - half,
+                    Max = position + half
+                };
+            }
+            throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
+        }
     }
 }

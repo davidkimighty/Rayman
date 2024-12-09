@@ -5,6 +5,9 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 
+#define B float3(0.0, 0.3, 1.0)
+#define Y float3(1.0, 0.8, 0.0)
+
 struct Shape
 {
     int groupId;
@@ -21,16 +24,6 @@ struct Shape
     float emissionIntensity;
 };
 
-struct RaymarchResult
-{
-    float3 hitPoint;
-    float travelDistance;
-    float lastHitDistance;
-    float3 rayDirection;
-    float4 color;
-    float3 normal;
-};
-
 float screenWidth;
 float screenHeight;
 float4 cameraPosition;
@@ -42,9 +35,10 @@ int maxSteps;
 int maxDistance;
 int shapeCount;
 StructuredBuffer<Shape> shapeBuffer;
+int useHitmap;
 
-RWStructuredBuffer<RaymarchResult> resultBuffer;
 float4 color;
+RWTexture2D<float4> resultTexture;
 
 inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
 {
@@ -97,16 +91,16 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, maxSteps, maxDistance);
 
-    Raymarch(ray);
+    int count = 0;
+    RaymarchHitCount(ray, count);
     
-    RaymarchResult result = (RaymarchResult)0;
-    result.hitPoint = ray.hitPoint;
-    result.travelDistance = ray.travelDistance;
-    result.lastHitDistance = ray.lastHitDistance;
-    result.rayDirection = ray.dir;
-    result.color = color;
-    result.normal = GetNormal(ray.hitPoint);
-    
-    uint index = id.y * screenWidth + id.x;
-    resultBuffer[index] = result;
+    if (useHitmap == 1)
+    {
+        color = float4(GetHitMap(count, ray.maxSteps), 1);
+        resultTexture[id.xy] = color;
+    }
+    else
+    {
+        resultTexture[id.xy] = ray.lastHitDistance > EPSILON ? 0 : color;
+    }
 }
