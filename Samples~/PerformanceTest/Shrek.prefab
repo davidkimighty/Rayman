@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 10
-    Size: {x: 0.05, y: 0.02, z: 0}
-    Roundness: 0.02
+    Size: {x: 0.045, y: 0.02, z: 0.001}
+    Roundness: 0.03
     Combination: 0
-    Smoothness: 0.03
-    Color: {r: 0.40784314, g: 0.44705883, b: 0.101960786, a: 1}
+    Smoothness: 0.02
+    Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -104,13 +104,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
     Size: {x: 0.2, y: 0, z: 0}
     Roundness: 0
     Combination: 0
     Smoothness: 0
-    Color: {r: 0.40653697, g: 0.44654083, b: 0.10250773, a: 1}
+    Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -160,13 +160,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 1
-    Size: {x: 0.05, y: 0.04, z: 0.04}
-    Roundness: 0.983
+    Size: {x: 0.06, y: 0.045, z: 0.03}
+    Roundness: 0
     Combination: 0
-    Smoothness: 0.01
-    Color: {r: 0.3091528, g: 0.3333333, b: 0.120545, a: 1}
+    Smoothness: 0.013
+    Color: {r: 0.26403853, g: 0.36477977, b: 0.08832714, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -216,13 +216,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
-    Size: {x: 0.1, y: 0, z: 0}
-    Roundness: 0.983
+    Size: {x: 0.12, y: 0, z: 0}
+    Roundness: 0
     Combination: 0
-    Smoothness: 0.2
-    Color: {r: 0.40784314, g: 0.44705883, b: 0.101960786, a: 1}
+    Smoothness: 0.15
+    Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -273,13 +273,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
-    Size: {x: 0.023, y: 0, z: 0}
+    Size: {x: 0.02, y: 0, z: 0}
     Roundness: 0
     Combination: 0
-    Smoothness: 0.002
-    Color: {r: 0.06918234, g: 0.06918234, b: 0.06918234, a: 1}
+    Smoothness: 0.001
+    Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -329,13 +329,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
     Size: {x: 0.02, y: 0, z: 0}
     Roundness: 0
     Combination: 1
-    Smoothness: 0.03
-    Color: {r: 0.120249085, g: 0.23899364, b: 0.027807394, a: 1}
+    Smoothness: 0.05
+    Color: {r: 0.08378118, g: 0.21383637, b: 0.059847273, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -386,13 +386,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
-    Size: {x: 0.023, y: 0, z: 0}
+    Size: {x: 0.02, y: 0, z: 0}
     Roundness: 0
     Combination: 0
-    Smoothness: 0.002
-    Color: {r: 0.06918234, g: 0.06918234, b: 0.06918234, a: 1}
+    Smoothness: 0.001
+    Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -443,13 +443,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 10
-    Size: {x: 0.05, y: 0.02, z: 0}
-    Roundness: 0.02
+    Size: {x: 0.045, y: 0.02, z: 0.001}
+    Roundness: 0.03
     Combination: 0
-    Smoothness: 0.03
-    Color: {r: 0.40784314, g: 0.44705883, b: 0.101960786, a: 1}
+    Smoothness: 0.02
+    Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -499,13 +499,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 0
     Size: {x: 0.02, y: 0, z: 0}
     Roundness: 0
     Combination: 1
-    Smoothness: 0.03
-    Color: {r: 0.120249085, g: 0.23899364, b: 0.027807394, a: 1}
+    Smoothness: 0.05
+    Color: {r: 0.08378118, g: 0.21383637, b: 0.059847273, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -555,13 +555,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 7
-    Size: {x: 0.56, y: 0.03, z: 0.007}
-    Roundness: 0.983
+    Size: {x: 0.5, y: 0.03, z: 0.006}
+    Roundness: 0
     Combination: 0
-    Smoothness: 0.003
-    Color: {r: 0.16352195, g: 0.114418775, b: 0.039594922, a: 1}
+    Smoothness: 0.005
+    Color: {r: 0.14465404, g: 0.09948644, b: 0.048672892, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -647,13 +647,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 7
-    Size: {x: 0.56, y: 0.03, z: 0.007}
-    Roundness: 0.983
+    Size: {x: 0.5, y: 0.03, z: 0.006}
+    Roundness: 0
     Combination: 0
-    Smoothness: 0.003
-    Color: {r: 0.16352195, g: 0.114418775, b: 0.039594922, a: 1}
+    Smoothness: 0.005
+    Color: {r: 0.14465404, g: 0.09948644, b: 0.048672892, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -707,13 +707,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 7
-    Size: {x: 0.8, y: 0.08, z: 0.036}
+    Size: {x: 0.7, y: 0.08, z: 0.035}
     Roundness: 0
     Combination: 1
     Smoothness: 0.01
-    Color: {r: 0.16470589, g: 0.07417997, b: 0.04705882, a: 1}
+    Color: {r: 0.2264151, g: 0.07333567, b: 0.07333567, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -763,13 +763,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 4
-    Size: {x: 0.01, y: 0.01, z: 0}
-    Roundness: 0.983
+    Size: {x: 0.013, y: 0.016, z: 0}
+    Roundness: 0
     Combination: 0
     Smoothness: 0
-    Color: {r: 0.91823894, g: 0.88015324, b: 0.6727977, a: 1}
+    Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -819,13 +819,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 4
-    Size: {x: 0.01, y: 0.01, z: 0}
-    Roundness: 0.983
+    Size: {x: 0.013, y: 0.016, z: 0}
+    Roundness: 0
     Combination: 0
     Smoothness: 0
-    Color: {r: 0.91823894, g: 0.88015324, b: 0.6727977, a: 1}
+    Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -875,13 +875,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 4
-    Size: {x: 0.01, y: 0.013, z: 0}
-    Roundness: 0.983
+    Size: {x: 0.013, y: 0.016, z: 0}
+    Roundness: 0
     Combination: 0
     Smoothness: 0
-    Color: {r: 0.91823894, g: 0.88015324, b: 0.6727977, a: 1}
+    Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:
@@ -931,13 +931,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _setting:
+  settings:
     Type: 4
-    Size: {x: 0.01, y: 0.013, z: 0}
-    Roundness: 0.983
+    Size: {x: 0.013, y: 0.016, z: 0}
+    Roundness: 0
     Combination: 0
     Smoothness: 0
-    Color: {r: 0.91823894, g: 0.88015324, b: 0.6727977, a: 1}
+    Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
     Operation:

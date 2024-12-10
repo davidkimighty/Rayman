@@ -741,18 +741,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46fcde4fbf5b3bc42a88eaeb4f3e45be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  setting:
+    BoundsBuffSize: 0
+    EnableRaymarchDebug: 1
+    ShowHitmap: 1
+    DrawBoundingVolumes: 1
   raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  renderers:
+  raymarchRenderers:
   - {fileID: 1266192020}
-  - {fileID: 639374693}
-  - {fileID: 534641279}
-  - {fileID: 1904251638}
-  - {fileID: 1150000251}
-  - {fileID: 2080788716}
-  - {fileID: 887386796}
   - {fileID: 865560570}
   - {fileID: 2098189508}
-  enableRaymarchDebug: 0
+  - {fileID: 534641279}
+  - {fileID: 887386796}
+  - {fileID: 1904251638}
+  - {fileID: 639374693}
+  - {fileID: 2080788716}
+  - {fileID: 1150000251}
 --- !u!4 &528597432
 Transform:
   m_ObjectHideFlags: 0

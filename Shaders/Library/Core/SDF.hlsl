@@ -50,9 +50,9 @@ inline float Octahedron(float3 pos, const float size)
 
 inline float Capsule(float3 pos, const float2 size)
 {
-    pos.y += size.x * 0.5;
-    pos.y -= clamp(pos.y, 0.0, size.x);
-    return length(pos) - size.y;
+    pos.y += size.y * 0.5;
+    pos.y -= clamp(pos.y, 0.0, size.y);
+    return length(pos) - size.x;
 }
 
 inline float Cylinder(const float3 pos, const float2 size)

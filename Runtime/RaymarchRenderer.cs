@@ -79,6 +79,8 @@ namespace Rayman
             for (int i = 0; i < _shapeData.Length; i++)
             {
                 RaymarchShape shape = _shapes[i];
+                if (shape == null) continue;
+                
                 _shapeData[i] = new ShapeData
                 {
                     Transform = shape.transform.worldToLocalMatrix,
