@@ -10,8 +10,7 @@
 #define TORUS (6)
 #define CAPPED_TORUS (7)
 #define LINK (8)
-#define CONE (9)
-#define CAPPED_CONE (10)
+#define CAPPED_CONE (9)
 
 inline float Sphere(const float3 pos, const float radius)
 {
@@ -57,7 +56,7 @@ inline float Capsule(float3 pos, const float2 size)
 
 inline float Cylinder(const float3 pos, const float2 size)
 {
-    const float2 d = abs(float2(length(pos.xz), pos.y)) - float2(size.y, size.x);
+    const float2 d = abs(float2(length(pos.xz), pos.y)) - size;
     return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
 }
 
@@ -69,31 +68,31 @@ inline float Torus(const float3 pos, const float2 size)
 
 inline float CappedTorus(float3 pos, const float3 size)
 {
-    const float2 sc = float2(sin(size.x), cos(size.x));
-    pos.x = abs(pos.x);
-    const float k = (sc.y * pos.x > sc.x * pos.y) ? dot(pos.xy, sc) : length(pos.xy);
-    return sqrt(dot(pos, pos) + size.y * size.y - 2.0 * size.y * k) - size.z;
+    const float2 sc = float2(sin(size.z), cos(size.z));
+    pos.z = abs(pos.z);
+    const float k = (sc.y * pos.z > sc.x * pos.x) ? dot(pos.zx, sc) : length(pos.zx);
+    return sqrt(dot(pos, pos) + size.x * size.x - 2.0 * size.x * k) - size.y;
 }
 
 inline float Link(const float3 pos, const float3 size)
 {
-    const float3 q = float3(pos.x, max(abs(pos.y) - size.x, 0.0), pos.z);
-    return length(float2(length(q.xy) - size.y, q.z)) - size.z;
+    const float3 q = float3(pos.x, max(abs(pos.y) - size.y, 0.0), pos.z);
+    return length(float2(length(q.xy) - size.x, q.z)) - size.z;
 }
 
 inline float Cone(const float3 pos, const float3 size)
 {
     const float q = length(pos.xz);
-    return max(dot(size.xy, float2(q, pos.y)), -size.z - pos.y);
+    return max(dot(size.zx, float2(q, pos.y)), -size.y - pos.y);
 }
 
 inline float CappedCone(const float3 pos, const float3 size)
 {
     const float2 q = float2(length(pos.xz), pos.y);
-    const float2 k1 = float2(size.z, size.x);
-    const float2 k2 = float2(size.z - size.y, 2.0 * size.x);
+    const float2 k1 = float2(size.z, size.y);
+    const float2 k2 = float2(size.z - size.x, 2.0 * size.y);
     
-    const float2 ca = float2(q.x - min(q.x, (q.y < 0.0) ? size.y : size.z), abs(q.y) - size.x);
+    const float2 ca = float2(q.x - min(q.x, (q.y < 0.0) ? size.x : size.z), abs(q.y) - size.y);
     const float2 cb = q - k1 + k2 * clamp(dot(k1 - q, k2) / dot(k2, k2), 0.0, 1.0);
     
     const float s = (cb.x < 0.0 && ca.y < 0.0) ? -1.0 : 1.0;
@@ -122,8 +121,6 @@ inline float GetShapeSDF(const float3 pos, const int type, const float3 size, co
         return CappedTorus(pos, size);
     case LINK:
         return Link(pos, size);
-    case CONE:
-        return Cone(pos, size) - roundness;
     case CAPPED_CONE:
         return CappedCone(pos, size) - roundness;
     default:

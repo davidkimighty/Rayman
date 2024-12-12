@@ -172,15 +172,15 @@ namespace Rayman
                     for (int j = 0; j < renderer.Shapes.Count; j++)
                     {
                         if (renderer.Shapes[j] == null) continue;
-                        
-                        Matrix4x4 transform = renderer.Shapes[j].transform.worldToLocalMatrix;
+
+                        Transform transform = renderer.Shapes[j].transform;
                         Vector3 lossyScale = renderer.Shapes[j].transform.lossyScale;
                         RaymarchShape.Setting settings = renderer.Shapes[j].Settings;
                         shapeData[shapeIndex] = new ComputeShapeData
                         {
                             GroupId = i,
                             Id = j,
-                            Transform = transform,
+                            Transform = transform.worldToLocalMatrix,
                             LossyScale = lossyScale,
                             Type = (int)settings.Type,
                             Size = settings.Size,
