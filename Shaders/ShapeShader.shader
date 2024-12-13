@@ -51,7 +51,7 @@ Shader "Rayman/RaymarchShape"
 			int type;
 			float3 size;
 			float roundness;
-			int combination;
+			int operation;
 			float smoothness;
 			half4 color;
 			half4 emissionColor;
@@ -59,7 +59,7 @@ Shader "Rayman/RaymarchShape"
 			int operationEnabled;
 		};
 
-		struct Operation
+		struct Distortion
 		{
 			int id;
 			int type;
@@ -69,19 +69,19 @@ Shader "Rayman/RaymarchShape"
         int _MaxSteps;
 		float _MaxDist;
 		int _ShapeCount;
-        int _OperationCount;
+        int _DistortionCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
-		StructuredBuffer<Operation> _OperationBuffer;
+		StructuredBuffer<Distortion> _DistortionBuffer;
         float4 _Color;
 		
-		inline void ApplyOperationPositionById(inout float3 pos, const int id)
+		inline void ApplyDistortionPositionById(inout float3 pos, const int id)
 		{
-			for (int i = 0; i < _OperationCount; i++)
+			for (int i = 0; i < _DistortionCount; i++)
 			{
-				Operation o = _OperationBuffer[i];
+				Distortion o = _DistortionBuffer[i];
 				if (o.id != id) continue;
 		                
-				pos = ApplyOperation(pos, o.type, o.amount);
+				pos = ApplyDistortion(pos, o.type, o.amount);
 				break;
 			}
 		}
@@ -90,7 +90,7 @@ Shader "Rayman/RaymarchShape"
 		{
 			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
 			float blend = 0;
-			totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
+			totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 			return blend;
 		}
 

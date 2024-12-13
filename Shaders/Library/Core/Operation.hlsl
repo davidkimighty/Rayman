@@ -75,7 +75,7 @@ inline float3 Bend(const float3 pos, const float strength)
     return q;
 }
 
-inline float3 ApplyOperation(const float3 pos, const int type, const float strength)
+inline float3 ApplyDistortion(const float3 pos, const int type, const float strength)
 {
     switch (type)
     {

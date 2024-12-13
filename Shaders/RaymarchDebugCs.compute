@@ -4,6 +4,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 
 #define B float3(0.0, 0.3, 1.0)
 #define Y float3(1.0, 0.8, 0.0)
@@ -17,7 +18,7 @@ struct Shape
     int type;
     float3 size;
     float roundness;
-    int combination;
+    int operation;
     float smoothness;
     float4 color;
     float4 emissionColor;
@@ -31,11 +32,14 @@ float4x4 cameraToWorld;
 float4x4 inverseProjectionMatrix;
 float4x4 viewProjectionMatrix;
 
+int debugMode;
 int maxSteps;
 int maxDistance;
 int shapeCount;
 StructuredBuffer<Shape> shapeBuffer;
-int useHitmap;
+
+int hitCount = 0;
+int hitIds[RAY_MAX_HITS];
 
 float4 color;
 RWTexture2D<float4> resultTexture;
@@ -44,18 +48,19 @@ inline float BlendDistance(inout float totalDist, const float3 pos, const Shape 
 {
     float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
     float blend = 0;
-    totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
+    totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
     return blend;
 }
 
 inline float Map(inout Ray ray)
 {
     float totalDist = maxDistance;
-    float4 localColor = shapeBuffer[0].color;
+    float4 localColor =  shapeBuffer[hitIds[0]].color;
     
     for (int i = 0; i < shapeCount; i++)
     {
-        Shape shape = shapeBuffer[i];
+        // Shape shape = shapeBuffer[i];
+        Shape shape = shapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
         float blend = BlendDistance(totalDist, pos, shape);
         localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
@@ -70,7 +75,7 @@ inline float NormalMap(const float3 rayPos)
     
     for (int i = 0; i < shapeCount; i++)
     {
-        Shape shape = shapeBuffer[i];
+        Shape shape = shapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         BlendDistance(totalDist, pos, shape);
     }
@@ -91,16 +96,25 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, maxSteps, maxDistance);
 
+    TraverseAabbTree(ray, hitIds, hitCount);
+    
     int count = 0;
     RaymarchHitCount(ray, count);
-    
-    if (useHitmap == 1)
+
+    switch (debugMode)
     {
+    case 1:
+        color = ray.lastHitDistance > EPSILON ? 0 : color;
+        break;
+    case 2:
+        color = ray.lastHitDistance > EPSILON ? 0 : float4(GetNormal(ray.hitPoint) * 0.5 + 0.5, 1);
+        break;
+    case 3:
         color = float4(GetHitMap(count, ray.maxSteps), 1);
-        resultTexture[id.xy] = color;
+        break;
+    case 4:
+        color = 1;
+        break;
     }
-    else
-    {
-        resultTexture[id.xy] = ray.lastHitDistance > EPSILON ? 0 : color;
-    }
+    resultTexture[id.xy] = color;
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -10,35 +9,36 @@ namespace Rayman
 {
     public class BVH<T> : ISpatialStructure<T> where T : struct, IBounds<T>
     {
-        private const int InternalNodeId = -1;
-        
         public SpatialNode<T> Root { get; private set; }
         public int Count { get; private set; } = 0;
         
-        public void Build(BoundingVolume<T>[] boundsToBuild)
+        public void AddLeafNode(int id, T bounds, IBoundsSource source)
         {
-            for (int i = 0; i < boundsToBuild.Length; i++)
-                CreateLeafNode(i, boundsToBuild[i].Bounds);
+            SpatialNode<T> nodeToInsert = new(id, bounds, source, 0);
+            PerformInsertNode(nodeToInsert);
         }
-
-        public async Task BuildAsync(BoundingVolume<T>[] boundsToBuild)
+        
+        public void RemoveLeafNode(IBoundsSource source)
         {
-            for (int i = 0; i < boundsToBuild.Length; i++)
+            if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
             {
-                CreateLeafNode(i, boundsToBuild[i].Bounds);
-                await Task.Yield();
+                Debug.Log("[ BVH ] Node to remove does not exist.");
+                return;
             }
+            PerformRemoveNode(nodeToRemove);
         }
 
-        public void UpdateBounds(int index, T updatedBounds)
+        public void UpdateBounds(IBoundsSource source, T updatedBounds)
         {
-            if (!TraverseDFS(Root, index, out SpatialNode<T> oldNode))
+            if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
             {
                 Debug.Log("[ BVH ] Node to update does not exist.");
                 return;
             }
-            RemoveLeafNode(oldNode);
-            CreateLeafNode(index, updatedBounds);
+            PerformRemoveNode(nodeToRemove);
+            
+            SpatialNode<T> nodeToInsert = new(nodeToRemove.Id, updatedBounds, nodeToRemove.Source, 0);
+            PerformInsertNode(nodeToInsert);
         }
 
         public float CalculateCost()
@@ -52,7 +52,7 @@ namespace Rayman
         }
 
 #if UNITY_EDITOR
-        public void DrawStructure()
+        public void DrawStructure(Color[] heightColors = null)
         {
             if (Root == null) return;
 
@@ -71,19 +71,22 @@ namespace Rayman
                 if (node == null || map.Contains(node)) return;
 
                 GUIStyle style = new GUIStyle();
+                
                 string nodeLabel;
                 if (node.IsLeaf)
                 {
-                    style.normal.textColor = Handles.color = Color.green;
-                    Handles.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
-                    nodeLabel = $"Node {node.Id} [ Leaf ]\n";
+                    style.normal.textColor = Handles.color = Gizmos.color = Color.white;
+                    Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
+                    Gizmos.color = new Color(1, 1, 1, 0.3f);
+                    Gizmos.DrawCube(node.Bounds.Center(), node.Bounds.Extents());
+                    nodeLabel = "Node [ Leaf ]\n";
                 }
                 else
                 {
                     float colorIntensity = 1f - (node.Height - 1f) / Root.Height;
-                    Handles.color = Color.white * colorIntensity;
-                    Handles.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
-                    style.normal.textColor = Color.white;
+                    style.normal.textColor = Handles.color = Gizmos.color = (heightColors == null ? Color.yellow :
+                        heightColors[node.Height]) * colorIntensity;
+                    Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
                     nodeLabel = $"Node {(node == Root ? $"[ Root ]" : $"[ Internal ]")}\n";
                 }
                 nodeLabel += $"Height: {node.Height}";
@@ -93,14 +96,7 @@ namespace Rayman
         }
 #endif
 
-        private void CreateLeafNode(int id, T bounds)
-        {
-            SpatialNode<T> node = new(id, bounds, 0);
-            InsertLeafNode(node);
-            Count++;
-        }
-
-        private void InsertLeafNode(SpatialNode<T> nodeToInsert)
+        private void PerformInsertNode(SpatialNode<T> nodeToInsert)
         {
             if (Root == null)
             {
@@ -140,12 +136,12 @@ namespace Rayman
             SpatialNode<T> oldParent = bestSibling.Parent;
             SpatialNode<T> newParent = new()
             {
-                Id = InternalNodeId,
+                Id = SpatialNode<T>.InternalNodeId,
                 Bounds = bestSibling.Bounds.Union(insertNodeBound),
+                Height = bestSibling.Height + 1,
                 Parent = oldParent,
                 LeftChild = bestSibling,
                 RightChild = nodeToInsert,
-                Height = bestSibling.Height + 1,
             };
 
             if (oldParent == null)
@@ -170,9 +166,10 @@ namespace Rayman
                 rotated.UpdateHeight();
                 ancestor = rotated.Parent;
             }
+            Count++;
         }
-
-        private void RemoveLeafNode(SpatialNode<T> nodeToRemove)
+        
+        private void PerformRemoveNode(SpatialNode<T> nodeToRemove)
         {
             if (Root == nodeToRemove)
             {
@@ -284,17 +281,17 @@ namespace Rayman
             }
         }
         
-        private bool TraverseDFS(SpatialNode<T> current, int targetId, out SpatialNode<T> targetNode)
+        private bool TraverseDFS(SpatialNode<T> current, IBoundsSource source, out SpatialNode<T> targetNode)
         {
             if (current == null)
             {
                 targetNode = null;
                 return false;
             }
-            if (current.Id != targetId)
+            if (current.Source != source)
             {
-                return TraverseDFS(current.LeftChild, targetId, out targetNode) ||
-                       TraverseDFS(current.RightChild, targetId, out targetNode);
+                return TraverseDFS(current.LeftChild, source, out targetNode) ||
+                       TraverseDFS(current.RightChild, source, out targetNode);
             }
             targetNode = current;
             return true;

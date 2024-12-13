@@ -11,8 +11,8 @@ namespace Rayman
     {
         private static readonly int ShapeCountId = Shader.PropertyToID("_ShapeCount");
         private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
-        private static readonly int OperationCountId = Shader.PropertyToID("_OperationCount");
-        private static readonly int OperationBufferId = Shader.PropertyToID("_OperationBuffer");
+        private static readonly int DistortionCountId = Shader.PropertyToID("_DistortionCount");
+        private static readonly int DistortionBufferId = Shader.PropertyToID("_DistortionBuffer");
         
         private static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
         private static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDist");
@@ -25,9 +25,9 @@ namespace Rayman
         
         private Material _mat;
         private ComputeBuffer _shapeBuffer;
-        private ComputeBuffer _operationBuffer;
+        private ComputeBuffer _distortionBuffer;
         private ShapeData[] _shapeData;
-        private OperationData[] _operationData;
+        private DistortionData[] _distortionData;
 
         private void Awake()
         {
@@ -38,7 +38,7 @@ namespace Rayman
             _renderer.material = _mat;
             
             SetupShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
+            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
         }
 
         private void Update()
@@ -61,14 +61,14 @@ namespace Rayman
 
         private void InitOperationBuffer(Material mat, int count)
         {
-            _operationBuffer?.Release();
+            _distortionBuffer?.Release();
             if (count == 0) return;
             
-            _operationBuffer = new ComputeBuffer(count, OperationData.Stride);
-            _operationData = new OperationData[count];
+            _distortionBuffer = new ComputeBuffer(count, DistortionData.Stride);
+            _distortionData = new DistortionData[count];
             
-            mat.SetInt(OperationCountId, count);
-            mat.SetBuffer(OperationBufferId, _operationBuffer);
+            mat.SetInt(DistortionCountId, count);
+            mat.SetBuffer(DistortionBufferId, _distortionBuffer);
             mat.EnableKeyword("_OPERATION_FEATURE");
         }
 
@@ -85,15 +85,15 @@ namespace Rayman
                 {
                     Transform = shape.transform.worldToLocalMatrix,
                     LossyScale = shape.transform.lossyScale,
-                    Type = (int)shape.Settings.Type,
+                    Type = (int)shape.Settings.Shape,
                     Size = shape.Settings.Size,
                     Roundness = shape.Settings.Roundness,
-                    Combination = (int)shape.Settings.Combination,
+                    Combination = (int)shape.Settings.Operation,
                     Smoothness = shape.Settings.Smoothness,
                     Color = shape.Settings.Color,
                     EmissionColor = shape.Settings.EmissionColor,
                     EmissionIntensity = shape.Settings.EmissionIntensity,
-                    OperationEnabled = shape.Settings.Operation.Enabled ? 1 : 0
+                    DistortionEnabled = shape.Settings.Distortion.Enabled ? 1 : 0
                 };
             }
             _shapeBuffer.SetData(_shapeData);
@@ -101,15 +101,15 @@ namespace Rayman
 
         private void UpdateOperationData()
         {
-            if (_operationBuffer == null || _operationData == null) return;
+            if (_distortionBuffer == null || _distortionData == null) return;
 
             int j = 0;
             for (int i = 0; i < _shapes.Count(); i++)
             {
-                RaymarchShape.Operation operation = _shapes[i].Settings.Operation;
+                RaymarchShape.Distortion operation = _shapes[i].Settings.Distortion;
                 if (!operation.Enabled) continue;
                 
-                _operationData[j] = new OperationData
+                _distortionData[j] = new DistortionData
                 {
                     Id = i,
                     Type = (int)operation.Type,
@@ -117,7 +117,7 @@ namespace Rayman
                 };
                 j++;
             }
-            _operationBuffer.SetData(_operationData);
+            _distortionBuffer.SetData(_distortionData);
         }
         
 #if UNITY_EDITOR
@@ -142,7 +142,7 @@ namespace Rayman
                 }
                 
                 SetupShapeBuffer(_mat, _shapes.Count);
-                InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
+                InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
                 
                 UpdateShapeData();
                 UpdateOperationData();
@@ -153,7 +153,7 @@ namespace Rayman
         public void ResetShapeBuffer()
         {
             SetupShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Operation.Enabled));
+            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
                 
             UpdateShapeData();
             UpdateOperationData();
@@ -190,11 +190,11 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 EmissionColor;
         public float EmissionIntensity;
-        public int OperationEnabled;
+        public int DistortionEnabled;
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct OperationData
+    public struct DistortionData
     {
         public const int Stride = sizeof(float) + sizeof(int) * 2;
 

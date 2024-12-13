@@ -17,14 +17,14 @@ namespace Rayman
         CappedCone,
     }
 
-    public enum Combinations
+    public enum Operations
     {
         Union,
         Subtract,
         Intersect
     }
 
-    public enum Operations
+    public enum Distortions
     {
         None,
         Twist,
@@ -34,27 +34,27 @@ namespace Rayman
     public class RaymarchShape : MonoBehaviour, IBoundsSource
     {
         [Serializable]
-        public class Operation
+        public class Distortion
         {
-            public Operations Type;
+            public Distortions Type;
             public float Amount;
 
-            public bool Enabled => Type != Operations.None;
+            public bool Enabled => Type != Distortions.None;
         }
         
         [Serializable]
         public class Setting
         {
-            public Shapes Type;
+            public Shapes Shape;
             public Vector3 Size;
             public Vector3 Offset = Vector3.one * 0.5f;
             [Range(0, 1f)] public float Roundness;
-            public Combinations Combination;
+            public Operations Operation;
             [Range(0, 1f)] public float Smoothness;
             public Color Color;
             [ColorUsage(true, true)] public Color EmissionColor;
             [Range(0, 1f)] public float EmissionIntensity;
-            public Operation Operation;
+            public Distortion Distortion;
         }
 
         [SerializeField] private Setting settings;
@@ -66,7 +66,7 @@ namespace Rayman
             if (typeof(T) == typeof(AABB))
             {
                 Vector3 size = settings.Size + Vector3.one * (settings.Smoothness + settings.Roundness);
-                AABB aabb = GetShapeAABB(settings.Type, size);
+                AABB aabb = GetShapeAABB(settings.Shape, size);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");

@@ -4,6 +4,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 
 struct Shape
 {
@@ -42,6 +43,9 @@ int maxSteps;
 int maxDistance;
 int shapeCount;
 StructuredBuffer<Shape> shapeBuffer;
+
+int hitCount = 0;
+int hitIds[RAY_MAX_HITS];
 
 RWStructuredBuffer<RaymarchResult> resultBuffer;
 float4 color;
