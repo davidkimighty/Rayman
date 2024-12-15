@@ -123,6 +123,11 @@ namespace Rayman
                     nodeBuffer?.Release();
                     nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, NodeData.Stride);
                     Debug.Log($"NodeBuffer initialized.");
+                    for (int i = 0; i < nodeData.Length; i++)
+                    {
+                        if (nodeData[i].Id != -1) continue;
+                        Debug.Log($"node {nodeData[i].Id}, r {nodeData[i].Right}, l {nodeData[i].Left}");
+                    }
                 }
                 nodeBuffer.SetData(nodeData);
             }

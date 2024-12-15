@@ -115,9 +115,10 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     case 4:
         if (hitCount > 1)
         {
-            float4 boxColor = float4(1.0, 1.0, 1.0, 0.01);
+            /*float4 boxColor = float4(1.0, 1.0, 1.0, 0.01);
             float intensity = saturate((float)hitCount / 5.0);
-            color = float4(intensity, intensity, intensity, 1.0);
+            color = float4(intensity, intensity, intensity, 1.0);*/
+            color = float4(1, 1, 0, 1);
         }
         else if (hitCount == 1)
         {

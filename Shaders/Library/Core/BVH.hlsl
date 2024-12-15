@@ -23,16 +23,15 @@ inline void TraverseAabbTree(const Ray ray, inout int hitIds[RAY_MAX_HITS], inou
 {
     int stack[STACK_SIZE];
     int ptr = numHits = 0;
-    stack[ptr] = 0;
+    stack[ptr++] = 0;
 
-    while (ptr >= 0)
+    while (ptr > 0)
     {
-        int nodeIndex = stack[ptr--];
+        int nodeIndex = stack[--ptr];
         if (nodeIndex < 0) continue;
 
         const NodeAABB node = nodeBuffer[nodeIndex];
-        int tMin, tMax;
-        if (!RayIntersect(ray, node.bounds, tMin, tMax)) continue;
+        if (RayIntersect(ray, node.bounds) > ray.maxDistance) continue;
         
         if (node.left < 0)
         {

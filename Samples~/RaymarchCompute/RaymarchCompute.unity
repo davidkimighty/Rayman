@@ -175,7 +175,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 14915838}
 --- !u!33 &14915841
@@ -378,7 +377,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 205476934}
 --- !u!33 &205476937
@@ -460,7 +458,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 503193806}
 --- !u!33 &503193809
@@ -542,7 +539,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 929500599}
 --- !u!33 &929500602
@@ -624,7 +620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 956132396}
 --- !u!33 &956132399
@@ -706,7 +701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 997726036}
 --- !u!33 &997726039
@@ -788,7 +782,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 1181485594}
   - {fileID: 1526441746}
@@ -1009,7 +1002,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 1278832020}
   - {fileID: 1629537020}
@@ -1123,7 +1115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46fcde4fbf5b3bc42a88eaeb4f3e45be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
+  raymarchFeature: {fileID: -2215061935436386786, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   buildOnAwake: 1
   boundsBuffSize: 0
   boundsSyncGroupSize: 100
@@ -1137,7 +1129,7 @@ MonoBehaviour:
   - {fileID: 997726037}
   - {fileID: 503193807}
   - {fileID: 1278832021}
-  debugMode: 2
+  debugMode: 4
   drawGizmos: 1
   showLabel: 0
 --- !u!4 &1546346246
@@ -1268,7 +1260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3f8f545e0d4a549af6401041785384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
   shapes:
   - {fileID: 2079735063}
 --- !u!33 &2079735066

@@ -6,7 +6,6 @@ using UnityEditor;
 using UnityEditor.Build;
 #endif
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Rayman
 {
@@ -44,9 +43,6 @@ namespace Rayman
         private ComputeShapeData[] shapeData;
         private NodeData[] nodeData; 
         private IEnumerator syncBounds;
-#if UNITY_EDITOR
-        private Color[] depthColors;
-#endif
 
         public BVH<AABB> SpatialStructure => bvh;
 
@@ -176,35 +172,6 @@ namespace Rayman
         {
             if (bvh == null) return null;
             
-            Queue<(SpatialNode<AABB> node, int parentIndex)> queue = new();
-            queue.Enqueue((bvh.Root, -1));
-            int currentIndex = 0;
-
-            while (queue.Count > 0)
-            {
-                (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
-                NodeData data = new()
-                {
-                    Id = current.Id,
-                    Bounds = current.Bounds,
-                    Parent = parentIndex,
-                    Left = -1, Right = -1,
-                };
-
-                nodeData[currentIndex] = data;
-                currentIndex++;
-
-                if (current.LeftChild != null)
-                {
-                    queue.Enqueue((current.LeftChild, currentIndex - 1));
-                    nodeData[currentIndex].Left = currentIndex;
-                }
-                if (current.RightChild != null)
-                {
-                    queue.Enqueue((current.RightChild, currentIndex - 1));
-                    nodeData[currentIndex].Right = currentIndex;
-                }
-            }
             return nodeData;
         }
 
@@ -227,7 +194,7 @@ namespace Rayman
                     bvh.UpdateBounds(gd.Source, newBounds);
                 
                     syncCount++;
-                    if (syncCount == boundsSyncGroupSize)
+                    if (syncCount >= boundsSyncGroupSize)
                     {
                         syncCount = 0;
                         yield return null;
@@ -250,13 +217,7 @@ namespace Rayman
         {
             if (bvh == null || !drawGizmos) return;
 
-            if (depthColors == null)
-            {
-                depthColors = new Color[30];
-                for (int i = 0; i < depthColors.Length; i++)
-                    depthColors[i] = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
-            }
-            bvh.DrawStructure(showLabel, depthColors);
+            bvh.DrawStructure(showLabel);
         }
 
         public static void AddDefineSymbol(string symbol)

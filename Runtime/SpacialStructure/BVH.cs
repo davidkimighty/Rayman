@@ -54,10 +54,10 @@ namespace Rayman
         }
 
 #if UNITY_EDITOR
-        GUIStyle labelStyle = new();
-        Color leafNodeBoundsColor = new Color(1, 1, 1, 0.1f);
+        private GUIStyle labelStyle = new();
+        private Color leafNodeBoundsColor = new(1, 1, 1, 0.1f);
         
-        public void DrawStructure(bool showLabel, Color[] heightColors = null)
+        public void DrawStructure(bool showLabel)
         {
             if (Root == null) return;
 
@@ -74,9 +74,9 @@ namespace Rayman
                 }
                 else
                 {
-                    float colorIntensity = 1f - (node.Height - 1f) / Root.Height;
-                    labelStyle.normal.textColor = Handles.color = Gizmos.color = (heightColors == null ? Color.yellow :
-                        heightColors[node.Height]) * colorIntensity;
+                    float colorIntensity = 1f - (node.Height - 1f) / Root.Height * 0.5f;
+                    Color color = Color.HSVToRGB(node.Height / 6f % 1, 1, 1);
+                    labelStyle.normal.textColor = Handles.color = Gizmos.color = color * colorIntensity;
                     Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
                 }
 
@@ -87,6 +87,7 @@ namespace Rayman
                         ? $"Node {node.Id} [ Leaf ]\n"
                         : $"Node {(node == Root ? $" {node.Id} [ Root ]" : $"[ Internal ]")}\n");
                     builder.Append($"Height: {node.Height}");
+                    builder.Append($"Child: R {node.RightChild?.Id}, L {node.LeftChild?.Id}");
                     Handles.Label(node.Bounds.Center(), builder.ToString(), labelStyle);
                 }
             }

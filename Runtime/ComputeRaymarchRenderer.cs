@@ -6,7 +6,6 @@ namespace Rayman
     [ExecuteInEditMode]
     public class ComputeRaymarchRenderer : MonoBehaviour
     {
-        [SerializeField] private RaymarchFeature raymarchFeature;
         [SerializeField] private List<RaymarchShape> shapes = new();
 
         public List<RaymarchShape> Shapes => shapes;

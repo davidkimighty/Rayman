@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace Rayman
 {
     public interface ISpatialStructure<T> where T : struct, IBounds<T>
@@ -13,7 +11,7 @@ namespace Rayman
         void UpdateBounds(IBoundsSource source, T updatedBounds);
         float CalculateCost();
 #if UNITY_EDITOR
-        void DrawStructure(bool showLabel, Color[] heightColors = null);
+        void DrawStructure(bool showLabel);
 #endif
     }
 }
