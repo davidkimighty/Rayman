@@ -12,7 +12,7 @@ namespace Rayman
         [ContextMenu("Find All Renderers")]
         private void FindAllRenderers()
         {
-            raymarchRenderers = Utilities.GetObjectsByTypes<RaymarchRenderer>();
+            raymarchRenderers = Utilities.GetChildrenByHierarchical<RaymarchRenderer>();
         }
 
         [ContextMenu("Reset All Shape Buffer")]

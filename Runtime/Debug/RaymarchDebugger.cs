@@ -14,7 +14,7 @@ namespace Rayman.Debug
         public string GetDebugMessage()
         {
             int count = _shapes?.Length ?? 0;
-            return $"Raymarch Shapes   [ {count,4} ]";
+            return $"SDF   [ {count,4} ]";
         }
     }
 }

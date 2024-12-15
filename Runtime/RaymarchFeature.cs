@@ -110,6 +110,7 @@ namespace Rayman
                     resultBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, totalThreads, ComputeResultData.Stride);
                     // resultData = new ComputeResultData[totalThreads];
                     Shader.SetGlobalBuffer(ResultBufferId, resultBuffer);
+                    Debug.Log($"ShapeBuffer & ResultBuffer initialized.");
                 }
                 shapeBuffer.SetData(shapeData);
             }
@@ -121,6 +122,7 @@ namespace Rayman
                 {
                     nodeBuffer?.Release();
                     nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, NodeData.Stride);
+                    Debug.Log($"NodeBuffer initialized.");
                 }
                 nodeBuffer.SetData(nodeData);
             }

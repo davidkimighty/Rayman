@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -9,11 +10,11 @@ using Random = UnityEngine.Random;
 
 namespace Rayman
 {
-    [ExecuteInEditMode]
+    //[ExecuteInEditMode]
     public class ComputeRaymarchManager : MonoBehaviour
     {
 #if UNITY_EDITOR
-        public enum DebugMode { None, Color, Normal, Hitmap, BoundingVolume, }
+        public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
 #endif
         public class BoundingVolume
         {
@@ -27,28 +28,27 @@ namespace Rayman
             }
         }
         
-        [Serializable]
-        public struct Setting
-        {
-            public bool BuildOnAwake;
-            public float BoundsBuffSize;
-#if UNITY_EDITOR
-            public DebugMode DebugMode;
-            public bool DrawGizmos;
-#endif
-        }
-        
-        [SerializeField] private Setting setting;
         [SerializeField] private RaymarchFeature raymarchFeature;
+        [SerializeField] private bool buildOnAwake;
+        [SerializeField] private float boundsBuffSize;
+        [SerializeField] private int boundsSyncGroupSize = 100;
         [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
+#if UNITY_EDITOR
+        [SerializeField] private DebugModes debugMode;
+        [SerializeField] private bool drawGizmos;
+        [SerializeField] private bool showLabel;
+#endif
         
         private BVH<AABB> bvh;
         private List<BoundingVolume> boundingVolumes;
         private ComputeShapeData[] shapeData;
-        private NodeData[] nodeData;
+        private NodeData[] nodeData; 
+        private IEnumerator syncBounds;
 #if UNITY_EDITOR
         private Color[] depthColors;
 #endif
+
+        public BVH<AABB> SpatialStructure => bvh;
 
         private void Awake()
         {
@@ -58,9 +58,9 @@ namespace Rayman
                 raymarchFeature.SetActive(true);
             
 #if RAYMARCH_DEBUG
-            raymarchFeature.SetDebugMode((int)setting.DebugMode);
+            raymarchFeature.SetDebugMode((int)debugMode);
 #endif
-            if (setting.BuildOnAwake)
+            if (buildOnAwake)
             {
                 if (!Build())
                     Debug.LogWarning("Failed to build raymarch data.");
@@ -71,13 +71,6 @@ namespace Rayman
         {
             raymarchFeature.OnRequestShapeData += ProvideShapeData;
             raymarchFeature.OnRequestNodeData += ProvideNodeData;
-        }
-
-        private void Update()
-        {
-            SyncBoundingVolumes();
-            UpdateShapeData();
-            UpdateNodeData();
         }
         
         private void OnDisable()
@@ -96,7 +89,7 @@ namespace Rayman
             
             foreach (ComputeRaymarchRenderer raymarchRenderer in raymarchRenderers)
             {
-                if (raymarchRenderer == null) continue;
+                if (raymarchRenderer == null || !raymarchRenderer.gameObject.activeInHierarchy) continue;
                 
                 foreach (RaymarchShape shape in raymarchRenderer.Shapes)
                 {
@@ -109,7 +102,12 @@ namespace Rayman
                 }
             }
             shapeData = new ComputeShapeData[shapeCount];
-            nodeData = new NodeData[bvh.Count + 1];
+            nodeData = new NodeData[SpatialNode<AABB>.GetNodesCount(bvh.Root)];
+            
+            if (syncBounds != null)
+                StopCoroutine(syncBounds);
+            syncBounds = SyncBoundingVolumes();
+            StartCoroutine(syncBounds);
             return true;
         }
 
@@ -130,7 +128,6 @@ namespace Rayman
             
             int count = boundingVolumes.Count;
             Array.Resize(ref shapeData, count);
-            Array.Resize(ref nodeData, count);
         }
         
         public void RemoveRenderer(ComputeRaymarchRenderer renderer)
@@ -149,34 +146,12 @@ namespace Rayman
 
             int count = boundingVolumes.Count;
             Array.Resize(ref shapeData, count);
-            Array.Resize(ref nodeData, count);
         }
-        
-        private ComputeShapeData[] ProvideShapeData() => shapeData;
 
-        private NodeData[] ProvideNodeData() => nodeData;
-
-        private void SyncBoundingVolumes()
+        private ComputeShapeData[] ProvideShapeData()
         {
-            if (boundingVolumes == null) return;
-
-            foreach (BoundingVolume gd in boundingVolumes)
-            {
-                if (gd == null) continue;
-                
-                AABB buffBounds = gd.Bounds.Expand(setting.BoundsBuffSize);
-                AABB newBounds = gd.Source.GetBounds<AABB>();
-                if (buffBounds.Contains(newBounds)) continue;
-                
-                gd.Bounds = newBounds;
-                bvh.UpdateBounds(gd.Source, newBounds);
-            }
-        }
-        
-        private void UpdateShapeData()
-        {
-            if (boundingVolumes == null) return;
-
+            if (boundingVolumes == null) return null;
+            
             int groupId = 0;
             RaymarchShape currentSource = boundingVolumes[0].Source;
             
@@ -194,16 +169,17 @@ namespace Rayman
                 RaymarchShape.Setting settings = gd.Source.Settings;
                 shapeData[i] = new ComputeShapeData(groupId, i, sourceTransform, settings);
             }
+            return shapeData;
         }
 
-        private void UpdateNodeData()
+        private NodeData[] ProvideNodeData()
         {
-            if (bvh == null) return;
+            if (bvh == null) return null;
             
             Queue<(SpatialNode<AABB> node, int parentIndex)> queue = new();
             queue.Enqueue((bvh.Root, -1));
-            int count = 0;
-            
+            int currentIndex = 0;
+
             while (queue.Count > 0)
             {
                 (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
@@ -214,28 +190,57 @@ namespace Rayman
                     Parent = parentIndex,
                     Left = -1, Right = -1,
                 };
-            
-                int currentIndex = count;
+
+                nodeData[currentIndex] = data;
+                currentIndex++;
+
                 if (current.LeftChild != null)
                 {
-                    queue.Enqueue((current.LeftChild, currentIndex));
-                    data.Left = count + queue.Count;
+                    queue.Enqueue((current.LeftChild, currentIndex - 1));
+                    nodeData[currentIndex].Left = currentIndex;
                 }
                 if (current.RightChild != null)
                 {
-                    queue.Enqueue((current.RightChild, currentIndex));
-                    data.Right = count + queue.Count;
+                    queue.Enqueue((current.RightChild, currentIndex - 1));
+                    nodeData[currentIndex].Right = currentIndex;
                 }
+            }
+            return nodeData;
+        }
+
+        private IEnumerator SyncBoundingVolumes()
+        {
+            if (boundingVolumes == null) yield break;
+
+            while (true)
+            {
+                int syncCount = 0;
+                foreach (BoundingVolume gd in boundingVolumes)
+                {
+                    if (gd == null) continue;
                 
-                nodeData[count] = data;
-                count++;
+                    AABB buffBounds = gd.Bounds.Expand(boundsBuffSize);
+                    AABB newBounds = gd.Source.GetBounds<AABB>();
+                    if (buffBounds.Contains(newBounds)) continue;
+                
+                    gd.Bounds = newBounds;
+                    bvh.UpdateBounds(gd.Source, newBounds);
+                
+                    syncCount++;
+                    if (syncCount == boundsSyncGroupSize)
+                    {
+                        syncCount = 0;
+                        yield return null;
+                    }
+                }
+                yield return null;
             }
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (setting.DebugMode != DebugMode.None)
+            if (debugMode != DebugModes.None)
                 AddDefineSymbol(RaymarchFeature.DebugKeyword);
             else
                 RemoveDefineSymbol(RaymarchFeature.DebugKeyword);
@@ -243,15 +248,15 @@ namespace Rayman
         
         private void OnDrawGizmos()
         {
-            if (bvh == null || !setting.DrawGizmos) return;
+            if (bvh == null || !drawGizmos) return;
 
             if (depthColors == null)
             {
-                depthColors = new Color[10];
+                depthColors = new Color[30];
                 for (int i = 0; i < depthColors.Length; i++)
                     depthColors[i] = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
             }
-            bvh.DrawStructure(depthColors);
+            bvh.DrawStructure(showLabel, depthColors);
         }
 
         public static void AddDefineSymbol(string symbol)
@@ -276,42 +281,7 @@ namespace Rayman
         [ContextMenu("Find All Renderers")]
         private void FindAllRenderers()
         {
-            raymarchRenderers = Utilities.GetObjectsByTypes<ComputeRaymarchRenderer>();
-        }
-        
-        public static NodeData[] GetGeometriesData(SpatialNode<AABB> root)
-        {
-            if (root == null) return null;
-            
-            List<NodeData> result = new();
-            Queue<(SpatialNode<AABB> node, int parentIndex)> queue = new();
-            queue.Enqueue((root, -1));
-            
-            while (queue.Count > 0)
-            {
-                (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
-                NodeData data = new()
-                {
-                    Id = current.Id,
-                    Bounds = current.Bounds,
-                    Parent = parentIndex,
-                    Left = -1, Right = -1,
-                };
-                
-                int currentIndex = result.Count;
-                if (current.LeftChild != null)
-                {
-                    queue.Enqueue((current.LeftChild, currentIndex));
-                    data.Left = result.Count + queue.Count;
-                }
-                if (current.RightChild != null)
-                {
-                    queue.Enqueue((current.RightChild, currentIndex));
-                    data.Right = result.Count + queue.Count;
-                }
-                result.Add(data);
-            }
-            return result.ToArray();
+            raymarchRenderers = Utilities.GetChildrenByHierarchical<ComputeRaymarchRenderer>();
         }
 #endif
     }

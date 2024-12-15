@@ -162,7 +162,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
         {
-            _shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
+            _shapes = Utilities.GetChildrenByHierarchical<RaymarchShape>(transform);
         }
 #endif
     }

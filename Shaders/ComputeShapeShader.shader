@@ -74,70 +74,70 @@ Shader "Rayman/ComputeRaymarchShape"
             ENDHLSL
 		}
 
-		Pass
-		{
-			Name "Depth Only"
-		    Tags { "LightMode" = "DepthOnly" }
-
-		    ZTest LEqual
-		    ZWrite On
-		    ColorMask R
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 2.0
-		    #pragma multi_compile_instancing
-
-		    #pragma vertex vert
-		    #pragma fragment frag
-		    
-			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthOnly.hlsl"
-		    ENDHLSL
-		}
-
-        Pass
-        {
-        	Name "Depth Normals"
-		    Tags { "LightMode" = "DepthNormals" }
-
-		    ZWrite On
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 2.0
-		    #pragma multi_compile_instancing
-
-			#pragma vertex vert
-		    #pragma fragment frag
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthNormals.hlsl"
-		    ENDHLSL
-        }
-
-		Pass
-		{
-			Name "Shadow Caster"
-			Tags
-			{
-				"LightMode" = "ShadowCaster"
-			}
-
-			ZWrite On
-			ZTest LEqual
-			ColorMask 0
-			Cull [_Cull]
-
-			HLSLPROGRAM
-			#pragma target 2.0
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-
-		    #pragma vertex vert
-		    #pragma fragment frag
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
-			ENDHLSL
-		}
+//		Pass
+//		{
+//			Name "Depth Only"
+//		    Tags { "LightMode" = "DepthOnly" }
+//
+//		    ZTest LEqual
+//		    ZWrite On
+//		    ColorMask R
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//		    #pragma multi_compile_instancing
+//
+//		    #pragma vertex vert
+//		    #pragma fragment frag
+//		    
+//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthOnly.hlsl"
+//		    ENDHLSL
+//		}
+//
+//        Pass
+//        {
+//        	Name "Depth Normals"
+//		    Tags { "LightMode" = "DepthNormals" }
+//
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//		    #pragma multi_compile_instancing
+//
+//			#pragma vertex vert
+//		    #pragma fragment frag
+//
+//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthNormals.hlsl"
+//		    ENDHLSL
+//        }
+//
+//		Pass
+//		{
+//			Name "Shadow Caster"
+//			Tags
+//			{
+//				"LightMode" = "ShadowCaster"
+//			}
+//
+//			ZWrite On
+//			ZTest LEqual
+//			ColorMask 0
+//			Cull [_Cull]
+//
+//			HLSLPROGRAM
+//			#pragma target 2.0
+//			#pragma multi_compile_instancing
+//			#pragma multi_compile _ LOD_FADE_CROSSFADE
+//			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+//
+//		    #pragma vertex vert
+//		    #pragma fragment frag
+//
+//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
+//			ENDHLSL
+//		}
     }
 }

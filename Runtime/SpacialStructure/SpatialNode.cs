@@ -26,6 +26,18 @@ namespace Rayman
             Height = height;
         }
         
+        public static int GetNodesCount(SpatialNode<T> node)
+        {
+            if (node == null) return 0;
+            
+            int count = 1;
+            if (node.LeftChild != null)
+                count += GetNodesCount(node.LeftChild);
+            if (node.RightChild != null)
+                count += GetNodesCount(node.RightChild);
+            return count;
+        }
+        
         public void UpdateHeight()
         {
             int heightL = LeftChild?.Height ?? 0;

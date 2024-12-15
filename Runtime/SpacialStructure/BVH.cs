@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 #if UNITY_EDITOR
+using System.Text;
 using UnityEditor;
 #endif
 using UnityEngine;
@@ -10,8 +11,9 @@ namespace Rayman
     public class BVH<T> : ISpatialStructure<T> where T : struct, IBounds<T>
     {
         public SpatialNode<T> Root { get; private set; }
-        public int Count { get; private set; } = 0;
-        
+        public int Count => SpatialNode<T>.GetNodesCount(Root);
+        public int MaxHeight { get; private set; }
+
         public void AddLeafNode(int id, T bounds, IBoundsSource source)
         {
             SpatialNode<T> nodeToInsert = new(id, bounds, source, 0);
@@ -52,46 +54,41 @@ namespace Rayman
         }
 
 #if UNITY_EDITOR
-        public void DrawStructure(Color[] heightColors = null)
+        GUIStyle labelStyle = new();
+        Color leafNodeBoundsColor = new Color(1, 1, 1, 0.1f);
+        
+        public void DrawStructure(bool showLabel, Color[] heightColors = null)
         {
             if (Root == null) return;
 
-            HashSet<SpatialNode<T>> map = new();
-            TraverseDFS(node =>
-            {
-                DrawBound(node);
-                DrawBound(node.Parent);
-                DrawBound(node.LeftChild);
-                DrawBound(node.RightChild);
-            });
-            return;
+            TraverseDFS(DrawBound);
 
             void DrawBound(SpatialNode<T> node)
             {
-                if (node == null || map.Contains(node)) return;
-
-                GUIStyle style = new GUIStyle();
-                
-                string nodeLabel;
                 if (node.IsLeaf)
                 {
-                    style.normal.textColor = Handles.color = Gizmos.color = Color.white;
+                    labelStyle.normal.textColor = Handles.color = Gizmos.color = Color.white;
                     Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
-                    Gizmos.color = new Color(1, 1, 1, 0.3f);
+                    Gizmos.color = leafNodeBoundsColor;
                     Gizmos.DrawCube(node.Bounds.Center(), node.Bounds.Extents());
-                    nodeLabel = "Node [ Leaf ]\n";
                 }
                 else
                 {
                     float colorIntensity = 1f - (node.Height - 1f) / Root.Height;
-                    style.normal.textColor = Handles.color = Gizmos.color = (heightColors == null ? Color.yellow :
+                    labelStyle.normal.textColor = Handles.color = Gizmos.color = (heightColors == null ? Color.yellow :
                         heightColors[node.Height]) * colorIntensity;
                     Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Extents());
-                    nodeLabel = $"Node {(node == Root ? $"[ Root ]" : $"[ Internal ]")}\n";
                 }
-                nodeLabel += $"Height: {node.Height}";
-                Handles.Label(node.Bounds.Center(), nodeLabel, style);
-                map.Add(node);
+
+                if (showLabel)
+                {
+                    StringBuilder builder = new();
+                    builder.Append(node.IsLeaf
+                        ? $"Node {node.Id} [ Leaf ]\n"
+                        : $"Node {(node == Root ? $" {node.Id} [ Root ]" : $"[ Internal ]")}\n");
+                    builder.Append($"Height: {node.Height}");
+                    Handles.Label(node.Bounds.Center(), builder.ToString(), labelStyle);
+                }
             }
         }
 #endif
@@ -153,20 +150,11 @@ namespace Rayman
                 else
                     oldParent.RightChild = newParent;
             }
+            
             bestSibling.Parent = newParent;
             nodeToInsert.Parent = newParent;
-            Count++;
             
-            // Balance the tree
-            SpatialNode<T> ancestor = nodeToInsert.Parent;
-            while (ancestor != null)
-            {
-                SpatialNode<T> rotated = TreeRotations(ancestor);
-                rotated.UpdateBounds();
-                rotated.UpdateHeight();
-                ancestor = rotated.Parent;
-            }
-            Count++;
+            BalanceTree(nodeToInsert);
         }
         
         private void PerformRemoveNode(SpatialNode<T> nodeToRemove)
@@ -193,17 +181,24 @@ namespace Rayman
                 else
                     parent.Parent.RightChild = sibling;
                 nodeToRemove.Parent = null;
-                
-                SpatialNode<T> ancestor = sibling.Parent;
-                while (ancestor != null)
-                {
-                    SpatialNode<T> rotated = TreeRotations(ancestor);
-                    rotated.UpdateBounds();
-                    rotated.UpdateHeight();
-                    ancestor = rotated.Parent;
-                }
+
+                BalanceTree(sibling);
             }
-            Count--;
+        }
+
+        private void BalanceTree(SpatialNode<T> node)
+        {
+            SpatialNode<T> ancestor = node.Parent;
+            while (ancestor != null)
+            {
+                SpatialNode<T> rotated = TreeRotations(ancestor);
+                rotated.UpdateBounds();
+                rotated.UpdateHeight();
+                ancestor = rotated.Parent;
+                
+                if (rotated.Height > MaxHeight)
+                    MaxHeight = rotated.Height;
+            }
         }
         
         private SpatialNode<T> TreeRotations(SpatialNode<T> node)

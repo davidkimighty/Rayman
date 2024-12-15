@@ -5,25 +5,28 @@ namespace Rayman
 {
     public static class Utilities
     {
-        public static List<T> GetObjectsByTypes<T>(Transform root = null) where T : Component
+        public static List<T> GetChildrenByHierarchical<T>(Transform root = null) where T : Component
         {
             List<T> found = new();
-            Transform[] transforms = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None);
+            Transform[] transforms = Object.FindObjectsByType<Transform>(FindObjectsSortMode.InstanceID);
 
             foreach (Transform transform in transforms)
             {
                 if (transform.parent != root) continue;
+                
                 SearchAdd(transform);
             }
             return found;
             
-            void SearchAdd(Transform parent)
+            void SearchAdd(Transform target)
             {
-                T component = parent.GetComponent<T>();
-                if (component == null) return;
-                found.Add(component);
+                if (!target.gameObject.activeInHierarchy) return;
+                
+                T component = target.GetComponent<T>();
+                if (component != null)
+                    found.Add(component);
 
-                foreach (Transform child in parent)
+                foreach (Transform child in target)
                     SearchAdd(child);
             }
         }

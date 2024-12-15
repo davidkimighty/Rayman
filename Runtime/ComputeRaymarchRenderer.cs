@@ -9,15 +9,13 @@ namespace Rayman
         [SerializeField] private RaymarchFeature raymarchFeature;
         [SerializeField] private List<RaymarchShape> shapes = new();
 
-        [SerializeField] private Renderer raymarchRenderer;
-        
         public List<RaymarchShape> Shapes => shapes;
 
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
         {
-            shapes = Utilities.GetObjectsByTypes<RaymarchShape>(transform);
+            shapes = Utilities.GetChildrenByHierarchical<RaymarchShape>(transform);
         }
 #endif
     }

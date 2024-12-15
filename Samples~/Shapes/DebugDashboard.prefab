@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2707007170785194018}
   - component: {fileID: 8844187626059335892}
   - component: {fileID: 4491248181836889764}
+  - component: {fileID: -5066148419193897486}
   m_Layer: 5
   m_Name: DebugDashboard
   m_TagString: Untagged
@@ -118,7 +119,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _debugProviders:
   - {fileID: 4491248181836889764}
+  - {fileID: -5066148419193897486}
   _debugMessageText: {fileID: 8235510478801664784}
+  _interval: 0.1
 --- !u!114 &4491248181836889764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +132,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b59c8c16120cd4ace8a4c6ed032e719e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-5066148419193897486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757509483997742285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a074f2ee73b9264688805d1439ec76b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1681708783467744691

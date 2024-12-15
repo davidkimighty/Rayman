@@ -99,7 +99,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     TraverseAabbTree(ray, hitIds, hitCount);
     
     int count = 0;
-    RaymarchHitCount(ray, count);
+    //RaymarchHitCount(ray, count);
 
     switch (debugMode)
     {
@@ -113,7 +113,20 @@ void CSMain (uint3 id : SV_DispatchThreadID)
         color = float4(GetHitMap(count, ray.maxSteps), 1);
         break;
     case 4:
-        color = 1;
+        if (hitCount > 1)
+        {
+            float4 boxColor = float4(1.0, 1.0, 1.0, 0.01);
+            float intensity = saturate((float)hitCount / 5.0);
+            color = float4(intensity, intensity, intensity, 1.0);
+        }
+        else if (hitCount == 1)
+        {
+            color = float4(1, 0, 0, 1);
+        }
+        else
+        {
+            color = 0;
+        };
         break;
     }
     resultTexture[id.xy] = color;
