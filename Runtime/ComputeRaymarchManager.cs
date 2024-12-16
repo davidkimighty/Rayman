@@ -207,6 +207,30 @@ namespace Rayman
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (raymarchFeature == null)
+            {
+                var renderPipeline = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+                if (renderPipeline == null)
+                {
+                    Debug.LogError("Universal Render Pipeline not found.");
+                    return;
+                }
+
+                ScriptableRenderer scriptableRenderer = renderPipeline.GetRenderer(0);
+                PropertyInfo property = typeof(ScriptableRenderer).GetProperty("rendererFeatures",
+                    BindingFlags.NonPublic | BindingFlags.Instance);
+                var features = property.GetValue(scriptableRenderer) as List<ScriptableRendererFeature>;
+
+                foreach (var feature in features)
+                {
+                    if (feature.GetType() == typeof(RaymarchFeature))
+                    {
+                        raymarchFeature = feature as RaymarchFeature;
+                        break;
+                    }
+                }
+            }
+            
             if (debugMode != DebugModes.None)
                 AddDefineSymbol(RaymarchFeature.DebugKeyword);
             else
