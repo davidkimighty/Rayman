@@ -1,4 +1,4 @@
-Shader "Rayman/RaymarchShape"
+Shader "Rayman/RaymarchDebugLit"
 {
     Properties
     {
@@ -63,6 +63,9 @@ Shader "Rayman/RaymarchShape"
 			float amount;
 		};
 
+        int _DebugMode;
+        int _BoundsDisplayThreshold;
+        
         int _MaxSteps;
 		float _MaxDistance;
         int _DistortionCount;
@@ -127,7 +130,7 @@ Shader "Rayman/RaymarchShape"
 
         Pass
 		{
-			Name "Forward Lit"
+			Name "Forward"
 			Tags
 			{
 				"LightMode" = "UniversalForward"
@@ -169,51 +172,9 @@ Shader "Rayman/RaymarchShape"
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeForwardLit.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchDebugLitForward.hlsl"
             ENDHLSL
 		}
-
-//	    Pass
-//		{
-//			Name "Depth Only"
-//		    Tags { "LightMode" = "DepthOnly" }
-//
-//		    ZTest LEqual
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 5.0
-//		    #pragma shader_feature _ALPHATEST_ON
-//		    #pragma multi_compile_instancing
-//
-//		    #pragma vertex Vert
-//		    #pragma fragment Frag
-//		    
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeDepthOnly.hlsl"
-//		    ENDHLSL
-//		}
-
-//       Pass
-//       {
-//       	Name "Depth Normals"
-//		    Tags { "LightMode" = "DepthNormals" }
-//
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 5.0
-//		    #pragma shader_feature _ALPHATEST_ON
-//		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
-//		    #pragma multi_compile_instancing
-//
-//			#pragma vertex Vert
-//		    #pragma fragment Frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeDepthNormals.hlsl"
-//		    ENDHLSL
-//       }
 
 		Pass
 		{
@@ -237,7 +198,7 @@ Shader "Rayman/RaymarchShape"
 			#pragma vertex Vert
 		    #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeShadowCaster.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchLitShadowCaster.hlsl"
 			ENDHLSL
 		}
     }

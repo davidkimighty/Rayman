@@ -7,6 +7,8 @@ namespace Rayman
     //[ExecuteInEditMode]
     public class ComputeRaymarchManager : MonoBehaviour
     {
+        public const string DebugKeyword = "RAYMARCH_DEBUG";
+        
         [SerializeField] private RaymarchFeature raymarchFeature;
         [SerializeField] private bool buildOnAwake;
         [SerializeField] private float boundsExpandSize;
@@ -148,9 +150,9 @@ namespace Rayman
             }
             
             if (debugMode != DebugModes.None)
-                Utilities.AddDefineSymbol(RaymarchRenderer.DebugKeyword);
+                Utilities.AddDefineSymbol(DebugKeyword);
             else
-                Utilities.RemoveDefineSymbol(RaymarchRenderer.DebugKeyword);
+                Utilities.RemoveDefineSymbol(DebugKeyword);
         }
         
         private void OnDrawGizmos()

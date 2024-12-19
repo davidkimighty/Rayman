@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Rayman
 {
@@ -11,8 +12,6 @@ namespace Rayman
     [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
-        public const string DebugKeyword = "RAYMARCH_DEBUG";
-        
         public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         public static readonly int DistortionCountId = Shader.PropertyToID("_DistortionCount");
         public static readonly int DistortionBufferId = Shader.PropertyToID("_DistortionBuffer");
@@ -20,10 +19,12 @@ namespace Rayman
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
         public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
         public static readonly int ShadowBiasId = Shader.PropertyToID("_ShadowBiasVal");
+        private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
+        private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
 
-        [Header("Raymarch Surface Shader Settings")]
+        [Header("Raymarch Surface Shader")]
         [SerializeField] private Renderer mainRenderer;
-        [SerializeField] private Material matRef;
+        [SerializeField] private Shader mainShader;
         [SerializeField] private int maxSteps = 64;
         [SerializeField] private float maxDistance = 100f;
         [SerializeField] private float shadowBias = 0.1f;
@@ -31,6 +32,7 @@ namespace Rayman
         [SerializeField] private List<RaymarchShape> shapes = new();
 #if UNITY_EDITOR
         [Header("Debugging")]
+        [SerializeField] private Shader debugShader;
         [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
         [SerializeField] private bool showLabel;
@@ -151,21 +153,42 @@ namespace Rayman
 
         public void Build()
         {
-            if (mat == null && matRef != null)
+#if UNITY_EDITOR
+            SetupMaterialInEditor();
+#endif
+            if (mat == null)
             {
-                mat = new Material(matRef);
-                mat.SetInt(MaxStepsId, maxSteps);
-                mat.SetFloat(MaxDistanceId, maxDistance);
-                mat.SetFloat(ShadowBiasId, shadowBias);
-                mainRenderer.material = mat;
+                if (mainShader == null) return;
+                mat = CoreUtils.CreateEngineMaterial(mainShader);
             }
-            if (mat == null) return;
+            SetupRaymarchProperties(mat);
+            mainRenderer.material = mat;
             
             SetupShapeBuffer(mat);
             SetupDistortionBuffer(mat);
             
             SetupSpatialStructure();
             SetupNodeBuffer(mat);
+
+#if UNITY_EDITOR
+            void SetupMaterialInEditor()
+            {
+                if (mat != null) return;
+                if (debugMode != DebugModes.None)
+                {
+                    if (debugShader == null) return;
+                    mat = CoreUtils.CreateEngineMaterial(debugShader);
+                    SetupDebugProperties(mat);
+                }
+            }
+#endif
+        }
+
+        private void SetupRaymarchProperties(Material mat)
+        {
+            mat.SetInt(MaxStepsId, maxSteps);
+            mat.SetFloat(MaxDistanceId, maxDistance);
+            mat.SetFloat(ShadowBiasId, shadowBias);
         }
 
         private void SetupShapeBuffer(Material mat)
@@ -229,13 +252,21 @@ namespace Rayman
         {
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
+
+            if (mat == null) return;
             
-            if (mat != null)
+            bool rebuild = mat.shader != (debugMode != DebugModes.None ? debugShader : mainShader);
+            if (rebuild)
             {
-                mat.SetInt(MaxStepsId, maxSteps);
-                mat.SetFloat(MaxDistanceId, maxDistance);
-                mat.SetFloat(ShadowBiasId, shadowBias);
+                DestroyImmediate(mat);
+                mat = null;
+                Build();
+                return;
             }
+            
+            SetupRaymarchProperties(mat);
+            if (debugMode != DebugModes.None)
+                SetupDebugProperties(mat);
         }
 
         private void OnDrawGizmos()
@@ -254,6 +285,12 @@ namespace Rayman
                 UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
                 UpdateNodeData<AABB>(bvh, ref nodeData);
             }
+        }
+        
+        private void SetupDebugProperties(Material mat)
+        {
+            mat.SetInt(DebugModeId, (int)debugMode);
+            mat.SetInt(BoundsDisplayThresholdId, boundsDisplayThreshold);
         }
         
         [ContextMenu("Reset Shape Buffer")]

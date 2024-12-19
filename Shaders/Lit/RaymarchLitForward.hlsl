@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_FORWARDLIT
-#define RAYMAN_FORWARDLIT
+﻿#ifndef RAYMAN_FORWARD
+#define RAYMAN_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
