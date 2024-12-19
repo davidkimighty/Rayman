@@ -45,7 +45,7 @@ Shader "Rayman/RaymarchShapeCustomTemplate"
 
         half4 _Color;
 
-        inline float Map(inout Ray ray)
+        inline float Map(const Ray ray)
 		{
 			_Color = half4(0.9, 0.6, 0.3, 1.0);
         	float s = length(ToObject(ray.hitPoint)) - 0.4;

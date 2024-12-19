@@ -2,7 +2,9 @@
 #define RAYMAN_FORWARDLIT
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct Attributes
@@ -39,12 +41,12 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-
+	
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
 	output.posCS = vertexInput.positionCS;
 	output.posWS = vertexInput.positionWS;
 	output.normalWS = TransformObjectToWorldNormal(input.normal);
-
+	
 	half3 vertexLight = VertexLighting(output.posWS, output.normalWS);
 	half fogFactor = ComputeFogFactor(output.posCS.z);
 	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
@@ -59,24 +61,33 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	float3 rayDir = normalize(input.posWS - GetCameraPosition());
-	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
-    if (!Raymarch(ray)) discard;
+	const float3 cameraPos = GetCameraPosition();
+	const float3 rayDir = normalize(input.posWS - cameraPos);
+	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
+	ray.travelDistance = length(ray.hitPoint - cameraPos);
 	
+	TraverseAabbTree(ray, hitIds, hitCount);
+	InsertionSort(hitIds, hitCount.x);
+	
+	if (!Raymarch(ray)) discard;
+
 	const float3 normal = GetNormal(ray.hitPoint);
-	const float depth = GetDepth(input.posWS);
-	const float3 viewDir = normalize(GetCameraPosition() - ray.hitPoint);
+	float lengthToSurface = length(input.posWS - cameraPos);
+	const float depth = ray.travelDistance - lengthToSurface < EPSILON ?
+		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
+	
+	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	const float fresnel = GetFresnelSchlick(viewDir, normal);
 	
 	half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
 	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
 	shade += RimLightShade(normal, viewDir);
 	
-	_Color.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-	_Color.rgb = MixFog(_Color.rgb, input.fogFactorAndVertexLight.x);
-	
+	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
+	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
+
 	FragOutput output;
-	output.color = _Color;
+	output.color = finalColor;
 	output.depth = depth;
 	return output;
 }

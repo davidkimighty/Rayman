@@ -1,4 +1,5 @@
 #pragma kernel CSMain
+#pragma target 5.0
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
@@ -8,18 +9,17 @@
 
 struct Shape
 {
-    int groupId;
-    int id;
     float4x4 transform;
     float3 lossyScale;
     int type;
     float3 size;
     float roundness;
-    int combination;
+    int operation;
     float smoothness;
-    float4 color;
-    float4 emissionColor;
+    half4 color;
+    half4 emissionColor;
     float emissionIntensity;
+    int distortionEnabled;
 };
 
 struct RaymarchResult
@@ -32,40 +32,38 @@ struct RaymarchResult
     float3 normal;
 };
 
-float screenWidth;
-float screenHeight;
-float4 cameraPosition;
-float4x4 cameraToWorld;
-float4x4 inverseProjectionMatrix;
-float4x4 viewProjectionMatrix;
+float _ScreenWidth;
+float _ScreenHeight;
+float4 _CameraPosition;
+float4x4 _CameraToWorld;
+float4x4 _InverseProjectionMatrix;
+float4x4 _ViewProjectionMatrix;
 
-int maxSteps;
-int maxDistance;
-int shapeCount;
-StructuredBuffer<Shape> shapeBuffer;
+int _MaxSteps;
+int _MaxDistance;
+StructuredBuffer<Shape> _ShapeBuffer;
+RWStructuredBuffer<RaymarchResult> _ResultBuffer;
 
-int hitCount = 0;
+int2 boundsCount; // x is leaf
 int hitIds[RAY_MAX_HITS];
-
-RWStructuredBuffer<RaymarchResult> resultBuffer;
 float4 color;
 
 inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
 {
     float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
     float blend = 0;
-    totalDist = CombineShapes(totalDist, dist, shape.combination, shape.smoothness, blend);
+    totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
     return blend;
 }
 
-inline float Map(inout Ray ray)
+inline float Map(const Ray ray)
 {
-    float totalDist = maxDistance;
-    float4 localColor = shapeBuffer[0].color;
+    float totalDist = _MaxDistance;
+    float4 localColor =  _ShapeBuffer[hitIds[0]].color;
     
-    for (int i = 0; i < shapeCount; i++)
+    for (int i = 0; i < boundsCount.x; i++)
     {
-        Shape shape = shapeBuffer[i];
+        Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
         float blend = BlendDistance(totalDist, pos, shape);
         localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
@@ -76,11 +74,11 @@ inline float Map(inout Ray ray)
 
 inline float NormalMap(const float3 rayPos)
 {
-    float totalDist = maxDistance;
+    float totalDist = _MaxDistance;
     
-    for (int i = 0; i < shapeCount; i++)
+    for (int i = 0; i < boundsCount.x; i++)
     {
-        Shape shape = shapeBuffer[i];
+        Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         BlendDistance(totalDist, pos, shape);
     }
@@ -90,17 +88,21 @@ inline float NormalMap(const float3 rayPos)
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    const float2 uv = float2(id.xy) / float2(screenWidth, screenHeight);
+    const float2 uv = float2(id.xy) / float2(_ScreenWidth, _ScreenHeight);
     const float2 ndc = uv * 2.0 - 1.0;
 
     const float4 posCS = float4(ndc, 0.0, 1.0);
-    float4 posVS = mul(inverseProjectionMatrix, posCS);
+    float4 posVS = mul(_InverseProjectionMatrix, posCS);
     posVS /= posVS.w;
     
-    float4 posWS = mul(cameraToWorld, posVS);
-    float3 rayDirWS = normalize(posWS.xyz - cameraPosition.xyz);
-    Ray ray = CreateRay(posWS.xyz, rayDirWS, maxSteps, maxDistance);
+    float4 posWS = mul(_CameraToWorld, posVS);
+    float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
+    Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
+    ray.travelDistance = length(ray.hitPoint - _CameraPosition.xyz);
 
+    TraverseAabbTree(ray, hitIds, boundsCount);
+    InsertionSort(hitIds, boundsCount.x);
+    
     Raymarch(ray);
     
     RaymarchResult result = (RaymarchResult)0;
@@ -111,6 +113,6 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     result.color = color;
     result.normal = GetNormal(ray.hitPoint);
     
-    uint index = id.y * screenWidth + id.x;
-    resultBuffer[index] = result;
+    uint index = id.y * _ScreenWidth + id.x;
+    _ResultBuffer[index] = result;
 }

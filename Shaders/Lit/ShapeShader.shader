@@ -11,7 +11,7 @@ Shader "Rayman/RaymarchShape"
     	
         [Header(Raymarching)][Space]
     	_MaxSteps ("MaxSteps", Int) = 128
-    	_MaxDist ("MaxDist", Float) = 100.0
+    	_MaxDistance ("MaxDist", Float) = 100.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -27,27 +27,24 @@ Shader "Rayman/RaymarchShape"
             "RenderPipeline" = "UniversalPipeline"
         	"UniversalMaterialType" = "Lit"
         	"IgnoreProjector" = "True"
+        	"DisableBatching" = "True"
         }
-        LOD 200
+        LOD 100
         
         HLSLINCLUDE
-        #pragma shader_feature _OPERATION_FEATURE
+        #pragma shader_feature _DISTORTION_FEATURE
         
-        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
-		
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
-		
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Distortion.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+        
 		struct Shape
 		{
 			float4x4 transform;
-        	float3 lossyScale;
+			float3 lossyScale;
 			int type;
 			float3 size;
 			float roundness;
@@ -56,7 +53,7 @@ Shader "Rayman/RaymarchShape"
 			half4 color;
 			half4 emissionColor;
 			float emissionIntensity;
-			int operationEnabled;
+			int distortionEnabled;
 		};
 
 		struct Distortion
@@ -67,66 +64,65 @@ Shader "Rayman/RaymarchShape"
 		};
 
         int _MaxSteps;
-		float _MaxDist;
-		int _ShapeCount;
+		float _MaxDistance;
         int _DistortionCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
 		StructuredBuffer<Distortion> _DistortionBuffer;
-        float4 _Color;
-		
-		inline void ApplyDistortionPositionById(inout float3 pos, const int id)
-		{
-			for (int i = 0; i < _DistortionCount; i++)
-			{
-				Distortion o = _DistortionBuffer[i];
-				if (o.id != id) continue;
-		                
-				pos = ApplyDistortion(pos, o.type, o.amount);
-				break;
-			}
-		}
+        
+        int2 hitCount; // x is leaf
+		int hitIds[RAY_MAX_HITS];
+		float4 finalColor;
 
-		inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
+        inline void ApplyDistortionPositionById(inout float3 pos, const int id)
 		{
-			float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
-			float blend = 0;
-			totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-			return blend;
+		    for (int i = 0; i < _DistortionCount; i++)
+		    {
+		        Distortion o = _DistortionBuffer[i];
+		        if (o.id != id) continue;
+				                
+		        pos = ApplyDistortion(pos, o.type, o.amount);
+		        break;
+		    }
 		}
-
-		inline float Map(inout Ray ray)
+        
+		inline float Map(const Ray ray)
 		{
-			float totalDist = _MaxDist;
-			_Color = _ShapeBuffer[0].color;
-			for (int i = 0; i < _ShapeCount; i++)
+			float totalDist = _MaxDistance;
+			finalColor = _ShapeBuffer[hitIds[0]].color;
+			for (int i = 0; i < hitCount.x; i++)
 			{
-				Shape shape = _ShapeBuffer[i];
+				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
-#ifdef _OPERATION_FEATURE
-				if (shape.operationEnabled > 0)
-					ApplyOperationPositionById(pos, i);
+#ifdef _DISTORTION_FEATURE
+				if (shape.distortionEnabled > 0)
+					ApplyDistortionPositionById(pos, i);
 #endif
-				float blend = BlendDistance(totalDist, pos, shape);
-				_Color = lerp(_Color, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+				float blend = 0;
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
 			}
 			return totalDist;
 		}
 
 		inline float NormalMap(const float3 rayPos)
 		{
-			float totalDist = _MaxDist;
-			for (int i = 0; i < _ShapeCount; i++)
+			float totalDist = _MaxDistance;
+			for (int i = 0; i < hitCount.x; i++)
 			{
-				Shape shape = _ShapeBuffer[i];
+				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
-#ifdef _OPERATION_FEATURE
-				if (shape.operationEnabled > 0)
-					ApplyOperationPositionById(pos, i);
+#ifdef _DISTORTION_FEATURE
+				if (shape.distortionEnabled > 0)
+					ApplyDistortionPositionById(pos, i);
 #endif
-				BlendDistance(totalDist, pos, shape);
+				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+				float blend = 0;
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 			}
 			return totalDist;
 		}
+        
         ENDHLSL
 
         Pass
@@ -142,11 +138,7 @@ Shader "Rayman/RaymarchShape"
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 2.0
-			
-			#pragma vertex Vert
-            #pragma fragment Frag
-			
+			#pragma target 5.0
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
@@ -171,11 +163,57 @@ Shader "Rayman/RaymarchShape"
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
 		    
             #pragma multi_compile_instancing
+			#pragma multi_compile _ DOTS_INSTANCING_ON
             #pragma instancing_options renderinglayer
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/ShapeForwardLit.hlsl"
+			#pragma vertex Vert
+            #pragma fragment Frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeForwardLit.hlsl"
             ENDHLSL
 		}
+
+//	    Pass
+//		{
+//			Name "Depth Only"
+//		    Tags { "LightMode" = "DepthOnly" }
+//
+//		    ZTest LEqual
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 5.0
+//		    #pragma shader_feature _ALPHATEST_ON
+//		    #pragma multi_compile_instancing
+//
+//		    #pragma vertex Vert
+//		    #pragma fragment Frag
+//		    
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeDepthOnly.hlsl"
+//		    ENDHLSL
+//		}
+
+//       Pass
+//       {
+//       	Name "Depth Normals"
+//		    Tags { "LightMode" = "DepthNormals" }
+//
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 5.0
+//		    #pragma shader_feature _ALPHATEST_ON
+//		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+//		    #pragma multi_compile_instancing
+//
+//			#pragma vertex Vert
+//		    #pragma fragment Frag
+//
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeDepthNormals.hlsl"
+//		    ENDHLSL
+//       }
 
 		Pass
 		{
@@ -191,16 +229,15 @@ Shader "Rayman/RaymarchShape"
 			Cull [_Cull]
 
 			HLSLPROGRAM
-			#pragma target 2.0
-
-		    #pragma vertex Vert
-		    #pragma fragment Frag
-
+			#pragma target 5.0
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/ShapeShadowCaster.hlsl"
+			#pragma vertex Vert
+		    #pragma fragment Frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ShapeShadowCaster.hlsl"
 			ENDHLSL
 		}
     }

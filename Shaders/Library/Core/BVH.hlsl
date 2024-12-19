@@ -3,7 +3,7 @@
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/AABB.hlsl"
 
-#define STACK_SIZE 128
+#define STACK_SIZE 64
 
 struct NodeAABB
 {
@@ -15,28 +15,29 @@ struct NodeAABB
 };
 
 #ifndef NODE_BUFFER_DEFINED
-StructuredBuffer<NodeAABB> nodeBuffer;
+StructuredBuffer<NodeAABB> _NodeBuffer;
 #define NODE_BUFFER_DEFINED
 #endif
 
-inline void TraverseAabbTree(const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int numHits)
+inline void TraverseAabbTree(const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 count)
 {
     int stack[STACK_SIZE];
-    int ptr = numHits = 0;
-    stack[ptr++] = 0;
+    int ptr = count = 0; // count.x is leaf
+    stack[ptr] = 0;
 
-    while (ptr > 0)
+    while (ptr >= 0)
     {
-        int nodeIndex = stack[--ptr];
+        int nodeIndex = stack[ptr--];
         if (nodeIndex < 0) continue;
 
-        const NodeAABB node = nodeBuffer[nodeIndex];
-        if (RayIntersect(ray, node.bounds) > ray.maxDistance) continue;
+        const NodeAABB node = _NodeBuffer[nodeIndex];
+        float dstFar, dstNear;
+        if (!RayIntersect(ray, node.bounds, dstNear, dstFar)) continue;
         
-        if (node.left < 0)
+        if (node.left < 0) // leaf
         {
-            hitIds[numHits++] = node.id;
-            if (numHits >= RAY_MAX_HITS) break;
+            hitIds[count.x++] = node.id;
+            if (count.x >= RAY_MAX_HITS) break;
         }
         else
         {
@@ -44,10 +45,13 @@ inline void TraverseAabbTree(const Ray ray, inout int hitIds[RAY_MAX_HITS], inou
             stack[ptr] = node.left;
             ptr = min(ptr + 1, STACK_SIZE - 1);
             stack[ptr] = node.right;
+            count.y += 2;
         }
     }
+}
 
-    // perform insertion sort
+inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
+{
     for (int i = 1; i < numHits; i++)
     {
         int key = hitIds[i];

@@ -1,10 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-#if UNITY_EDITOR
-using UnityEditor;
-using UnityEditor.Build;
-#endif
 using UnityEngine;
 
 namespace Rayman
@@ -12,39 +7,24 @@ namespace Rayman
     //[ExecuteInEditMode]
     public class ComputeRaymarchManager : MonoBehaviour
     {
-#if UNITY_EDITOR
-        public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
-#endif
-        public class BoundingVolume
-        {
-            public RaymarchShape Source;
-            public AABB Bounds;
-
-            public BoundingVolume(RaymarchShape shape, AABB aabb)
-            {
-                Source = shape;
-                Bounds = aabb;
-            }
-        }
-        
         [SerializeField] private RaymarchFeature raymarchFeature;
         [SerializeField] private bool buildOnAwake;
-        [SerializeField] private float boundsBuffSize;
-        [SerializeField] private int boundsSyncGroupSize = 100;
-        [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
+        [SerializeField] private float boundsExpandSize;
+        [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
 #if UNITY_EDITOR
-        [SerializeField] private DebugModes debugMode;
+        [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
         [SerializeField] private bool showLabel;
+        [SerializeField] private int boundsDisplayThreshold = 50;
 #endif
         
-        private BVH<AABB> bvh;
-        private List<BoundingVolume> boundingVolumes;
-        private ComputeShapeData[] shapeData;
-        private NodeData[] nodeData; 
-        private IEnumerator syncBounds;
+        private ISpatialStructure<AABB> bvh;
+        private List<BoundingVolume<AABB>> boundingVolumes;
+        private ShapeData[] shapeData;
+        private NodeData<AABB>[] nodeData;
 
-        public BVH<AABB> SpatialStructure => bvh;
+        public ISpatialStructure<AABB> SpatialStructure => bvh;
+        public int NodeCount => nodeData?.Length ?? 0;
 
         private void Awake()
         {
@@ -54,7 +34,7 @@ namespace Rayman
                 raymarchFeature.SetActive(true);
             
 #if RAYMARCH_DEBUG
-            raymarchFeature.SetDebugMode((int)debugMode);
+            raymarchFeature.SetDebugMode(debugMode);
 #endif
             if (buildOnAwake)
             {
@@ -75,63 +55,67 @@ namespace Rayman
             raymarchFeature.OnRequestNodeData -= ProvideNodeData;
         }
 
+        private void Update()
+        {
+            RaymarchRenderer.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes, boundsExpandSize);
+            RaymarchRenderer.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
+            RaymarchRenderer.UpdateNodeData<AABB>(bvh, ref nodeData);
+        }
+
+        [ContextMenu("Build")]
         public bool Build()
         {
-            if (raymarchRenderers.Count == 0) return false;
+            if (raymarchGroups.Count == 0) return false;
             
             bvh = new BVH<AABB>();
-            boundingVolumes = new List<BoundingVolume>();
+            boundingVolumes = new List<BoundingVolume<AABB>>();
             int shapeCount = 0;
             
-            foreach (ComputeRaymarchRenderer raymarchRenderer in raymarchRenderers)
+            foreach (RaymarchGroup group in raymarchGroups)
             {
-                if (raymarchRenderer == null || !raymarchRenderer.gameObject.activeInHierarchy) continue;
+                if (group == null || !group.gameObject.activeInHierarchy) continue;
                 
-                foreach (RaymarchShape shape in raymarchRenderer.Shapes)
+                foreach (RaymarchShape shape in group.Shapes)
                 {
-                    if (shape == null) continue;
+                    if (shape == null || !shape.gameObject.activeInHierarchy) continue;
                     
                     AABB bounds = shape.GetBounds<AABB>();
                     bvh.AddLeafNode(shapeCount, bounds, shape);
-                    boundingVolumes.Add(new BoundingVolume(shape, bounds));
+                    boundingVolumes.Add(new BoundingVolume<AABB>(shape, bounds));
                     shapeCount++;
                 }
             }
-            shapeData = new ComputeShapeData[shapeCount];
-            nodeData = new NodeData[SpatialNode<AABB>.GetNodesCount(bvh.Root)];
-            
-            if (syncBounds != null)
-                StopCoroutine(syncBounds);
-            syncBounds = SyncBoundingVolumes();
-            StartCoroutine(syncBounds);
+            shapeData = new ShapeData[shapeCount];
+            nodeData = new NodeData<AABB>[SpatialNode<AABB>.GetNodesCount(bvh.Root)];
             return true;
         }
 
-        public void AddRendererSafe(ComputeRaymarchRenderer renderer)
+        public void AddRendererSafe(RaymarchGroup group)
         {
-            if (raymarchRenderers.Contains(renderer) || renderer.Shapes.Count == 0) return;
+            if (raymarchGroups.Contains(group) || group.Shapes.Count == 0) return;
                 
-            raymarchRenderers.Add(renderer);
+            raymarchGroups.Add(group);
             int id = boundingVolumes.Count;
             
-            foreach (RaymarchShape shape in renderer.Shapes)
+            foreach (RaymarchShape shape in group.Shapes)
             {
                 AABB bounds = shape.GetBounds<AABB>();
                 bvh.AddLeafNode(id, bounds, shape);
-                boundingVolumes.Add(new BoundingVolume(shape, bounds));
+                boundingVolumes.Add(new BoundingVolume<AABB>(shape, bounds));
                 id++;
             }
             
             int count = boundingVolumes.Count;
             Array.Resize(ref shapeData, count);
+            Array.Resize(ref nodeData, SpatialNode<AABB>.GetNodesCount(bvh.Root));
         }
         
-        public void RemoveRenderer(ComputeRaymarchRenderer renderer)
+        public void RemoveRenderer(RaymarchGroup group)
         {
-            if (!raymarchRenderers.Contains(renderer)) return;
+            if (!raymarchGroups.Contains(group)) return;
                 
-            raymarchRenderers.Remove(renderer);
-            foreach (RaymarchShape shape in renderer.Shapes)
+            raymarchGroups.Remove(group);
+            foreach (RaymarchShape shape in group.Shapes)
             {
                 bvh.RemoveLeafNode(shape);
                 int index = boundingVolumes.FindIndex(g => g.Source == shape);
@@ -142,99 +126,31 @@ namespace Rayman
 
             int count = boundingVolumes.Count;
             Array.Resize(ref shapeData, count);
+            Array.Resize(ref nodeData, SpatialNode<AABB>.GetNodesCount(bvh.Root));
         }
 
-        private ComputeShapeData[] ProvideShapeData()
-        {
-            if (boundingVolumes == null) return null;
-            
-            int groupId = 0;
-            RaymarchShape currentSource = boundingVolumes[0].Source;
-            
-            for (int i = 0; i < boundingVolumes.Count; i++)
-            {
-                BoundingVolume gd = boundingVolumes[i];
-                if (gd == null) continue;
+        private ShapeData[] ProvideShapeData() => shapeData;
 
-                if (currentSource != gd.Source)
-                {
-                    currentSource = gd.Source;
-                    groupId++;
-                }
-                Transform sourceTransform = gd.Source.transform;
-                RaymarchShape.Setting settings = gd.Source.Settings;
-                shapeData[i] = new ComputeShapeData(groupId, i, sourceTransform, settings);
-            }
-            return shapeData;
-        }
-
-        private NodeData[] ProvideNodeData()
-        {
-            if (bvh == null) return null;
-            
-            return nodeData;
-        }
-
-        private IEnumerator SyncBoundingVolumes()
-        {
-            if (boundingVolumes == null) yield break;
-
-            while (true)
-            {
-                int syncCount = 0;
-                foreach (BoundingVolume gd in boundingVolumes)
-                {
-                    if (gd == null) continue;
-                
-                    AABB buffBounds = gd.Bounds.Expand(boundsBuffSize);
-                    AABB newBounds = gd.Source.GetBounds<AABB>();
-                    if (buffBounds.Contains(newBounds)) continue;
-                
-                    gd.Bounds = newBounds;
-                    bvh.UpdateBounds(gd.Source, newBounds);
-                
-                    syncCount++;
-                    if (syncCount >= boundsSyncGroupSize)
-                    {
-                        syncCount = 0;
-                        yield return null;
-                    }
-                }
-                yield return null;
-            }
-        }
-
+        private NodeData<AABB>[] ProvideNodeData() => nodeData;
+        
 #if UNITY_EDITOR
         private void OnValidate()
         {
             if (raymarchFeature == null)
             {
-                var renderPipeline = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
-                if (renderPipeline == null)
-                {
-                    Debug.LogError("Universal Render Pipeline not found.");
-                    return;
-                }
-
-                ScriptableRenderer scriptableRenderer = renderPipeline.GetRenderer(0);
-                PropertyInfo property = typeof(ScriptableRenderer).GetProperty("rendererFeatures",
-                    BindingFlags.NonPublic | BindingFlags.Instance);
-                var features = property.GetValue(scriptableRenderer) as List<ScriptableRendererFeature>;
-
-                foreach (var feature in features)
-                {
-                    if (feature.GetType() == typeof(RaymarchFeature))
-                    {
-                        raymarchFeature = feature as RaymarchFeature;
-                        break;
-                    }
-                }
+                raymarchFeature = Utilities.GetRendererFeature<RaymarchFeature>();
+            }
+            else
+            {
+#if RAYMARCH_DEBUG
+                raymarchFeature.SetBoundsDisplayThreshold(boundsDisplayThreshold);
+#endif
             }
             
             if (debugMode != DebugModes.None)
-                AddDefineSymbol(RaymarchFeature.DebugKeyword);
+                Utilities.AddDefineSymbol(RaymarchRenderer.DebugKeyword);
             else
-                RemoveDefineSymbol(RaymarchFeature.DebugKeyword);
+                Utilities.RemoveDefineSymbol(RaymarchRenderer.DebugKeyword);
         }
         
         private void OnDrawGizmos()
@@ -244,29 +160,10 @@ namespace Rayman
             bvh.DrawStructure(showLabel);
         }
 
-        public static void AddDefineSymbol(string symbol)
+        [ContextMenu("Find All Groups")]
+        private void FindAllGroups()
         {
-            string currentSymbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
-            if (!currentSymbols.Contains(symbol))
-                PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, symbol);
-        }
-
-        public static void RemoveDefineSymbol(string symbol)
-        {
-            string currentSymbols = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone);
-            if (currentSymbols.Contains(symbol))
-            {
-                PlayerSettings.SetScriptingDefineSymbols(
-                    NamedBuildTarget.Standalone, 
-                    currentSymbols.Replace(symbol + ";", "").Replace(symbol, "")
-                );
-            }
-        }
-        
-        [ContextMenu("Find All Renderers")]
-        private void FindAllRenderers()
-        {
-            raymarchRenderers = Utilities.GetChildrenByHierarchical<ComputeRaymarchRenderer>();
+            raymarchGroups = Utilities.GetChildrenByHierarchical<RaymarchGroup>();
         }
 #endif
     }

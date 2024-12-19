@@ -111,7 +111,7 @@ MonoBehaviour:
     Offset: {x: 0.5, y: 0.5, z: 0.5}
     Roundness: 0
     Operation: 0
-    Smoothness: 0
+    Smoothness: 0.1
     Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0

@@ -31,9 +31,9 @@ output frag (v2f i)
 {
     float2 screenPos = GetScreenPosition(i.posCS);
     uint2 pixelCoord = uint2(screenPos * _ScreenParams.xy);
-    RaymarchResult result = resultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
+    RaymarchResult result = _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
 				
-    if (result.lastHitDistance > 0.001) discard;
+    if (result.lastHitDistance > EPSILON) discard;
 
     output o;
     o.color = o.depth = GetDepth(i.posWS);

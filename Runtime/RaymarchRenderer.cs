@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -6,200 +5,328 @@ using UnityEngine;
 
 namespace Rayman
 {
+#if UNITY_EDITOR
+    public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
+#endif
     [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
-        private static readonly int ShapeCountId = Shader.PropertyToID("_ShapeCount");
-        private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
-        private static readonly int DistortionCountId = Shader.PropertyToID("_DistortionCount");
-        private static readonly int DistortionBufferId = Shader.PropertyToID("_DistortionBuffer");
+        public const string DebugKeyword = "RAYMARCH_DEBUG";
         
-        private static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
-        private static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDist");
-        private static readonly int ShadowBiasId = Shader.PropertyToID("_ShadowBiasVal");
-        
-        [SerializeField] private Renderer _renderer;
-        [SerializeField] private Material _matRef;
-        [SerializeField] private RaymarchSetting _setting;
-        [SerializeField] private List<RaymarchShape> _shapes = new();
-        
-        private Material _mat;
-        private ComputeBuffer _shapeBuffer;
-        private ComputeBuffer _distortionBuffer;
-        private ShapeData[] _shapeData;
-        private DistortionData[] _distortionData;
+        public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
+        public static readonly int DistortionCountId = Shader.PropertyToID("_DistortionCount");
+        public static readonly int DistortionBufferId = Shader.PropertyToID("_DistortionBuffer");
+        public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
+        public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
+        public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
+        public static readonly int ShadowBiasId = Shader.PropertyToID("_ShadowBiasVal");
 
+        [Header("Raymarch Surface Shader Settings")]
+        [SerializeField] private Renderer mainRenderer;
+        [SerializeField] private Material matRef;
+        [SerializeField] private int maxSteps = 64;
+        [SerializeField] private float maxDistance = 100f;
+        [SerializeField] private float shadowBias = 0.1f;
+        [SerializeField] private float boundsExpandSize;
+        [SerializeField] private List<RaymarchShape> shapes = new();
+#if UNITY_EDITOR
+        [Header("Debugging")]
+        [SerializeField] private DebugModes debugMode = DebugModes.None;
+        [SerializeField] private bool drawGizmos;
+        [SerializeField] private bool showLabel;
+        [SerializeField] private int boundsDisplayThreshold = 1300;
+#endif
+        private Material mat;
+        private GraphicsBuffer shapeBuffer;
+        private GraphicsBuffer distortionBuffer;
+        private GraphicsBuffer nodeBuffer;
+        private ShapeData[] shapeData;
+        private DistortionData[] distortionData;
+        private NodeData<AABB>[] nodeData;
+        private ISpatialStructure<AABB> bvh;
+        private List<BoundingVolume<AABB>> boundingVolumes;
+
+        public List<RaymarchShape> Shapes => shapes;
+        
         private void Awake()
         {
-            _mat = new Material(_matRef);
-            _mat.SetInt(MaxStepsId, _setting.MaxSteps);
-            _mat.SetFloat(MaxDistanceId, _setting.MaxDistance);
-            _mat.SetFloat(ShadowBiasId, _setting.ShadowBias);
-            _renderer.material = _mat;
-            
-            SetupShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
+            Build();
         }
 
         private void Update()
         {
-            UpdateShapeData();
-            UpdateOperationData();
+            SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes, boundsExpandSize);
+            UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
+            UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
+            UpdateNodeData<AABB>(bvh, ref nodeData);
+            
+            shapeBuffer?.SetData(shapeData);
+            distortionBuffer?.SetData(distortionData);
+            nodeBuffer?.SetData(nodeData);
         }
 
-        private void SetupShapeBuffer(Material mat, int count)
+        public static void SyncBoundingVolumes<T>(ref ISpatialStructure<T> spatialStructure,
+            ref List<BoundingVolume<T>> boundingVolumes, float boundsExpandSize = 0f) where T : struct, IBounds<T>
         {
-            _shapeBuffer?.Release();
-            if (count == 0) return;
-            
-            _shapeBuffer = new ComputeBuffer(count, ShapeData.Stride);
-            _shapeData = new ShapeData[count];
-        
-            mat.SetInt(ShapeCountId, count);
-            mat.SetBuffer(ShapeBufferId, _shapeBuffer);
-        }
+            if (boundingVolumes == null) return;
 
-        private void InitOperationBuffer(Material mat, int count)
-        {
-            _distortionBuffer?.Release();
-            if (count == 0) return;
-            
-            _distortionBuffer = new ComputeBuffer(count, DistortionData.Stride);
-            _distortionData = new DistortionData[count];
-            
-            mat.SetInt(DistortionCountId, count);
-            mat.SetBuffer(DistortionBufferId, _distortionBuffer);
-            mat.EnableKeyword("_OPERATION_FEATURE");
-        }
-
-        private void UpdateShapeData()
-        {
-            if (_shapeBuffer == null || _shapeData == null) return;
-            
-            for (int i = 0; i < _shapeData.Length; i++)
+            foreach (BoundingVolume<T> volume in boundingVolumes)
             {
-                RaymarchShape shape = _shapes[i];
-                if (shape == null) continue;
+                T buffBounds = volume.Bounds.Expand(boundsExpandSize);
+                T newBounds = volume.Source.GetBounds<T>();
+                if (buffBounds.Contains(newBounds)) continue;
                 
-                _shapeData[i] = new ShapeData
-                {
-                    Transform = shape.transform.worldToLocalMatrix,
-                    LossyScale = shape.transform.lossyScale,
-                    Type = (int)shape.Settings.Shape,
-                    Size = shape.Settings.Size,
-                    Roundness = shape.Settings.Roundness,
-                    Combination = (int)shape.Settings.Operation,
-                    Smoothness = shape.Settings.Smoothness,
-                    Color = shape.Settings.Color,
-                    EmissionColor = shape.Settings.EmissionColor,
-                    EmissionIntensity = shape.Settings.EmissionIntensity,
-                    DistortionEnabled = shape.Settings.Distortion.Enabled ? 1 : 0
-                };
+                volume.Bounds = newBounds;
+                spatialStructure.UpdateBounds(volume.Source, newBounds);
             }
-            _shapeBuffer.SetData(_shapeData);
         }
-
-        private void UpdateOperationData()
+        
+        public static void UpdateShapeData<T>(List<BoundingVolume<T>> boundingVolumes,
+            ref ShapeData[] shapeData) where T : struct, IBounds<T>
         {
-            if (_distortionBuffer == null || _distortionData == null) return;
+            if (shapeData == null) return;
+            
+            for (int i = 0; i < shapeData.Length; i++)
+            {
+                RaymarchShape shape = boundingVolumes[i].Source;
+                if (shape == null) continue;
+
+                Transform sourceTransform = shape.transform;
+                RaymarchShape.Setting setting = shape.Settings;
+                shapeData[i] = new ShapeData(sourceTransform, setting);
+            }
+        }
+        
+        public static void UpdateOperationData<T>(List<BoundingVolume<T>> boundingVolumes,
+            ref DistortionData[] distortionData) where T : struct, IBounds<T>
+        {
+            if (distortionData == null) return;
 
             int j = 0;
-            for (int i = 0; i < _shapes.Count(); i++)
+            for (int i = 0; i < boundingVolumes.Count; i++)
             {
-                RaymarchShape.Distortion operation = _shapes[i].Settings.Distortion;
-                if (!operation.Enabled) continue;
-                
-                _distortionData[j] = new DistortionData
-                {
-                    Id = i,
-                    Type = (int)operation.Type,
-                    Amount = operation.Amount
-                };
+                RaymarchShape.Distortion distortion = boundingVolumes[i].Source.Settings.Distortion;
+                if (!distortion.Enabled) continue;
+
+                distortionData[j] = new DistortionData(i, (int)distortion.Type, distortion.Amount);
                 j++;
             }
-            _distortionBuffer.SetData(_distortionData);
+        }
+        
+        public static void UpdateNodeData<T>(ISpatialStructure<T> spatialStructure,
+            ref NodeData<T>[] nodeData) where T : struct, IBounds<T>
+        {
+            if (spatialStructure == null) return;
+
+            int index = 0;
+            Queue<(SpatialNode<T> node, int parentIndex)> queue = new();
+            queue.Enqueue((spatialStructure.Root, -1));
+
+            while (queue.Count > 0)
+            {
+                (SpatialNode<T> current, int parentIndex) = queue.Dequeue();
+                NodeData<T> data = new()
+                {
+                    Id = current.Id,
+                    Bounds = current.Bounds,
+                    Parent = parentIndex,
+                    Left = -1,
+                    Right = -1,
+                };
+
+                if (current.LeftChild != null)
+                {
+                    queue.Enqueue((current.LeftChild, index));
+                    data.Left = index + queue.Count;
+                }
+                if (current.RightChild != null)
+                {
+                    queue.Enqueue((current.RightChild, index));
+                    data.Right = index + queue.Count;
+                }
+                nodeData[index] = data;
+                index++;
+            }
+        }
+
+        public void Build()
+        {
+            if (mat == null && matRef != null)
+            {
+                mat = new Material(matRef);
+                mat.SetInt(MaxStepsId, maxSteps);
+                mat.SetFloat(MaxDistanceId, maxDistance);
+                mat.SetFloat(ShadowBiasId, shadowBias);
+                mainRenderer.material = mat;
+            }
+            if (mat == null) return;
+            
+            SetupShapeBuffer(mat);
+            SetupDistortionBuffer(mat);
+            
+            SetupSpatialStructure();
+            SetupNodeBuffer(mat);
+        }
+
+        private void SetupShapeBuffer(Material mat)
+        {
+            shapeBuffer?.Release();
+            int count = shapes.Count;
+            if (count == 0) return;
+            
+            shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(ShapeData)));
+            shapeData = new ShapeData[count];
+        
+            mat.SetBuffer(ShapeBufferId, shapeBuffer);
+        }
+
+        private void SetupDistortionBuffer(Material mat)
+        {
+            distortionBuffer?.Release();
+            int count = shapes.Count(s => s.Settings.Distortion.Enabled);
+            if (count == 0) return;
+            
+            distortionBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(DistortionData)));
+            distortionData = new DistortionData[count];
+            
+            mat.SetInt(DistortionCountId, count);
+            mat.SetBuffer(DistortionBufferId, distortionBuffer);
+            mat.EnableKeyword("_DISTORTION_FEATURE");
+        }
+
+        private void SetupNodeBuffer(Material mat)
+        {
+            if (bvh == null) return;
+            
+            nodeBuffer?.Release();
+            int count = SpatialNode<AABB>.GetNodesCount(bvh.Root);
+            if (count == 0) return;
+
+            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(NodeData<AABB>)));
+            nodeData = new NodeData<AABB>[count];
+            mat.SetBuffer(NodeBufferId, nodeBuffer);
+        }
+
+        private void SetupSpatialStructure()
+        {
+            bvh = new BVH<AABB>();
+            boundingVolumes = new List<BoundingVolume<AABB>>();
+            int shapeCount = 0;
+            
+            foreach (RaymarchShape shape in shapes)
+            {
+                if (shape == null || !shape.gameObject.activeInHierarchy) continue;
+                    
+                AABB bounds = shape.GetBounds<AABB>();
+                bvh.AddLeafNode(shapeCount, bounds, shape);
+                boundingVolumes.Add(new BoundingVolume<AABB>(shape, bounds));
+                shapeCount++;
+            }
         }
         
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (_mat != null)
+            if (mainRenderer == null)
+                mainRenderer = GetComponent<Renderer>();
+            
+            if (mat != null)
             {
-                _mat.SetInt(MaxStepsId, _setting.MaxSteps);
-                _mat.SetFloat(MaxDistanceId, _setting.MaxDistance);
-                _mat.SetFloat(ShadowBiasId, _setting.ShadowBias);
+                mat.SetInt(MaxStepsId, maxSteps);
+                mat.SetFloat(MaxDistanceId, maxDistance);
+                mat.SetFloat(ShadowBiasId, shadowBias);
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (bvh != null && drawGizmos)
+                bvh.DrawStructure(showLabel);
         }
 
         private void OnGUI()
         {
-            if (_shapeData == null)
+            if (boundingVolumes == null)
             {
-                if (_mat == null)
-                {
-                    _mat = new Material(_matRef);
-                    _renderer.material = _mat;
-                }
-                
-                SetupShapeBuffer(_mat, _shapes.Count);
-                InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
-                
-                UpdateShapeData();
-                UpdateOperationData();
+                Build();
+                SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes, boundsExpandSize);
+                UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
+                UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
+                UpdateNodeData<AABB>(bvh, ref nodeData);
             }
         }
         
         [ContextMenu("Reset Shape Buffer")]
         public void ResetShapeBuffer()
         {
-            SetupShapeBuffer(_mat, _shapes.Count);
-            InitOperationBuffer(_mat, _shapes.Count(s => s.Settings.Distortion.Enabled));
-                
-            UpdateShapeData();
-            UpdateOperationData();
+            Build();
+            SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes, boundsExpandSize);
+            UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
+            UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
+            UpdateNodeData<AABB>(bvh, ref nodeData);
         }
 
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
         {
-            _shapes = Utilities.GetChildrenByHierarchical<RaymarchShape>(transform);
+            shapes = Utilities.GetChildrenByHierarchical<RaymarchShape>(transform);
         }
 #endif
-    }
-    
-    [Serializable]
-    public class RaymarchSetting
-    {
-        public int MaxSteps = 64;
-        public float MaxDistance = 100f;
-        public float ShadowBias = 0.1f;
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
-        public const int Stride = sizeof(float) * 33 + sizeof(int) * 3;
-
         public Matrix4x4 Transform;
         public Vector3 LossyScale;
         public int Type;
         public Vector3 Size;
         public float Roundness;
-        public int Combination;
+        public int Operation;
         public float Smoothness;
         public Vector4 Color;
         public Vector4 EmissionColor;
         public float EmissionIntensity;
         public int DistortionEnabled;
+
+        public ShapeData(Transform sourceTransform, RaymarchShape.Setting setting)
+        {
+            Transform = sourceTransform.worldToLocalMatrix;
+            LossyScale = sourceTransform.lossyScale;
+            Type = (int)setting.Shape;
+            Size = setting.Size;
+            Roundness = setting.Roundness;
+            Operation = (int)setting.Operation;
+            Smoothness = setting.Smoothness;
+            Color = setting.Color;
+            EmissionColor = setting.EmissionColor;
+            EmissionIntensity = setting.EmissionIntensity;
+            DistortionEnabled = setting.Distortion.Enabled ? 1 : 0;
+        }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct DistortionData
     {
-        public const int Stride = sizeof(float) + sizeof(int) * 2;
-
         public int Id;
         public int Type;
         public float Amount;
+
+        public DistortionData(int id, int type, float amount)
+        {
+            Id = id;
+            Type = type;
+            Amount = amount;
+        }
+    }
+    
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct NodeData<T> where T : struct, IBounds<T>
+    {
+        public int Id;
+        public T Bounds;
+        public int Parent;
+        public int Left;
+        public int Right;
     }
 }

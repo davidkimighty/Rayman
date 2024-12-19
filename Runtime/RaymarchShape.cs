@@ -133,4 +133,16 @@ namespace Rayman
             return new AABB(min, max);
         }
     }
+    
+    public class BoundingVolume<T> where T : struct, IBounds<T>
+    {
+        public RaymarchShape Source;
+        public T Bounds;
+
+        public BoundingVolume(RaymarchShape shape, T bounds)
+        {
+            Source = shape;
+            Bounds = bounds;
+        }
+    }
 }

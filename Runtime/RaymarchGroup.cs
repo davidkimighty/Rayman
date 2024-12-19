@@ -4,12 +4,12 @@ using UnityEngine;
 namespace Rayman
 {
     [ExecuteInEditMode]
-    public class ComputeRaymarchRenderer : MonoBehaviour
+    public class RaymarchGroup : MonoBehaviour
     {
         [SerializeField] private List<RaymarchShape> shapes = new();
-
+        
         public List<RaymarchShape> Shapes => shapes;
-
+        
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
@@ -19,4 +19,3 @@ namespace Rayman
 #endif
     }
 }
-

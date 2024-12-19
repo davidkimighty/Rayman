@@ -48,8 +48,6 @@ Shader "Rayman/RaymarchSphereLit"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
-        static const float EPSILON = 0.001;
-        
 		float Circle(float3 pos)
 		{
         	float r = 0.5;

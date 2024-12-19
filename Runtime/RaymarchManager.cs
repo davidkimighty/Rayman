@@ -14,13 +14,6 @@ namespace Rayman
         {
             raymarchRenderers = Utilities.GetChildrenByHierarchical<RaymarchRenderer>();
         }
-
-        [ContextMenu("Reset All Shape Buffer")]
-        private void ResetAllShapeBuffer()
-        {
-            foreach (RaymarchRenderer raymarchRenderer in raymarchRenderers)
-                raymarchRenderer.ResetShapeBuffer();
-        }
 #endif
     }
 }

@@ -28,6 +28,7 @@ Shader "Rayman/ComputeRaymarchShape"
         
         HLSLINCLUDE
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
         
         struct RaymarchResult
@@ -40,7 +41,7 @@ Shader "Rayman/ComputeRaymarchShape"
 			float3 normal;
 		};
 
-		StructuredBuffer<RaymarchResult> resultBuffer;
+		StructuredBuffer<RaymarchResult> _ResultBuffer;
         ENDHLSL
 
         Pass
@@ -53,19 +54,33 @@ Shader "Rayman/ComputeRaymarchShape"
 		    AlphaToMask On
 		    
 			HLSLPROGRAM
-			#pragma target 2.0
+			#pragma target 5.0
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
+            #pragma multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BLENDING
+            #pragma multi_compile_fragment _ _REFLECTION_PROBE_BOX_PROJECTION
+            #pragma multi_compile_fragment _ _SHADOWS_SOFT _SHADOWS_SOFT_LOW _SHADOWS_SOFT_MEDIUM _SHADOWS_SOFT_HIGH
+            #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+            #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
+            #pragma multi_compile_fragment _ _LIGHT_COOKIES
+            #pragma multi_compile _ _LIGHT_LAYERS
+            #pragma multi_compile _ _FORWARD_PLUS
 
-			#pragma multi_compile_instancing
-	        #pragma multi_compile_fog
-	        #pragma instancing_options renderinglayer
-
-			#pragma multi_compile _ LIGHTMAP_ON
-	        #pragma multi_compile _ DIRLIGHTMAP_COMBINED
-	        #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-	        #pragma shader_feature _ _SAMPLE_GI
-	        #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
-	        #pragma multi_compile_fragment _ DEBUG_DISPLAY
-	        #pragma multi_compile_fragment _ _SCREEN_SPACE_OCCLUSION
+		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
+            #pragma multi_compile _ SHADOWS_SHADOWMASK
+            #pragma multi_compile _ DIRLIGHTMAP_COMBINED
+            #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
+            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
+            #pragma multi_compile _ LOD_FADE_CROSSFADE
+            #pragma multi_compile_fog
+            #pragma multi_compile_fragment _ DEBUG_DISPLAY
+		    
+            #pragma multi_compile_instancing
+			#pragma multi_compile _ DOTS_INSTANCING_ON
+            #pragma instancing_options renderinglayer
 
 			#pragma vertex vert
             #pragma fragment frag
@@ -74,70 +89,73 @@ Shader "Rayman/ComputeRaymarchShape"
             ENDHLSL
 		}
 
-//		Pass
-//		{
-//			Name "Depth Only"
-//		    Tags { "LightMode" = "DepthOnly" }
-//
-//		    ZTest LEqual
-//		    ZWrite On
-//		    ColorMask R
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 2.0
-//		    #pragma multi_compile_instancing
-//
-//		    #pragma vertex vert
-//		    #pragma fragment frag
-//		    
-//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthOnly.hlsl"
-//		    ENDHLSL
-//		}
-//
-//        Pass
-//        {
-//        	Name "Depth Normals"
-//		    Tags { "LightMode" = "DepthNormals" }
-//
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 2.0
-//		    #pragma multi_compile_instancing
-//
-//			#pragma vertex vert
-//		    #pragma fragment frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthNormals.hlsl"
-//		    ENDHLSL
-//        }
-//
-//		Pass
-//		{
-//			Name "Shadow Caster"
-//			Tags
-//			{
-//				"LightMode" = "ShadowCaster"
-//			}
-//
-//			ZWrite On
-//			ZTest LEqual
-//			ColorMask 0
-//			Cull [_Cull]
-//
-//			HLSLPROGRAM
-//			#pragma target 2.0
-//			#pragma multi_compile_instancing
-//			#pragma multi_compile _ LOD_FADE_CROSSFADE
-//			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-//
-//		    #pragma vertex vert
-//		    #pragma fragment frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
-//			ENDHLSL
-//		}
+		Pass
+		{
+			Name "Depth Only"
+		    Tags { "LightMode" = "DepthOnly" }
+
+		    ZTest LEqual
+		    ZWrite On
+		    ColorMask R
+		    Cull [_Cull]
+
+		    HLSLPROGRAM
+		    #pragma target 5.0
+		    #pragma shader_feature _ALPHATEST_ON
+		    #pragma multi_compile_instancing
+
+		    #pragma vertex vert
+		    #pragma fragment frag
+		    
+			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthOnly.hlsl"
+		    ENDHLSL
+		}
+
+        Pass
+        {
+        	Name "Depth Normals"
+		    Tags { "LightMode" = "DepthNormals" }
+
+		    ZWrite On
+		    Cull [_Cull]
+
+		    HLSLPROGRAM
+		    #pragma target 5.0
+		    #pragma shader_feature _ALPHATEST_ON
+		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
+		    #pragma multi_compile_instancing
+
+			#pragma vertex vert
+		    #pragma fragment frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeDepthNormals.hlsl"
+		    ENDHLSL
+        }
+
+		Pass
+		{
+			Name "Shadow Caster"
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
+
+			ZWrite On
+			ZTest LEqual
+			ColorMask 0
+			Cull [_Cull]
+
+			HLSLPROGRAM
+			#pragma target 5.0
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+		    #pragma vertex vert
+		    #pragma fragment frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
+			ENDHLSL
+		}
     }
 }
