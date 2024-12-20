@@ -19,8 +19,8 @@ namespace Rayman
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
         public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
         public static readonly int ShadowBiasId = Shader.PropertyToID("_ShadowBiasVal");
-        private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
-        private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
+        public static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
+        public static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
 
         [Header("Raymarch Surface Shader")]
         [SerializeField] private Renderer mainRenderer;

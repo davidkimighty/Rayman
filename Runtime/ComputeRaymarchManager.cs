@@ -4,11 +4,9 @@ using UnityEngine;
 
 namespace Rayman
 {
-    //[ExecuteInEditMode]
+    [ExecuteInEditMode]
     public class ComputeRaymarchManager : MonoBehaviour
     {
-        public const string DebugKeyword = "RAYMARCH_DEBUG";
-        
         [SerializeField] private RaymarchFeature raymarchFeature;
         [SerializeField] private bool buildOnAwake;
         [SerializeField] private float boundsExpandSize;
@@ -35,13 +33,13 @@ namespace Rayman
             if (!raymarchFeature.isActive)
                 raymarchFeature.SetActive(true);
             
-#if RAYMARCH_DEBUG
-            raymarchFeature.SetDebugMode(debugMode);
-#endif
             if (buildOnAwake)
             {
-                if (!Build())
-                    Debug.LogWarning("Failed to build raymarch data.");
+                Build();
+                SetupRaymarchProperties();
+#if UNITY_EDITOR
+                SetupDebugProperties();
+#endif
             }
         }
 
@@ -65,9 +63,9 @@ namespace Rayman
         }
 
         [ContextMenu("Build")]
-        public bool Build()
+        public void Build()
         {
-            if (raymarchGroups.Count == 0) return false;
+            if (raymarchGroups.Count == 0) return;
             
             bvh = new BVH<AABB>();
             boundingVolumes = new List<BoundingVolume<AABB>>();
@@ -89,7 +87,6 @@ namespace Rayman
             }
             shapeData = new ShapeData[shapeCount];
             nodeData = new NodeData<AABB>[SpatialNode<AABB>.GetNodesCount(bvh.Root)];
-            return true;
         }
 
         public void AddRendererSafe(RaymarchGroup group)
@@ -134,6 +131,12 @@ namespace Rayman
         private ShapeData[] ProvideShapeData() => shapeData;
 
         private NodeData<AABB>[] ProvideNodeData() => nodeData;
+
+        private void SetupRaymarchProperties()
+        {
+            if (raymarchFeature == null) return;
+            raymarchFeature.Setting.SetTrigger();
+        }
         
 #if UNITY_EDITOR
         private void OnValidate()
@@ -144,15 +147,9 @@ namespace Rayman
             }
             else
             {
-#if RAYMARCH_DEBUG
-                raymarchFeature.SetBoundsDisplayThreshold(boundsDisplayThreshold);
-#endif
+                SetupRaymarchProperties();
+                SetupDebugProperties();
             }
-            
-            if (debugMode != DebugModes.None)
-                Utilities.AddDefineSymbol(DebugKeyword);
-            else
-                Utilities.RemoveDefineSymbol(DebugKeyword);
         }
         
         private void OnDrawGizmos()
@@ -160,6 +157,15 @@ namespace Rayman
             if (bvh == null || !drawGizmos) return;
 
             bvh.DrawStructure(showLabel);
+        }
+
+        private void SetupDebugProperties()
+        {
+            if (raymarchFeature == null) return;
+
+            raymarchFeature.Setting.DebugMode = debugMode;
+            raymarchFeature.Setting.BoundsDisplayThreshold = boundsDisplayThreshold;
+            raymarchFeature.Setting.SetTrigger();
         }
 
         [ContextMenu("Find All Groups")]

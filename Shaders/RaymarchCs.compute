@@ -34,6 +34,7 @@ struct RaymarchResult
 
 float _ScreenWidth;
 float _ScreenHeight;
+float _RenderScale;
 float4 _CameraPosition;
 float4x4 _CameraToWorld;
 float4x4 _InverseProjectionMatrix;
@@ -88,7 +89,7 @@ inline float NormalMap(const float3 rayPos)
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    const float2 uv = float2(id.xy) / float2(_ScreenWidth, _ScreenHeight);
+    const float2 uv = float2(id.xy) / (float2(_ScreenWidth, _ScreenHeight) * _RenderScale);
     const float2 ndc = uv * 2.0 - 1.0;
 
     const float4 posCS = float4(ndc, 0.0, 1.0);

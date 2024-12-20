@@ -29,9 +29,9 @@ v2f vert (appdata v)
 
 output frag (v2f i)
 {
-    float2 screenPos = GetScreenPosition(i.posCS);
-    uint2 pixelCoord = uint2(screenPos * _ScreenParams.xy);
-    RaymarchResult result = _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
+    const float2 screenPos = GetScreenPosition(i.posCS);
+    const uint2 pixelCoord = uint2(screenPos * _ScreenParams.xy);
+    const RaymarchResult result = _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
 				
     if (result.lastHitDistance > EPSILON) discard;
 

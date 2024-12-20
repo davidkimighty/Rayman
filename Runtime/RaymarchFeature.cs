@@ -9,19 +9,6 @@ namespace Rayman
 {
     public class RaymarchFeature : ScriptableRendererFeature
     {
-        [Serializable]
-        public class Setting
-        {
-            [HideInInspector] public bool InitializeSettings;
-#if RAYMARCH_DEBUG
-            public DebugModes DebugMode = 0;
-            public int BoundsDisplayThreshold = 50;
-#endif
-            public int MaxSteps = 64;
-            public int MaxDistance = 100;
-
-        }
-        
         public class RaymarchComputePass : ScriptableRenderPass
         {
             private class PassData
@@ -30,20 +17,23 @@ namespace Rayman
                 public BufferHandle ShapeBufferHandle;
                 public BufferHandle NodeBufferHandle;
                 public BufferHandle ResultBufferHandle;
-#if RAYMARCH_DEBUG
+#if UNITY_EDITOR
                 public TextureHandle ResultTextureHandle;
+                public DebugModes DebugMode;
 #endif
             }
             
             private ComputeShader cs;
+            private RaymarchSetting setting;
             private GraphicsBuffer shapeBuffer;
             private GraphicsBuffer nodeBuffer;
             private GraphicsBuffer resultBuffer;
             // private ComputeResultData[] resultData;
 
-            public RaymarchComputePass(ComputeShader cs)
+            public RaymarchComputePass(ComputeShader cs, RaymarchSetting setting)
             {
                 this.cs = cs;
+                this.setting = setting;
             }
 
             public override void RecordRenderGraph(RenderGraph renderGraph, ContextContainer frameData)
@@ -51,17 +41,20 @@ namespace Rayman
                 BufferHandle shapeBufferHandle = renderGraph.ImportBuffer(shapeBuffer);
                 BufferHandle nodeBufferHandle = renderGraph.ImportBuffer(nodeBuffer);
                 BufferHandle resultBufferHandle = renderGraph.ImportBuffer(resultBuffer);
-#if RAYMARCH_DEBUG
-                UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
-                TextureHandle source = resourceData.activeColorTexture;
-                TextureDesc destinationDesc = renderGraph.GetTextureDesc(source);
-                destinationDesc.name = "Raymarch Result Texture";
-                destinationDesc.clearBuffer = false;
-                destinationDesc.enableRandomWrite = true;
-                TextureHandle destination = renderGraph.CreateTexture(destinationDesc);
-                resourceData.cameraColor = destination;
+#if UNITY_EDITOR
+                TextureHandle destination = default;
+                if (setting.DebugMode != DebugModes.None)
+                {
+                    UniversalResourceData resourceData = frameData.Get<UniversalResourceData>();
+                    TextureHandle source = resourceData.activeColorTexture;
+                    TextureDesc destinationDesc = renderGraph.GetTextureDesc(source);
+                    destinationDesc.name = "Raymarch Result Texture";
+                    destinationDesc.clearBuffer = false;
+                    destinationDesc.enableRandomWrite = true;
+                    destination = renderGraph.CreateTexture(destinationDesc);
+                    resourceData.cameraColor = destination;
+                }
 #endif
-                
                 using (var builder = renderGraph.AddComputePass("Raymarch ComputePass", out PassData passData))
                 {
                     passData.Cs = cs;
@@ -71,28 +64,37 @@ namespace Rayman
                     builder.UseBuffer(passData.ShapeBufferHandle);
                     builder.UseBuffer(passData.NodeBufferHandle);
                     builder.UseBuffer(passData.ResultBufferHandle, AccessFlags.Write);
-#if RAYMARCH_DEBUG
-                    passData.ResultTextureHandle = destination;
-                    builder.UseTexture(passData.ResultTextureHandle, AccessFlags.Write);
+#if UNITY_EDITOR
+                    if (setting.DebugMode != DebugModes.None)
+                    {
+                        passData.DebugMode = setting.DebugMode;
+                        passData.ResultTextureHandle = destination;
+                        builder.UseTexture(passData.ResultTextureHandle, AccessFlags.Write);
+                    }
 #endif
                     builder.SetRenderFunc((PassData data, ComputeGraphContext cgContext) => ExecutePass(data, cgContext));
                 }
             }
             
-            public void InitializePassSettings(Setting setting)
+            public void InitializePassSettings()
             {
-                if (!setting.InitializeSettings) return;
+                if (!setting.TriggerState) return;
                 
-                cs.SetInt(ScreenWidthId, Camera.main.pixelWidth);
-                cs.SetInt(ScreenHeightId, Camera.main.pixelHeight);
+                cs.SetInt(ScreenWidthId, Screen.width);
+                cs.SetInt(ScreenHeightId,  Screen.height);
+                cs.SetFloat(RenderScaleId, UniversalRenderPipeline.asset.renderScale);
                 cs.SetInt(RaymarchRenderer.MaxStepsId, setting.MaxSteps);
                 cs.SetInt(RaymarchRenderer.MaxDistanceId, setting.MaxDistance);
-#if RAYMARCH_DEBUG
-                requiresIntermediateTexture = true;
-                cs.SetInt("_DebugMode", (int)setting.DebugMode);
-                cs.SetInt("_BoundsDisplayThreshold", setting.BoundsDisplayThreshold);
+#if UNITY_EDITOR
+                if (setting.DebugMode != DebugModes.None)
+                {
+                    requiresIntermediateTexture = true;
+                    cs.SetInt(RaymarchRenderer.DebugModeId, (int)setting.DebugMode);
+                    cs.SetInt(RaymarchRenderer.BoundsDisplayThresholdId, setting.BoundsDisplayThreshold);
+                }
 #endif
-                setting.InitializeSettings = false;
+                setting.SetTrigger(false);
+                Debug.Log($"[Raymarch Feature] Raymarch settings initialized.");
             }
             
             public void SetupShapeResultBuffer(ShapeData[] shapeData)
@@ -105,12 +107,12 @@ namespace Rayman
                     shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, shapeCount,
                         Marshal.SizeOf(typeof(ShapeData)));
                     
-                    int totalThreads = Camera.main.pixelWidth * Camera.main.pixelHeight;
+                    int totalThreads = Screen.width * Screen.height;
                     resultBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, totalThreads,
                         Marshal.SizeOf(typeof(ComputeResultData)));
                     // resultData = new ComputeResultData[totalThreads];
                     Shader.SetGlobalBuffer(ResultBufferId, resultBuffer);
-                    Debug.Log($"ShapeBuffer & ResultBuffer initialized.");
+                    Debug.Log($"[Raymarch Feature] ShapeBuffer[{shapeCount}] & ResultBuffer[{totalThreads}] initialized.");
                 }
                 shapeBuffer.SetData(shapeData);
             }
@@ -123,7 +125,7 @@ namespace Rayman
                     nodeBuffer?.Release();
                     nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount,
                         Marshal.SizeOf(typeof(NodeData<AABB>)));
-                    Debug.Log($"NodeBuffer initialized.");
+                    Debug.Log($"[Raymarch Feature] NodeBuffer initialized.");
                 }
                 nodeBuffer.SetData(nodeData);
             }
@@ -140,44 +142,50 @@ namespace Rayman
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.ShapeBufferId, data.ShapeBufferHandle);
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.NodeBufferId, data.NodeBufferHandle);
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, ResultBufferId, data.ResultBufferHandle);
-#if RAYMARCH_DEBUG
-                cgContext.cmd.SetComputeTextureParam(data.Cs, mainKernel, "_ResultTexture", data.ResultTextureHandle);
+#if UNITY_EDITOR
+                if (data.DebugMode != DebugModes.None)
+                    cgContext.cmd.SetComputeTextureParam(data.Cs, mainKernel, "_ResultTexture", data.ResultTextureHandle);
 #endif
-                int threadGroupsX = Mathf.CeilToInt(Camera.main.pixelWidth / 8.0f);
-                int threadGroupsY = Mathf.CeilToInt(Camera.main.pixelHeight / 8.0f);
+                int threadGroupsX = Mathf.CeilToInt(Screen.width / 8.0f);
+                int threadGroupsY = Mathf.CeilToInt(Screen.height / 8.0f);
                 cgContext.cmd.DispatchCompute(data.Cs, mainKernel, threadGroupsX, threadGroupsY, 1);
             }
         }
         
         private static readonly int ResultBufferId = Shader.PropertyToID("_ResultBuffer");
+        private static readonly int RenderScaleId = Shader.PropertyToID("_RenderScale");
         private static readonly int ScreenWidthId = Shader.PropertyToID("_ScreenWidth");
         private static readonly int ScreenHeightId = Shader.PropertyToID("_ScreenHeight");
 
         public event Func<ShapeData[]> OnRequestShapeData;
         public event Func<NodeData<AABB>[]> OnRequestNodeData;
         
+        public RaymarchSetting Setting;
+        
         [SerializeField] private ComputeShader raymarchCs;
 #if UNITY_EDITOR
         [SerializeField] private ComputeShader debugCs;
 #endif
-        [SerializeField] private Setting setting;
-        
         private RaymarchComputePass computePass;
 
         public override void Create()
         {
-#if RAYMARCH_DEBUG
-            if (debugCs == null) return;
-            
-            computePass = new RaymarchComputePass(debugCs);
-            computePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
-#else
+#if UNITY_EDITOR
+            if (Setting.DebugMode != DebugModes.None)
+            {
+                if (debugCs == null) return;
+                computePass = new RaymarchComputePass(debugCs, Setting);
+                computePass.renderPassEvent = RenderPassEvent.AfterRenderingPostProcessing;
+            }
+#endif
             if (raymarchCs == null) return;
 
-            computePass = new RaymarchComputePass(raymarchCs);
-            computePass.renderPassEvent = RenderPassEvent.BeforeRenderingPrePasses;
-#endif
-            setting.InitializeSettings = true;
+            if (computePass == null)
+            {
+                computePass = new RaymarchComputePass(raymarchCs, Setting);
+                computePass.renderPassEvent = RenderPassEvent.AfterRenderingPrePasses;
+            }
+            Setting.SetTrigger();
         }
 
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -194,30 +202,28 @@ namespace Rayman
                 NodeData<AABB>[] nodeData = OnRequestNodeData?.Invoke();
                 if (shapeData == null || nodeData == null) return;
                 
-                computePass.InitializePassSettings(setting);
+                computePass.InitializePassSettings();
                 computePass.SetupShapeResultBuffer(shapeData);
                 computePass.SetupNodeBuffer(nodeData);
                 renderer.EnqueuePass(computePass);
             }
         }
-        
-#if RAYMARCH_DEBUG
-        public void SetDebugMode(DebugModes mode)
-        {
-            if (setting.DebugMode == mode) return;
-            
-            setting.DebugMode = mode;
-            setting.InitializeSettings = true;
-        }
-
-        public void SetBoundsDisplayThreshold(int threshold)
-        {
-            if (setting.BoundsDisplayThreshold == threshold) return;
-            
-            setting.BoundsDisplayThreshold = threshold;
-            setting.InitializeSettings = true;
-        }
+    }
+    
+    [Serializable]
+    public class RaymarchSetting
+    {
+        public int MaxSteps = 64;
+        public int MaxDistance = 100;
+#if UNITY_EDITOR
+        public DebugModes DebugMode = 0;
+        public int BoundsDisplayThreshold = 50;
 #endif
+        private bool initializeSettings;
+
+        public bool TriggerState => initializeSettings;
+
+        public void SetTrigger(bool state = true) => initializeSettings = state;
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
