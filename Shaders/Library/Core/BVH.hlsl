@@ -14,27 +14,30 @@ struct NodeAABB
     int right;
 };
 
-// Must be implemented by the including shader.
-inline NodeAABB GetNode(const int index);
+#ifndef NODE_BUFFER_DEFINED
+StructuredBuffer<NodeAABB> _NodeBuffer;
+#define NODE_BUFFER_DEFINED
+#endif
 
-inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 hitCount)
+inline void TraverseAabbTree(const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 count)
 {
     int stack[STACK_SIZE];
-    int ptr = hitCount = 0; // count.x is leaf
-    stack[ptr] = startIndex;
+    int ptr = count = 0; // count.x is leaf
+    stack[ptr] = 0;
 
     while (ptr >= 0)
     {
         int nodeIndex = stack[ptr--];
         if (nodeIndex < 0) continue;
 
-        const NodeAABB node = GetNode(nodeIndex);
-        if (!RayIntersect(ray, node.bounds)) continue;
+        const NodeAABB node = _NodeBuffer[nodeIndex];
+        float dstFar, dstNear;
+        if (!RayIntersect(ray, node.bounds, dstNear, dstFar)) continue;
         
         if (node.left < 0) // leaf
         {
-            hitIds[hitCount.x++] = node.id;
-            if (hitCount.x >= RAY_MAX_HITS) break;
+            hitIds[count.x++] = node.id;
+            if (count.x >= RAY_MAX_HITS) break;
         }
         else
         {
@@ -42,7 +45,7 @@ inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitI
             stack[ptr] = node.left;
             ptr = min(ptr + 1, STACK_SIZE - 1);
             stack[ptr] = node.right;
-            hitCount.y += 2;
+            count.y += 2;
         }
     }
 }

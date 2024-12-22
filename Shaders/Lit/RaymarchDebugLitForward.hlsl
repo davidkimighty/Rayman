@@ -34,13 +34,6 @@ Varyings Vert (Attributes input)
     return output;
 }
 
-StructuredBuffer<NodeAABB> _NodeBuffer;
-
-inline NodeAABB GetNode(const int index)
-{
-	return _NodeBuffer[index];
-}
-
 FragOutput Frag (Varyings input)
 {
 	const float3 cameraPos = GetCameraPosition();
@@ -48,7 +41,7 @@ FragOutput Frag (Varyings input)
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.travelDistance = length(ray.hitPoint - cameraPos);
 	
-	TraverseAabbTree(0, ray, hitIds, hitCount);
+	TraverseAabbTree(ray, hitIds, hitCount);
 	InsertionSort(hitIds, hitCount.x);
 
 	int raymarchCount;

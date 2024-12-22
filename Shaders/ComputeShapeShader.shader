@@ -27,7 +27,6 @@ Shader "Rayman/ComputeRaymarchShape"
         LOD 100
         
         HLSLINCLUDE
-        #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
@@ -52,6 +51,7 @@ Shader "Rayman/ComputeRaymarchShape"
 			Blend [_SrcBlend] [_DstBlend]
 		    ZWrite On
 		    Cull [_Cull]
+		    AlphaToMask On
 		    
 			HLSLPROGRAM
 			#pragma target 5.0
@@ -132,30 +132,30 @@ Shader "Rayman/ComputeRaymarchShape"
 		    ENDHLSL
         }
 
-//		Pass
-//		{
-//			Name "Shadow Caster"
-//			Tags
-//			{
-//				"LightMode" = "ShadowCaster"
-//			}
-//
-//			ZWrite On
-//			ZTest LEqual
-//			ColorMask 0
-//			Cull [_Cull]
-//
-//			HLSLPROGRAM
-//			#pragma target 5.0
-//			#pragma multi_compile_instancing
-//			#pragma multi_compile _ LOD_FADE_CROSSFADE
-//			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-//
-//		    #pragma vertex vert
-//		    #pragma fragment frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
-//			ENDHLSL
-//		}
+		Pass
+		{
+			Name "Shadow Caster"
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
+
+			ZWrite On
+			ZTest LEqual
+			ColorMask 0
+			Cull [_Cull]
+
+			HLSLPROGRAM
+			#pragma target 5.0
+			#pragma multi_compile_instancing
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+		    #pragma vertex vert
+		    #pragma fragment frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/ComputeShapeShadowCaster.hlsl"
+			ENDHLSL
+		}
     }
 }

@@ -1,8 +1,6 @@
 ﻿#ifndef RAYMAN_COMPUTE_DEPTHONLY
 #define RAYMAN_COMPUTE_DEPTHONLY
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-
 struct appdata
 {
     float4 vertex : POSITION;
@@ -37,13 +35,8 @@ output frag (v2f i)
 				
     if (result.lastHitDistance > EPSILON) discard;
 
-    const float3 cameraPos = GetCameraPosition();
-    float lengthToSurface = length(i.posWS - cameraPos);
-    const float depth = result.travelDistance - lengthToSurface < EPSILON ?
-        GetDepth(i.posWS) : GetDepth(result.hitPoint);
-
     output o;
-    o.color = o.depth = depth;
+    o.color = o.depth = GetDepth(i.posWS);
     return o;
 }
 
