@@ -43,9 +43,12 @@ float4x4 _ViewProjectionMatrix;
 int _MaxSteps;
 int _MaxDistance;
 StructuredBuffer<Shape> _ShapeBuffer;
+int _GroupCount;
+StructuredBuffer<int> _RootNodeIndices;
+StructuredBuffer<NodeAABB> _NodeBuffer;
 RWStructuredBuffer<RaymarchResult> _ResultBuffer;
 
-int2 boundsCount; // x is leaf
+int2 hitCount; // x is leaf
 int hitIds[RAY_MAX_HITS];
 float4 color;
 
@@ -62,7 +65,7 @@ inline float Map(const Ray ray)
     float totalDist = _MaxDistance;
     float4 localColor =  _ShapeBuffer[hitIds[0]].color;
     
-    for (int i = 0; i < boundsCount.x; i++)
+    for (int i = 0; i < hitCount.x; i++)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
@@ -77,13 +80,18 @@ inline float NormalMap(const float3 rayPos)
 {
     float totalDist = _MaxDistance;
     
-    for (int i = 0; i < boundsCount.x; i++)
+    for (int i = 0; i < hitCount.x; i++)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
         BlendDistance(totalDist, pos, shape);
     }
     return totalDist;
+}
+
+inline NodeAABB GetNode(const int index)
+{
+    return _NodeBuffer[index];
 }
 
 [numthreads(8,8,1)]
@@ -101,8 +109,15 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
     ray.travelDistance = length(ray.hitPoint - _CameraPosition.xyz);
 
-    TraverseAabbTree(ray, hitIds, boundsCount);
-    InsertionSort(hitIds, boundsCount.x);
+    for (int i = 0; i < _GroupCount; i++)
+    {
+        int rootIndex = _RootNodeIndices[i];
+        if (!RayIntersect(ray, GetNode(rootIndex).bounds)) continue;
+        
+        TraverseAabbTree(rootIndex, ray, hitIds, hitCount);
+        if (hitCount.x >= RAY_MAX_HITS) break;
+    }
+    InsertionSort(hitIds, hitCount.x);
     
     Raymarch(ray);
     

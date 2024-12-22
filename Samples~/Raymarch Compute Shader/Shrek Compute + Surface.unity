@@ -476,7 +476,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -531,9 +531,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 27669965}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 27669967}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1453987849}
   - {fileID: 592766948}
@@ -551,6 +559,11 @@ MonoBehaviour:
   - {fileID: 120237768}
   - {fileID: 63251117}
   - {fileID: 2032442118}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &28700850 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5751827831954466323, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -971,7 +984,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1026,9 +1039,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 175592784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 175592786}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 443406259}
   - {fileID: 804458991}
@@ -1046,6 +1067,11 @@ MonoBehaviour:
   - {fileID: 1915712889}
   - {fileID: 1164212305}
   - {fileID: 465632047}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &179708552 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5751827831954466323, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -2440,7 +2466,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2495,9 +2521,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 439017621}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 439017623}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 2125893335}
   - {fileID: 956748331}
@@ -2515,6 +2549,11 @@ MonoBehaviour:
   - {fileID: 6231210}
   - {fileID: 256317685}
   - {fileID: 2038492616}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!4 &440189063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -2573,7 +2612,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2628,9 +2667,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 443295025}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 443295027}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 512895546}
   - {fileID: 832562720}
@@ -2648,6 +2695,11 @@ MonoBehaviour:
   - {fileID: 461633462}
   - {fileID: 1440896002}
   - {fileID: 310962642}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &443406259 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1751723141347699139, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -2822,7 +2874,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2877,9 +2929,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 480264629}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 480264631}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1122374018}
   - {fileID: 201329001}
@@ -2897,6 +2957,11 @@ MonoBehaviour:
   - {fileID: 1448504675}
   - {fileID: 1511070839}
   - {fileID: 1935046422}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &480445937 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1751723141347699139, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -3247,94 +3312,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
---- !u!1 &528597430
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 528597432}
-  - component: {fileID: 528597431}
-  m_Layer: 0
-  m_Name: RaymarchManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &528597431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528597430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46fcde4fbf5b3bc42a88eaeb4f3e45be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  raymarchFeature: {fileID: 4782852814483522195, guid: f288ae1f4751b564a96ac7587541f7a2, type: 2}
-  buildOnAwake: 1
-  boundsExpandSize: 0
-  raymarchGroups:
-  - {fileID: 27669970}
-  - {fileID: 175592789}
-  - {fileID: 439017626}
-  - {fileID: 443295030}
-  - {fileID: 480264634}
-  - {fileID: 534641283}
-  - {fileID: 540740918}
-  - {fileID: 639374697}
-  - {fileID: 668634138}
-  - {fileID: 670363380}
-  - {fileID: 728754061}
-  - {fileID: 771485512}
-  - {fileID: 865560574}
-  - {fileID: 865894876}
-  - {fileID: 870022886}
-  - {fileID: 871869979}
-  - {fileID: 887386800}
-  - {fileID: 918025664}
-  - {fileID: 928810205}
-  - {fileID: 984955642}
-  - {fileID: 1125556908}
-  - {fileID: 1146766521}
-  - {fileID: 1150000255}
-  - {fileID: 1266192024}
-  - {fileID: 1374319974}
-  - {fileID: 1514465213}
-  - {fileID: 1522153842}
-  - {fileID: 1524609463}
-  - {fileID: 1590971143}
-  - {fileID: 1597149388}
-  - {fileID: 1811891432}
-  - {fileID: 1828138617}
-  - {fileID: 1904251642}
-  - {fileID: 1935840068}
-  - {fileID: 2080788720}
-  - {fileID: 2095052726}
-  debugMode: 0
-  drawGizmos: 1
-  showLabel: 0
-  boundsDisplayThreshold: 50
---- !u!4 &528597432
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 528597430}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &528611382 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9004938299600516523, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -3410,7 +3387,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3465,9 +3442,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 534641278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 534641280}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1589085658}
   - {fileID: 1589085657}
@@ -3485,6 +3470,11 @@ MonoBehaviour:
   - {fileID: 1589085645}
   - {fileID: 1589085644}
   - {fileID: 1589085642}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &538299242 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8172589297540028822, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -3538,7 +3528,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3593,9 +3583,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 540740913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 540740915}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1497431467}
   - {fileID: 458571411}
@@ -3613,6 +3611,11 @@ MonoBehaviour:
   - {fileID: 1283273247}
   - {fileID: 2121153273}
   - {fileID: 604074198}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &542688514 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5427219352666758952, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -4298,7 +4301,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4353,9 +4356,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 639374692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 639374694}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1175518662}
   - {fileID: 1175518661}
@@ -4373,6 +4384,11 @@ MonoBehaviour:
   - {fileID: 1175518649}
   - {fileID: 1175518648}
   - {fileID: 1175518646}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &641678976 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8739418980410132935, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -4565,7 +4581,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4620,9 +4636,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 668634133}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 668634135}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1320004545}
   - {fileID: 1996838140}
@@ -4640,6 +4664,11 @@ MonoBehaviour:
   - {fileID: 1509959651}
   - {fileID: 125768050}
   - {fileID: 821768226}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1 &670363375
 GameObject:
   m_ObjectHideFlags: 0
@@ -4682,7 +4711,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4737,9 +4766,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 670363375}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 670363377}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 180429831}
   - {fileID: 1110034149}
@@ -4757,6 +4794,11 @@ MonoBehaviour:
   - {fileID: 126701334}
   - {fileID: 186621516}
   - {fileID: 357628594}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &697547449 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8954529997188336618, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -4821,7 +4863,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4876,9 +4918,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 728754056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 728754058}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1953305162}
   - {fileID: 194757435}
@@ -4896,6 +4946,11 @@ MonoBehaviour:
   - {fileID: 1261126075}
   - {fileID: 511494982}
   - {fileID: 1078724521}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &733136134 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -5134,7 +5189,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5189,9 +5244,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 771485507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 771485509}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1569528484}
   - {fileID: 328607250}
@@ -5209,6 +5272,11 @@ MonoBehaviour:
   - {fileID: 1697204699}
   - {fileID: 1202540956}
   - {fileID: 697547449}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &772936718 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5427219352666758952, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -5621,7 +5689,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5676,9 +5744,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 865560569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 865560571}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 2112753271}
   - {fileID: 2112753270}
@@ -5696,6 +5772,11 @@ MonoBehaviour:
   - {fileID: 2112753258}
   - {fileID: 2112753257}
   - {fileID: 2112753255}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1 &865894871
 GameObject:
   m_ObjectHideFlags: 0
@@ -5738,7 +5819,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5793,9 +5874,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 865894871}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 865894873}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1592492682}
   - {fileID: 1500619529}
@@ -5813,6 +5902,11 @@ MonoBehaviour:
   - {fileID: 572694831}
   - {fileID: 1990155620}
   - {fileID: 1105993395}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &866726676 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5751827831954466323, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -5877,7 +5971,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5932,9 +6026,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 870022881}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 870022883}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 482921860}
   - {fileID: 2006207524}
@@ -5952,6 +6054,11 @@ MonoBehaviour:
   - {fileID: 195503672}
   - {fileID: 1585943706}
   - {fileID: 378756958}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &871207849 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6005,7 +6112,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6060,9 +6167,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 871869974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 871869976}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1955058793}
   - {fileID: 638270585}
@@ -6080,6 +6195,11 @@ MonoBehaviour:
   - {fileID: 1509378002}
   - {fileID: 652226561}
   - {fileID: 74140301}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &874106459 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6177,7 +6297,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6232,9 +6352,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 887386795}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 887386797}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 18571768}
   - {fileID: 18571767}
@@ -6252,6 +6380,11 @@ MonoBehaviour:
   - {fileID: 18571755}
   - {fileID: 18571754}
   - {fileID: 18571752}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &890540113 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5751827831954466323, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6360,7 +6493,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6415,9 +6548,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 918025659}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 918025661}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1086590857}
   - {fileID: 1676183883}
@@ -6435,6 +6576,11 @@ MonoBehaviour:
   - {fileID: 787796752}
   - {fileID: 158445994}
   - {fileID: 1485377087}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &928490401 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6488,7 +6634,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6543,9 +6689,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 928810200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 928810202}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 182632568}
   - {fileID: 1176305782}
@@ -6563,6 +6717,11 @@ MonoBehaviour:
   - {fileID: 1074827677}
   - {fileID: 1847603853}
   - {fileID: 496515279}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!4 &932472411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6733,7 +6892,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6788,9 +6947,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 984955637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 984955639}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1812369360}
   - {fileID: 73876583}
@@ -6808,6 +6975,11 @@ MonoBehaviour:
   - {fileID: 255181429}
   - {fileID: 827325525}
   - {fileID: 1641098606}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1001 &999776845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7214,7 +7386,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7269,9 +7441,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1125556903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1125556905}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 349226235}
   - {fileID: 349226234}
@@ -7289,6 +7469,11 @@ MonoBehaviour:
   - {fileID: 349226222}
   - {fileID: 349226221}
   - {fileID: 349226219}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1134743382 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578090072714221426, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -7353,7 +7538,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7408,9 +7593,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1146766516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1146766518}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 603393555}
   - {fileID: 644587082}
@@ -7428,6 +7621,11 @@ MonoBehaviour:
   - {fileID: 1988857019}
   - {fileID: 216586932}
   - {fileID: 1804778088}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1 &1150000250
 GameObject:
   m_ObjectHideFlags: 0
@@ -7470,7 +7668,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7525,9 +7723,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1150000250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1150000252}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 625952683}
   - {fileID: 625952682}
@@ -7545,6 +7751,11 @@ MonoBehaviour:
   - {fileID: 625952670}
   - {fileID: 625952669}
   - {fileID: 625952667}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1153808877 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1306309491716140498, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -8259,7 +8470,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8314,9 +8525,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1266192019}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1266192021}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 2078378052}
   - {fileID: 2078378051}
@@ -8334,6 +8553,11 @@ MonoBehaviour:
   - {fileID: 2078378039}
   - {fileID: 2078378038}
   - {fileID: 2078378036}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1267403602 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1306309491716140498, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -8909,7 +9133,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8964,9 +9188,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1374319969}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1374319971}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1327493707}
   - {fileID: 76372794}
@@ -8984,6 +9216,11 @@ MonoBehaviour:
   - {fileID: 132809875}
   - {fileID: 1766868506}
   - {fileID: 875706201}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1392481488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -9391,7 +9628,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9446,9 +9683,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514465208}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1514465210}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1452283625}
   - {fileID: 1134743382}
@@ -9466,6 +9711,11 @@ MonoBehaviour:
   - {fileID: 816533306}
   - {fileID: 1705440441}
   - {fileID: 358438855}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1 &1522153837
 GameObject:
   m_ObjectHideFlags: 0
@@ -9508,7 +9758,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9563,9 +9813,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1522153837}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1522153839}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1329067145}
   - {fileID: 1854159125}
@@ -9583,6 +9841,11 @@ MonoBehaviour:
   - {fileID: 94303119}
   - {fileID: 1251805038}
   - {fileID: 1403092955}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1522859318 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -9636,7 +9899,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9691,9 +9954,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1524609458}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1524609460}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1734548724}
   - {fileID: 2000180816}
@@ -9711,6 +9982,11 @@ MonoBehaviour:
   - {fileID: 318805715}
   - {fileID: 641678976}
   - {fileID: 1397941076}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1527718419 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9004938299600516523, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -10275,7 +10551,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10330,9 +10606,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1590971138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1590971140}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 480445937}
   - {fileID: 1204305046}
@@ -10350,6 +10634,11 @@ MonoBehaviour:
   - {fileID: 976534782}
   - {fileID: 1008606073}
   - {fileID: 437032203}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1001 &1591229610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10460,7 +10749,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10515,9 +10804,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1597149383}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1597149385}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1862352845}
   - {fileID: 474457738}
@@ -10535,6 +10832,11 @@ MonoBehaviour:
   - {fileID: 1535896810}
   - {fileID: 2052683471}
   - {fileID: 204429757}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1598763756 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1751723141347699139, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -11212,7 +11514,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11267,9 +11569,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1811891427}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1811891429}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 197736816}
   - {fileID: 1779889983}
@@ -11287,6 +11597,11 @@ MonoBehaviour:
   - {fileID: 272616944}
   - {fileID: 1305306231}
   - {fileID: 29819948}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!1001 &1812004708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11452,7 +11767,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11507,9 +11822,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1828138612}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1828138614}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1635031008}
   - {fileID: 817484423}
@@ -11527,6 +11850,11 @@ MonoBehaviour:
   - {fileID: 1923296610}
   - {fileID: 217115523}
   - {fileID: 24066322}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1828424913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -11717,7 +12045,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11772,9 +12100,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1904251637}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1904251639}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 2078043271}
   - {fileID: 2078043270}
@@ -11792,6 +12128,11 @@ MonoBehaviour:
   - {fileID: 2078043258}
   - {fileID: 2078043257}
   - {fileID: 2078043255}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1915712889 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7000101041063911214, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -11889,7 +12230,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11944,9 +12285,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1935840063}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 1935840065}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 450493434}
   - {fileID: 1183929227}
@@ -11964,6 +12313,11 @@ MonoBehaviour:
   - {fileID: 788276557}
   - {fileID: 1648177056}
   - {fileID: 560750348}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &1940150021 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2685589895163090755, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -12962,7 +13316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13017,9 +13371,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2080788715}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 2080788717}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 210486079}
   - {fileID: 210486078}
@@ -13037,6 +13399,11 @@ MonoBehaviour:
   - {fileID: 210486066}
   - {fileID: 210486065}
   - {fileID: 210486063}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &2083001453 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5751827831954466323, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -13123,7 +13490,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f7d92c4d1bf823d42bd7c28e671292c1, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13178,9 +13545,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2095052721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c718218cba790b4db9222cb5bd69e3f, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 2095052723}
+  mainShader: {fileID: 4800000, guid: 191d60892fbe0e54e95021c1481a3f63, type: 3}
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
+  shadowBias: 0.013
+  boundsExpandSize: 0
   shapes:
   - {fileID: 1598763756}
   - {fileID: 1803533942}
@@ -13198,6 +13573,11 @@ MonoBehaviour:
   - {fileID: 620329994}
   - {fileID: 853801024}
   - {fileID: 1574470660}
+  debugShader: {fileID: 0}
+  debugMode: 0
+  drawGizmos: 1
+  showLabel: 0
+  boundsDisplayThreshold: 1300
 --- !u!114 &2102209983 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -13881,7 +14261,6 @@ SceneRoots:
   - {fileID: 2023310109}
   - {fileID: 224931772}
   - {fileID: 891381742665481622}
-  - {fileID: 528597432}
   - {fileID: 1125556907}
   - {fileID: 639374696}
   - {fileID: 534641282}

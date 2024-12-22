@@ -39,6 +39,9 @@ int _BoundsDisplayThreshold;
 int _MaxSteps;
 int _MaxDistance;
 StructuredBuffer<Shape> _ShapeBuffer;
+int _GroupCount;
+StructuredBuffer<int> _RootNodeIndices;
+StructuredBuffer<NodeAABB> _NodeBuffer;
 RWTexture2D<float4> _ResultTexture;
 
 int2 hitCount; // x is leaf
@@ -82,6 +85,11 @@ inline float NormalMap(const float3 rayPos)
     return totalDist;
 }
 
+inline NodeAABB GetNode(const int index)
+{
+    return _NodeBuffer[index];
+}
+
 [numthreads(8,8,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
@@ -96,7 +104,14 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
     
-    TraverseAabbTree(ray, hitIds, hitCount);
+    for (int i = 0; i < _GroupCount; i++)
+    {
+        int rootIndex = _RootNodeIndices[i];
+        if (!RayIntersect(ray, GetNode(rootIndex).bounds)) continue;
+        
+        TraverseAabbTree(rootIndex, ray, hitIds, hitCount);
+        if (hitCount.x >= RAY_MAX_HITS) break;
+    }
     InsertionSort(hitIds, hitCount.x);
     
     int raymarchCount = 0;

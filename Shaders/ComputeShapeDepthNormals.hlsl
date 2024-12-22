@@ -1,6 +1,8 @@
 ﻿#ifndef RAYMAN_COMPUTE_DEPTHNORMALS
 #define RAYMAN_COMPUTE_DEPTHNORMALS
 
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
+
 struct appdata
 {
     float4 vertex : POSITION;
@@ -35,8 +37,13 @@ output frag (v2f i)
 				
     if (result.lastHitDistance > EPSILON) discard;
 
+    const float3 cameraPos = GetCameraPosition();
+    float lengthToSurface = length(i.posWS - cameraPos);
+    const float depth = result.travelDistance - lengthToSurface < EPSILON ?
+        GetDepth(i.posWS) : GetDepth(result.hitPoint);
+
     output o;
-    o.color = o.depth = GetDepth(i.posWS);
+    o.color = o.depth = depth;
     return o;
 }
 
