@@ -51,7 +51,7 @@ FragOut Frag(Varyings input)
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
     float3 cameraPos = GetCameraPosition();
-    Ray ray = CreateRay(input.posWS, GetCameraForward(), 32, 100);
+    Ray ray = CreateRay(input.posWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
     ray.travelDistance = length(ray.hitPoint - cameraPos);
     
     TraverseAabbTree(0, ray, hitIds, hitCount);

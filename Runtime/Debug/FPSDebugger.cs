@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Rayman.Debug
+namespace Rayman
 {
     public class FPSDebugger : MonoBehaviour, IDebug
     {

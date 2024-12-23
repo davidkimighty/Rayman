@@ -68,6 +68,8 @@ Shader "Rayman/RaymarchDebugLit"
         
         int _MaxSteps;
 		float _MaxDistance;
+        int _ShadowMaxSteps;
+		float _ShadowMaxDistance;
         int _DistortionCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
 		StructuredBuffer<Distortion> _DistortionBuffer;

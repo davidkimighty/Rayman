@@ -3,7 +3,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-namespace Rayman.Debug
+namespace Rayman
 {
     public interface IDebug
     {

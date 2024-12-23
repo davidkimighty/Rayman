@@ -15,7 +15,7 @@ namespace Rayman
         [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
         [SerializeField] private bool showLabel;
-        [SerializeField] private int boundsDisplayThreshold = 50;
+        [SerializeField] private int boundsDisplayThreshold = 1300;
 #endif
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] boundingVolumes;
@@ -72,6 +72,9 @@ namespace Rayman
             }
             boundingVolumes = volumes.ToArray();
             bvh = RaymarchRenderer.CreateSpatialStructure<AABB>(boundingVolumes);
+#if UNITY_EDITOR
+            SpatialStructureDebugger.Add(bvh);
+#endif
             
             int shapeCount = boundingVolumes.Length;
             shapeData = new ShapeData[shapeCount];

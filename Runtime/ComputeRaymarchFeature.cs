@@ -84,7 +84,7 @@ namespace Rayman
                 cs.SetInt(ScreenHeightId,  Screen.height);
                 cs.SetFloat(RenderScaleId, UniversalRenderPipeline.asset.renderScale);
                 cs.SetInt(RaymarchRenderer.MaxStepsId, setting.MaxSteps);
-                cs.SetInt(RaymarchRenderer.MaxDistanceId, setting.MaxDistance);
+                cs.SetFloat(RaymarchRenderer.MaxDistanceId, setting.MaxDistance);
 #if UNITY_EDITOR
                 if (setting.DebugMode != DebugModes.None)
                 {
@@ -111,8 +111,8 @@ namespace Rayman
                     int totalThreads = Screen.width * Screen.height;
                     resultBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, totalThreads,
                         Marshal.SizeOf(typeof(ComputeResultData)));
-                    // resultData = new ComputeResultData[totalThreads];
                     Shader.SetGlobalBuffer(ResultBufferId, resultBuffer);
+                    // resultData = new ComputeResultData[totalThreads];
                     Debug.Log($"[Raymarch Feature] ShapeBuffer[{shapeCount}] & ResultBuffer[{totalThreads}] initialized.");
                 }
                 shapeBuffer.SetData(shapeData);
@@ -217,7 +217,7 @@ namespace Rayman
     public class RaymarchSetting
     {
         public int MaxSteps = 64;
-        public int MaxDistance = 100;
+        public float MaxDistance = 100f;
         public int ShadowMaxSteps = 32;
         public float ShadowMaxDistance = 30f;
 #if UNITY_EDITOR

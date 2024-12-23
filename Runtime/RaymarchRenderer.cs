@@ -26,13 +26,6 @@ namespace Rayman
         [SerializeField] protected Shader mainShader;
         [SerializeField] protected List<RaymarchShape> shapes = new();
         [SerializeField] protected float shadowBias = 0.013f;
-#if UNITY_EDITOR
-        [Header("Debugging")] [SerializeField] protected Shader debugShader;
-        [SerializeField] protected DebugModes debugMode = DebugModes.None;
-        [SerializeField] protected bool drawGizmos;
-        [SerializeField] protected bool showLabel;
-        [SerializeField] protected int boundsDisplayThreshold = 300;
-#endif
         
         public static BVH<T> CreateSpatialStructure<T>(BoundingVolume<T>[] volumes) where T : struct, IBounds<T>
         {

@@ -10,16 +10,12 @@
   },
   "samples": [
     {
-      "displayName": "Basic Sphere",
-      "path": "Samples~/RaymarchSphere"
+      "displayName": "Raymarch Surface Only Shader",
+      "path": "Samples~/RaymarchSurface"
     },
     {
-      "displayName": "Shapes",
-      "path": "Samples~/Shapes"
-    },
-    {
-      "displayName": "Performance Test",
-      "path": "Samples~/PerformanceTest"
+      "displayName": "Raymarch Compute & Surface Shader",
+      "path": "Samples~/RaymarchCompute"
     }
   ]
 }

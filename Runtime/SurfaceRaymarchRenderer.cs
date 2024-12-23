@@ -12,6 +12,13 @@ namespace Rayman
         [SerializeField] private float maxDistance = 100f;
         [SerializeField] private int shadowMaxSteps = 32;
         [SerializeField] private float shadowMaxDistance = 30f;
+#if UNITY_EDITOR
+        [Header("Debugging")] [SerializeField] protected Shader debugShader;
+        [SerializeField] protected DebugModes debugMode = DebugModes.None;
+        [SerializeField] protected bool drawGizmos;
+        [SerializeField] protected bool showLabel;
+        [SerializeField] protected int boundsDisplayThreshold = 300;
+#endif
         
         private Material mat;
         private ISpatialStructure<AABB> bvh;
@@ -22,6 +29,8 @@ namespace Rayman
         private GraphicsBuffer shapeBuffer;
         private GraphicsBuffer distortionBuffer;
         private GraphicsBuffer nodeBuffer;
+
+        public ISpatialStructure<AABB> SpatialStructure => bvh;
         
         private void Awake()
         {
@@ -65,6 +74,9 @@ namespace Rayman
 
             boundingVolumes = CreateBoundingVolumes<AABB>().ToArray();
             bvh = CreateSpatialStructure<AABB>(boundingVolumes);
+#if UNITY_EDITOR
+            SpatialStructureDebugger.Add(bvh);
+#endif
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];

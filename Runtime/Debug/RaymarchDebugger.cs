@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Rayman.Debug
+namespace Rayman
 {
     public class RaymarchDebugger : MonoBehaviour, IDebug
     {
