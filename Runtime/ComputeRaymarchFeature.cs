@@ -7,7 +7,7 @@ using UnityEngine.Rendering.RenderGraphModule;
 
 namespace Rayman
 {
-    public class RaymarchFeature : ScriptableRendererFeature
+    public class ComputeRaymarchFeature : ScriptableRendererFeature
     {
         public class RaymarchComputePass : ScriptableRenderPass
         {
@@ -99,8 +99,9 @@ namespace Rayman
             
             public void SetupShapeResultBuffer(ShapeData[] shapeData)
             {
-                int shapeCount = shapeData.Length;
+                if (shapeData == null) return;
                 
+                int shapeCount = shapeData.Length;
                 if (shapeBuffer == null || shapeBuffer.count != shapeCount)
                 {
                     shapeBuffer?.Release();
@@ -119,6 +120,8 @@ namespace Rayman
 
             public void SetupNodeBuffer(NodeData<AABB>[] nodeData)
             {
+                if (nodeData == null) return;
+                
                 int nodeCount = nodeData.Length;
                 if (nodeBuffer == null || nodeBuffer.count != nodeCount)
                 {
@@ -133,11 +136,11 @@ namespace Rayman
             private static void ExecutePass(PassData data, ComputeGraphContext cgContext)
             {
                 int mainKernel = data.Cs.FindKernel("CSMain");
-                cgContext.cmd.SetComputeVectorParam(data.Cs, "_CameraPosition", Camera.main.transform.position);
-                cgContext.cmd.SetComputeMatrixParam(data.Cs, "_CameraToWorld", Camera.main.cameraToWorldMatrix);
-                cgContext.cmd.SetComputeMatrixParam(data.Cs, "_InverseProjectionMatrix", Camera.main.projectionMatrix.inverse);
+                cgContext.cmd.SetComputeVectorParam(data.Cs, CameraPositionId, Camera.main.transform.position);
+                cgContext.cmd.SetComputeMatrixParam(data.Cs, CameraToWorldId, Camera.main.cameraToWorldMatrix);
+                cgContext.cmd.SetComputeMatrixParam(data.Cs, InverseProjectionMatrixId, Camera.main.projectionMatrix.inverse);
                 Matrix4x4 viewProjectionMatrix = Camera.main.projectionMatrix * Camera.main.worldToCameraMatrix;
-                cgContext.cmd.SetComputeMatrixParam(data.Cs, "_ViewProjectionMatrix", viewProjectionMatrix);
+                cgContext.cmd.SetComputeMatrixParam(data.Cs, ViewProjectionMatrixId, viewProjectionMatrix);
                 
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.ShapeBufferId, data.ShapeBufferHandle);
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.NodeBufferId, data.NodeBufferHandle);
@@ -152,15 +155,17 @@ namespace Rayman
             }
         }
         
-        private static readonly int ResultBufferId = Shader.PropertyToID("_ResultBuffer");
+        private static readonly int CameraPositionId = Shader.PropertyToID("_CameraPosition");
+        private static readonly int CameraToWorldId = Shader.PropertyToID("_CameraToWorld");
+        private static readonly int InverseProjectionMatrixId = Shader.PropertyToID("_InverseProjectionMatrix");
+        private static readonly int ViewProjectionMatrixId = Shader.PropertyToID("_ViewProjectionMatrix");
         private static readonly int RenderScaleId = Shader.PropertyToID("_RenderScale");
         private static readonly int ScreenWidthId = Shader.PropertyToID("_ScreenWidth");
         private static readonly int ScreenHeightId = Shader.PropertyToID("_ScreenHeight");
-
-        public event Func<ShapeData[]> OnRequestShapeData;
-        public event Func<NodeData<AABB>[]> OnRequestNodeData;
+        private static readonly int ResultBufferId = Shader.PropertyToID("_ResultBuffer");
         
         public RaymarchSetting Setting;
+        public IComputeRaymarchDataProvider PassDataProvider;
         
         [SerializeField] private ComputeShader raymarchCs;
 #if UNITY_EDITOR
@@ -198,13 +203,11 @@ namespace Rayman
 
             if (renderingData.cameraData.camera == Camera.main)
             {
-                ShapeData[] shapeData = OnRequestShapeData?.Invoke();
-                NodeData<AABB>[] nodeData = OnRequestNodeData?.Invoke();
-                if (shapeData == null || nodeData == null) return;
+                if (PassDataProvider == null) return;
                 
                 computePass.InitializePassSettings();
-                computePass.SetupShapeResultBuffer(shapeData);
-                computePass.SetupNodeBuffer(nodeData);
+                computePass.SetupShapeResultBuffer(PassDataProvider.GetShapeData());
+                computePass.SetupNodeBuffer(PassDataProvider.GetNodeData());
                 renderer.EnqueuePass(computePass);
             }
         }
@@ -215,6 +218,8 @@ namespace Rayman
     {
         public int MaxSteps = 64;
         public int MaxDistance = 100;
+        public int ShadowMaxSteps = 32;
+        public float ShadowMaxDistance = 30f;
 #if UNITY_EDITOR
         public DebugModes DebugMode = 0;
         public int BoundsDisplayThreshold = 50;

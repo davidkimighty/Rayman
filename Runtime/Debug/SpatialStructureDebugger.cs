@@ -13,7 +13,7 @@ namespace Rayman.Debug
 
         public string GetDebugMessage()
         {
-            return $"Nodes   [ {manager.NodeCount,4} ]    " +
+            return $"Nodes   [ {0,4} ]    " +
                    $"Max Depth   [ {manager.SpatialStructure?.MaxHeight ?? 0,3} ]";
         }
     }

@@ -1,22 +1,28 @@
 ﻿#ifndef RAYMAN_COMPUTE_FORWARDLIT
 #define RAYMAN_COMPUTE_FORWARDLIT
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct appdata
 {
     float4 vertex : POSITION;
-    float2 uv : TEXCOORD0;
+    float3 normal : NORMAL;
+    float4 tangent : TANGENT;
+    float2 texcoord : TEXCOORD0;
+    float2 lightmapUV : TEXCOORD1;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct v2f
 {
     float4 posCS : SV_POSITION;
-    float3 posWS : TEXCOORD0;
-    DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
-    half4 fogFactorAndVertexLight : TEXCOORD2;
+    float4 posSS : TEXCOORD0;
+    float3 posWS : TEXCOORD1;
+    float3 normalWS : TEXCOORD2;
+    DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 3);
+    half4 fogFactorAndVertexLight : TEXCOORD4;
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -33,8 +39,17 @@ v2f vert (appdata v)
     UNITY_SETUP_INSTANCE_ID(v);
     UNITY_TRANSFER_INSTANCE_ID(v, o);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+    
     o.posCS = TransformObjectToHClip(v.vertex.xyz);
     o.posWS = TransformObjectToWorld(v.vertex.xyz);
+    o.normalWS = TransformObjectToWorldNormal(v.normal);
+    
+    half3 vertexLight = VertexLighting(o.posWS, o.normalWS);
+    half fogFactor = ComputeFogFactor(o.posCS.z);
+    o.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+
+    OUTPUT_LIGHTMAP_UV(v.lightmapUV, unity_LightmapST, o.lightmapUV);
+    OUTPUT_SH(o.normalWS.xyz, o.vertexSH);
     return o;
 }
 
@@ -46,23 +61,27 @@ output frag (v2f i)
     const float2 screenPos = GetScreenPosition(i.posCS);
     const uint2 pixelCoord = uint2(screenPos * _ScreenParams.xy);
     const RaymarchResult result = _ResultBuffer[pixelCoord.x + pixelCoord.y * _ScreenParams.x];
-				
+    
     if (result.lastHitDistance > EPSILON) discard;
-				
-    const float depth = GetDepth(i.posWS);
-    const float3 viewDir = normalize(GetCameraPosition() - result.hitPoint);
+
+    const float3 cameraPos = GetCameraPosition();
+    float lengthToSurface = length(i.posWS - cameraPos);
+    const float depth = result.travelDistance - lengthToSurface < EPSILON ?
+        GetDepth(i.posWS) : GetDepth(result.hitPoint);
+    
+    const float3 viewDir = normalize(cameraPos - result.hitPoint);
     const float fresnel = GetFresnelSchlick(viewDir, result.normal);
     
     half3 shade = MainLightShade(result.hitPoint, result.rayDirection, result.normal, fresnel);
     AdditionalLightsShade(result.hitPoint, result.rayDirection, result.normal, fresnel, shade);
     shade += RimLightShade(result.normal, viewDir);
 
-    float4 color = result.color;
-    color.rgb *= shade + SAMPLE_GI(i.lightmapUV, i.vertexSH, result.normal);
-    color.rgb = MixFog(color.rgb, i.fogFactorAndVertexLight.x);
+    float4 finalColor = result.color;
+    finalColor.rgb *= shade + SAMPLE_GI(i.lightmapUV, i.vertexSH, result.normal);
+    finalColor.rgb = MixFog(finalColor.rgb, i.fogFactorAndVertexLight.x);
     
     output o;
-    o.color = color;
+    o.color = finalColor;
     o.depth = depth;
     return o;
 }

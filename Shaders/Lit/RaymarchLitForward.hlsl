@@ -35,6 +35,13 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
+StructuredBuffer<NodeAABB> _NodeBuffer;
+
+inline NodeAABB GetNode(const int index)
+{
+	return _NodeBuffer[index];
+}
+
 Varyings Vert (Attributes input)
 {
     Varyings output = (Varyings)0;
@@ -66,7 +73,7 @@ FragOutput Frag (Varyings input)
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.travelDistance = length(ray.hitPoint - cameraPos);
 	
-	TraverseAabbTree(ray, hitIds, hitCount);
+	TraverseAabbTree(0, ray, hitIds, hitCount);
 	InsertionSort(hitIds, hitCount.x);
 	
 	if (!Raymarch(ray)) discard;

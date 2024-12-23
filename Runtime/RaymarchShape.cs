@@ -55,6 +55,7 @@ namespace Rayman
             [ColorUsage(true, true)] public Color EmissionColor;
             [Range(0, 1f)] public float EmissionIntensity;
             public Distortion Distortion;
+            public float BoundsExpandSize;
         }
 
         [SerializeField] private Setting settings;
@@ -131,18 +132,6 @@ namespace Rayman
             Vector3 min = center - extent + offset;
             Vector3 max = center + extent + offset;
             return new AABB(min, max);
-        }
-    }
-    
-    public class BoundingVolume<T> where T : struct, IBounds<T>
-    {
-        public RaymarchShape Source;
-        public T Bounds;
-
-        public BoundingVolume(RaymarchShape shape, T bounds)
-        {
-            Source = shape;
-            Bounds = bounds;
         }
     }
 }
