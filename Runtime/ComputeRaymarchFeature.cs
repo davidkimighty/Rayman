@@ -164,7 +164,7 @@ namespace Rayman
         private static readonly int ScreenHeightId = Shader.PropertyToID("_ScreenHeight");
         private static readonly int ResultBufferId = Shader.PropertyToID("_ResultBuffer");
         
-        public RaymarchSetting Setting;
+        public RaymarchSetting Setting = new();
         public IComputeRaymarchDataProvider PassDataProvider;
         
         [SerializeField] private ComputeShader raymarchCs;

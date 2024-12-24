@@ -45,12 +45,13 @@ namespace Rayman
         [Serializable]
         public class Setting
         {
-            public Shapes Shape;
-            public Vector3 Size;
+            public Shapes Shape = Shapes.Sphere;
+            public Vector3 Size = Vector3.one * 0.5f;
             public Vector3 Offset = Vector3.one * 0.5f;
-            [Range(0, 1f)] public float Roundness;
-            public Operations Operation;
+            public bool UseLossyScale = true;
+            public Operations Operation = Operations.Union;
             [Range(0, 1f)] public float Smoothness;
+            [Range(0, 1f)] public float Roundness;
             public Color Color;
             [ColorUsage(true, true)] public Color EmissionColor;
             [Range(0, 1f)] public float EmissionIntensity;
@@ -58,6 +59,8 @@ namespace Rayman
             public float BoundsExpandSize;
         }
 
+        private static readonly Vector3 Epsilon = Vector3.one * 0.001f;
+        
         [SerializeField] private Setting settings;
 
         public Setting Settings => settings;
@@ -107,7 +110,7 @@ namespace Rayman
         private AABB GetAABB(Vector3 size)
         {
             Vector3 center = transform.position;
-            size = Vector3.one * size.x;
+            size = Vector3.one * size.x + Epsilon;
             Vector3 offset = Vector3.Scale(size, (settings.Offset - Vector3.one * 0.5f) * 2f);
             
             Vector3 min = center - size + offset;
@@ -117,6 +120,7 @@ namespace Rayman
 
         private AABB GetRotatedAABB(Vector3 size)
         {
+            size += Epsilon;
             Vector3 center = transform.position;
             Vector3 right = transform.right * size.x;
             Vector3 up = transform.up * size.y;

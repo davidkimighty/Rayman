@@ -40,7 +40,7 @@ namespace Rayman
         [SerializeField] protected bool showLabel;
         [SerializeField] protected int boundsDisplayThreshold = 300;
 #endif
-        protected Material mat;
+        protected Material matInstance;
         protected ISpatialStructure<AABB> bvh;
         protected BoundingVolume<AABB>[] boundingVolumes;
         protected ShapeData[] shapeData;
@@ -60,10 +60,10 @@ namespace Rayman
         {
             if (boundingVolumes == null) return;
             
-            RaymarchUtils.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes);
-            RaymarchUtils.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
-            RaymarchUtils.FillNodeData<AABB>(bvh, ref nodeData);
+            RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
+            RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
+            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
+            RaymarchUtils.FillNodeData(bvh, ref nodeData);
             
             shapeBuffer?.SetData(shapeData);
             distortionBuffer?.SetData(distortionData);
@@ -91,74 +91,74 @@ namespace Rayman
 #if UNITY_EDITOR
             SetupMaterialInEditor();
 #endif
-            if (mat == null)
+            if (matInstance == null)
             {
                 if (mainShader == null) return;
-                mat = CoreUtils.CreateEngineMaterial(mainShader);
+                matInstance = CoreUtils.CreateEngineMaterial(mainShader);
             }
-            mainRenderer.material = mat;
+            mainRenderer.material = matInstance;
             
             int shapeCount = shapes.Count(s => s.gameObject.activeInHierarchy);
             shapeData = new ShapeData[shapeCount];
-            SetupShapeBuffer(shapeCount, ref mat, ref shapeBuffer);
+            SetupShapeBuffer(shapeCount, ref matInstance, ref shapeBuffer);
             
             int distortionCount = shapes.Count(s => s.Settings.Distortion.Enabled && s.gameObject.activeInHierarchy);
             distortionData = new DistortionData[distortionCount];
-            SetupDistortionBuffer(distortionCount, ref mat, ref distortionBuffer);
+            SetupDistortionBuffer(distortionCount, ref matInstance, ref distortionBuffer);
 
             boundingVolumes = RaymarchUtils.CreateBoundingVolumes<AABB>(shapes).ToArray();
-            bvh = RaymarchUtils.CreateSpatialStructure<AABB>(boundingVolumes);
+            bvh = RaymarchUtils.CreateSpatialStructure(boundingVolumes);
 #if UNITY_EDITOR
             SpatialStructureDebugger.Add(bvh);
 #endif
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];
-            SetupNodeBuffer(nodesCount, ref mat, ref nodeBuffer);
+            SetupNodeBuffer(nodesCount, ref matInstance, ref nodeBuffer);
             
-            SetupRaymarchProperties(ref mat);
+            SetupRaymarchProperties(ref matInstance);
 
 #if UNITY_EDITOR
             void SetupMaterialInEditor()
             {
-                if (mat != null) return;
+                if (matInstance != null) return;
                 if (debugMode != DebugModes.None)
                 {
                     if (debugShader == null) return;
-                    mat = CoreUtils.CreateEngineMaterial(debugShader);
-                    SetupDebugProperties(ref mat);
+                    matInstance = CoreUtils.CreateEngineMaterial(debugShader);
+                    SetupDebugProperties(ref matInstance);
                 }
             }
 #endif
         }
         
-        protected void SetupShapeBuffer(int count, ref Material mat, ref GraphicsBuffer shapeBuffer)
+        protected void SetupShapeBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
         {
             if (count == 0) return;
             
-            shapeBuffer?.Release();
-            shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(ShapeData)));
-            mat.SetBuffer(ShapeBufferId, shapeBuffer);
+            buffer?.Release();
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(ShapeData)));
+            mat.SetBuffer(ShapeBufferId, buffer);
         }
 
-        protected void SetupDistortionBuffer(int count, ref Material mat, ref GraphicsBuffer distortionBuffer)
+        protected void SetupDistortionBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
         {
             if (count == 0) return;
             
-            distortionBuffer?.Release();
-            distortionBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(DistortionData)));
+            buffer?.Release();
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(DistortionData)));
             mat.SetInt(DistortionCountId, count);
-            mat.SetBuffer(DistortionBufferId, distortionBuffer);
+            mat.SetBuffer(DistortionBufferId, buffer);
             mat.EnableKeyword("_DISTORTION_FEATURE");
         }
 
-        protected void SetupNodeBuffer(int count, ref Material mat, ref GraphicsBuffer nodeBuffer)
+        protected void SetupNodeBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
         {
             if (count == 0) return;
             
-            nodeBuffer?.Release();
-            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(NodeData<AABB>)));
-            mat.SetBuffer(NodeBufferId, nodeBuffer);
+            buffer?.Release();
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(NodeData<AABB>)));
+            mat.SetBuffer(NodeBufferId, buffer);
         }
         
         protected void SetupRaymarchProperties(ref Material mat)
@@ -176,20 +176,20 @@ namespace Rayman
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
             
-            if (mat == null) return;
+            if (matInstance == null) return;
             
-            bool rebuild = mat.shader != (debugMode != DebugModes.None ? debugShader : mainShader);
+            bool rebuild = matInstance.shader != (debugMode != DebugModes.None ? debugShader : mainShader);
             if (rebuild)
             {
-                DestroyImmediate(mat);
-                mat = null;
+                DestroyImmediate(matInstance);
+                matInstance = null;
                 Build();
                 return;
             }
             
-            SetupRaymarchProperties(ref mat);
+            SetupRaymarchProperties(ref matInstance);
             if (debugMode != DebugModes.None)
-                SetupDebugProperties(ref mat);
+                SetupDebugProperties(ref matInstance);
         }
         
         protected virtual void OnDrawGizmos()
@@ -205,9 +205,9 @@ namespace Rayman
             
             if (boundingVolumes == null) return;
             
-            RaymarchUtils.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes);
-            RaymarchUtils.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
+            RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
+            RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
+            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
         }
         
         protected void SetupDebugProperties(ref Material mat)
@@ -252,7 +252,8 @@ namespace Rayman
 
         public ShapeData(Transform sourceTransform, RaymarchShape.Setting setting)
         {
-            Transform = sourceTransform.worldToLocalMatrix;
+            Transform = setting.UseLossyScale ? sourceTransform.worldToLocalMatrix : 
+                Matrix4x4.TRS(sourceTransform.position, sourceTransform.rotation, Vector3.one).inverse;
             Type = (int)setting.Shape;
             Size = setting.Size;
             Roundness = setting.Roundness;

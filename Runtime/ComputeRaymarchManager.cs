@@ -8,9 +8,10 @@ namespace Rayman
     public class ComputeRaymarchManager : MonoBehaviour, IComputeRaymarchDataProvider
     {
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
+        [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
         [SerializeField] private bool buildOnAwake;
         [SerializeField] private float boundsExpandSize;
-        [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
+        [SerializeField] private bool useLossyScale;
 #if UNITY_EDITOR
         [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
@@ -46,10 +47,10 @@ namespace Rayman
         {
             if (boundingVolumes == null) return;
             
-            RaymarchUtils.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes);
-            RaymarchUtils.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
-            RaymarchUtils.FillNodeData<AABB>(bvh, ref nodeData);
+            RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
+            RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
+            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
+            RaymarchUtils.FillNodeData(bvh, ref nodeData);
         }
 
         public ShapeData[] GetShapeData() => shapeData;

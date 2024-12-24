@@ -103,28 +103,28 @@ inline float GetShapeSDF(const float3 pos, const int type, const float3 size, co
 {
     switch (type)
     {
-    case SPHERE:
-        return Sphere(pos, size.x);
-    case ELLIPSOID:
-        return Ellipsoid(pos, size);
-    case BOX:
-        return Box(pos, size) - roundness;
-    case OCTAHEDRON:
-        return Octahedron(pos, size.x) - roundness;
-    case CAPSULE:
-        return Capsule(pos, size.xy);
-    case CYLINDER:
-        return Cylinder(pos, size.xy) - roundness;
-    case TORUS:
-        return Torus(pos, size.xy);
-    case CAPPED_TORUS:
-        return CappedTorus(pos, size);
-    case LINK:
-        return Link(pos, size);
-    case CAPPED_CONE:
-        return CappedCone(pos, size) - roundness;
-    default:
-        return Sphere(pos, size.x);
+        case SPHERE:
+            return Sphere(pos, size.x);
+        case ELLIPSOID:
+            return Ellipsoid(pos, size);
+        case BOX:
+            return Box(pos, size) - roundness;
+        case OCTAHEDRON:
+            return Octahedron(pos, size.x) - roundness;
+        case CAPSULE:
+            return Capsule(pos, size.xy);
+        case CYLINDER:
+            return Cylinder(pos, size.xy) - roundness;
+        case TORUS:
+            return Torus(pos, size.xy);
+        case CAPPED_TORUS:
+            return CappedTorus(pos, size);
+        case LINK:
+            return Link(pos, size);
+        case CAPPED_CONE:
+            return CappedCone(pos, size) - roundness;
+        default:
+            return Sphere(pos, size.x);
     }
 }
 
