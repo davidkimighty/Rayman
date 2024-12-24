@@ -44,7 +44,6 @@ Shader "Rayman/RaymarchDebugLit"
 		struct Shape
 		{
 			float4x4 transform;
-			float3 lossyScale;
 			int type;
 			float3 size;
 			float roundness;
@@ -97,7 +96,7 @@ Shader "Rayman/RaymarchDebugLit"
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 pos = NormalizeScale(ApplyMatrix(ray.hitPoint, shape.transform), shape.lossyScale);
+				float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
 #ifdef _DISTORTION_FEATURE
 				if (shape.distortionEnabled > 0)
 					ApplyDistortionPositionById(pos, i);
@@ -116,7 +115,7 @@ Shader "Rayman/RaymarchDebugLit"
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 pos = NormalizeScale(ApplyMatrix(rayPos, shape.transform), shape.lossyScale);
+				float3 pos = ApplyMatrix(rayPos, shape.transform);
 #ifdef _DISTORTION_FEATURE
 				if (shape.distortionEnabled > 0)
 					ApplyDistortionPositionById(pos, i);

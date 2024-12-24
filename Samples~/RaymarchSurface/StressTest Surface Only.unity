@@ -331,7 +331,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 48286269}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 48286271}
@@ -353,16 +353,17 @@ MonoBehaviour:
   - {fileID: 1566332629}
   - {fileID: 1500106467}
   - {fileID: 154352739}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &49264465 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2281557309490556304, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -569,7 +570,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 75628100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 75628102}
@@ -591,16 +592,17 @@ MonoBehaviour:
   - {fileID: 1409785974}
   - {fileID: 1610548755}
   - {fileID: 1662862211}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!4 &76295236 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1096,7 +1098,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 137241102}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 137241104}
@@ -1118,16 +1120,17 @@ MonoBehaviour:
   - {fileID: 1596717548}
   - {fileID: 644649341}
   - {fileID: 1192924910}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &140316618 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1575,7 +1578,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 223524220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 223524222}
@@ -1597,16 +1600,17 @@ MonoBehaviour:
   - {fileID: 1322114645}
   - {fileID: 1454139569}
   - {fileID: 522175721}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &223654672 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1737,7 +1741,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 229794043}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 229794045}
@@ -1759,16 +1763,17 @@ MonoBehaviour:
   - {fileID: 316226235}
   - {fileID: 208807542}
   - {fileID: 518759754}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &234865630 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4294977947349543525, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1899,7 +1904,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 237466899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 237466901}
@@ -1921,16 +1926,17 @@ MonoBehaviour:
   - {fileID: 377432572}
   - {fileID: 591748974}
   - {fileID: 2023022078}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &238645791 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4294977947349543525, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -2066,7 +2072,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 245388307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 245388309}
@@ -2088,16 +2094,17 @@ MonoBehaviour:
   - {fileID: 1040450209}
   - {fileID: 847829011}
   - {fileID: 944991315}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!1 &251214450
 GameObject:
   m_ObjectHideFlags: 0
@@ -2195,7 +2202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 251214450}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 251214452}
@@ -2217,16 +2224,17 @@ MonoBehaviour:
   - {fileID: 1611694925}
   - {fileID: 670898030}
   - {fileID: 1608743754}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &254408816 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578090072714221426, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -2603,7 +2611,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 334957472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 334957474}
@@ -2625,16 +2633,17 @@ MonoBehaviour:
   - {fileID: 1407553780}
   - {fileID: 2028224071}
   - {fileID: 1927356904}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &337124377 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578090072714221426, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -2808,7 +2817,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 350990197}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 350990199}
@@ -2830,16 +2839,17 @@ MonoBehaviour:
   - {fileID: 361954150}
   - {fileID: 1548449697}
   - {fileID: 1593857715}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &354169369 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4294977947349543525, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -3278,7 +3288,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 469909840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 469909842}
@@ -3300,16 +3310,17 @@ MonoBehaviour:
   - {fileID: 1627059929}
   - {fileID: 1853629067}
   - {fileID: 565126427}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &473013680 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8954529997188336618, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -3908,7 +3919,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 560142579}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 560142581}
@@ -3930,16 +3941,17 @@ MonoBehaviour:
   - {fileID: 740998979}
   - {fileID: 364349830}
   - {fileID: 1653559624}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &560514689 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8954529997188336618, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -4141,7 +4153,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 584437058}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 584437060}
@@ -4163,16 +4175,17 @@ MonoBehaviour:
   - {fileID: 45916858}
   - {fileID: 244302328}
   - {fileID: 422179929}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &586464340 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2685589895163090755, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -4987,7 +5000,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 750718890}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 750718892}
@@ -5009,16 +5022,17 @@ MonoBehaviour:
   - {fileID: 1421811547}
   - {fileID: 11113147}
   - {fileID: 1737576594}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &752613221 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8172589297540028822, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -5248,7 +5262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 788247598}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 788247600}
@@ -5270,16 +5284,17 @@ MonoBehaviour:
   - {fileID: 834353840}
   - {fileID: 1116912664}
   - {fileID: 1109171343}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &789799012 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -5388,7 +5403,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 794431205}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 794431207}
@@ -5410,16 +5425,17 @@ MonoBehaviour:
   - {fileID: 1795232935}
   - {fileID: 349380094}
   - {fileID: 833075504}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &797005371 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -5561,7 +5577,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 807507273}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 807507275}
@@ -5583,16 +5599,17 @@ MonoBehaviour:
   - {fileID: 1332017834}
   - {fileID: 1943249480}
   - {fileID: 88036681}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &809749600 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -5778,7 +5795,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 829917192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 829917194}
@@ -5800,16 +5817,17 @@ MonoBehaviour:
   - {fileID: 1002949414}
   - {fileID: 922559037}
   - {fileID: 1838875818}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &830473541 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9004938299600516523, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -6867,7 +6885,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1058859002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1058859004}
@@ -6889,16 +6907,17 @@ MonoBehaviour:
   - {fileID: 1983739301}
   - {fileID: 784753848}
   - {fileID: 1661379291}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1058906571 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -7370,7 +7389,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1112326477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1112326479}
@@ -7392,16 +7411,17 @@ MonoBehaviour:
   - {fileID: 68530651}
   - {fileID: 553077285}
   - {fileID: 1251821108}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1116356827 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -7921,7 +7941,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1226787423}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1226787425}
@@ -7943,16 +7963,17 @@ MonoBehaviour:
   - {fileID: 1057784834}
   - {fileID: 208824933}
   - {fileID: 1699542791}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1231365949 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578090072714221426, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -8291,7 +8312,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1276846654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1276846656}
@@ -8313,16 +8334,17 @@ MonoBehaviour:
   - {fileID: 1267210557}
   - {fileID: 1578621463}
   - {fileID: 725022385}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1283214221 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2281557309490556304, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -8541,7 +8563,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1310379938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1310379940}
@@ -8563,16 +8585,17 @@ MonoBehaviour:
   - {fileID: 975552589}
   - {fileID: 1887069806}
   - {fileID: 560514689}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1317682251 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1306309491716140498, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -9379,7 +9402,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1428563574}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1428563576}
@@ -9401,16 +9424,17 @@ MonoBehaviour:
   - {fileID: 2017786048}
   - {fileID: 481654986}
   - {fileID: 1285578235}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!1001 &1432694852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9922,7 +9946,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1525038253}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1525038255}
@@ -9944,16 +9968,17 @@ MonoBehaviour:
   - {fileID: 1892340827}
   - {fileID: 455246022}
   - {fileID: 473013680}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1528963660 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1751723141347699139, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -10122,7 +10147,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1553158065}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1553158067}
@@ -10144,16 +10169,17 @@ MonoBehaviour:
   - {fileID: 694014784}
   - {fileID: 1878390712}
   - {fileID: 2015444440}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1555252864 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8172589297540028822, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -10438,7 +10464,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1603688475}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1603688477}
@@ -10460,16 +10486,17 @@ MonoBehaviour:
   - {fileID: 2001763073}
   - {fileID: 451653435}
   - {fileID: 1763806079}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1604811849 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1751723141347699139, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -11020,7 +11047,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1706016295}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1706016297}
@@ -11042,16 +11069,17 @@ MonoBehaviour:
   - {fileID: 1188035777}
   - {fileID: 1577664481}
   - {fileID: 814077185}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1708299049 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4234416149956862580, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -11360,7 +11388,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1752965796}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1752965798}
@@ -11382,16 +11410,17 @@ MonoBehaviour:
   - {fileID: 524197571}
   - {fileID: 383711166}
   - {fileID: 1781987325}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1754312211 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3578090072714221426, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -11738,7 +11767,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1817946583}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1817946585}
@@ -11760,16 +11789,17 @@ MonoBehaviour:
   - {fileID: 1641457239}
   - {fileID: 1358084239}
   - {fileID: 1794456979}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1818087042 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5427219352666758952, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -12152,7 +12182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1878116086}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1878116088}
@@ -12174,16 +12204,17 @@ MonoBehaviour:
   - {fileID: 61214158}
   - {fileID: 1652662558}
   - {fileID: 713884915}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1878390712 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8739418980410132935, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -12303,7 +12334,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1880155792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1880155794}
@@ -12325,16 +12356,17 @@ MonoBehaviour:
   - {fileID: 1747105074}
   - {fileID: 527557674}
   - {fileID: 1657639282}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1885441443 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5427219352666758952, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -12720,7 +12752,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1951616421}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1951616423}
@@ -12742,16 +12774,17 @@ MonoBehaviour:
   - {fileID: 1032204599}
   - {fileID: 1398173857}
   - {fileID: 886848496}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1952908294 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -12898,7 +12931,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1974758807}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1974758809}
@@ -12920,16 +12953,17 @@ MonoBehaviour:
   - {fileID: 2114648984}
   - {fileID: 671413206}
   - {fileID: 116276261}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &1983739301 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7000101041063911214, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -13148,7 +13182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2019616522}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2019616524}
@@ -13170,16 +13204,17 @@ MonoBehaviour:
   - {fileID: 1041178101}
   - {fileID: 1101593213}
   - {fileID: 1386896613}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &2020504768 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4294977947349543525, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -13632,7 +13667,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2120122697}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87402c4673c042b4be79ee9253b56050, type: 3}
+  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2120122699}
@@ -13654,16 +13689,17 @@ MonoBehaviour:
   - {fileID: 1750785508}
   - {fileID: 1652837428}
   - {fileID: 1562187493}
+  buildOnAwake: 1
+  maxSteps: 64
+  maxDistance: 100
+  shadowMaxSteps: 32
+  shadowMaxDistance: 30
   shadowBias: 0.013
   debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
   showLabel: 0
   boundsDisplayThreshold: 300
-  maxSteps: 64
-  maxDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxDistance: 30
 --- !u!114 &2121014410 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8172589297540028822, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -14073,7 +14109,7 @@ MonoBehaviour:
   _debugProviders:
   - {fileID: 569951168681609677}
   _debugMessageText: {fileID: 5473748043065805945}
-  _interval: 0.1
+  _interval: 0.05
 --- !u!114 &4827889810645172158
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -477,11 +477,6 @@ MonoBehaviour:
   - {fileID: 1747551520}
   - {fileID: 1747551519}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &39284631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -617,11 +612,6 @@ MonoBehaviour:
   - {fileID: 1260714773}
   - {fileID: 1260714772}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &186879579
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2006,11 +1996,6 @@ MonoBehaviour:
   - {fileID: 1812004710}
   - {fileID: 1812004709}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &440189063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -2136,11 +2121,6 @@ MonoBehaviour:
   - {fileID: 1633395575}
   - {fileID: 1633395574}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &480264629
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,11 +2241,6 @@ MonoBehaviour:
   - {fileID: 1176022865}
   - {fileID: 1176022864}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &484591983
 GameObject:
   m_ObjectHideFlags: 0
@@ -3066,11 +3041,6 @@ MonoBehaviour:
   - {fileID: 1589085644}
   - {fileID: 1589085642}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &540740913
 GameObject:
   m_ObjectHideFlags: 0
@@ -3191,11 +3161,6 @@ MonoBehaviour:
   - {fileID: 524154213}
   - {fileID: 524154212}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &559401294 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -4025,11 +3990,6 @@ MonoBehaviour:
   - {fileID: 1175518648}
   - {fileID: 1175518646}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &654390422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -4388,11 +4348,6 @@ MonoBehaviour:
   - {fileID: 357373928}
   - {fileID: 357373927}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &670363375
 GameObject:
   m_ObjectHideFlags: 0
@@ -4513,11 +4468,6 @@ MonoBehaviour:
   - {fileID: 284741871}
   - {fileID: 284741870}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &728754056
 GameObject:
   m_ObjectHideFlags: 0
@@ -4638,11 +4588,6 @@ MonoBehaviour:
   - {fileID: 1549985684}
   - {fileID: 1549985683}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &742381657
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5234,11 +5179,6 @@ MonoBehaviour:
   - {fileID: 1405782240}
   - {fileID: 1405782239}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &852015105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5597,11 +5537,6 @@ MonoBehaviour:
   - {fileID: 2112753257}
   - {fileID: 2112753255}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &865894871
 GameObject:
   m_ObjectHideFlags: 0
@@ -5722,11 +5657,6 @@ MonoBehaviour:
   - {fileID: 742381659}
   - {fileID: 742381658}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &870022881
 GameObject:
   m_ObjectHideFlags: 0
@@ -5847,11 +5777,6 @@ MonoBehaviour:
   - {fileID: 186879581}
   - {fileID: 186879580}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &871869974
 GameObject:
   m_ObjectHideFlags: 0
@@ -5972,11 +5897,6 @@ MonoBehaviour:
   - {fileID: 618078455}
   - {fileID: 618078454}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &887386795
 GameObject:
   m_ObjectHideFlags: 0
@@ -6097,11 +6017,6 @@ MonoBehaviour:
   - {fileID: 18571754}
   - {fileID: 18571752}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &918025659
 GameObject:
   m_ObjectHideFlags: 0
@@ -6222,11 +6137,6 @@ MonoBehaviour:
   - {fileID: 1761507279}
   - {fileID: 1761507278}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &928810200
 GameObject:
   m_ObjectHideFlags: 0
@@ -6347,11 +6257,6 @@ MonoBehaviour:
   - {fileID: 1345237615}
   - {fileID: 1345237614}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &932472411 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -6710,11 +6615,6 @@ MonoBehaviour:
   - {fileID: 1591229612}
   - {fileID: 1591229611}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &999776845
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7078,11 +6978,6 @@ MonoBehaviour:
   - {fileID: 349226221}
   - {fileID: 349226219}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1146766516
 GameObject:
   m_ObjectHideFlags: 0
@@ -7203,11 +7098,6 @@ MonoBehaviour:
   - {fileID: 1353393985}
   - {fileID: 1353393984}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1150000250
 GameObject:
   m_ObjectHideFlags: 0
@@ -7328,11 +7218,6 @@ MonoBehaviour:
   - {fileID: 625952669}
   - {fileID: 625952667}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &1175518645
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8400,11 +8285,6 @@ MonoBehaviour:
   - {fileID: 2078378038}
   - {fileID: 2078378036}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1269901865
 GameObject:
   m_ObjectHideFlags: 0
@@ -9366,11 +9246,6 @@ MonoBehaviour:
   - {fileID: 999776847}
   - {fileID: 999776846}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &1405782238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9724,11 +9599,6 @@ MonoBehaviour:
   - {fileID: 659237489}
   - {fileID: 659237488}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1522153837
 GameObject:
   m_ObjectHideFlags: 0
@@ -9849,11 +9719,6 @@ MonoBehaviour:
   - {fileID: 1190681250}
   - {fileID: 1190681249}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1524609458
 GameObject:
   m_ObjectHideFlags: 0
@@ -9974,11 +9839,6 @@ MonoBehaviour:
   - {fileID: 487400740}
   - {fileID: 487400739}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &1549985682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10808,11 +10668,6 @@ MonoBehaviour:
   - {fileID: 1571935871}
   - {fileID: 1571935870}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &1591229610
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11166,11 +11021,6 @@ MonoBehaviour:
   - {fileID: 615851259}
   - {fileID: 615851258}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1627178809
 GameObject:
   m_ObjectHideFlags: 0
@@ -12080,11 +11930,6 @@ MonoBehaviour:
   - {fileID: 1289423423}
   - {fileID: 1289423422}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1001 &1812004708
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12438,11 +12283,6 @@ MonoBehaviour:
   - {fileID: 746883470}
   - {fileID: 746883469}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &1888510536 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -12568,11 +12408,6 @@ MonoBehaviour:
   - {fileID: 2078043257}
   - {fileID: 2078043255}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &1935840063
 GameObject:
   m_ObjectHideFlags: 0
@@ -12693,11 +12528,6 @@ MonoBehaviour:
   - {fileID: 973497684}
   - {fileID: 973497683}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &1943825943 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -13411,11 +13241,6 @@ MonoBehaviour:
   - {fileID: 210486065}
   - {fileID: 210486063}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!1 &2095052721
 GameObject:
   m_ObjectHideFlags: 0
@@ -13536,11 +13361,6 @@ MonoBehaviour:
   - {fileID: 852015107}
   - {fileID: 852015106}
   shadowBias: 0.013
-  debugShader: {fileID: 0}
-  debugMode: 0
-  drawGizmos: 0
-  showLabel: 0
-  boundsDisplayThreshold: 300
 --- !u!4 &2111690830 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: 25c0fbe9469e4e74a975e456dba57fe1, type: 3}
@@ -14018,7 +13838,7 @@ MonoBehaviour:
   - {fileID: 569951168681609677}
   - {fileID: 4827889810645172158}
   _debugMessageText: {fileID: 5473748043065805945}
-  _interval: 0.1
+  _interval: 0.05
 --- !u!114 &4827889810645172158
 MonoBehaviour:
   m_ObjectHideFlags: 0

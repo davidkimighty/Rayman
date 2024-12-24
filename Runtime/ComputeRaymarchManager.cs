@@ -46,10 +46,10 @@ namespace Rayman
         {
             if (boundingVolumes == null) return;
             
-            RaymarchRenderer.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes);
-            RaymarchRenderer.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
-            RaymarchRenderer.UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
-            RaymarchRenderer.FillNodeData<AABB>(bvh, ref nodeData);
+            RaymarchUtils.SyncBoundingVolumes<AABB>(ref bvh, ref boundingVolumes);
+            RaymarchUtils.UpdateShapeData<AABB>(boundingVolumes, ref shapeData);
+            RaymarchUtils.UpdateOperationData<AABB>(boundingVolumes, ref distortionData);
+            RaymarchUtils.FillNodeData<AABB>(bvh, ref nodeData);
         }
 
         public ShapeData[] GetShapeData() => shapeData;
@@ -68,10 +68,10 @@ namespace Rayman
             {
                 if (rr == null || !rr.gameObject.activeInHierarchy) continue;
                 
-                volumes.AddRange(rr.CreateBoundingVolumes<AABB>());
+                volumes.AddRange(RaymarchUtils.CreateBoundingVolumes<AABB>(rr.Shapes));
             }
             boundingVolumes = volumes.ToArray();
-            bvh = RaymarchRenderer.CreateSpatialStructure<AABB>(boundingVolumes);
+            bvh = RaymarchUtils.CreateSpatialStructure<AABB>(boundingVolumes);
 #if UNITY_EDITOR
             SpatialStructureDebugger.Add(bvh);
 #endif
@@ -105,7 +105,7 @@ namespace Rayman
         private void OnValidate()
         {
             if (raymarchFeature == null)
-                raymarchFeature = Utilities.GetRendererFeature<ComputeRaymarchFeature>();
+                raymarchFeature = RaymarchUtils.GetRendererFeature<ComputeRaymarchFeature>();
             else
             {
                 SetupDebugProperties();
@@ -131,7 +131,7 @@ namespace Rayman
         [ContextMenu("Find All Raymarch Renderers")]
         private void FindAllGroups()
         {
-            raymarchRenderers = Utilities.GetChildrenByHierarchical<ComputeRaymarchRenderer>();
+            raymarchRenderers = RaymarchUtils.GetChildrenByHierarchical<ComputeRaymarchRenderer>();
         }
 #endif
     }

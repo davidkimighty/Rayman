@@ -3,7 +3,7 @@
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/AABB.hlsl"
 
-#define STACK_SIZE 64
+#define STACK_SIZE 32
 
 struct NodeAABB
 {
