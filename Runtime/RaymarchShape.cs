@@ -69,62 +69,61 @@ namespace Rayman
         {
             if (typeof(T) == typeof(AABB))
             {
-                Vector3 size = settings.Size + Vector3.one * (settings.Smoothness + settings.Roundness);
-                AABB aabb = GetShapeAABB(settings.Shape, size);
+                Vector3 size = settings.Size + Vector3.one * (settings.Smoothness + settings.Roundness) + Epsilon;
+                Vector3 scale = settings.UseLossyScale ? transform.lossyScale : Vector3.one;
+                AABB aabb = GetShapeAABB(settings.Shape, size, scale);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
         }
 
-        private AABB GetShapeAABB(Shapes shape, Vector3 size)
+        private AABB GetShapeAABB(Shapes shape, Vector3 size, Vector3 scale)
         {
             switch (shape)
             {
                 case Shapes.Ellipsoid:
                 case Shapes.Box:
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 case Shapes.Capsule:
                     size = new Vector3(size.x, size.y * 0.5f + size.x, size.x);
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 case Shapes.Cylinder:
                     size = new Vector3(size.x, size.y, size.x);
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 case Shapes.Torus:
                 case Shapes.CappedTorus:
                     float xy = size.x + size.y;
                     size = new Vector3(xy, size.y, xy);
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 case Shapes.Link:
                     float xz = size.x + size.z;
                     size = new Vector3(xz, size.y + xz, xz);
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 case Shapes.CappedCone:
                     float max = Mathf.Max(size.x, size.z);
                     size = new Vector3(max, size.y, max);
-                    return GetRotatedAABB(size);
+                    return GetRotatedAABB(size, scale);
                 default:
-                    return GetAABB(size);
+                    return GetAABB(size, scale);
             }
         }
 
-        private AABB GetAABB(Vector3 size)
+        private AABB GetAABB(Vector3 size, Vector3 scale)
         {
-            Vector3 center = transform.position;
-            size = Vector3.one * size.x + Epsilon;
+            size = scale * size.x;
             Vector3 offset = Vector3.Scale(size, (settings.Offset - Vector3.one * 0.5f) * 2f);
             
+            Vector3 center = transform.position;
             Vector3 min = center - size + offset;
             Vector3 max = center + size + offset;
             return new AABB(min, max);
         }
 
-        private AABB GetRotatedAABB(Vector3 size)
+        private AABB GetRotatedAABB(Vector3 size, Vector3 scale)
         {
-            size += Epsilon;
-            Vector3 center = transform.position;
-            Vector3 right = transform.right * size.x;
-            Vector3 up = transform.up * size.y;
-            Vector3 forward = transform.forward * size.z;
+            Vector3 right = Vector3.Scale(scale, transform.right) * size.x;
+            Vector3 up = Vector3.Scale(scale, transform.up) * size.y;
+            Vector3 forward = Vector3.Scale(scale, transform.forward) * size.z;
 
             Vector3 extent = new Vector3(
                 Mathf.Abs(right.x) + Mathf.Abs(up.x) + Mathf.Abs(forward.x),
@@ -133,6 +132,7 @@ namespace Rayman
             );
             Vector3 offset = Vector3.Scale(extent, (settings.Offset - Vector3.one * 0.5f) * 2f);
             
+            Vector3 center = transform.position;
             Vector3 min = center - extent + offset;
             Vector3 max = center + extent + offset;
             return new AABB(min, max);

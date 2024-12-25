@@ -1,7 +1,6 @@
 ﻿#ifndef RAYMAN_SHADOWCASTER
 #define RAYMAN_SHADOWCASTER
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
@@ -25,13 +24,6 @@ struct FragOut
     float4 color : SV_Target;
     float depth : SV_Depth;
 };
-
-StructuredBuffer<NodeAABB> _NodeBuffer;
-
-inline NodeAABB GetNode(const int index)
-{
-    return _NodeBuffer[index];
-}
 
 Varyings Vert(Attributes input)
 {

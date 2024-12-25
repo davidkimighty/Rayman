@@ -49,14 +49,6 @@ int2 hitCount; // x is leaf
 int hitIds[RAY_MAX_HITS];
 float4 color;
 
-inline float BlendDistance(inout float totalDist, const float3 pos, const Shape shape)
-{
-    float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
-    float blend = 0;
-    totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-    return blend;
-}
-
 inline float Map(const Ray ray)
 {
     float totalDist = _MaxDistance;
@@ -66,7 +58,12 @@ inline float Map(const Ray ray)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
-        float blend = BlendDistance(totalDist, pos, shape);
+        float3 scale = GetScale(shape.transform);
+        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+        float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+        
+        float blend = 0;
+        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
         localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
     }
     color = localColor;
@@ -81,7 +78,12 @@ inline float NormalMap(const float3 rayPos)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
         float3 pos = ApplyMatrix(rayPos, shape.transform);
-        BlendDistance(totalDist, pos, shape);
+        float3 scale = GetScale(shape.transform);
+        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+        float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+        
+        float blend = 0;
+        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
     }
     return totalDist;
 }

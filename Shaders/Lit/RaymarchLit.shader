@@ -40,6 +40,7 @@ Shader "Rayman/RaymarchLit"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Distortion.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
         
 		struct Shape
 		{
@@ -69,6 +70,7 @@ Shader "Rayman/RaymarchLit"
         int _DistortionCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
 		StructuredBuffer<Distortion> _DistortionBuffer;
+        StructuredBuffer<NodeAABB> _NodeBuffer;
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
@@ -94,11 +96,13 @@ Shader "Rayman/RaymarchLit"
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
+				float3 scale = GetScale(shape.transform);
+		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 #ifdef _DISTORTION_FEATURE
 				if (shape.distortionEnabled > 0)
 					ApplyDistortionPositionById(pos, i);
 #endif
-				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
@@ -113,15 +117,22 @@ Shader "Rayman/RaymarchLit"
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = ApplyMatrix(rayPos, shape.transform);
+				float3 scale = GetScale(shape.transform);
+		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 #ifdef _DISTORTION_FEATURE
 				if (shape.distortionEnabled > 0)
 					ApplyDistortionPositionById(pos, i);
 #endif
-				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness);
+				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 			}
 			return totalDist;
+		}
+
+		inline NodeAABB GetNode(const int index)
+		{
+			return _NodeBuffer[index];
 		}
         
         ENDHLSL

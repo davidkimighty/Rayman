@@ -2,7 +2,6 @@
 #define RAYMAN_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
@@ -34,13 +33,6 @@ struct FragOutput
     float4 color : SV_Target;
     float depth : SV_Depth;
 };
-
-StructuredBuffer<NodeAABB> _NodeBuffer;
-
-inline NodeAABB GetNode(const int index)
-{
-	return _NodeBuffer[index];
-}
 
 Varyings Vert (Attributes input)
 {
