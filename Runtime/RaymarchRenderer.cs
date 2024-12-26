@@ -50,6 +50,7 @@ namespace Rayman
         protected GraphicsBuffer distortionBuffer;
         protected GraphicsBuffer nodeBuffer;
         
+        
         protected virtual void Awake()
         {
             if (buildOnAwake)
@@ -58,7 +59,7 @@ namespace Rayman
 
         protected virtual void LateUpdate()
         {
-            if (boundingVolumes == null) return;
+            if (boundingVolumes == null || bvh == null) return;
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
@@ -97,20 +98,23 @@ namespace Rayman
                 matInstance = CoreUtils.CreateEngineMaterial(mainShader);
             }
             mainRenderer.material = matInstance;
-            
-            int shapeCount = shapes.Count(s => s.gameObject.activeInHierarchy);
-            shapeData = new ShapeData[shapeCount];
-            SetupShapeBuffer(shapeCount, ref matInstance, ref shapeBuffer);
-            
-            int distortionCount = shapes.Count(s => s.Settings.Distortion.Enabled && s.gameObject.activeInHierarchy);
-            distortionData = new DistortionData[distortionCount];
-            SetupDistortionBuffer(distortionCount, ref matInstance, ref distortionBuffer);
 
-            boundingVolumes = RaymarchUtils.CreateBoundingVolumes<AABB>(shapes).ToArray();
+            List<RaymarchShape> activeShapes = shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
+            int shapeCount = activeShapes.Count;
+            if (shapeCount == 0) return;
+            
+            boundingVolumes = RaymarchUtils.CreateBoundingVolumes<AABB>(activeShapes)?.ToArray();
             bvh = RaymarchUtils.CreateSpatialStructure(boundingVolumes);
 #if UNITY_EDITOR
             SpatialStructureDebugger.Add(bvh);
 #endif
+            
+            shapeData = new ShapeData[shapeCount];
+            SetupShapeBuffer(shapeCount, ref matInstance, ref shapeBuffer);
+            
+            int distortionCount = boundingVolumes.Count(bv => bv.Source.Settings.Distortion.Enabled);
+            distortionData = new DistortionData[distortionCount];
+            SetupDistortionBuffer(distortionCount, ref matInstance, ref distortionBuffer);
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];
@@ -239,12 +243,13 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
-        public Matrix4x4 Transform;
         public int Type;
+        public Matrix4x4 Transform;
         public Vector3 Size;
-        public float Roundness;
+        public Vector3 Pivot;
         public int Operation;
         public float Smoothness;
+        public float Roundness;
         public Vector4 Color;
         public Vector4 EmissionColor;
         public float EmissionIntensity;
@@ -252,13 +257,14 @@ namespace Rayman
 
         public ShapeData(Transform sourceTransform, RaymarchShape.Setting setting)
         {
+            Type = (int)setting.Shape;
             Transform = setting.UseLossyScale ? sourceTransform.worldToLocalMatrix : 
                 Matrix4x4.TRS(sourceTransform.position, sourceTransform.rotation, Vector3.one).inverse;
-            Type = (int)setting.Shape;
             Size = setting.Size;
-            Roundness = setting.Roundness;
+            Pivot = setting.Pivot;
             Operation = (int)setting.Operation;
             Smoothness = setting.Smoothness;
+            Roundness = setting.Roundness;
             Color = setting.Color;
             EmissionColor = setting.EmissionColor;
             EmissionIntensity = setting.EmissionIntensity;

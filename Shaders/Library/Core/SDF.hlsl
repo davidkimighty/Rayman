@@ -62,16 +62,16 @@ inline float Cylinder(const float3 pos, const float2 size)
 
 inline float Torus(const float3 pos, const float2 size)
 {
-    const float2 q = float2(length(pos.xz) - size.x, pos.y);
+    const float2 q = float2(length(pos.xy) - size.x, pos.z);
     return length(q) - size.y;
 }
 
 inline float CappedTorus(float3 pos, const float3 size)
 {
-    const float2 sc = float2(sin(size.z), cos(size.z));
-    pos.z = abs(pos.z);
-    const float k = (sc.y * pos.z > sc.x * pos.x) ? dot(pos.zx, sc) : length(pos.zx);
-    return sqrt(dot(pos, pos) + size.x * size.x - 2.0 * size.x * k) - size.y;
+    const float2 sc = float2(sin(size.x), cos(size.x));
+    pos.x = abs(pos.x);
+    const float k = (sc.y * pos.x > sc.x * pos.y) ? dot(pos.xy, sc) : length(pos.xy);
+    return sqrt(dot(pos, pos) + size.y * size.y - 2.0 * size.y * k) - size.z;
 }
 
 inline float Link(const float3 pos, const float3 size)
@@ -125,6 +125,26 @@ inline float GetShapeSDF(const float3 pos, const int type, const float3 size, co
             return CappedCone(pos, size) - roundness;
         default:
             return Sphere(pos, size.x);
+    }
+}
+
+inline float3 GetPivotOffset(const int type, const float3 pivot, const float3 size)
+{
+    switch (type)
+    {
+        case SPHERE:
+        case OCTAHEDRON:
+            return size.x * ((pivot - 0.5) * 2);
+        case CAPSULE:
+            return (pivot - 0.5) * (size.x + size.y);
+        case TORUS:
+            return (pivot - 0.5) * 2 * (size.x + size.y);
+        case LINK:
+            return (pivot - 0.5) * 2 * (size.x + size.y + size.z);
+        case CAPPED_TORUS:
+            return (pivot - 0.5) * 2 * (size.y + size.z);
+        default:
+            return size * ((pivot - 0.5) * 2);
     }
 }
 

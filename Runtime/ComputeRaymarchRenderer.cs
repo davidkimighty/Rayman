@@ -18,5 +18,13 @@ namespace Rayman
         {
             throw new System.NotImplementedException();
         }
+        
+#if UNITY_EDITOR
+        [ContextMenu("Find All Shapes")]
+        private void FindAllShapes()
+        {
+            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShape>(transform);
+        }
+#endif
     }
 }

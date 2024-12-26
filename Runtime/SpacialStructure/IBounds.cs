@@ -10,6 +10,7 @@ namespace Rayman
         Vector3 Center();
         Vector3 Extents();
         T Expand(float size);
+        T Expand(Vector3 size);
         T Include(Vector3 point);
         T Union(T other);
     }
@@ -56,6 +57,15 @@ namespace Rayman
             {
                 Min = Min - expandSize,
                 Max = Max + expandSize
+            };
+        }
+
+        public AABB Expand(Vector3 size)
+        {
+            return new AABB
+            {
+                Min = Min - size,
+                Max = Max + size
             };
         }
 

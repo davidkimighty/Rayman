@@ -17,8 +17,6 @@ namespace Rayman
             var volumes = new List<BoundingVolume<T>>();
             foreach (RaymarchShape shape in shapes)
             {
-                if (shape == null || !shape.gameObject.activeInHierarchy) continue;
-                
                 T bounds = shape.GetBounds<T>();
                 volumes.Add(new BoundingVolume<T>(shape, bounds));
             }
@@ -33,8 +31,6 @@ namespace Rayman
             for (int i = 0; i < volumes.Length; i++)
             {
                 BoundingVolume<T> volume = volumes[i];
-                if (volume == null) continue;
-                
                 spatialStructure.AddLeafNode(shapeId, volume.Bounds, volume.Source);
                 shapeId++;
             }

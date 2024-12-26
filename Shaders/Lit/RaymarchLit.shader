@@ -44,12 +44,13 @@ Shader "Rayman/RaymarchLit"
         
 		struct Shape
 		{
+        	int type;
 			float4x4 transform;
-			int type;
 			float3 size;
+        	float3 pivot;
+        	int operation;
+        	float smoothness;
 			float roundness;
-			int operation;
-			float smoothness;
 			half4 color;
 			half4 emissionColor;
 			float emissionIntensity;
@@ -96,6 +97,8 @@ Shader "Rayman/RaymarchLit"
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
+				pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 #ifdef _DISTORTION_FEATURE
@@ -117,6 +120,8 @@ Shader "Rayman/RaymarchLit"
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
 				float3 pos = ApplyMatrix(rayPos, shape.transform);
+				pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 #ifdef _DISTORTION_FEATURE

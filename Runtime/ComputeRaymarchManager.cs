@@ -10,8 +10,6 @@ namespace Rayman
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
         [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
         [SerializeField] private bool buildOnAwake;
-        [SerializeField] private float boundsExpandSize;
-        [SerializeField] private bool useLossyScale;
 #if UNITY_EDITOR
         [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
@@ -43,9 +41,9 @@ namespace Rayman
             raymarchFeature.PassDataProvider = this;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
-            if (boundingVolumes == null) return;
+            if (boundingVolumes == null || bvh == null) return;
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
@@ -69,8 +67,13 @@ namespace Rayman
             {
                 if (rr == null || !rr.gameObject.activeInHierarchy) continue;
                 
+                var activeShapes = rr.Shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
+                if (activeShapes.Count == 0) continue;
+                
                 volumes.AddRange(RaymarchUtils.CreateBoundingVolumes<AABB>(rr.Shapes));
             }
+            if (volumes.Count == 0) return;
+            
             boundingVolumes = volumes.ToArray();
             bvh = RaymarchUtils.CreateSpatialStructure<AABB>(boundingVolumes);
 #if UNITY_EDITOR

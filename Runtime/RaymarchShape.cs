@@ -47,7 +47,7 @@ namespace Rayman
         {
             public Shapes Shape = Shapes.Sphere;
             public Vector3 Size = Vector3.one * 0.5f;
-            public Vector3 Offset = Vector3.one * 0.5f;
+            public Vector3 Pivot = Vector3.one * 0.5f;
             public bool UseLossyScale = true;
             public Operations Operation = Operations.Union;
             [Range(0, 1f)] public float Smoothness;
@@ -59,7 +59,7 @@ namespace Rayman
             public float BoundsExpandSize;
         }
 
-        private static readonly Vector3 Epsilon = Vector3.one * 0.001f;
+        private static readonly float Epsilon = 0.001f;
         
         [SerializeField] private Setting settings;
 
@@ -67,11 +67,12 @@ namespace Rayman
 
         public T GetBounds<T>() where T : struct, IBounds<T>
         {
+            Vector3 scale = settings.UseLossyScale ? transform.lossyScale : Vector3.one;
+            
             if (typeof(T) == typeof(AABB))
             {
-                Vector3 size = settings.Size + Vector3.one * (settings.Smoothness + settings.Roundness) + Epsilon;
-                Vector3 scale = settings.UseLossyScale ? transform.lossyScale : Vector3.one;
-                AABB aabb = GetShapeAABB(settings.Shape, size, scale);
+                AABB aabb = GetShapeAABB(settings.Shape, settings.Size, scale);
+                aabb = aabb.Expand(settings.Smoothness + settings.Roundness + Epsilon);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
@@ -79,47 +80,57 @@ namespace Rayman
 
         private AABB GetShapeAABB(Shapes shape, Vector3 size, Vector3 scale)
         {
+            AABB aabb;
             switch (shape)
             {
                 case Shapes.Ellipsoid:
                 case Shapes.Box:
-                    return GetRotatedAABB(size, scale);
+                    return GetAABB(size, scale);
+                
                 case Shapes.Capsule:
-                    size = new Vector3(size.x, size.y * 0.5f + size.x, size.x);
-                    return GetRotatedAABB(size, scale);
+                    aabb = GetAABB(new Vector3(size.x, (size.y + size.x) * 0.5f , size.x), scale);
+                    return aabb.Expand(new Vector3(0, size.x * 0.5f, 0));
+                
                 case Shapes.Cylinder:
-                    size = new Vector3(size.x, size.y, size.x);
-                    return GetRotatedAABB(size, scale);
+                    return GetAABB(new Vector3(size.x, size.y, size.x), scale);
+                
                 case Shapes.Torus:
+                    aabb = GetAABB(size.x + size.y, scale);
+                    return aabb;
+                
                 case Shapes.CappedTorus:
-                    float xy = size.x + size.y;
-                    size = new Vector3(xy, size.y, xy);
-                    return GetRotatedAABB(size, scale);
+                    aabb = GetAABB(size.y + size.z, scale);
+                    return aabb;
+                
                 case Shapes.Link:
                     float xz = size.x + size.z;
-                    size = new Vector3(xz, size.y + xz, xz);
-                    return GetRotatedAABB(size, scale);
+                    return GetAABB(new Vector3(xz, size.y + xz, xz), scale);
+                
                 case Shapes.CappedCone:
                     float max = Mathf.Max(size.x, size.z);
-                    size = new Vector3(max, size.y, max);
-                    return GetRotatedAABB(size, scale);
+                    aabb = GetAABB(new Vector3(max, size.y, max), scale);
+                    return aabb;
+                
                 default:
-                    return GetAABB(size, scale);
+                    return GetAABB(size.x, scale);
             }
         }
 
-        private AABB GetAABB(Vector3 size, Vector3 scale)
+        private AABB GetAABB(float size, Vector3 scale)
         {
-            size = scale * size.x;
-            Vector3 offset = Vector3.Scale(size, (settings.Offset - Vector3.one * 0.5f) * 2f);
+            float scaledSize = size * Mathf.Max(scale.x, scale.y, scale.z);
+            Vector3 offset = (settings.Pivot - Vector3.one * 0.5f) * (2f * scaledSize);
+            Vector3 rotatedOffset = transform.right * offset.x + transform.up * offset.y + transform.forward * offset.z;
             
-            Vector3 center = transform.position;
-            Vector3 min = center - size + offset;
-            Vector3 max = center + size + offset;
+            Vector3 extent = Vector3.one * scaledSize;
+            Vector3 center = transform.position + rotatedOffset;
+            
+            Vector3 min = center - extent;
+            Vector3 max = center + extent;
             return new AABB(min, max);
         }
 
-        private AABB GetRotatedAABB(Vector3 size, Vector3 scale)
+        private AABB GetAABB(Vector3 size, Vector3 scale)
         {
             Vector3 right = Vector3.Scale(scale, transform.right) * size.x;
             Vector3 up = Vector3.Scale(scale, transform.up) * size.y;
@@ -130,11 +141,13 @@ namespace Rayman
                 Mathf.Abs(right.y) + Mathf.Abs(up.y) + Mathf.Abs(forward.y),
                 Mathf.Abs(right.z) + Mathf.Abs(up.z) + Mathf.Abs(forward.z)
             );
-            Vector3 offset = Vector3.Scale(extent, (settings.Offset - Vector3.one * 0.5f) * 2f);
+
+            Vector3 offset = (settings.Pivot - Vector3.one * 0.5f) * 2f;
+            Vector3 rotatedOffset = right * offset.x + up * offset.y + forward * offset.z;
+            Vector3 center = transform.position + rotatedOffset;
             
-            Vector3 center = transform.position;
-            Vector3 min = center - extent + offset;
-            Vector3 max = center + extent + offset;
+            Vector3 min = center - extent;
+            Vector3 max = center + extent;
             return new AABB(min, max);
         }
     }
