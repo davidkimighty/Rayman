@@ -43,7 +43,7 @@ namespace Rayman
             for (int i = 0; i < boundingVolumes.Length; i++)
             {
                 BoundingVolume<T> volume = boundingVolumes[i];
-                T buffBounds = volume.Bounds.Expand(volume.Source.Settings.BoundsExpandSize);
+                T buffBounds = volume.Bounds.Expand(volume.Source.Settings.ExtraMoveBounds);
                 T newBounds = volume.Source.GetBounds<T>();
                 if (buffBounds.Contains(newBounds)) continue;
 
@@ -61,18 +61,6 @@ namespace Rayman
                 if (shape == null) continue;
                 
                 shapeData[i] = new ShapeData(shape.transform, shape.Settings);
-            }
-        }
-
-        public static void UpdateOperationData<T>(BoundingVolume<T>[] boundingVolumes,
-            ref DistortionData[] distortionData) where T : struct, IBounds<T>
-        {
-            for (int i = 0; i < boundingVolumes.Length; i++)
-            {
-                RaymarchShape.Distortion distortion = boundingVolumes[i].Source.Settings.Distortion;
-                if (!distortion.Enabled) continue;
-
-                distortionData[i] = new DistortionData(i, (int)distortion.Type, distortion.Amount);
             }
         }
 

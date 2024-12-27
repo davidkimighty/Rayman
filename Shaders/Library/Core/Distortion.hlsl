@@ -26,12 +26,12 @@ inline float3 ApplyDistortion(const float3 pos, const int type, const float stre
 {
     switch (type)
     {
-    case TWIST:
-        return Twist(pos, strength);
-    case BEND:
-        return Bend(pos, strength);
-    default:
-        return pos;
+        case TWIST:
+            return Twist(pos, strength);
+        case BEND:
+            return Bend(pos, strength);
+        default:
+            return pos;
     }
 }
 

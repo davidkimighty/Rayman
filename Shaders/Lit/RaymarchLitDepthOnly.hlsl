@@ -33,13 +33,6 @@ Varyings Vert(Attributes input)
 
 FragOut Frag(Varyings input)
 {
-    // RaymarchResult result = _RaymarchResultBuffer[0];
-    // if (result.hitDistance > EPSILON) discard;
-    //
-    // FragOut output;
-    // output.color = output.depth = result.depth;
-    // return output;
-    
     const float3 cameraPos = GetCameraPosition();
     const float3 rayDir = normalize(input.posWS - cameraPos);
     Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);

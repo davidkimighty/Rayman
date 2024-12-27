@@ -19,7 +19,6 @@ namespace Rayman
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] boundingVolumes;
         private ShapeData[] shapeData;
-        private DistortionData[] distortionData;
         private NodeData<AABB>[] nodeData;
 
         public ISpatialStructure<AABB> SpatialStructure => bvh;
@@ -47,13 +46,10 @@ namespace Rayman
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
             RaymarchUtils.FillNodeData(bvh, ref nodeData);
         }
 
         public ShapeData[] GetShapeData() => shapeData;
-
-        public DistortionData[] GetDistortionData() => distortionData;
 
         public NodeData<AABB>[] GetNodeData() => nodeData;
 
@@ -82,9 +78,6 @@ namespace Rayman
             
             int shapeCount = boundingVolumes.Length;
             shapeData = new ShapeData[shapeCount];
-            
-            int distortionCount = boundingVolumes.Count(v => v.Source.Settings.Distortion.Enabled);
-            distortionData = new DistortionData[distortionCount];
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];

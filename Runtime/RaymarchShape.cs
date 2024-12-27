@@ -24,24 +24,8 @@ namespace Rayman
         Intersect
     }
 
-    public enum Distortions
-    {
-        None,
-        Twist,
-        Bend,
-    }
-
     public class RaymarchShape : MonoBehaviour, IBoundsSource
     {
-        [Serializable]
-        public class Distortion
-        {
-            public Distortions Type;
-            public float Amount;
-
-            public bool Enabled => Type != Distortions.None;
-        }
-        
         [Serializable]
         public class Setting
         {
@@ -52,11 +36,10 @@ namespace Rayman
             public Operations Operation = Operations.Union;
             [Range(0, 1f)] public float Smoothness;
             [Range(0, 1f)] public float Roundness;
+            public float ExtraMoveBounds;
             public Color Color;
             [ColorUsage(true, true)] public Color EmissionColor;
             [Range(0, 1f)] public float EmissionIntensity;
-            public Distortion Distortion;
-            public float BoundsExpandSize;
         }
 
         private static readonly float Epsilon = 0.001f;
@@ -150,5 +133,15 @@ namespace Rayman
             Vector3 max = center + extent;
             return new AABB(min, max);
         }
+        
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            settings.Pivot = new Vector3(
+                Mathf.Clamp(settings.Pivot.x, 0, 1),
+                Mathf.Clamp(settings.Pivot.y, 0, 1),
+                Mathf.Clamp(settings.Pivot.z, 0, 1));
+        }
+#endif
     }
 }

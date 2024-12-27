@@ -54,14 +54,6 @@ Shader "Rayman/RaymarchDebugLit"
 			half4 color;
 			half4 emissionColor;
 			float emissionIntensity;
-			int distortionEnabled;
-		};
-
-		struct Distortion
-		{
-			int id;
-			int type;
-			float amount;
 		};
 
         int _DebugMode;
@@ -71,27 +63,13 @@ Shader "Rayman/RaymarchDebugLit"
 		float _MaxDistance;
         int _ShadowMaxSteps;
 		float _ShadowMaxDistance;
-        int _DistortionCount;
 		StructuredBuffer<Shape> _ShapeBuffer;
-		StructuredBuffer<Distortion> _DistortionBuffer;
         StructuredBuffer<NodeAABB> _NodeBuffer;
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
 		float4 finalColor;
 
-        inline void ApplyDistortionPositionById(inout float3 pos, const int id)
-		{
-		    for (int i = 0; i < _DistortionCount; i++)
-		    {
-		        Distortion o = _DistortionBuffer[i];
-		        if (o.id != id) continue;
-				                
-		        pos = ApplyDistortion(pos, o.type, o.amount);
-		        break;
-		    }
-		}
-        
 		inline float Map(const Ray ray)
 		{
 			float totalDist = _MaxDistance;
@@ -104,10 +82,7 @@ Shader "Rayman/RaymarchDebugLit"
 				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-#ifdef _DISTORTION_FEATURE
-				if (shape.distortionEnabled > 0)
-					ApplyDistortionPositionById(pos, i);
-#endif
+
 				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
@@ -127,10 +102,7 @@ Shader "Rayman/RaymarchDebugLit"
 				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-#ifdef _DISTORTION_FEATURE
-				if (shape.distortionEnabled > 0)
-					ApplyDistortionPositionById(pos, i);
-#endif
+
 				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);

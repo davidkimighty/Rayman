@@ -13,8 +13,6 @@ namespace Rayman
     public class RaymarchRenderer : MonoBehaviour, IRaymarchRendererControl
     {
         public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
-        public static readonly int DistortionCountId = Shader.PropertyToID("_DistortionCount");
-        public static readonly int DistortionBufferId = Shader.PropertyToID("_DistortionBuffer");
         public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
         public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
@@ -44,10 +42,8 @@ namespace Rayman
         protected ISpatialStructure<AABB> bvh;
         protected BoundingVolume<AABB>[] boundingVolumes;
         protected ShapeData[] shapeData;
-        protected DistortionData[] distortionData;
         protected NodeData<AABB>[] nodeData;
         protected GraphicsBuffer shapeBuffer;
-        protected GraphicsBuffer distortionBuffer;
         protected GraphicsBuffer nodeBuffer;
         
         
@@ -63,11 +59,9 @@ namespace Rayman
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
             RaymarchUtils.FillNodeData(bvh, ref nodeData);
             
             shapeBuffer?.SetData(shapeData);
-            distortionBuffer?.SetData(distortionData);
             nodeBuffer?.SetData(nodeData);
         }
         
@@ -112,10 +106,6 @@ namespace Rayman
             shapeData = new ShapeData[shapeCount];
             SetupShapeBuffer(shapeCount, ref matInstance, ref shapeBuffer);
             
-            int distortionCount = boundingVolumes.Count(bv => bv.Source.Settings.Distortion.Enabled);
-            distortionData = new DistortionData[distortionCount];
-            SetupDistortionBuffer(distortionCount, ref matInstance, ref distortionBuffer);
-            
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];
             SetupNodeBuffer(nodesCount, ref matInstance, ref nodeBuffer);
@@ -143,17 +133,6 @@ namespace Rayman
             buffer?.Release();
             buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(ShapeData)));
             mat.SetBuffer(ShapeBufferId, buffer);
-        }
-
-        protected void SetupDistortionBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
-        {
-            if (count == 0) return;
-            
-            buffer?.Release();
-            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(DistortionData)));
-            mat.SetInt(DistortionCountId, count);
-            mat.SetBuffer(DistortionBufferId, buffer);
-            mat.EnableKeyword("_DISTORTION_FEATURE");
         }
 
         protected void SetupNodeBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
@@ -211,7 +190,6 @@ namespace Rayman
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
-            RaymarchUtils.UpdateOperationData(boundingVolumes, ref distortionData);
         }
         
         protected void SetupDebugProperties(ref Material mat)
@@ -253,7 +231,6 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 EmissionColor;
         public float EmissionIntensity;
-        public int DistortionEnabled;
 
         public ShapeData(Transform sourceTransform, RaymarchShape.Setting setting)
         {
@@ -268,22 +245,6 @@ namespace Rayman
             Color = setting.Color;
             EmissionColor = setting.EmissionColor;
             EmissionIntensity = setting.EmissionIntensity;
-            DistortionEnabled = setting.Distortion.Enabled ? 1 : 0;
-        }
-    }
-    
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct DistortionData
-    {
-        public int Id;
-        public int Type;
-        public float Amount;
-
-        public DistortionData(int id, int type, float amount)
-        {
-            Id = id;
-            Type = type;
-            Amount = amount;
         }
     }
     
