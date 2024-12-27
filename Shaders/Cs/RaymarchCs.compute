@@ -111,7 +111,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float4 posWS = mul(_CameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
-    ray.travelDistance = length(ray.hitPoint - _CameraPosition.xyz);
+    ray.distanceTravelled = length(ray.hitPoint - _CameraPosition.xyz);
 
     TraverseAabbTree(0, ray, hitIds, hitCount);
     InsertionSort(hitIds, hitCount.x);
@@ -119,7 +119,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     
     RaymarchResult result = (RaymarchResult)0;
     result.hitPoint = ray.hitPoint;
-    result.travelDistance = ray.travelDistance;
+    result.travelDistance = ray.distanceTravelled;
     result.lastHitDistance = ray.lastHitDistance;
     result.rayDirection = ray.dir;
     result.color = color;

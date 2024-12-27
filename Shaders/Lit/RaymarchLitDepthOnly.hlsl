@@ -36,7 +36,7 @@ FragOut Frag(Varyings input)
     const float3 cameraPos = GetCameraPosition();
     const float3 rayDir = normalize(input.posWS - cameraPos);
     Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
-    ray.travelDistance = length(ray.hitPoint - cameraPos);
+    ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
     TraverseAabbTree(ray, hitIds, hitCount);
     InsertionSort(hitIds, hitCount.x);
@@ -44,7 +44,7 @@ FragOut Frag(Varyings input)
     if (!Raymarch(ray)) discard;
 	
     float lengthToSurface = length(input.posWS - cameraPos);
-    const float depth = ray.travelDistance - lengthToSurface < EPSILON ?
+    const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
         GetDepth(input.posWS) : GetDepth(ray.hitPoint);
 
     FragOut output;

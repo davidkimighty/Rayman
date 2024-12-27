@@ -12,9 +12,9 @@ inline bool Raymarch(inout Ray ray)
     for (int i = 0; i < ray.maxSteps; i++)
     {
         ray.lastHitDistance = Map(ray);
-        ray.travelDistance += ray.lastHitDistance;
+        ray.distanceTravelled += ray.lastHitDistance;
         ray.hitPoint += ray.dir * ray.lastHitDistance;
-        if (ray.lastHitDistance < EPSILON || ray.travelDistance > ray.maxDistance) break;
+        if (ray.lastHitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
     }
     return ray.lastHitDistance < EPSILON;
 }
@@ -46,9 +46,9 @@ inline bool RaymarchHitCount(inout Ray ray, out int count)
     for (int i = 0; i < ray.maxSteps; i++)
     {
         ray.lastHitDistance = Map(ray);
-        ray.travelDistance += ray.lastHitDistance;
+        ray.distanceTravelled += ray.lastHitDistance;
         ray.hitPoint += ray.dir * ray.lastHitDistance;
-        if (ray.lastHitDistance < EPSILON || ray.travelDistance > ray.maxDistance) break;
+        if (ray.lastHitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
         count++;
     }
     return ray.lastHitDistance < EPSILON;
