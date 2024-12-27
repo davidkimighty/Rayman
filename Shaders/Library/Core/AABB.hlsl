@@ -29,28 +29,32 @@ inline float Center(const AABB aabb)
     return 0.5 * (aabb.min + aabb.max);
 }
 
-inline bool RayIntersect(const Ray ray, const AABB aabb)
+inline bool DidHit(const float dstNear, const float dstFar)
 {
-    float3 invDir = 1.0 / ray.dir * ray.maxDistance;
-    float3 tMin = (aabb.min - ray.origin) * invDir;
-    float3 tMax = (aabb.max - ray.origin) * invDir;
-    float3 t1 = min(tMin, tMax);
-    float3 t2 = max(tMin, tMax);
-    float dstFar = min(min(t2.x, t2.y), t2.z);
-    float dstNear = max(max(t1.x, t1.y), t1.z);
     return dstFar >= dstNear && dstFar > 0;
 }
 
-inline bool RayIntersect(const Ray ray, const AABB aabb, out float dstNear, out float dstFar)
+inline bool RayIntersect(const Ray ray, const AABB aabb)
 {
-    float3 invDir = 1.0 / ray.dir * ray.maxDistance;
-    float3 tMin = (aabb.min - ray.origin) * invDir;
-    float3 tMax = (aabb.max - ray.origin) * invDir;
+    float3 tMin = (aabb.min - ray.origin) * ray.invDir;
+    float3 tMax = (aabb.max - ray.origin) * ray.invDir;
     float3 t1 = min(tMin, tMax);
     float3 t2 = max(tMin, tMax);
-    dstFar = min(min(t2.x, t2.y), t2.z);
-    dstNear = max(max(t1.x, t1.y), t1.z);
-    return dstFar >= dstNear && dstFar > 0;
+    float dstNear = max(max(t1.x, t1.y), t1.z);
+    float dstFar = min(min(t2.x, t2.y), t2.z);
+    return DidHit(dstNear, dstFar);
+}
+
+inline float RayIntersectNearDst(const Ray ray, const AABB aabb)
+{
+    float3 tMin = (aabb.min - ray.origin) * ray.invDir;
+    float3 tMax = (aabb.max - ray.origin) * ray.invDir;
+    float3 t1 = min(tMin, tMax);
+    float3 t2 = max(tMin, tMax);
+    float dstNear = max(max(t1.x, t1.y), t1.z);
+    float dstFar = min(min(t2.x, t2.y), t2.z);
+    bool didHit = dstFar >= dstNear && dstFar > 0;
+    return didHit ? dstNear : ray.maxDistance;
 }
 
 #endif

@@ -9,9 +9,7 @@ struct NodeAABB
 {
     int id;
     AABB bounds;
-    int parent;
-    int left;
-    int right;
+    int childIndex;
 };
 
 // Must be implemented by the including shader.
@@ -19,29 +17,30 @@ inline NodeAABB GetNode(const int index);
 
 inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 hitCount)
 {
-    int stack[STACK_SIZE];
+    int nodeStack[STACK_SIZE];
     int ptr = hitCount = 0; // count.x is leaf
-    stack[ptr] = startIndex;
+    nodeStack[ptr++] = startIndex;
 
-    while (ptr >= 0)
+    while (ptr > 0)
     {
-        int nodeIndex = stack[ptr--];
-        if (nodeIndex < 0) continue;
-
-        const NodeAABB node = GetNode(nodeIndex);
+        NodeAABB node = GetNode(nodeStack[--ptr]);
         if (!RayIntersect(ray, node.bounds)) continue;
         
-        if (node.left < 0) // leaf
+        if (node.childIndex < 0) // leaf
         {
             hitIds[hitCount.x++] = node.id;
             if (hitCount.x >= RAY_MAX_HITS) break;
         }
         else
         {
-            ptr = min(ptr + 1, STACK_SIZE - 1);
-            stack[ptr] = node.left;
-            ptr = min(ptr + 1, STACK_SIZE - 1);
-            stack[ptr] = node.right;
+            int childL = node.childIndex;
+            int childR = childL + 1;
+            float dstL = RayIntersectNearDst(ray, GetNode(childL).bounds);
+            float dstR = RayIntersectNearDst(ray, GetNode(childR).bounds);
+
+            bool rightNear = dstL > dstR; 
+            nodeStack[ptr++] = rightNear ? childL : childR;
+            nodeStack[ptr++] = rightNear ? childR : childL;
             hitCount.y += 2;
         }
     }
@@ -57,7 +56,7 @@ inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
         while (j >= 0 && hitIds[j] > key)
         {
             hitIds[j + 1] = hitIds[j];
-            j = j - 1;
+            j -= 1;
         }
         hitIds[j + 1] = key;
     }

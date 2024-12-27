@@ -78,21 +78,17 @@ namespace Rayman
                 {
                     Id = current.Id,
                     Bounds = current.Bounds,
-                    Parent = parentIndex,
-                    Left = -1,
-                    Right = -1,
+                    ChildIndex = -1
                 };
 
                 if (current.LeftChild != null)
                 {
+                    data.ChildIndex = index + queue.Count + 1;
                     queue.Enqueue((current.LeftChild, index));
-                    data.Left = index + queue.Count;
                 }
                 if (current.RightChild != null)
-                {
                     queue.Enqueue((current.RightChild, index));
-                    data.Right = index + queue.Count;
-                }
+                
                 nodeData[index] = data;
                 index++;
             }

@@ -11,12 +11,12 @@ inline bool Raymarch(inout Ray ray)
 {
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        ray.lastHitDistance = Map(ray);
-        ray.distanceTravelled += ray.lastHitDistance;
-        ray.hitPoint += ray.dir * ray.lastHitDistance;
-        if (ray.lastHitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
+        ray.hitDistance = Map(ray);
+        ray.distanceTravelled += ray.hitDistance;
+        ray.hitPoint += ray.dir * ray.hitDistance;
+        if (ray.hitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
     }
-    return ray.lastHitDistance < EPSILON;
+    return ray.hitDistance < EPSILON;
 }
 
 // Must be implemented by the including shader.
@@ -45,13 +45,13 @@ inline bool RaymarchHitCount(inout Ray ray, out int count)
     count = 0;
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        ray.lastHitDistance = Map(ray);
-        ray.distanceTravelled += ray.lastHitDistance;
-        ray.hitPoint += ray.dir * ray.lastHitDistance;
-        if (ray.lastHitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
+        ray.hitDistance = Map(ray);
+        ray.distanceTravelled += ray.hitDistance;
+        ray.hitPoint += ray.dir * ray.hitDistance;
+        if (ray.hitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
         count++;
     }
-    return ray.lastHitDistance < EPSILON;
+    return ray.hitDistance < EPSILON;
 }
 
 #endif

@@ -120,7 +120,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     RaymarchResult result = (RaymarchResult)0;
     result.hitPoint = ray.hitPoint;
     result.travelDistance = ray.distanceTravelled;
-    result.lastHitDistance = ray.lastHitDistance;
+    result.lastHitDistance = ray.hitDistance;
     result.rayDirection = ray.dir;
     result.color = color;
     result.normal = GetNormal(ray.hitPoint);

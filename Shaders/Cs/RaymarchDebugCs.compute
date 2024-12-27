@@ -117,10 +117,10 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     switch (_DebugMode)
     {
         case 1:
-            color = ray.lastHitDistance > EPSILON ? 0 : color;
+            color = ray.hitDistance > EPSILON ? 0 : color;
             break;
         case 2:
-            color = ray.lastHitDistance > EPSILON ? 0 : float4(GetNormal(ray.hitPoint) * 0.5 + 0.5, 1);
+            color = ray.hitDistance > EPSILON ? 0 : float4(GetNormal(ray.hitPoint) * 0.5 + 0.5, 1);
             break;
         case 3:
             color = float4(GetHitMap(raymarchCount, ray.maxSteps, B, Y), 1);

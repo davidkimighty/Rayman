@@ -25,7 +25,6 @@ namespace Rayman
         [SerializeField] protected Renderer mainRenderer;
         [SerializeField] protected Shader mainShader;
         [SerializeField] protected List<RaymarchShape> shapes = new();
-        [SerializeField] protected bool buildOnAwake;
         [SerializeField] protected int maxSteps = 64;
         [SerializeField] protected float maxDistance = 100f;
         [SerializeField] protected int shadowMaxSteps = 32;
@@ -46,11 +45,9 @@ namespace Rayman
         protected GraphicsBuffer shapeBuffer;
         protected GraphicsBuffer nodeBuffer;
         
-        
         protected virtual void Awake()
         {
-            if (buildOnAwake)
-                Build();
+            Build();
         }
 
         protected virtual void LateUpdate()
@@ -89,6 +86,7 @@ namespace Rayman
             if (matInstance == null)
             {
                 if (mainShader == null) return;
+                
                 matInstance = CoreUtils.CreateEngineMaterial(mainShader);
             }
             mainRenderer.material = matInstance;
@@ -116,9 +114,11 @@ namespace Rayman
             void SetupMaterialInEditor()
             {
                 if (matInstance != null) return;
+                
                 if (debugMode != DebugModes.None)
                 {
                     if (debugShader == null) return;
+                    
                     matInstance = CoreUtils.CreateEngineMaterial(debugShader);
                     SetupDebugProperties(ref matInstance);
                 }
@@ -253,8 +253,6 @@ namespace Rayman
     {
         public int Id;
         public T Bounds;
-        public int Parent;
-        public int Left;
-        public int Right;
+        public int ChildIndex;
     }
 }
