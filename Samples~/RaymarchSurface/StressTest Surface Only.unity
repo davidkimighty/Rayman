@@ -353,7 +353,6 @@ MonoBehaviour:
   - {fileID: 1566332629}
   - {fileID: 1500106467}
   - {fileID: 154352739}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -592,7 +591,6 @@ MonoBehaviour:
   - {fileID: 1409785974}
   - {fileID: 1610548755}
   - {fileID: 1662862211}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -1120,7 +1118,6 @@ MonoBehaviour:
   - {fileID: 1596717548}
   - {fileID: 644649341}
   - {fileID: 1192924910}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -1600,7 +1597,6 @@ MonoBehaviour:
   - {fileID: 1322114645}
   - {fileID: 1454139569}
   - {fileID: 522175721}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -1763,7 +1759,6 @@ MonoBehaviour:
   - {fileID: 316226235}
   - {fileID: 208807542}
   - {fileID: 518759754}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -1926,7 +1921,6 @@ MonoBehaviour:
   - {fileID: 377432572}
   - {fileID: 591748974}
   - {fileID: 2023022078}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -2094,7 +2088,6 @@ MonoBehaviour:
   - {fileID: 1040450209}
   - {fileID: 847829011}
   - {fileID: 944991315}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -2224,7 +2217,6 @@ MonoBehaviour:
   - {fileID: 1611694925}
   - {fileID: 670898030}
   - {fileID: 1608743754}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -2633,7 +2625,6 @@ MonoBehaviour:
   - {fileID: 1407553780}
   - {fileID: 2028224071}
   - {fileID: 1927356904}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -2839,7 +2830,6 @@ MonoBehaviour:
   - {fileID: 361954150}
   - {fileID: 1548449697}
   - {fileID: 1593857715}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -3310,7 +3300,6 @@ MonoBehaviour:
   - {fileID: 1627059929}
   - {fileID: 1853629067}
   - {fileID: 565126427}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -3941,7 +3930,6 @@ MonoBehaviour:
   - {fileID: 740998979}
   - {fileID: 364349830}
   - {fileID: 1653559624}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -4175,7 +4163,6 @@ MonoBehaviour:
   - {fileID: 45916858}
   - {fileID: 244302328}
   - {fileID: 422179929}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -5022,7 +5009,6 @@ MonoBehaviour:
   - {fileID: 1421811547}
   - {fileID: 11113147}
   - {fileID: 1737576594}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -5284,7 +5270,6 @@ MonoBehaviour:
   - {fileID: 834353840}
   - {fileID: 1116912664}
   - {fileID: 1109171343}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -5425,7 +5410,6 @@ MonoBehaviour:
   - {fileID: 1795232935}
   - {fileID: 349380094}
   - {fileID: 833075504}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -5599,7 +5583,6 @@ MonoBehaviour:
   - {fileID: 1332017834}
   - {fileID: 1943249480}
   - {fileID: 88036681}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -5817,7 +5800,6 @@ MonoBehaviour:
   - {fileID: 1002949414}
   - {fileID: 922559037}
   - {fileID: 1838875818}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -6907,7 +6889,6 @@ MonoBehaviour:
   - {fileID: 1983739301}
   - {fileID: 784753848}
   - {fileID: 1661379291}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -7411,7 +7392,6 @@ MonoBehaviour:
   - {fileID: 68530651}
   - {fileID: 553077285}
   - {fileID: 1251821108}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -7963,7 +7943,6 @@ MonoBehaviour:
   - {fileID: 1057784834}
   - {fileID: 208824933}
   - {fileID: 1699542791}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -8334,7 +8313,6 @@ MonoBehaviour:
   - {fileID: 1267210557}
   - {fileID: 1578621463}
   - {fileID: 725022385}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -8585,7 +8563,6 @@ MonoBehaviour:
   - {fileID: 975552589}
   - {fileID: 1887069806}
   - {fileID: 560514689}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -9424,7 +9401,6 @@ MonoBehaviour:
   - {fileID: 2017786048}
   - {fileID: 481654986}
   - {fileID: 1285578235}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -9968,7 +9944,6 @@ MonoBehaviour:
   - {fileID: 1892340827}
   - {fileID: 455246022}
   - {fileID: 473013680}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -10169,7 +10144,6 @@ MonoBehaviour:
   - {fileID: 694014784}
   - {fileID: 1878390712}
   - {fileID: 2015444440}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -10486,7 +10460,6 @@ MonoBehaviour:
   - {fileID: 2001763073}
   - {fileID: 451653435}
   - {fileID: 1763806079}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -11069,7 +11042,6 @@ MonoBehaviour:
   - {fileID: 1188035777}
   - {fileID: 1577664481}
   - {fileID: 814077185}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -11410,7 +11382,6 @@ MonoBehaviour:
   - {fileID: 524197571}
   - {fileID: 383711166}
   - {fileID: 1781987325}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -11789,7 +11760,6 @@ MonoBehaviour:
   - {fileID: 1641457239}
   - {fileID: 1358084239}
   - {fileID: 1794456979}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -12204,7 +12174,6 @@ MonoBehaviour:
   - {fileID: 61214158}
   - {fileID: 1652662558}
   - {fileID: 713884915}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -12356,7 +12325,6 @@ MonoBehaviour:
   - {fileID: 1747105074}
   - {fileID: 527557674}
   - {fileID: 1657639282}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -12774,7 +12742,6 @@ MonoBehaviour:
   - {fileID: 1032204599}
   - {fileID: 1398173857}
   - {fileID: 886848496}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -12953,7 +12920,6 @@ MonoBehaviour:
   - {fileID: 2114648984}
   - {fileID: 671413206}
   - {fileID: 116276261}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -13204,7 +13170,6 @@ MonoBehaviour:
   - {fileID: 1041178101}
   - {fileID: 1101593213}
   - {fileID: 1386896613}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -13689,7 +13654,6 @@ MonoBehaviour:
   - {fileID: 1750785508}
   - {fileID: 1652837428}
   - {fileID: 1562187493}
-  buildOnAwake: 1
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
@@ -13957,6 +13921,7 @@ GameObject:
   - component: {fileID: 2030553131070359371}
   - component: {fileID: 4827889810645172157}
   - component: {fileID: 569951168681609677}
+  - component: {fileID: 4827889810645172160}
   - component: {fileID: 4827889810645172158}
   - component: {fileID: 4827889810645172159}
   m_Layer: 5
@@ -14106,8 +14071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267acb1a305e64f51a43e84424709138, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _debugProviders:
-  - {fileID: 569951168681609677}
+  _debugProviders: []
   _debugMessageText: {fileID: 5473748043065805945}
   _interval: 0.05
 --- !u!114 &4827889810645172158
@@ -14132,6 +14096,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d4b923e03ab2c52438c549df676c80b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4827889810645172160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3692941941441000356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 506e336a2c1204bd3ae9035c1330d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5473748043065805945

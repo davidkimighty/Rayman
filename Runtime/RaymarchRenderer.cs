@@ -131,7 +131,7 @@ namespace Rayman
             if (count == 0) return;
             
             buffer?.Release();
-            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(ShapeData)));
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, ShapeData.Stride);
             mat.SetBuffer(ShapeBufferId, buffer);
         }
 
@@ -140,7 +140,7 @@ namespace Rayman
             if (count == 0) return;
             
             buffer?.Release();
-            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf(typeof(NodeData<AABB>)));
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, NodeData<AABB>.Stride);
             mat.SetBuffer(NodeBufferId, buffer);
         }
         
@@ -221,6 +221,8 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
+        public static readonly int Stride = sizeof(float) * 33 + sizeof(int) * 2;
+        
         public int Type;
         public Matrix4x4 Transform;
         public Vector3 Size;
@@ -251,6 +253,8 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct NodeData<T> where T : struct, IBounds<T>
     {
+        public static readonly int Stride = sizeof(float) * 6 + sizeof(int) * 2;
+        
         public int Id;
         public T Bounds;
         public int ChildIndex;
