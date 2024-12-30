@@ -1,45 +1,29 @@
-using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 
 namespace Rayman
 {
-    public interface IDebug
-    {
-        string GetDebugMessage();
-    }
-    
     public class DebugDashboard : MonoBehaviour
     {
-        [SerializeField] private List<Component> _debugProviders;
-        [SerializeField] private TMP_Text _debugMessageText;
-        [SerializeField] private float _interval = 0.1f;
-
-        private IDebug[] _debugs;
-        private float _elapsedTime = Mathf.Infinity;
+        private const string Space = "      ";
         
-        private void Awake()
+        [SerializeField] private TMP_Text _debugMessageText;
+
+        private IDebug[] _debugProviders;
+
+        private void Start()
         {
-            _debugs = GetComponentsInChildren<IDebug>();
+            _debugProviders = GetComponents<IDebug>();
         }
 
-        private void LateUpdate()
+        private void Update()
         {
-            if (_interval > 0)
+            string message = string.Empty;
+            for (int i = 0; i < _debugProviders.Length; i++)
             {
-                _elapsedTime += Time.deltaTime;
-                if (_elapsedTime < _interval) return;
-                _elapsedTime = 0;
+                message += _debugProviders[i].GetDebugMessage() + Space;
+                _debugMessageText.text = message;
             }
-            
-            StringBuilder builder = new();
-            for (int i = 0; i < _debugs.Length; i++)
-            {
-                IDebug debug = _debugs[i];
-                builder.Append($"{debug.GetDebugMessage()}      ");
-            }
-            _debugMessageText.text = builder.ToString();
         }
     }
 }

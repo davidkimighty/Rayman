@@ -9,7 +9,7 @@ namespace Rayman
         {
             var upscaling = UniversalRenderPipeline.asset.upscalingFilter.ToString();
             float renderScale = UniversalRenderPipeline.asset.renderScale;
-            return $"Resolution  {Screen.width,4} x {Screen.height,4}      {upscaling} [ scale {renderScale,1} ]";
+            return $"Resolution {Screen.width,4} x {Screen.height,4} [ {upscaling} Scale {renderScale,1} ]";
         }
     }
 }

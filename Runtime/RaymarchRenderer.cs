@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -29,9 +30,11 @@ namespace Rayman
         [SerializeField] protected float maxDistance = 100f;
         [SerializeField] protected int shadowMaxSteps = 32;
         [SerializeField] protected float shadowMaxDistance = 30f;
-        [SerializeField] protected float shadowBias = 0.013f;
+        [SerializeField] protected float shadowBias = 0.006f;
 #if UNITY_EDITOR
-        [Header("Debugging")] [SerializeField] protected Shader debugShader;
+        [Header("Debugging")]
+        [SerializeField] protected bool executeInEditor;
+        [SerializeField] protected Shader debugShader;
         [SerializeField] protected DebugModes debugMode = DebugModes.None;
         [SerializeField] protected bool drawGizmos;
         [SerializeField] protected bool showLabel;
@@ -44,15 +47,29 @@ namespace Rayman
         protected NodeData<AABB>[] nodeData;
         protected GraphicsBuffer shapeBuffer;
         protected GraphicsBuffer nodeBuffer;
-        
-        protected virtual void Awake()
-        {
-            Build();
-        }
 
+        public bool IsInitialized => boundingVolumes != null || bvh != null;
+        public List<RaymarchShape> Shapes => shapes;
+        public BoundingVolume<AABB>[] BoundingVolumes => boundingVolumes;
+
+        protected virtual void OnEnable()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying && !executeInEditor) return;
+#endif
+            if (Build())
+            {
+                RaymarchDebugger.Add(this);
+                SpatialStructureDebugger.Add(bvh);
+            }
+        }
+        
         protected virtual void LateUpdate()
         {
-            if (boundingVolumes == null || bvh == null) return;
+#if UNITY_EDITOR
+            if (!Application.isPlaying && !executeInEditor) return;
+#endif
+            if (!IsInitialized || !mainRenderer.isVisible) return;
             
             RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
             RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
@@ -60,6 +77,11 @@ namespace Rayman
             
             shapeBuffer?.SetData(shapeData);
             nodeBuffer?.SetData(nodeData);
+        }
+        
+        protected virtual void OnDisable()
+        {
+            Release();
         }
         
         public virtual void AddShape(RaymarchShape shape)
@@ -78,28 +100,23 @@ namespace Rayman
         }
         
         [ContextMenu("Build")]
-        public void Build()
+        public bool Build()
         {
 #if UNITY_EDITOR
             SetupMaterialInEditor();
 #endif
+            if (mainShader == null) return false;
+            
             if (matInstance == null)
-            {
-                if (mainShader == null) return;
-                
                 matInstance = CoreUtils.CreateEngineMaterial(mainShader);
-            }
             mainRenderer.material = matInstance;
 
             List<RaymarchShape> activeShapes = shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
             int shapeCount = activeShapes.Count;
-            if (shapeCount == 0) return;
+            if (shapeCount == 0) return false;
             
             boundingVolumes = RaymarchUtils.CreateBoundingVolumes<AABB>(activeShapes)?.ToArray();
             bvh = RaymarchUtils.CreateSpatialStructure(boundingVolumes);
-#if UNITY_EDITOR
-            SpatialStructureDebugger.Add(bvh);
-#endif
             
             shapeData = new ShapeData[shapeCount];
             SetupShapeBuffer(shapeCount, ref matInstance, ref shapeBuffer);
@@ -109,21 +126,36 @@ namespace Rayman
             SetupNodeBuffer(nodesCount, ref matInstance, ref nodeBuffer);
             
             SetupRaymarchProperties(ref matInstance);
+            return true;
 
 #if UNITY_EDITOR
             void SetupMaterialInEditor()
             {
-                if (matInstance != null) return;
+                if (debugMode == DebugModes.None || debugShader == null) return;
                 
-                if (debugMode != DebugModes.None)
-                {
-                    if (debugShader == null) return;
-                    
-                    matInstance = CoreUtils.CreateEngineMaterial(debugShader);
-                    SetupDebugProperties(ref matInstance);
-                }
+                matInstance = CoreUtils.CreateEngineMaterial(debugShader);
+                SetupDebugProperties(ref matInstance);
             }
 #endif
+        }
+
+        public void Release()
+        {
+            shapeBuffer?.Release();
+            nodeBuffer?.Release();
+            
+            bvh = null;
+            boundingVolumes = null;
+
+            if (matInstance != null)
+            {
+                if (Application.isPlaying)
+                    Destroy(matInstance);
+                else
+                    DestroyImmediate(matInstance);
+                matInstance = null;
+            }
+            mainRenderer.materials = Array.Empty<Material>();
         }
         
         protected void SetupShapeBuffer(int count, ref Material mat, ref GraphicsBuffer buffer)
@@ -158,40 +190,62 @@ namespace Rayman
         {
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
-            
-            if (matInstance == null) return;
-            
-            bool rebuild = matInstance.shader != (debugMode != DebugModes.None ? debugShader : mainShader);
-            if (rebuild)
+
+            if (executeInEditor && !IsInitialized)
             {
-                DestroyImmediate(matInstance);
-                matInstance = null;
-                Build();
-                return;
+                if (Build())
+                {
+                    RaymarchDebugger.Add(this);
+                    SpatialStructureDebugger.Add(bvh);
+                }
             }
             
-            SetupRaymarchProperties(ref matInstance);
-            if (debugMode != DebugModes.None)
-                SetupDebugProperties(ref matInstance);
+            if (!executeInEditor && !Application.isPlaying)
+            {
+                SpatialStructureDebugger.Remove(bvh);
+                RaymarchDebugger.Remove(this);
+                Release();
+            }
+
+            if (IsInitialized)
+            {
+                RebuildIfNeeded();
+            
+                SetupRaymarchProperties(ref matInstance);
+                if (debugMode != DebugModes.None)
+                    SetupDebugProperties(ref matInstance);
+            }
+            
+            void RebuildIfNeeded()
+            {
+                bool rebuild = matInstance.shader != (debugMode != DebugModes.None ? debugShader : mainShader);
+                if (!rebuild) return;
+                
+                SpatialStructureDebugger.Remove(bvh);
+                RaymarchDebugger.Remove(this);
+                Release();
+                
+                if (Build())
+                {
+                    RaymarchDebugger.Add(this);
+                    SpatialStructureDebugger.Add(bvh);
+                }
+            }
         }
         
         protected virtual void OnDrawGizmos()
         {
-            if (bvh != null && drawGizmos)
-                bvh.DrawStructure(showLabel);
+            if (!drawGizmos) return;
+            
+            if (!executeInEditor)
+            {
+                Gizmos.color = new Color(1, 1, 1, 0.3f);
+                Gizmos.DrawSphere(transform.position, 0.1f);
+            }
+
+            bvh?.DrawStructure(showLabel);
         }
 
-        protected virtual void OnGUI()
-        {
-            if (boundingVolumes == null)
-                Build();
-            
-            if (boundingVolumes == null) return;
-            
-            RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
-            RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
-        }
-        
         protected void SetupDebugProperties(ref Material mat)
         {
             mat.SetInt(DebugModeId, (int)debugMode);
@@ -199,7 +253,7 @@ namespace Rayman
         }
 
         [ContextMenu("Find All Shapes")]
-        private void FindAllShapes()
+        protected void FindAllShapes()
         {
             shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShape>(transform);
         }

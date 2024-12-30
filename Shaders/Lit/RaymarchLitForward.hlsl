@@ -78,7 +78,7 @@ FragOutput Frag (Varyings input)
 	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	const float fresnel = GetFresnelSchlick(viewDir, normal);
 	
-	half3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
+	float3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
 	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
 	shade += RimLightShade(normal, viewDir);
 	

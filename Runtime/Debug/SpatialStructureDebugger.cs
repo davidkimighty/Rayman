@@ -27,7 +27,7 @@ namespace Rayman
         {
             int sum = SpatialStructures.Sum(s => s?.Count ?? 0);
             int maxHeight = SpatialStructures.Max(s => s?.MaxHeight ?? 0);
-            return $"BVH Nodes  {sum,4} [ max height {maxHeight,3} ]";
+            return $"BVH {SpatialStructures.Count} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
         }
     }
 }

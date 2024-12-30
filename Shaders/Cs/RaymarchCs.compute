@@ -16,10 +16,9 @@ struct Shape
     int operation;
     float smoothness;
     float roundness;
-    half4 color;
-    half4 emissionColor;
+    float4 color;
+    float4 emissionColor;
     float emissionIntensity;
-    int distortionEnabled;
 };
 
 struct RaymarchResult

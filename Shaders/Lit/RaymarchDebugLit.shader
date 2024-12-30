@@ -32,8 +32,6 @@ Shader "Rayman/RaymarchDebugLit"
         LOD 100
         
         HLSLINCLUDE
-        #pragma shader_feature _DISTORTION_FEATURE
-        
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
@@ -51,8 +49,8 @@ Shader "Rayman/RaymarchDebugLit"
         	int operation;
         	float smoothness;
 			float roundness;
-			half4 color;
-			half4 emissionColor;
+			float4 color;
+			float4 emissionColor;
 			float emissionIntensity;
 		};
 

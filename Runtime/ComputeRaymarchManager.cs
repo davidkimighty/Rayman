@@ -21,8 +21,6 @@ namespace Rayman
         private ShapeData[] shapeData;
         private NodeData<AABB>[] nodeData;
 
-        public ISpatialStructure<AABB> SpatialStructure => bvh;
-
         private void Awake()
         {
             if (raymarchFeature == null) return;
@@ -32,7 +30,10 @@ namespace Rayman
             
             if (buildOnAwake)
             {
-                Build();
+                if (Build())
+                {
+                    SpatialStructureDebugger.Add(bvh);
+                }
 #if UNITY_EDITOR
                 SetupDebugProperties();
 #endif
@@ -54,9 +55,9 @@ namespace Rayman
         public NodeData<AABB>[] GetNodeData() => nodeData;
 
         [ContextMenu("Build")]
-        public void Build()
+        public bool Build()
         {
-            if (raymarchRenderers.Count == 0) return;
+            if (raymarchRenderers.Count == 0) return false;
             
             List<BoundingVolume<AABB>> volumes = new();
             foreach (ComputeRaymarchRenderer rr in raymarchRenderers)
@@ -68,19 +69,17 @@ namespace Rayman
                 
                 volumes.AddRange(RaymarchUtils.CreateBoundingVolumes<AABB>(rr.Shapes));
             }
-            if (volumes.Count == 0) return;
+            if (volumes.Count == 0) return false;
             
             boundingVolumes = volumes.ToArray();
             bvh = RaymarchUtils.CreateSpatialStructure<AABB>(boundingVolumes);
-#if UNITY_EDITOR
-            SpatialStructureDebugger.Add(bvh);
-#endif
             
             int shapeCount = boundingVolumes.Length;
             shapeData = new ShapeData[shapeCount];
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeData<AABB>[nodesCount];
+            return true;
         }
         
         public void AddRaymarchRenderer(ComputeRaymarchRenderer raymarchRenderer)

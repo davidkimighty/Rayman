@@ -1,20 +1,32 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
     public class RaymarchDebugger : MonoBehaviour, IDebug
     {
-        private RaymarchShape[] _shapes;
+        private static List<RaymarchRenderer> RaymarchRenderers = new();
         
-        private void Awake()
+        public static void Add(RaymarchRenderer raymarchRenderer)
         {
-            _shapes = FindObjectsByType<RaymarchShape>(FindObjectsSortMode.None);
+            if (RaymarchRenderers.Contains(raymarchRenderer)) return;
+
+            RaymarchRenderers.Add(raymarchRenderer);
+        }
+
+        public static void Remove(RaymarchRenderer raymarchRenderer)
+        {
+            if (!RaymarchRenderers.Contains(raymarchRenderer)) return;
+
+            int i = RaymarchRenderers.IndexOf(raymarchRenderer);
+            RaymarchRenderers.RemoveAt(i);
         }
 
         public string GetDebugMessage()
         {
-            int count = _shapes?.Length ?? 0;
-            return $"SDF  {count,4}";
+            int count = RaymarchRenderers.Sum(r => r.BoundingVolumes?.Length ?? 0);
+            return $"SDF {count,4}";
         }
     }
 }
