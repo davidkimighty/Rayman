@@ -8,22 +8,34 @@ namespace Rayman
         private const string Space = "      ";
         
         [SerializeField] private TMP_Text _debugMessageText;
-
+        [SerializeField] private Transform _textHolder;
+        [SerializeField] private float _interval = 0.05f;
+        
         private IDebug[] _debugProviders;
+        private TMP_Text[] _activeTexts;
+        private float _elapsedTime = Mathf.Infinity;
 
         private void Start()
         {
             _debugProviders = GetComponents<IDebug>();
+            _activeTexts = new TMP_Text[_debugProviders.Length];
+
+            _activeTexts[0] = _debugMessageText;
+            for (int i = 1; i < _debugProviders.Length; i++)
+                _activeTexts[i] = Instantiate(_debugMessageText, _textHolder);
         }
 
         private void Update()
         {
-            string message = string.Empty;
-            for (int i = 0; i < _debugProviders.Length; i++)
+            if (_interval > 0)
             {
-                message += _debugProviders[i].GetDebugMessage() + Space;
-                _debugMessageText.text = message;
+                _elapsedTime += Time.deltaTime;
+                if (_elapsedTime < _interval) return;
+                _elapsedTime = 0;
             }
+            
+            for (int i = 0; i < _debugProviders.Length; i++)
+                _activeTexts[i].text = _debugProviders[i].GetDebugMessage() + Space;
         }
     }
 }
