@@ -13,6 +13,13 @@ namespace Rayman
     [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour, IRaymarchRendererControl
     {
+        [Serializable]
+        public class Group
+        {
+            public Material MatRef;
+            public List<RaymarchShape> Shapes = new();
+        }
+        
         public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
@@ -31,6 +38,7 @@ namespace Rayman
         [SerializeField] protected int shadowMaxSteps = 32;
         [SerializeField] protected float shadowMaxDistance = 30f;
         [SerializeField] protected float shadowBias = 0.006f;
+        [SerializeField] protected List<Group> groups = new();
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] protected bool executeInEditor;
@@ -49,7 +57,6 @@ namespace Rayman
         protected GraphicsBuffer nodeBuffer;
 
         public bool IsInitialized => boundingVolumes != null || bvh != null;
-        public List<RaymarchShape> Shapes => shapes;
         public BoundingVolume<AABB>[] BoundingVolumes => boundingVolumes;
 
         protected virtual void OnEnable()
@@ -84,19 +91,19 @@ namespace Rayman
             Release();
         }
         
-        public virtual void AddShape(RaymarchShape shape)
+        public virtual void AddShape(RaymarchShape shape, int groupId)
         {
-            if (shapes.Contains(shape)) return;
+            if (groupId >= groups.Count || groups[groupId].Shapes.Contains(shape)) return;
             
-            shapes.Add(shape);
+            groups[groupId].Shapes.Add(shape);
         }
 
-        public virtual void RemoveShape(RaymarchShape shape)
+        public virtual void RemoveShape(RaymarchShape shape, int groupId)
         {
-            if (!shapes.Contains(shape)) return;
+            if (groupId >= groups.Count || !groups[groupId].Shapes.Contains(shape)) return;
             
-            int i = shapes.FindIndex(b => b == shape);
-            shapes.RemoveAt(i);
+            int i = groups[groupId].Shapes.FindIndex(b => b == shape);
+            groups[groupId].Shapes.RemoveAt(i);
         }
         
         [ContextMenu("Build")]

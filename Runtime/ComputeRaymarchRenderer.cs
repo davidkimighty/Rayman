@@ -3,21 +3,11 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ComputeRaymarchRenderer : MonoBehaviour, IRaymarchRendererControl
+    public class ComputeRaymarchRenderer : MonoBehaviour
     {
         [SerializeField] protected List<RaymarchShape> shapes = new();
 
         public List<RaymarchShape> Shapes => shapes;
-        
-        public void AddShape(RaymarchShape shape)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void RemoveShape(RaymarchShape shape)
-        {
-            throw new System.NotImplementedException();
-        }
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
