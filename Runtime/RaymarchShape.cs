@@ -44,7 +44,7 @@ namespace Rayman
 
         private static readonly float Epsilon = 0.001f;
         
-        [SerializeField] private Setting settings;
+        [SerializeField] private Setting settings = new();
 
         public Setting Settings => settings;
 
