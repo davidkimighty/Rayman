@@ -85,6 +85,8 @@ FragOutput Frag (Varyings input)
 	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
 
+	finalColor.rgb = lerp(finalColor.rgb, float3(0.1, 0.1, 0.1), fresnel);
+
 	FragOutput output;
 	output.color = finalColor;
 	output.depth = depth;

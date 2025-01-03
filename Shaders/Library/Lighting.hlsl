@@ -24,7 +24,7 @@ inline float GetSpecular(const float3 rayDir, const float3 lightDir, const float
 inline float3 GetFresnelSchlick(const float3 viewDir, const float3 normalWS)
 {
     float cosTheta = saturate(dot(normalWS, viewDir));
-    return _F0 + (1.0 - _F0) * pow(1.0 - cosTheta, 5.0);
+    return _F0 + (1.0 - _F0) * pow(1.0 - cosTheta, 3.0);
 }
 
 inline float3 GammaCorrection(float3 color, const float dt)

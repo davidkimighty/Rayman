@@ -1,4 +1,3 @@
-using System;
 using Rayman;
 using UnityEngine;
 using UnityEngine.InputSystem;

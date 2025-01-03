@@ -4169,6 +4169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetDir: {x: 0, y: 0, z: 1}
+  _rotateAxis: {x: 0, y: 1, z: 0}
   _maxRotSpeed: 100
   _minRotSpeed: 10
 --- !u!114 &489014798 stripped
