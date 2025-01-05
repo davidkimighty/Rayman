@@ -281,6 +281,9 @@ GameObject:
   - component: {fileID: 207929453}
   - component: {fileID: 207929452}
   - component: {fileID: 207929454}
+  - component: {fileID: 207929458}
+  - component: {fileID: 207929457}
+  - component: {fileID: 207929455}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -323,7 +326,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7253549, y: 0.2178591, z: 0.046966027, w: -0.6513002}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.513855, y: 2.5995202, z: 1.8866248}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -345,6 +348,113 @@ MonoBehaviour:
   _maxRotSpeed: 30
   _minRotSpeed: 3
   _randomRot: 3
+--- !u!65 &207929455
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207929451}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.6, y: 0.6, z: 0.6}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &207929457
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207929451}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &207929458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 207929451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a6dc9ecca4049f7a14bda2660d1a6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  raymarchRenderer: {fileID: 492288773}
+  clickActionReference: {fileID: 3001919216989983466, guid: 3201f5c4325f5f64da19b3b321c07df1, type: 3}
+  matcaps:
+  - {fileID: 2800000, guid: 0c265bf844f3ab645aec459fd5ef6162, type: 3}
+  - {fileID: 2800000, guid: 9abb5571ff09fc045b8fafca7779fa11, type: 3}
+  - {fileID: 2800000, guid: 718dd3b8502b8574ab737b28dfeafca1, type: 3}
+  - {fileID: 2800000, guid: 53b34c906e358df44a751467d2c5c481, type: 3}
+  - {fileID: 2800000, guid: 6e77026707ea62541a6f3a9f924285d1, type: 3}
+  shapePrimary: {fileID: 207929452}
+  interactSize: 0.31
+  interactDuration: 0.3
+  interactCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.50026625
+      value: 1.1550331
+      inSlope: 1.70753
+      outSlope: 1.70753
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  shapeSecondary: {fileID: 447563327}
+  sizeMinMax: {x: 0.08, y: 0.1}
+  pulseFrequency: 2
 --- !u!1 &447563325
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +484,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -419,21 +529,27 @@ MonoBehaviour:
   mouseActionRef: {fileID: -1654692200621890270, guid: 3201f5c4325f5f64da19b3b321c07df1, type: 3}
   followObject: {fileID: 447563326}
   followSpeedFactor: 0.1
---- !u!114 &447563329
-MonoBehaviour:
+--- !u!135 &447563329
+SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 447563325}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55a6dc9ecca4049f7a14bda2660d1a6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shape: {fileID: 447563327}
-  sizeMinMax: {x: 0.08, y: 0.1}
-  pulseFrequency: 2
+  serializedVersion: 3
+  m_Radius: 0.1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &492288772
 GameObject:
   m_ObjectHideFlags: 0
@@ -466,9 +582,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 492288774}
-  maxSteps: 128
+  maxSteps: 256
   maxDistance: 30
-  shadowMaxSteps: 64
+  shadowMaxSteps: 32
   shadowMaxDistance: 30
   materialGroups:
   - MaterialReference: {fileID: 2100000, guid: d4503e1e3daee044ca4dff08646aacb0, type: 2}

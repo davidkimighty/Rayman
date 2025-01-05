@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: CubeSphere
-  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Name: InteractiveShapes
+  m_Shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -50,7 +50,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6c3942cf463da6d4cae2d2300f5b43fd, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0c265bf844f3ab645aec459fd5ef6162, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:

@@ -59,11 +59,12 @@ namespace Rayman
 #endif
         protected List<MaterialGroupData> groupData = new();
 
+        public List<MaterialGroupData> GroupData => groupData;
         public int ShapeCount => groupData?.Sum(g => g.BoundingVolumes.Length) ?? 0;
         public int SpatialStructureCount => groupData?.Count ?? 0;
         public int NodeCount => groupData?.Sum(g => g.SpatialStructure?.Count) ?? 0;
         public int MaxHeight => groupData?.Max(g => g.SpatialStructure?.MaxHeight) ?? 0;
-        public bool IsInitialized => groupData != null && groupData.Count != 0;
+        public bool IsInitialized => groupData != null && groupData.Count > 0;
 
         protected virtual void OnEnable()
         {
