@@ -32,7 +32,13 @@ struct output
     float4 color : SV_Target;
     float depth : SV_Depth;
 };
-			
+
+float _ShadowBiasVal;
+float _F0;
+float _SpecularPow;
+float4 _RimColor;
+float _RimPow;
+
 v2f vert (appdata v)
 {
     v2f o = (v2f)0;
@@ -70,11 +76,11 @@ output frag (v2f i)
         GetDepth(i.posWS) : GetDepth(result.hitPoint);
     
     const float3 viewDir = normalize(cameraPos - result.hitPoint);
-    const float fresnel = GetFresnelSchlick(viewDir, result.normal);
+    const float fresnel = GetFresnelSchlick(viewDir, result.normal, _F0);
     
-    half3 shade = MainLightShade(result.hitPoint, result.rayDirection, result.normal, fresnel);
-    AdditionalLightsShade(result.hitPoint, result.rayDirection, result.normal, fresnel, shade);
-    shade += RimLightShade(result.normal, viewDir);
+    half3 shade = MainLightShade(result.hitPoint, result.rayDirection, _ShadowBiasVal, result.normal, fresnel, _SpecularPow);
+    AdditionalLightsShade(result.hitPoint, result.rayDirection, result.normal, fresnel, _SpecularPow, shade);
+    shade += RimLightShade(result.normal, viewDir, _RimPow, _RimColor);
 
     float4 finalColor = result.color;
     finalColor.rgb *= shade + SAMPLE_GI(i.lightmapUV, i.vertexSH, result.normal);

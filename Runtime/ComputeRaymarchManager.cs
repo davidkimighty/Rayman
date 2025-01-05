@@ -13,7 +13,6 @@ namespace Rayman
 #if UNITY_EDITOR
         [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
-        [SerializeField] private bool showLabel;
         [SerializeField] private int boundsDisplayThreshold = 1300;
 #endif
         private ISpatialStructure<AABB> bvh;
@@ -30,10 +29,7 @@ namespace Rayman
             
             if (buildOnAwake)
             {
-                if (Build())
-                {
-                    SpatialStructureDebugger.Add(bvh);
-                }
+                Build();
 #if UNITY_EDITOR
                 SetupDebugProperties();
 #endif
@@ -112,7 +108,7 @@ namespace Rayman
         {
             if (bvh == null || !drawGizmos) return;
 
-            bvh.DrawStructure(showLabel);
+            bvh.DrawStructure();
         }
 
         private void SetupDebugProperties()

@@ -11,7 +11,7 @@ namespace Rayman
         void UpdateBounds(IBoundsSource source, T updatedBounds);
         float CalculateCost();
 #if UNITY_EDITOR
-        void DrawStructure(bool showLabel);
+        void DrawStructure();
 #endif
     }
 }

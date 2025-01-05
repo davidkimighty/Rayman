@@ -25,7 +25,7 @@ namespace Rayman
 
         public string GetDebugMessage()
         {
-            int count = RaymarchRenderers.Sum(r => r.BoundingVolumes?.Length ?? 0);
+            int count = RaymarchRenderers.Sum(r => r.ShapeCount);
             return $"SDF {count,4}";
         }
     }

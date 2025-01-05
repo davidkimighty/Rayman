@@ -34,6 +34,16 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
+Texture2D _MainTex;
+SamplerState sampler_MainTex;
+float _ShadowBiasVal;
+float _F0;
+float _SpecularPow;
+float4 _RimColor;
+float _RimPow;
+float4 _FresnelColor;
+float _FresnelPow;
+
 Varyings Vert (Attributes input)
 {
     Varyings output = (Varyings)0;
@@ -76,16 +86,20 @@ FragOutput Frag (Varyings input)
 		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
 	
 	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float fresnel = GetFresnelSchlick(viewDir, normal);
+	const float schlick = GetFresnelSchlick(viewDir, normal, _F0);
 	
-	float3 shade = MainLightShade(ray.hitPoint, ray.dir, normal, fresnel);
-	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, fresnel, shade);
-	shade += RimLightShade(normal, viewDir);
-	
+	float3 shade = MainLightShade(ray.hitPoint, ray.dir, _ShadowBiasVal, normal, schlick, _SpecularPow);
+	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, schlick, _SpecularPow, shade);
+	shade += RimLightShade(normal, viewDir, _RimPow, _RimColor);
+
 	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
 
-	finalColor.rgb = lerp(finalColor.rgb, float3(0.1, 0.1, 0.1), fresnel);
+	const float2 uv = GetMatCap(viewDir, normal);
+	finalColor = _MainTex.Sample(sampler_MainTex, uv);
+	
+	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
+	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
 
 	FragOutput output;
 	output.color = finalColor;

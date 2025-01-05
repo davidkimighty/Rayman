@@ -6,28 +6,28 @@ namespace Rayman
 {
     public class SpatialStructureDebugger : MonoBehaviour, IDebug
     {
-        private static List<ISpatialStructure<AABB>> SpatialStructures = new();
-
-        public static void Add(ISpatialStructure<AABB> structure)
+        private static List<RaymarchRenderer> RaymarchRenderers = new();
+        
+        public static void Add(RaymarchRenderer raymarchRenderer)
         {
-            if (SpatialStructures.Contains(structure)) return;
+            if (RaymarchRenderers.Contains(raymarchRenderer)) return;
 
-            SpatialStructures.Add(structure);
+            RaymarchRenderers.Add(raymarchRenderer);
         }
 
-        public static void Remove(ISpatialStructure<AABB> structure)
+        public static void Remove(RaymarchRenderer raymarchRenderer)
         {
-            if (!SpatialStructures.Contains(structure)) return;
+            if (!RaymarchRenderers.Contains(raymarchRenderer)) return;
 
-            int i = SpatialStructures.IndexOf(structure);
-            SpatialStructures.RemoveAt(i);
+            int i = RaymarchRenderers.IndexOf(raymarchRenderer);
+            RaymarchRenderers.RemoveAt(i);
         }
         
         public string GetDebugMessage()
         {
-            int sum = SpatialStructures.Sum(s => s?.Count ?? 0);
-            int maxHeight = SpatialStructures.Max(s => s?.MaxHeight ?? 0);
-            return $"BVH {SpatialStructures.Count} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
+            int sum = RaymarchRenderers.Sum(r => r.NodeCount);
+            int maxHeight = RaymarchRenderers.Max(r => r.MaxHeight);
+            return $"BVH {RaymarchRenderers.Sum(r => r.SpatialStructureCount)} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
         }
     }
 }

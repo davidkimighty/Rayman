@@ -709,7 +709,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -768,36 +769,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1310379940}
-  mainShader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  shapes:
-  - {fileID: 104433031}
-  - {fileID: 595482536}
-  - {fileID: 1435975377}
-  - {fileID: 1916900321}
-  - {fileID: 708965497}
-  - {fileID: 1341362488}
-  - {fileID: 354169369}
-  - {fileID: 1810530583}
-  - {fileID: 103026709}
-  - {fileID: 1930765336}
-  - {fileID: 281331291}
-  - {fileID: 1285976565}
-  - {fileID: 990435382}
-  - {fileID: 599777647}
-  - {fileID: 1149526973}
-  - {fileID: 975552589}
-  - {fileID: 1887069806}
-  - {fileID: 560514689}
   maxSteps: 64
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
   shadowBias: 0.013
-  executeInEditor: 0
-  debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
+  materialGroups:
+  - MaterialReference: {fileID: 0}
+    Shapes:
+    - {fileID: 104433031}
+    - {fileID: 595482536}
+    - {fileID: 1916900321}
+    - {fileID: 708965497}
+    - {fileID: 1341362488}
+    - {fileID: 354169369}
+    - {fileID: 1810530583}
+    - {fileID: 103026709}
+    - {fileID: 1930765336}
+    - {fileID: 281331291}
+    - {fileID: 1285976565}
+    - {fileID: 990435382}
+    - {fileID: 1435975377}
+    - {fileID: 599777647}
+    - {fileID: 1149526973}
+    - {fileID: 975552589}
+    - {fileID: 1887069806}
+    - {fileID: 560514689}
+  executeInEditor: 1
   debugMode: 0
   drawGizmos: 0
-  showLabel: 0
   boundsDisplayThreshold: 300
 --- !u!114 &1341362488 stripped
 MonoBehaviour:

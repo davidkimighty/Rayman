@@ -3,15 +3,14 @@ Shader "Rayman/RaymarchLit"
     Properties
     {
         [Header(Shade)][Space]
-    	_F0 ("Fresnel F0", Float) = 0.4
+    	_MainTex ("Main Texture", 2D) = "white" {}
+    	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
+    	_F0 ("Schlick F0", Float) = 0.04
     	_SpecularPow ("Specular Power", Float) = 10.0
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
     	_RimPow ("Rim Power", Float) = 0.1
-    	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
-    	
-        [Header(Raymarching)][Space]
-    	_MaxSteps ("MaxSteps", Int) = 128
-    	_MaxDistance ("MaxDist", Float) = 100.0
+    	_FresnelColor ("Fresnel Color", Color) = (0.5, 0.5, 0.5, 1)
+    	_FresnelPow ("Fresnel Power", Float) = 0.3
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -154,7 +153,7 @@ Shader "Rayman/RaymarchLit"
             #pragma multi_compile_instancing
 			#pragma multi_compile _ DOTS_INSTANCING_ON
             #pragma instancing_options renderinglayer
-
+			
 			#pragma vertex Vert
             #pragma fragment Frag
 
@@ -222,7 +221,7 @@ Shader "Rayman/RaymarchLit"
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-
+			
 			#pragma vertex Vert
 		    #pragma fragment Frag
 

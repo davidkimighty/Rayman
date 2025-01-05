@@ -43,7 +43,7 @@ namespace Rayman
             for (int i = 0; i < boundingVolumes.Length; i++)
             {
                 BoundingVolume<T> volume = boundingVolumes[i];
-                T buffBounds = volume.Bounds.Expand(volume.Source.Settings.ExtraMoveBounds);
+                T buffBounds = volume.Bounds.Expand(volume.Source.Settings.UpdateBounds);
                 T newBounds = volume.Source.GetBounds<T>();
                 if (buffBounds.Contains(newBounds)) continue;
 

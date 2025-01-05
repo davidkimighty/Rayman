@@ -306,9 +306,10 @@ MonoBehaviour:
     Pivot: {x: 0.5, y: 0.5, z: 0.5}
     UseLossyScale: 0
     Operation: 0
-    Smoothness: 0.1
+    Smoothness: 0
     Roundness: 0.005
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0.2
+    UpdateBounds: 0
     Color: {r: 0, g: 0.61223125, b: 1, a: 1}
     EmissionColor: {r: 0, g: 0.17190266, b: 2, a: 1}
     EmissionIntensity: 0.06
@@ -320,13 +321,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207929451}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.16642286, y: 0.31503323, z: -0.23207827, w: 0.90509516}
+  m_LocalRotation: {x: 0.7253549, y: 0.2178591, z: 0.046966027, w: -0.6513002}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.513855, y: 2.5995202, z: 1.8866248}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -8.919, y: 40.953, z: -32.099}
+  m_LocalEulerAnglesHint: {x: -74.865, y: -124.318, z: 462.54}
 --- !u!114 &207929454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,7 +399,8 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.35
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0.2
+    UpdateBounds: 0
     Color: {r: 0, g: 0.6117647, b: 1, a: 1}
     EmissionColor: {r: 0, g: 0.6117647, b: 1, a: 1}
     EmissionIntensity: 0.1
@@ -464,20 +466,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 492288774}
-  mainShader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  shapes:
-  - {fileID: 207929452}
-  - {fileID: 447563327}
   maxSteps: 128
   maxDistance: 30
   shadowMaxSteps: 64
   shadowMaxDistance: 30
-  shadowBias: 0.006
+  materialGroups:
+  - MaterialReference: {fileID: 2100000, guid: d4503e1e3daee044ca4dff08646aacb0, type: 2}
+    Shapes:
+    - {fileID: 207929452}
+    - {fileID: 447563327}
   executeInEditor: 0
-  debugShader: {fileID: 4800000, guid: d8c57129cd4236d448fcdc92ebbcb281, type: 3}
   debugMode: 0
   drawGizmos: 1
-  showLabel: 0
   boundsDisplayThreshold: 300
 --- !u!23 &492288774
 MeshRenderer:

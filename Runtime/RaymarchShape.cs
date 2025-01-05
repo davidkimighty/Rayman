@@ -36,7 +36,8 @@ namespace Rayman
             public Operations Operation = Operations.Union;
             [Range(0, 1f)] public float Smoothness;
             [Range(0, 1f)] public float Roundness;
-            public float ExtraMoveBounds;
+            [Range(0, 1f)] public float AdditionalExpandBounds;
+            [Range(0, 1f)] public float UpdateBounds;
             public Color Color;
             [ColorUsage(true, true)] public Color EmissionColor;
             [Range(0, 1f)] public float EmissionIntensity;
@@ -55,7 +56,8 @@ namespace Rayman
             if (typeof(T) == typeof(AABB))
             {
                 AABB aabb = GetShapeAABB(settings.Shape, settings.Size, scale);
-                aabb = aabb.Expand(settings.Smoothness + settings.Roundness + Epsilon);
+                aabb = aabb.Expand(settings.Smoothness + settings.Roundness +
+                                   settings.AdditionalExpandBounds + Epsilon);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");

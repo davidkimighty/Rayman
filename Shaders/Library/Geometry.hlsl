@@ -38,12 +38,20 @@ inline float2 GetScreenPosition(const float2 posCS)
 #else
     float2 pixelPos = float2(posCS.x, (_ProjectionParams.x > 0) ? (_ScreenParams.y - posCS.y) : posCS.y);
 #endif
-		  
     float2 ndcPos = pixelPos.xy / _ScreenParams.xy;
     ndcPos.y = 1.0f - ndcPos.y;
     float4 pos = float4(ndcPos.xy, 0, 0);
     float2 screenPos = all(isfinite(pos)) ? half4(pos.x, pos.y, pos.z, 1.0) : float4(1.0f, 0.0f, 1.0f, 1.0f);
     return screenPos;
+}
+
+inline float2 GetMatCap(const float3 viewDir, const float3 normal)
+{
+    float3 reflected = reflect(viewDir, normal);
+    float m = 2.8284271247461903 * sqrt(reflected.z + 1.0);
+    float2 uv = reflected.xy / m + 0.5;
+    uv.y = 1.0 - uv.y;
+    return uv;
 }
 
 #endif
