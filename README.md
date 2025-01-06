@@ -4,12 +4,16 @@
 
 <div align="center">
   <h1 align="center">Rayman</h1>
+  <p align="center">
+    <a href="https://davidkimighty.github.io/Rayman/">Demo scene »
+  </p>
 </div>
 <br />
 
-![shrek](https://github.com/user-attachments/assets/1c3a3937-0c16-43a0-bbf1-85194aa4ced5)
-
 This package provides Ray marching shader in Unity.
+
+![green cube](https://github.com/user-attachments/assets/1bba6566-6e87-44fe-94cc-471047eb4872)
+> Demo inspired by <a href="https://luruke.github.io/monolith/index.html">luruke
 
 ## Features
 - **Basic Shape Providers**: Provides basic primitives such as spheres, cubes, toruses, and more.
