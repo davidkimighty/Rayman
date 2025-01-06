@@ -34,15 +34,13 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-// Texture2D _MainTex;
-// SamplerState sampler_MainTex;
+Texture2D _MainTex;
+SamplerState sampler_MainTex;
 float _ShadowBiasVal;
 float _F0;
 float _SpecularPow;
 float4 _RimColor;
 float _RimPow;
-float4 _FresnelColor;
-float _FresnelPow;
 
 Varyings Vert (Attributes input)
 {
@@ -87,6 +85,9 @@ FragOutput Frag (Varyings input)
 	
 	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	const float schlick = GetFresnelSchlick(viewDir, normal, _F0);
+
+	const float2 uv = GetMatCap(viewDir, normal);
+	finalColor.rgb *= _MainTex.Sample(sampler_MainTex, uv);
 	
 	float3 shade = MainLightShade(ray.hitPoint, ray.dir, _ShadowBiasVal, normal, schlick, _SpecularPow);
 	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, schlick, _SpecularPow, shade);

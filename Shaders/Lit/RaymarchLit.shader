@@ -3,14 +3,12 @@ Shader "Rayman/RaymarchLit"
     Properties
     {
         [Header(Shade)][Space]
-    	//_MainTex ("Main Texture", 2D) = "white" {}
+    	_MainTex ("Main Texture", 2D) = "white" {}
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
     	_F0 ("Schlick F0", Float) = 0.04
     	_SpecularPow ("Specular Power", Float) = 10.0
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
     	_RimPow ("Rim Power", Float) = 0.1
-    	_FresnelColor ("Fresnel Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_FresnelPow ("Fresnel Power", Float) = 0.3
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
