@@ -19,7 +19,7 @@ Shader "Rayman/RaymarchTextureLit"
         {
         	"RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-        	"UniversalMaterialType" = "Lit"
+        	"UniversalMaterialType" = "Unlit"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
@@ -50,8 +50,6 @@ Shader "Rayman/RaymarchTextureLit"
 
         int _MaxSteps;
 		float _MaxDistance;
-        int _ShadowMaxSteps;
-        float _ShadowMaxDistance;
 		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAABB> _NodeBuffer;
         
@@ -142,74 +140,6 @@ Shader "Rayman/RaymarchTextureLit"
 
 			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchTextureLitForward.hlsl"
             ENDHLSL
-		}
-
-//	    Pass
-//		{
-//			Name "Depth Only"
-//		    Tags { "LightMode" = "DepthOnly" }
-//
-//		    ZTest LEqual
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 5.0
-//		    #pragma shader_feature _ALPHATEST_ON
-//		    #pragma multi_compile_instancing
-//
-//		    #pragma vertex Vert
-//		    #pragma fragment Frag
-//		    
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchLitDepthOnly.hlsl"
-//		    ENDHLSL
-//		}
-
-//       Pass
-//       {
-//       	Name "Depth Normals"
-//		    Tags { "LightMode" = "DepthNormals" }
-//
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 5.0
-//		    #pragma shader_feature _ALPHATEST_ON
-//		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
-//		    #pragma multi_compile_instancing
-//
-//			#pragma vertex Vert
-//		    #pragma fragment Frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchLitDepthNormals.hlsl"
-//		    ENDHLSL
-//       }
-
-		Pass
-		{
-			Name "Shadow Caster"
-			Tags
-			{
-				"LightMode" = "ShadowCaster"
-			}
-
-			ZWrite On
-			ZTest LEqual
-			ColorMask 0
-			Cull [_Cull]
-
-			HLSLPROGRAM
-			#pragma target 5.0
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-			
-			#pragma vertex Vert
-		    #pragma fragment Frag
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchLitShadowCaster.hlsl"
-			ENDHLSL
 		}
     }
     FallBack "Diffuse"

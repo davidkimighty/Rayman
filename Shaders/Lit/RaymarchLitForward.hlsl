@@ -34,8 +34,8 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
+// Texture2D _MainTex;
+// SamplerState sampler_MainTex;
 float _ShadowBiasVal;
 float _F0;
 float _SpecularPow;
@@ -94,12 +94,6 @@ FragOutput Frag (Varyings input)
 
 	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
-
-	const float2 uv = GetMatCap(viewDir, normal);
-	finalColor = _MainTex.Sample(sampler_MainTex, uv);
-	
-	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
-	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
 
 	FragOutput output;
 	output.color = finalColor;

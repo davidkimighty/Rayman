@@ -3,7 +3,7 @@ Shader "Rayman/RaymarchLit"
     Properties
     {
         [Header(Shade)][Space]
-    	_MainTex ("Main Texture", 2D) = "white" {}
+    	//_MainTex ("Main Texture", 2D) = "white" {}
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
     	_F0 ("Schlick F0", Float) = 0.04
     	_SpecularPow ("Specular Power", Float) = 10.0

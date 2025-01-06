@@ -141,8 +141,10 @@ namespace Rayman
                 SetupNodeBuffer(nodesCount, ref data.MaterialInstance, ref data.NodeBuffer);
             
                 SetupRaymarchProperties(ref data.MaterialInstance);
+#if UNITY_EDITOR
                 if (debugMode != DebugModes.None)
                     SetupDebugProperties(ref data.MaterialInstance);
+#endif
                 groupData.Add(data);
             }
             mainRenderer.materials = groupData.Select(g => g.MaterialInstance).ToArray();
