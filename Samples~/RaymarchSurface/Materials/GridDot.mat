@@ -54,9 +54,10 @@ Material:
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
     m_Colors:
+    - _BackgroundColor: {r: 0.8090067, g: 0.5348434, b: 0.9528302, a: 0}
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _DotColor: {r: 0.59039015, g: 0.8616352, b: 0.26824483, a: 1}
+    - _DotColor: {r: 1, g: 0.739755, b: 0.19215685, a: 1}
     - _Offset: {r: 13.3, g: 0, b: 0, a: 0}
     - _Time_Multiplier: {r: 0.13, g: 0.13, b: 0, a: 0}
   m_BuildTextureStacks: []

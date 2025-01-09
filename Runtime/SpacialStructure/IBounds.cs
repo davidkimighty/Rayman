@@ -26,6 +26,27 @@ namespace Rayman
             Max = max;
         }
 
+        public static AABB GetBounds(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)
+        {
+            Vector3 right = transform.right * (scale.x * size.x);
+            Vector3 up = transform.up * (scale.y * size.y);
+            Vector3 forward = transform.forward * (scale.z * size.z);
+
+            Vector3 extent = new Vector3(
+                Mathf.Abs(right.x) + Mathf.Abs(up.x) + Mathf.Abs(forward.x),
+                Mathf.Abs(right.y) + Mathf.Abs(up.y) + Mathf.Abs(forward.y),
+                Mathf.Abs(right.z) + Mathf.Abs(up.z) + Mathf.Abs(forward.z)
+            );
+
+            Vector3 offset = (Pivot - Vector3.one * 0.5f) * 2f;
+            Vector3 rotatedOffset = right * offset.x + up * offset.y + forward * offset.z;
+            Vector3 center = transform.position + rotatedOffset;
+
+            Vector3 min = center - extent;
+            Vector3 max = center + extent;
+            return new AABB(min, max);
+        }
+
         public bool Contains(AABB aabb)
         {
             return Min.x <= aabb.Min.x && Min.y <= aabb.Min.y &&

@@ -29,7 +29,7 @@ public class InteractiveShapes : MonoBehaviour
     {
         clickActionReference.action.performed += ChangeMatCap;
 
-        primaryOriginalSize = shapePrimary.Settings.Size;
+        primaryOriginalSize = shapePrimary.Size;
     }
     
     private void OnDisable()
@@ -61,23 +61,23 @@ public class InteractiveShapes : MonoBehaviour
     public IEnumerator PulseImpact(RaymarchShape shape, Vector3 targetSize, float duration)
     {
         float elapsedTime = 0f;
-        Vector3 startSize = shape.Settings.Size;
+        Vector3 startSize = shape.Size;
         
         while (elapsedTime < duration)
         {
             float lerpFactor = interactCurve.Evaluate(elapsedTime / duration);
-            shape.Settings.Size = Vector3.LerpUnclamped(startSize, targetSize, lerpFactor);
+            shape.Size = Vector3.LerpUnclamped(startSize, targetSize, lerpFactor);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        shape.Settings.Size = targetSize;
+        shape.Size = targetSize;
     }
 
     private void ContinuousPulse(RaymarchShape shape, float frequency, Vector2 minmax)
     {
         float sin = (Mathf.Sin(Time.time * frequency) + 1f) / 2f;
         float size = Mathf.Lerp(minmax.x, minmax.y, sin);
-        shape.Settings.Size = new Vector3(size, 0, 0);
+        shape.Size = new Vector3(size, 0, 0);
     }
 
     private void ChangeMatCap(InputAction.CallbackContext context)

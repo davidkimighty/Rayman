@@ -48,7 +48,7 @@ public class LavaBlob : MonoBehaviour
         
         dir = (targetPoint - transform.position).normalized;
         transform.position += dir * (moveSpeed * Time.deltaTime);
-        transform.position += dir * (raymarchShape.Settings.Size.y * Time.deltaTime);
+        transform.position += dir * (raymarchShape.Size.y * Time.deltaTime);
     }
 
     private void SetTargetPoint(Transform target, float radius)
@@ -61,7 +61,7 @@ public class LavaBlob : MonoBehaviour
     private IEnumerator Squash()
     {
         float elapsedTime = 0;
-        Vector3 startSize = raymarchShape.Settings.Size;
+        Vector3 startSize = raymarchShape.Size;
         
         while (elapsedTime < squashDuration)
         {
@@ -69,7 +69,7 @@ public class LavaBlob : MonoBehaviour
             float amount = Mathf.Lerp(squashAmount, 0, elapsedTime / squashDuration);
             float squashFactor = Mathf.Lerp(1 - amount, 1 + amount, (s + 1) / 2);
             float squashSize = startSize.z * squashFactor;
-            raymarchShape.Settings.Size = new Vector3(startSize.x, startSize.y, squashSize);
+            raymarchShape.Size = new Vector3(startSize.x, startSize.y, squashSize);
             
             elapsedTime += Time.deltaTime;
             yield return null;

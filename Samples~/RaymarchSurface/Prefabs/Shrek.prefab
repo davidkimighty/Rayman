@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 9
     Size: {x: 0.03, y: 0.02, z: 0.001}
@@ -53,10 +55,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.02
     Roundness: 0.03
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 9
+  Size: {x: 0.03, y: 0.02, z: 0.001}
+  Operation: 0
+  Smoothness: 0.02
+  Roundness: 0.03
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.42745098, g: 0.59607846, b: 0.13333334, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &546671557711746959
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,6 +115,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.2, y: 0, z: 0}
@@ -110,10 +125,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.1
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.2, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.1
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.42745098, g: 0.59607846, b: 0.13333334, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &935731666881967999
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,6 +184,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 1
     Size: {x: 0.06, y: 0.045, z: 0.03}
@@ -166,10 +194,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.013
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.26403853, g: 0.36477977, b: 0.08832714, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 1
+  Size: {x: 0.06, y: 0.045, z: 0.03}
+  Operation: 0
+  Smoothness: 0.013
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.2627451, g: 0.3647059, b: 0.09019608, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &1057045909138786191
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.12, y: 0, z: 0}
@@ -222,10 +263,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.16
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.12, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.16
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.42745098, g: 0.59607846, b: 0.13333334, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &1689958482481471478
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,6 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.02, y: 0, z: 0}
@@ -279,10 +333,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.0005
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9486642, b: 0.9009434, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.02, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.0005
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.9490196, b: 0.9019608, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &2126076267621674284
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,6 +392,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.02, y: 0, z: 0}
@@ -335,10 +402,21 @@ MonoBehaviour:
     Operation: 1
     Smoothness: 0.05
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.08378118, g: 0.21383637, b: 0.059847273, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.02, y: 0, z: 0}
+  Operation: 1
+  Smoothness: 0.05
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.08235294, g: 0.21568628, b: 0.05882353, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &2153122162056003054
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.015, y: 0, z: 0}
@@ -391,10 +471,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.001
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.015, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.001
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &3205302936871007959
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.02, y: 0, z: 0}
@@ -448,10 +541,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.0005
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9486642, b: 0.9009434, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.02, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.0005
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.9490196, b: 0.9019608, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &3947492394204024988
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,6 +601,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 9
     Size: {x: 0.03, y: 0.02, z: 0.001}
@@ -505,10 +611,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.02
     Roundness: 0.03
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.42899832, g: 0.59748423, b: 0.13340051, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 9
+  Size: {x: 0.03, y: 0.02, z: 0.001}
+  Operation: 0
+  Smoothness: 0.02
+  Roundness: 0.03
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.42745098, g: 0.59607846, b: 0.13333334, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &5108480026871741860
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,6 +670,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.02, y: 0, z: 0}
@@ -561,10 +680,21 @@ MonoBehaviour:
     Operation: 1
     Smoothness: 0.05
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.08378118, g: 0.21383637, b: 0.059847273, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.02, y: 0, z: 0}
+  Operation: 1
+  Smoothness: 0.05
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.08235294, g: 0.21568628, b: 0.05882353, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &5149330296701390332
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,6 +739,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 7
     Size: {x: 0.43, y: 0.03, z: 0.006}
@@ -617,10 +749,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.005
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.14465404, g: 0.09948644, b: 0.048672892, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 7
+  Size: {x: 0.43, y: 0.03, z: 0.006}
+  Operation: 0
+  Smoothness: 0.005
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.14509805, g: 0.09803922, b: 0.047058824, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &5849472829781437794
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,6 +848,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 7
     Size: {x: 0.43, y: 0.03, z: 0.006}
@@ -713,10 +858,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.005
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.14465404, g: 0.09948644, b: 0.048672892, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 7
+  Size: {x: 0.43, y: 0.03, z: 0.006}
+  Operation: 0
+  Smoothness: 0.005
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.14509805, g: 0.09803922, b: 0.047058824, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &6502897702228670282
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,6 +921,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 7
     Size: {x: 0.63, y: 0.09, z: 0.043}
@@ -773,10 +931,21 @@ MonoBehaviour:
     Operation: 1
     Smoothness: 0.01
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.2264151, g: 0.07333567, b: 0.07333567, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 7
+  Size: {x: 0.63, y: 0.09, z: 0.043}
+  Operation: 1
+  Smoothness: 0.01
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.22745098, g: 0.07450981, b: 0.07450981, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &7921994500820033078
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,6 +990,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.015, y: 0, z: 0}
@@ -829,10 +1000,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0.001
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 0
+  Size: {x: 0.015, y: 0, z: 0}
+  Operation: 0
+  Smoothness: 0.001
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &8011013171693633989
 GameObject:
   m_ObjectHideFlags: 0
@@ -877,6 +1059,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 4
     Size: {x: 0.013, y: 0.016, z: 0}
@@ -885,10 +1069,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 4
+  Size: {x: 0.013, y: 0.016, z: 0}
+  Operation: 0
+  Smoothness: 0
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.972549, b: 0.827451, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &8423836395134069784
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,6 +1128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 4
     Size: {x: 0.013, y: 0.016, z: 0}
@@ -941,10 +1138,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 4
+  Size: {x: 0.013, y: 0.016, z: 0}
+  Operation: 0
+  Smoothness: 0
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.972549, b: 0.827451, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &8709710343657490091
 GameObject:
   m_ObjectHideFlags: 0
@@ -989,6 +1197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 4
     Size: {x: 0.013, y: 0.016, z: 0}
@@ -997,10 +1207,21 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 4
+  Size: {x: 0.013, y: 0.016, z: 0}
+  Operation: 0
+  Smoothness: 0
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.972549, b: 0.827451, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!1 &8898296327347569124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1266,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 4
     Size: {x: 0.013, y: 0.016, z: 0}
@@ -1053,7 +1276,18 @@ MonoBehaviour:
     Operation: 0
     Smoothness: 0
     Roundness: 0
-    ExtraMoveBounds: 0
+    AdditionalExpandBounds: 0
+    UpdateBounds: 0
     Color: {r: 1, g: 0.9734242, b: 0.827044, a: 1}
     EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     EmissionIntensity: 0
+  Shape: 4
+  Size: {x: 0.013, y: 0.016, z: 0}
+  Operation: 0
+  Smoothness: 0
+  Roundness: 0
+  AdditionalExpandBounds: 0
+  UpdateBounds: 0
+  Color: {r: 1, g: 0.972549, b: 0.827451, a: 1}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0

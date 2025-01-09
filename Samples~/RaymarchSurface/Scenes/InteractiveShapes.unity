@@ -285,6 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 2
     Size: {x: 0.3, y: 0.3, z: 0.3}
@@ -298,6 +300,16 @@ MonoBehaviour:
     Color: {r: 0, g: 0.61223125, b: 1, a: 1}
     EmissionColor: {r: 0, g: 0.17190266, b: 2, a: 1}
     EmissionIntensity: 0.06
+  Shape: 2
+  Size: {x: 0.3, y: 0.3, z: 0.3}
+  Operation: 0
+  Smoothness: 0
+  Roundness: 0.003
+  AdditionalExpandBounds: 0.2
+  UpdateBounds: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
+  EmissionIntensity: 0
 --- !u!4 &207929453
 Transform:
   m_ObjectHideFlags: 0
@@ -358,10 +370,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207929451}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -483,6 +495,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   settings:
     Shape: 0
     Size: {x: 0.1, y: 0.1, z: 0.1}
@@ -496,6 +510,16 @@ MonoBehaviour:
     Color: {r: 0, g: 0.6117647, b: 1, a: 1}
     EmissionColor: {r: 0, g: 0.6117647, b: 1, a: 1}
     EmissionIntensity: 0.1
+  Shape: 0
+  Size: {x: 0.1, y: 0.1, z: 0.1}
+  Operation: 0
+  Smoothness: 0.35
+  Roundness: 0
+  AdditionalExpandBounds: 0.2
+  UpdateBounds: 0
+  Color: {r: 0, g: 0.6117647, b: 1, a: 1}
+  EmissionColor: {r: 0, g: 0.6117647, b: 1, a: 1}
+  EmissionIntensity: 0.1
 --- !u!114 &447563328
 MonoBehaviour:
   m_ObjectHideFlags: 0

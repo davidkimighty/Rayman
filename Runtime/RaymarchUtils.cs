@@ -43,7 +43,7 @@ namespace Rayman
             for (int i = 0; i < boundingVolumes.Length; i++)
             {
                 BoundingVolume<T> volume = boundingVolumes[i];
-                T buffBounds = volume.Bounds.Expand(volume.Source.Settings.UpdateBounds);
+                T buffBounds = volume.Bounds.Expand(volume.Source.UpdateBoundsThreshold);
                 T newBounds = volume.Source.GetBounds<T>();
                 if (buffBounds.Contains(newBounds)) continue;
 
@@ -60,7 +60,7 @@ namespace Rayman
                 RaymarchShape shape = boundingVolumes[i].Source;
                 if (shape == null) continue;
                 
-                shapeData[i] = new ShapeData(shape.transform, shape.Settings);
+                shapeData[i] = new ShapeData(shape.transform, shape);
             }
         }
 

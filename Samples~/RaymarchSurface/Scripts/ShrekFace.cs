@@ -34,7 +34,7 @@ public class ShrekFace : MonoBehaviour
         LookAt(eyeRight.transform, mousePos, rightEyeStartRotation);
         
         float s = Mathf.Sin(Time.time * frequency * Mathf.PI);
-        mouth.Settings.Size = Vector3.LerpUnclamped(startShape, endShape, curve.Evaluate(s));
+        mouth.Size = Vector3.LerpUnclamped(startShape, endShape, curve.Evaluate(s));
     }
 
     private void LookAt(Transform eye, Vector3 target, Quaternion startRot)

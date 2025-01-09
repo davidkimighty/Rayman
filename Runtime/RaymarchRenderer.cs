@@ -293,38 +293,6 @@ namespace Rayman
             Bounds = bounds;
         }
     }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeData
-    {
-        public static readonly int Stride = sizeof(float) * 33 + sizeof(int) * 2;
-        
-        public int Type;
-        public Matrix4x4 Transform;
-        public Vector3 Size;
-        public Vector3 Pivot;
-        public int Operation;
-        public float Smoothness;
-        public float Roundness;
-        public Vector4 Color;
-        public Vector4 EmissionColor;
-        public float EmissionIntensity;
-
-        public ShapeData(Transform sourceTransform, RaymarchShape.Setting setting)
-        {
-            Type = (int)setting.Shape;
-            Transform = setting.UseLossyScale ? sourceTransform.worldToLocalMatrix : 
-                Matrix4x4.TRS(sourceTransform.position, sourceTransform.rotation, Vector3.one).inverse;
-            Size = setting.Size;
-            Pivot = setting.Pivot;
-            Operation = (int)setting.Operation;
-            Smoothness = setting.Smoothness;
-            Roundness = setting.Roundness;
-            Color = setting.Color;
-            EmissionColor = setting.EmissionColor;
-            EmissionIntensity = setting.EmissionIntensity;
-        }
-    }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct NodeData<T> where T : struct, IBounds<T>
