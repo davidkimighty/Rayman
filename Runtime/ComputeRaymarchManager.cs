@@ -18,7 +18,7 @@ namespace Rayman
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] boundingVolumes;
         private ShapeData[] shapeData;
-        private NodeData<AABB>[] nodeData;
+        private AabbNodeData[] nodeData;
 
         private void Awake()
         {
@@ -41,14 +41,20 @@ namespace Rayman
         {
             if (boundingVolumes == null || bvh == null) return;
             
-            RaymarchUtils.SyncBoundingVolumes(ref bvh, ref boundingVolumes);
-            RaymarchUtils.UpdateShapeData(boundingVolumes, ref shapeData);
-            RaymarchUtils.FillNodeData(bvh, ref nodeData);
+            for (int j = 0; j < boundingVolumes.Length; j++)
+            {
+                BoundingVolume<AABB> volume = boundingVolumes[j];
+                var shape = volume.Source as RaymarchShape;
+                if (shape != null)
+                    shapeData[j] = new ShapeData(shape);
+                BoundingVolume<AABB>.SyncVolume(ref bvh, ref volume);
+            }
+            AabbNodeData.UpdateAabbNodeData(bvh, ref nodeData);
         }
 
         public ShapeData[] GetShapeData() => shapeData;
 
-        public NodeData<AABB>[] GetNodeData() => nodeData;
+        public AabbNodeData[] GetNodeData() => nodeData;
 
         [ContextMenu("Build")]
         public bool Build()
@@ -63,18 +69,18 @@ namespace Rayman
                 var activeShapes = rr.Shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
                 if (activeShapes.Count == 0) continue;
                 
-                volumes.AddRange(RaymarchUtils.CreateBoundingVolumes<AABB>(rr.Shapes));
+                volumes.AddRange(BoundingVolume<AABB>.CreateBoundingVolumes(rr.Shapes));
             }
             if (volumes.Count == 0) return false;
             
             boundingVolumes = volumes.ToArray();
-            bvh = RaymarchUtils.CreateSpatialStructure<AABB>(boundingVolumes);
+            bvh = BVH<AABB>.Create(boundingVolumes);
             
             int shapeCount = boundingVolumes.Length;
             shapeData = new ShapeData[shapeCount];
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
-            nodeData = new NodeData<AABB>[nodesCount];
+            nodeData = new AabbNodeData[nodesCount];
             return true;
         }
         

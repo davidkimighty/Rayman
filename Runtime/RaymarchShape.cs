@@ -27,8 +27,6 @@ namespace Rayman
 
     public class RaymarchShape : RaymarchEntity
     {
-        private static readonly float Epsilon = 0.001f;
-
         [Header("Shape Provider")]
         public Shapes Shape = Shapes.Sphere;
         public Operations Operation = Operations.Union;
@@ -92,11 +90,11 @@ namespace Rayman
         public Vector4 EmissionColor;
         public float EmissionIntensity;
 
-        public ShapeData(Transform sourceTransform, RaymarchShape shape)
+        public ShapeData(RaymarchShape shape)
         {
             Type = (int)shape.Shape;
-            Transform = shape.UseLossyScale ? sourceTransform.worldToLocalMatrix : 
-                Matrix4x4.TRS(sourceTransform.position, sourceTransform.rotation, Vector3.one).inverse;
+            Transform = shape.UseLossyScale ? shape.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(shape.transform.position, shape.transform.rotation, Vector3.one).inverse;
             Size = shape.Size;
             Pivot = shape.Pivot;
             Operation = (int)shape.Operation;

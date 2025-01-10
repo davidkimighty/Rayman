@@ -2,6 +2,8 @@ using UnityEngine;
 
 namespace Rayman
 {
+    public enum BoundingVolumes { AABB, OBB }
+    
     public interface IBounds<T> where T : struct, IBounds<T>
     {
         bool Contains(T other);

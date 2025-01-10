@@ -27,7 +27,7 @@ namespace Rayman
         {
             int sum = RaymarchRenderers.Sum(r => r.NodeCount);
             int maxHeight = RaymarchRenderers.Max(r => r.MaxHeight);
-            return $"BVH {RaymarchRenderers.Sum(r => r.SpatialStructureCount)} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
+            return $"BVH {RaymarchRenderers.Sum(r => r.GroupCount)} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
         }
     }
 }

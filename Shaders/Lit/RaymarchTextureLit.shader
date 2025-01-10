@@ -43,9 +43,6 @@ Shader "Rayman/RaymarchTextureLit"
         	int operation;
         	float smoothness;
 			float roundness;
-			float4 color;
-			float4 emissionColor;
-			float emissionIntensity;
 		};
 
         int _MaxSteps;
@@ -55,7 +52,6 @@ Shader "Rayman/RaymarchTextureLit"
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
-		float4 finalColor;
 
 		inline float GetDst(const float3 rayPos)
 		{

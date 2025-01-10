@@ -54,7 +54,7 @@ Material:
     - _UIMaskSoftnessX: 1
     - _UIMaskSoftnessY: 1
     m_Colors:
-    - _BackgroundColor: {r: 0.8090067, g: 0.5348434, b: 0.9528302, a: 0}
+    - _BackgroundColor: {r: 0.22327036, g: 0.6015951, b: 1, a: 0}
     - _ClipRect: {r: 0, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DotColor: {r: 1, g: 0.739755, b: 0.19215685, a: 1}

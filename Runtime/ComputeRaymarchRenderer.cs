@@ -5,15 +5,15 @@ namespace Rayman
 {
     public class ComputeRaymarchRenderer : MonoBehaviour
     {
-        [SerializeField] protected List<RaymarchShape> shapes = new();
+        [SerializeField] protected List<RaymarchEntity> shapes = new();
 
-        public List<RaymarchShape> Shapes => shapes;
+        public List<RaymarchEntity> Shapes => shapes;
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         private void FindAllShapes()
         {
-            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShape>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchEntity>(transform);
         }
 #endif
     }

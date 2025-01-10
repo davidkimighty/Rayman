@@ -1,6 +1,6 @@
 {
   "name": "com.davidkimighty.rayman",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "Rayman",
   "description": "Ray marching shader in Unity",
   "unity": "6000.0",

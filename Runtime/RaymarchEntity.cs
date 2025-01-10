@@ -4,6 +4,8 @@ namespace Rayman
 {
     public class RaymarchEntity : MonoBehaviour, IBoundsSource
     {
+        protected static readonly float Epsilon = 0.001f;
+        
         public Vector3 Size = Vector3.one * 0.5f;
         public Vector3 Pivot = Vector3.one * 0.5f;
         public bool UseLossyScale = true;

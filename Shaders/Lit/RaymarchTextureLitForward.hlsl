@@ -67,7 +67,7 @@ FragOutput Frag (Varyings input)
 	
 	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	const float2 uv = GetMatCap(viewDir, normal);
-	finalColor = _MainTex.Sample(sampler_MainTex, uv);
+	float4 finalColor = _MainTex.Sample(sampler_MainTex, uv);
 	
 	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
 	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);

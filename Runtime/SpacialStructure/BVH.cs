@@ -8,12 +8,26 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BVH<T> : ISpatialStructure<T> where T : struct, IBounds<T>
+    public class BVH<T> : MonoBehaviour, ISpatialStructure<T> where T : struct, IBounds<T>
     {
         public SpatialNode<T> Root { get; private set; }
         public int Count => SpatialNode<T>.GetNodesCount(Root);
         public int MaxHeight { get; private set; }
 
+        public static BVH<T> Create(BoundingVolume<T>[] volumes)
+        {
+            var structure = new BVH<T>();
+            int shapeId = 0;
+            
+            for (int i = 0; i < volumes.Length; i++)
+            {
+                BoundingVolume<T> volume = volumes[i];
+                structure.AddLeafNode(shapeId, volume.Bounds, volume.Source);
+                shapeId++;
+            }
+            return structure;
+        }
+        
         public void AddLeafNode(int id, T bounds, IBoundsSource source)
         {
             SpatialNode<T> nodeToInsert = new(id, bounds, source, 0);
