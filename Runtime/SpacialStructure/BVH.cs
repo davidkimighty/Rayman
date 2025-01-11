@@ -1,14 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 
 namespace Rayman
 {
-    public class BVH<T> : MonoBehaviour, ISpatialStructure<T> where T : struct, IBounds<T>
+    public class BVH<T> : ISpatialStructure<T> where T : struct, IBounds<T>
     {
         public SpatialNode<T> Root { get; private set; }
         public int Count => SpatialNode<T>.GetNodesCount(Root);
@@ -30,7 +26,7 @@ namespace Rayman
         
         public void AddLeafNode(int id, T bounds, IBoundsSource source)
         {
-            SpatialNode<T> nodeToInsert = new(id, bounds, source, 0);
+            SpatialNode<T> nodeToInsert = new(id, 0, bounds, source);
             PerformInsertNode(nodeToInsert);
         }
         
@@ -53,7 +49,7 @@ namespace Rayman
             }
             PerformRemoveNode(nodeToRemove);
             
-            SpatialNode<T> nodeToInsert = new(nodeToRemove.Id, updatedBounds, nodeToRemove.Source, 0);
+            SpatialNode<T> nodeToInsert = new(nodeToRemove.Id, 0, updatedBounds, nodeToRemove.Source);
             PerformInsertNode(nodeToInsert);
         }
 

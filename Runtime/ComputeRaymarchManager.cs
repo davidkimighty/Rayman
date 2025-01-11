@@ -18,7 +18,7 @@ namespace Rayman
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] boundingVolumes;
         private ShapeData[] shapeData;
-        private AabbNodeData[] nodeData;
+        private NodeDataAABB[] nodeData;
 
         private void Awake()
         {
@@ -47,14 +47,14 @@ namespace Rayman
                 var shape = volume.Source as RaymarchShape;
                 if (shape != null)
                     shapeData[j] = new ShapeData(shape);
-                BoundingVolume<AABB>.SyncVolume(ref bvh, ref volume);
+                volume.SyncVolume(ref bvh);
             }
-            AabbNodeData.UpdateAabbNodeData(bvh, ref nodeData);
+            //NodeDataAABB.UpdateAabbNodeData(bvh, ref nodeData);
         }
 
         public ShapeData[] GetShapeData() => shapeData;
 
-        public AabbNodeData[] GetNodeData() => nodeData;
+        public NodeDataAABB[] GetNodeData() => nodeData;
 
         [ContextMenu("Build")]
         public bool Build()
@@ -69,7 +69,7 @@ namespace Rayman
                 var activeShapes = rr.Shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
                 if (activeShapes.Count == 0) continue;
                 
-                volumes.AddRange(BoundingVolume<AABB>.CreateBoundingVolumes(rr.Shapes));
+                volumes.AddRange(rr.Shapes.Select(e => new BoundingVolume<AABB>(e)).ToArray());
             }
             if (volumes.Count == 0) return false;
             
@@ -80,7 +80,7 @@ namespace Rayman
             shapeData = new ShapeData[shapeCount];
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
-            nodeData = new AabbNodeData[nodesCount];
+            nodeData = new NodeDataAABB[nodesCount];
             return true;
         }
         

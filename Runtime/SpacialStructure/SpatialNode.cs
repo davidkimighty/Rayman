@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -9,23 +7,23 @@ namespace Rayman
         public const int InternalNodeId = -1;
         
         public int Id;
-        public T Bounds;
-        public IBoundsSource Source;
         public int Height;
         public SpatialNode<T> Parent;
         public SpatialNode<T> LeftChild;
         public SpatialNode<T> RightChild;
+        public T Bounds;
+        public IBoundsSource Source;
 
         public bool IsLeaf => Id != InternalNodeId;
         
         public SpatialNode() { }
         
-        public SpatialNode(int id, T bounds, IBoundsSource source, int height)
+        public SpatialNode(int id, int height, T bounds, IBoundsSource source)
         {
             Id = id;
+            Height = height;
             Bounds = bounds;
             Source = source;
-            Height = height;
         }
         
         public static int GetNodesCount(SpatialNode<T> node)
@@ -57,45 +55,6 @@ namespace Rayman
             int heightL = LeftChild?.Height ?? 0;
             int heightR = RightChild?.Height ?? 0;
             return heightR - heightL;
-        }
-    }
-    
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct AabbNodeData
-    {
-        public static readonly int Stride = sizeof(float) * 6 + sizeof(int) * 2;
-        
-        public int Id;
-        public AABB Bounds;
-        public int ChildIndex;
-        
-        public static void UpdateAabbNodeData(ISpatialStructure<AABB> spatialStructure, ref AabbNodeData[] nodeData)
-        {
-            int index = 0;
-            Queue<(SpatialNode<AABB> node, int parentIndex)> queue = new();
-            queue.Enqueue((spatialStructure.Root, -1));
-
-            while (queue.Count > 0)
-            {
-                (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
-                AabbNodeData data = new()
-                {
-                    Id = current.Id,
-                    Bounds = current.Bounds,
-                    ChildIndex = -1
-                };
-
-                if (current.LeftChild != null)
-                {
-                    data.ChildIndex = index + queue.Count + 1;
-                    queue.Enqueue((current.LeftChild, index));
-                }
-                if (current.RightChild != null)
-                    queue.Enqueue((current.RightChild, index));
-                
-                nodeData[index] = data;
-                index++;
-            }
         }
     }
 }

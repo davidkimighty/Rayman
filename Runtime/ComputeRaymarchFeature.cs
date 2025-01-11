@@ -118,7 +118,7 @@ namespace Rayman
                 shapeBuffer.SetData(shapeData);
             }
 
-            public void SetupNodeBuffer(AabbNodeData[] nodeData)
+            public void SetupNodeBuffer(NodeDataAABB[] nodeData)
             {
                 if (nodeData == null) return;
                 
@@ -127,7 +127,7 @@ namespace Rayman
                 {
                     nodeBuffer?.Release();
                     nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount,
-                        Marshal.SizeOf(typeof(AabbNodeData)));
+                        Marshal.SizeOf(typeof(NodeDataAABB)));
                     Debug.Log($"[Raymarch Feature] NodeBuffer initialized.");
                 }
                 nodeBuffer.SetData(nodeData);

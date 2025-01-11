@@ -19,7 +19,6 @@ namespace Rayman
         public class MaterialGroup
         {
             public Material MaterialReference;
-            public BoundingVolumes BoundingVolume;
             public List<RaymarchEntity> Shapes = new();
         }
 
@@ -27,10 +26,7 @@ namespace Rayman
         public class MaterialGroupData
         {
             public Material MaterialInstance;
-            public BoundingVolume<AABB>[] BoundingVolumes;
-            public ISpatialStructure<AABB> SpatialStructure;
             public ShapeData[] ShapeData;
-            public AabbNodeData[] NodeData;
             public GraphicsBuffer ShapeBuffer;
             public GraphicsBuffer NodeBuffer;
         }
@@ -60,10 +56,6 @@ namespace Rayman
         protected List<MaterialGroupData> groupData = new();
 
         public List<MaterialGroupData> GroupData => groupData;
-        public int VolumeCount => groupData?.Sum(g => g.BoundingVolumes.Length) ?? 0;
-        public int GroupCount => groupData?.Count ?? 0;
-        public int NodeCount => groupData?.Sum(g => g.SpatialStructure?.Count) ?? 0;
-        public int MaxHeight => groupData?.Max(g => g.SpatialStructure?.MaxHeight) ?? 0;
         public bool IsInitialized => groupData != null && groupData.Count > 0;
 
         protected virtual void OnEnable()
@@ -88,17 +80,16 @@ namespace Rayman
             for (int i = 0; i < groupData.Count; i++)
             {
                 MaterialGroupData data = groupData[i];
-                for (int j = 0; j < data.BoundingVolumes.Length; j++)
-                {
-                    var shape = data.BoundingVolumes[j].Source as RaymarchShape;
-                    if (shape != null)
-                        data.ShapeData[j] = new ShapeData(shape);
-                    BoundingVolume<AABB>.SyncVolume(ref data.SpatialStructure, ref data.BoundingVolumes[j]);
-                }
-                AabbNodeData.UpdateAabbNodeData(data.SpatialStructure, ref data.NodeData);
+                // for (int j = 0; j < data.BoundingVolumes.Length; j++)
+                // {
+                //     var shape = data.BoundingVolumes[j].Source as RaymarchShape;
+                //     if (shape != null)
+                //         data.ShapeData[j] = new ShapeData(shape);
+                //     BoundingVolume<AABB>.SyncVolume(ref data.SpatialStructure, ref data.BoundingVolumes[j]);
+                // }
+                // AabbNodeData.UpdateAabbNodeData(data.SpatialStructure, ref data.NodeData);
             
                 data.ShapeBuffer?.SetData(data.ShapeData);
-                data.NodeBuffer?.SetData(data.NodeData);
             }
         }
         
@@ -135,15 +126,13 @@ namespace Rayman
                 
                 MaterialGroupData data = new();
                 data.MaterialInstance = CreateMaterial(group.MaterialReference);
-                data.BoundingVolumes = BoundingVolume<AABB>.CreateBoundingVolumes(activeShapes).ToArray();
-                data.SpatialStructure = BVH<AABB>.Create(data.BoundingVolumes);
             
                 data.ShapeData = new ShapeData[shapeCount];
                 SetupShapeBuffer(shapeCount, ref data.MaterialInstance, ref data.ShapeBuffer);
             
-                int nodesCount = SpatialNode<AABB>.GetNodesCount(data.SpatialStructure.Root);
-                data.NodeData = new AabbNodeData[nodesCount];
-                SetupNodeBuffer(nodesCount, ref data.MaterialInstance, ref data.NodeBuffer);
+                //int nodesCount = SpatialNode<AABB>.GetNodesCount(data.SpatialStructure.Root);
+                // data.NodeData = new AabbNodeData[nodesCount];
+                // SetupNodeBuffer(nodesCount, ref data.MaterialInstance, ref data.NodeBuffer);
             
                 SetupRaymarchProperties(ref data.MaterialInstance);
 #if UNITY_EDITOR
@@ -202,7 +191,7 @@ namespace Rayman
             if (count == 0) return;
             
             buffer?.Release();
-            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, AabbNodeData.Stride);
+            buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, NodeDataAABB.Stride);
             mat.SetBuffer(NodeBufferId, buffer);
         }
         
@@ -248,23 +237,6 @@ namespace Rayman
                 }
             }
         }
-        
-        protected virtual void OnDrawGizmos()
-        {
-            if (!drawGizmos) return;
-            
-            if (!executeInEditor)
-            {
-                Gizmos.color = new Color(1, 1, 1, 0.3f);
-                Gizmos.DrawSphere(transform.position, 0.1f);
-            }
-
-            if (IsInitialized)
-            {
-                for (int i = 0; i < groupData.Count; i++)
-                    groupData[i].SpatialStructure?.DrawStructure();
-            }
-        }
 
         protected void SetupDebugProperties(ref Material mat)
         {
@@ -273,50 +245,13 @@ namespace Rayman
             mat.SetInt(DebugModeId, (int)debugMode);
             mat.SetInt(BoundsDisplayThresholdId, boundsDisplayThreshold);
         }
-
-        [ContextMenu("Find All Shapes")]
-        protected void FindAllShapes()
+        
+        [ContextMenu("Find all entities")]
+        protected void FindAllEntities()
         {
-            materialGroups.Add(new MaterialGroup
-            {
-                MaterialReference = null,
-                Shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchEntity>(transform) 
-            });
+            //raymarchEntities = RaymarchUtils.GetChildrenByHierarchical<RaymarchEntity>(transform);
             EditorUtility.SetDirty(this);
         }
 #endif
-    }
-    
-    public class BoundingVolume<T> where T : struct, IBounds<T>
-    {
-        public RaymarchEntity Source;
-        public T Bounds;
-
-        public BoundingVolume(RaymarchEntity source, T bounds)
-        {
-            Source = source;
-            Bounds = bounds;
-        }
-        
-        public static List<BoundingVolume<T>> CreateBoundingVolumes(List<RaymarchEntity> entities)
-        {
-            var volumes = new List<BoundingVolume<T>>();
-            foreach (RaymarchEntity entity in entities)
-            {
-                T bounds = entity.GetBounds<T>();
-                volumes.Add(new BoundingVolume<T>(entity, bounds));
-            }
-            return volumes;
-        }
-        
-        public static void SyncVolume(ref ISpatialStructure<T> structure, ref BoundingVolume<T> volume)
-        {
-            T buffBounds = volume.Bounds.Expand(volume.Source.UpdateBoundsThreshold);
-            T newBounds = volume.Source.GetBounds<T>();
-            if (buffBounds.Contains(newBounds)) return;
-
-            volume.Bounds = newBounds;
-            structure.UpdateBounds(volume.Source, newBounds);
-        }
     }
 }
