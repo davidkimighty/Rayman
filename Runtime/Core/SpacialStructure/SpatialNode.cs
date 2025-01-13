@@ -12,13 +12,13 @@ namespace Rayman
         public SpatialNode<T> LeftChild;
         public SpatialNode<T> RightChild;
         public T Bounds;
-        public IBoundsSource Source;
+        public IBoundsProvider Source;
 
         public bool IsLeaf => Id != InternalNodeId;
         
         public SpatialNode() { }
         
-        public SpatialNode(int id, int height, T bounds, IBoundsSource source)
+        public SpatialNode(int id, int height, T bounds, IBoundsProvider source)
         {
             Id = id;
             Height = height;

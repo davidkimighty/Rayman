@@ -151,8 +151,6 @@ MonoBehaviour:
   Size: {x: 0.3, y: 0.15, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 6
   Operation: 0
   Smoothness: 0
@@ -207,8 +205,6 @@ MonoBehaviour:
   Size: {x: 1.46, y: 0.3, z: 0.2}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 7
   Operation: 0
   Smoothness: 0
@@ -344,6 +340,8 @@ GameObject:
   - component: {fileID: 233407158}
   - component: {fileID: 233407157}
   - component: {fileID: 233407156}
+  - component: {fileID: 233407161}
+  - component: {fileID: 233407160}
   m_Layer: 0
   m_Name: Renderer (3)
   m_TagString: Untagged
@@ -368,10 +366,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 66883420}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -444,6 +439,42 @@ Transform:
   - {fileID: 66883421}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 185.752, y: 19.817993, z: 2567.101}
+--- !u!114 &233407160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233407155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &233407161
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 233407155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 66883420}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &281331291 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2753644825251107140, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -478,6 +509,8 @@ GameObject:
   - component: {fileID: 407645955}
   - component: {fileID: 407645954}
   - component: {fileID: 407645953}
+  - component: {fileID: 407645958}
+  - component: {fileID: 407645957}
   m_Layer: 0
   m_Name: Renderer (7)
   m_TagString: Untagged
@@ -502,10 +535,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 1557142678}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -578,6 +608,42 @@ Transform:
   - {fileID: 1557142679}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 201.953, y: 535.976, z: 2829.178}
+--- !u!114 &407645957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407645952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &407645958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407645952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 1557142678}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!1 &458453439
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,8 +676,6 @@ MonoBehaviour:
   Size: {x: 0.27, y: 0.4, z: 0.2}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 5
   Operation: 0
   Smoothness: 0
@@ -646,6 +710,8 @@ GameObject:
   - component: {fileID: 483120891}
   - component: {fileID: 483120890}
   - component: {fileID: 483120889}
+  - component: {fileID: 483120894}
+  - component: {fileID: 483120893}
   m_Layer: 0
   m_Name: Renderer (4)
   m_TagString: Untagged
@@ -670,10 +736,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 458453440}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -746,6 +809,42 @@ Transform:
   - {fileID: 458453441}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 126.662, y: -3.4620056, z: 2478.671}
+--- !u!114 &483120893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483120888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &483120894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 483120888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 458453440}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!1 &484591983
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,8 +1031,6 @@ MonoBehaviour:
   Size: {x: 0.3, y: 0.3, z: 0.01}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 9
   Operation: 0
   Smoothness: 0
@@ -979,6 +1076,8 @@ GameObject:
   - component: {fileID: 896070097}
   - component: {fileID: 896070096}
   - component: {fileID: 896070095}
+  - component: {fileID: 896070100}
+  - component: {fileID: 896070099}
   m_Layer: 0
   m_Name: Renderer (8)
   m_TagString: Untagged
@@ -1003,10 +1102,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 1090251721}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -1079,6 +1175,42 @@ Transform:
   - {fileID: 1090251722}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 201.953, y: 535.976, z: 2829.178}
+--- !u!114 &896070099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896070094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &896070100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896070094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 1090251721}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &975552589 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7000101041063911214, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1133,8 +1265,6 @@ MonoBehaviour:
   Size: {x: 0.18, y: 0.18, z: 0.13}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 0
   Operation: 0
   Smoothness: 0
@@ -1189,8 +1319,6 @@ MonoBehaviour:
   Size: {x: 0.2, y: 0.3, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 3
   Operation: 0
   Smoothness: 0
@@ -1225,6 +1353,8 @@ GameObject:
   - component: {fileID: 1094907341}
   - component: {fileID: 1094907340}
   - component: {fileID: 1094907339}
+  - component: {fileID: 1094907344}
+  - component: {fileID: 1094907343}
   m_Layer: 0
   m_Name: Renderer (2)
   m_TagString: Untagged
@@ -1249,10 +1379,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 1092397781}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -1325,6 +1452,42 @@ Transform:
   - {fileID: 1092397782}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 213.709, y: -58.044006, z: 2624.939}
+--- !u!114 &1094907343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094907338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &1094907344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094907338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 1092397781}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &1149526973 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7286178477730071534, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1497,6 +1660,8 @@ GameObject:
   - component: {fileID: 1310379940}
   - component: {fileID: 1310379943}
   - component: {fileID: 1310379944}
+  - component: {fileID: 1310379946}
+  - component: {fileID: 1310379945}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Untagged
@@ -1589,27 +1754,8 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 104433031}
-    - {fileID: 595482536}
-    - {fileID: 1916900321}
-    - {fileID: 708965497}
-    - {fileID: 1341362488}
-    - {fileID: 354169369}
-    - {fileID: 1810530583}
-    - {fileID: 103026709}
-    - {fileID: 1930765336}
-    - {fileID: 281331291}
-    - {fileID: 1285976565}
-    - {fileID: 990435382}
-    - {fileID: 1435975377}
-    - {fileID: 599777647}
-    - {fileID: 1149526973}
-    - {fileID: 975552589}
-    - {fileID: 1887069806}
-    - {fileID: 560514689}
+  raymarchGroups:
+  - {fileID: 1310379946}
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 0
@@ -1668,6 +1814,59 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1310379945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310379938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &1310379946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310379938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 1310379945}
+  shapes:
+  - {fileID: 104433031}
+  - {fileID: 595482536}
+  - {fileID: 1916900321}
+  - {fileID: 708965497}
+  - {fileID: 1341362488}
+  - {fileID: 354169369}
+  - {fileID: 1810530583}
+  - {fileID: 103026709}
+  - {fileID: 1930765336}
+  - {fileID: 281331291}
+  - {fileID: 1285976565}
+  - {fileID: 990435382}
+  - {fileID: 1435975377}
+  - {fileID: 599777647}
+  - {fileID: 1149526973}
+  - {fileID: 975552589}
+  - {fileID: 1887069806}
+  - {fileID: 560514689}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &1341362488 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9004938299600516523, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1691,6 +1890,8 @@ GameObject:
   - component: {fileID: 1420686999}
   - component: {fileID: 1420686998}
   - component: {fileID: 1420686997}
+  - component: {fileID: 1420687002}
+  - component: {fileID: 1420687001}
   m_Layer: 0
   m_Name: Renderer (1)
   m_TagString: Untagged
@@ -1715,10 +1916,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 1437353817}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -1791,6 +1989,42 @@ Transform:
   - {fileID: 1437353818}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 131.044, y: -144.982, z: 2497.955}
+--- !u!114 &1420687001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420686996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &1420687002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1420686996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 1437353817}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &1435975377 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7605902598356415708, guid: a0dd128c33906d845b10678fa8065664, type: 3}
@@ -1834,8 +2068,6 @@ MonoBehaviour:
   Size: {x: 0.1, y: 0.3, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 4
   Operation: 0
   Smoothness: 0
@@ -1890,8 +2122,6 @@ MonoBehaviour:
   Size: {x: 0.18, y: 0.18, z: 0.13}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  AdditionalExpandBounds: 0
-  UpdateBoundsThreshold: 0
   Shape: 8
   Operation: 0
   Smoothness: 0
@@ -1926,6 +2156,8 @@ GameObject:
   - component: {fileID: 1581845693}
   - component: {fileID: 1581845692}
   - component: {fileID: 1581845691}
+  - component: {fileID: 1581845696}
+  - component: {fileID: 1581845695}
   m_Layer: 0
   m_Name: Renderer (5)
   m_TagString: Untagged
@@ -1950,10 +2182,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 44144467}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -2026,6 +2255,42 @@ Transform:
   - {fileID: 44144468}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 215.301, y: -29.17102, z: 2512.846}
+--- !u!114 &1581845695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581845690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &1581845696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581845690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 44144467}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!1001 &1727578322
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2155,6 +2420,8 @@ GameObject:
   - component: {fileID: 1772023118}
   - component: {fileID: 1772023117}
   - component: {fileID: 1772023116}
+  - component: {fileID: 1772023121}
+  - component: {fileID: 1772023120}
   m_Layer: 0
   m_Name: Renderer (6)
   m_TagString: Untagged
@@ -2179,10 +2446,7 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 0}
-    Shapes:
-    - {fileID: 654574454}
+  raymarchGroups: []
   executeInEditor: 0
   debugMode: 2
   drawGizmos: 1
@@ -2255,6 +2519,42 @@ Transform:
   - {fileID: 654574455}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 146.427, y: -39.88202, z: 2518.569}
+--- !u!114 &1772023120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772023115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  executeInEditor: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
+--- !u!114 &1772023121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1772023115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 0}
+  spatialStructure: {fileID: 0}
+  shapes:
+  - {fileID: 654574454}
+  executeInEditor: 0
+  debugMode: 0
+  drawGizmos: 0
+  boundsDisplayThreshold: 300
 --- !u!114 &1810530583 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8172589297540028822, guid: a0dd128c33906d845b10678fa8065664, type: 3}

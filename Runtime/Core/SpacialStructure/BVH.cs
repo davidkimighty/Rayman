@@ -24,13 +24,13 @@ namespace Rayman
             return structure;
         }
         
-        public void AddLeafNode(int id, T bounds, IBoundsSource source)
+        public void AddLeafNode(int id, T bounds, IBoundsProvider source)
         {
             SpatialNode<T> nodeToInsert = new(id, 0, bounds, source);
             PerformInsertNode(nodeToInsert);
         }
         
-        public void RemoveLeafNode(IBoundsSource source)
+        public void RemoveLeafNode(IBoundsProvider source)
         {
             if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
             {
@@ -40,7 +40,7 @@ namespace Rayman
             PerformRemoveNode(nodeToRemove);
         }
 
-        public void UpdateBounds(IBoundsSource source, T updatedBounds)
+        public void UpdateBounds(IBoundsProvider source, T updatedBounds)
         {
             if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
             {
@@ -275,7 +275,7 @@ namespace Rayman
             }
         }
         
-        private bool TraverseDFS(SpatialNode<T> current, IBoundsSource source, out SpatialNode<T> targetNode)
+        private bool TraverseDFS(SpatialNode<T> current, IBoundsProvider source, out SpatialNode<T> targetNode)
         {
             if (current == null)
             {

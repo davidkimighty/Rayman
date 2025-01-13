@@ -82,12 +82,12 @@ public class InteractiveShapes : MonoBehaviour
 
     private void ChangeMatCap(InputAction.CallbackContext context)
     {
-        if (!raymarchRenderer.IsInitialized) return;
-
-        bool click = context.ReadValueAsButton();
-        if (!click) return;
-
-        matcapIndex = ++matcapIndex % matcaps.Count;
-        raymarchRenderer.GroupData[0].MaterialInstance.SetTexture(MainTexId, matcaps[matcapIndex]);
+        // if (!raymarchRenderer.IsInitialized) return;
+        //
+        // bool click = context.ReadValueAsButton();
+        // if (!click) return;
+        //
+        // matcapIndex = ++matcapIndex % matcaps.Count;
+        // raymarchRenderer.GroupData[0].MaterialInstance.SetTexture(MainTexId, matcaps[matcapIndex]);
     }
 }

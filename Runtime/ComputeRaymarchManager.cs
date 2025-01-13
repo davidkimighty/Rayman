@@ -18,7 +18,7 @@ namespace Rayman
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] boundingVolumes;
         private ShapeData[] shapeData;
-        private NodeDataAABB[] nodeData;
+        //private NodeDataAABB[] nodeData;
 
         private void Awake()
         {
@@ -54,7 +54,7 @@ namespace Rayman
 
         public ShapeData[] GetShapeData() => shapeData;
 
-        public NodeDataAABB[] GetNodeData() => nodeData;
+        //public NodeDataAABB[] GetNodeData() => nodeData;
 
         [ContextMenu("Build")]
         public bool Build()
@@ -80,7 +80,7 @@ namespace Rayman
             shapeData = new ShapeData[shapeCount];
             
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
-            nodeData = new NodeDataAABB[nodesCount];
+            //nodeData = new NodeDataAABB[nodesCount];
             return true;
         }
         
