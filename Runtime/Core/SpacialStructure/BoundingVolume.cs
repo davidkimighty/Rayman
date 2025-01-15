@@ -11,9 +11,9 @@ namespace Rayman
             Bounds = source.GetBounds<T>();
         }
         
-        public void SyncVolume(ref ISpatialStructure<T> structure)
+        public void SyncVolume(ref ISpatialStructure<T> structure, float updateBoundsThreshold)
         {
-            T buffBounds = Bounds.Expand(Source.UpdateBoundsThreshold);
+            T buffBounds = Bounds.Expand(updateBoundsThreshold);
             T newBounds = Source.GetBounds<T>();
             if (buffBounds.Contains(newBounds)) return;
 

@@ -41,7 +41,7 @@ namespace Rayman
             if (typeof(T) == typeof(AABB))
             {
                 AABB aabb = AABB.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
-                aabb = aabb.Expand(Smoothness + Roundness + AdditionalExpandBounds + Epsilon);
+                aabb = aabb.Expand(Smoothness + Roundness + ExpandBounds + 0.001f);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");

@@ -4,14 +4,10 @@ namespace Rayman
 {
     public class RaymarchEntity : MonoBehaviour, IBoundsProvider
     {
-        protected static readonly float Epsilon = 0.001f;
-        
         public Vector3 Size = Vector3.one * 0.5f;
         public Vector3 Pivot = Vector3.one * 0.5f;
         public bool UseLossyScale = true;
-
-        public float AdditionalExpandBounds { get; set; }
-        public float UpdateBoundsThreshold { get; set; }
+        public float ExpandBounds;
 
         public virtual T GetBounds<T>() where T : struct, IBounds<T>
         {

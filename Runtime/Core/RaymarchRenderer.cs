@@ -9,9 +9,6 @@ using UnityEngine.Rendering;
 
 namespace Rayman
 {
-#if UNITY_EDITOR
-    public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
-#endif
     [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
@@ -29,11 +26,10 @@ namespace Rayman
         [SerializeField] protected float maxDistance = 100f;
         [SerializeField] protected int shadowMaxSteps = 32;
         [SerializeField] protected float shadowMaxDistance = 30f;
-        [SerializeField] protected List<RaymarchEntityGroup> raymarchGroups = new();
+        [SerializeField] protected List<RaymarchGroup> raymarchGroups = new();
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] protected bool executeInEditor;
-        [SerializeField] protected DebugModes debugMode = DebugModes.None;
         [SerializeField] protected bool drawGizmos;
         [SerializeField] protected int boundsDisplayThreshold = 300;
 #endif
@@ -50,17 +46,6 @@ namespace Rayman
             }
         }
         
-        protected virtual void LateUpdate()
-        {
-#if UNITY_EDITOR
-            if (!Application.isPlaying && !executeInEditor) return;
-#endif
-            if (!mainRenderer.isVisible) return;
-
-            foreach (RaymarchEntityGroup group in raymarchGroups)
-                group.SetData();
-        }
-        
         protected virtual void OnDisable()
         {
             Release();
@@ -69,14 +54,11 @@ namespace Rayman
         [ContextMenu("Build")]
         public bool Build()
         {
-            foreach (RaymarchEntityGroup group in raymarchGroups)
+            foreach (RaymarchGroup group in raymarchGroups)
             {
                 group.Setup();
                 SetupRaymarchProperties(ref group.MaterialInstance);
-#if UNITY_EDITOR
-                if (debugMode != DebugModes.None)
-                    SetupDebugProperties(ref group.MaterialInstance);
-#endif
+
             }
             mainRenderer.materials = raymarchGroups.Select(g => g.MaterialInstance).ToArray();
             return true;
@@ -84,7 +66,7 @@ namespace Rayman
 
         public void Release()
         {
-            foreach (RaymarchEntityGroup group in raymarchGroups)
+            foreach (RaymarchGroup group in raymarchGroups)
                 group.Release();
             mainRenderer.materials = Array.Empty<Material>();
         }
@@ -136,7 +118,7 @@ namespace Rayman
         {
             if (mat == null) return;
             
-            mat.SetInt(DebugModeId, (int)debugMode);
+            //mat.SetInt(DebugModeId, (int)debugMode);
             mat.SetInt(BoundsDisplayThresholdId, boundsDisplayThreshold);
         }
         

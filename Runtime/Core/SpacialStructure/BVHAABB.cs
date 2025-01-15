@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BVHAABB : SpatialStructure
+    public class BVHAABB : RaymarchBufferProvider
     {
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        public struct NodeData
+        public struct AABBNodeData
         {
             public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
 
@@ -19,6 +19,7 @@ namespace Rayman
         
         private static int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
 
+        [SerializeField] private float updateBoundsThreshold;
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] protected bool executeInEditor;
@@ -26,26 +27,24 @@ namespace Rayman
         [SerializeField] protected int boundsDisplayThreshold = 300;
 #endif
         
+        private GraphicsBuffer nodeBuffer;
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] volumes;
-        private NodeData[] nodeData;
+        private AABBNodeData[] nodeData;
 
         public bool IsInitialized => bvh != null && nodeData != null;
         
         public override void Setup(ref Material mat, RaymarchEntity[] entities)
         {
-            if (entities.Length == 0) return;
-            
             volumes = entities.Select(e => new BoundingVolume<AABB>(e)).ToArray();
             bvh = BVH<AABB>.Create(volumes);
             if (bvh == null) return;
 
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
-            nodeData = new NodeData[nodesCount];
+            nodeData = new AABBNodeData[nodesCount];
             
-            NodeBuffer?.Release();
-            NodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodesCount, NodeData.Stride);
-            mat.SetBuffer(NodeBufferId, NodeBuffer);
+            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodesCount, AABBNodeData.Stride);
+            mat.SetBuffer(NodeBufferId, nodeBuffer);
         }
 
         public override void SetData()
@@ -53,15 +52,15 @@ namespace Rayman
             if (!IsInitialized) return;
             
             for (int i = 0; i < volumes.Length; i++)
-                volumes[i].SyncVolume(ref bvh);
+                volumes[i].SyncVolume(ref bvh, updateBoundsThreshold);
 
             UpdateNodeData();
-            NodeBuffer.SetData(nodeData);
+            nodeBuffer.SetData(nodeData);
         }
 
         public override void Release()
         {
-            NodeBuffer?.Release();
+            nodeBuffer?.Release();
             bvh = null;
             volumes = null;
             nodeData = null;
@@ -76,7 +75,7 @@ namespace Rayman
             while (queue.Count > 0)
             {
                 (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
-                NodeData data = new()
+                AABBNodeData data = new()
                 {
                     Id = current.Id,
                     ChildIndex = -1,
