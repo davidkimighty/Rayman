@@ -1,4 +1,4 @@
-Shader "Rayman/RaymarchTextureLit"
+Shader "Rayman/RaymarchTextureUnlit"
 {
     Properties
     {
@@ -134,7 +134,7 @@ Shader "Rayman/RaymarchTextureLit"
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchTextureLitForward.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchTextureUnlitForward.hlsl"
             ENDHLSL
 		}
     }

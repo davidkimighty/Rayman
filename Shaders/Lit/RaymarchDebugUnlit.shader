@@ -1,17 +1,10 @@
-Shader "Rayman/RaymarchDebugLit"
+Shader "Rayman/RaymarchDebugUnlit"
 {
     Properties
     {
-        [Header(Shade)][Space]
-    	_F0 ("Fresnel F0", Float) = 0.4
-    	_SpecularPow ("Specular Power", Float) = 10.0
-    	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_RimPow ("Rim Power", Float) = 0.1
-    	_ShadowBiasVal ("Shadow Bias", Float) = 0.015
-    	
-        [Header(Raymarching)][Space]
-    	_MaxSteps ("MaxSteps", Int) = 128
-    	_MaxDistance ("MaxDist", Float) = 100.0
+    	[Header(Debug)][Space]
+    	[Enum(Rayman.DebugModes)] _DebugMode ("Debug Mode", Int) = 1
+        _BoundsDisplayThreshold ("Bounds Display Threshold", Int) = 300
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -25,7 +18,7 @@ Shader "Rayman/RaymarchDebugLit"
         {
         	"RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-        	"UniversalMaterialType" = "Lit"
+        	"UniversalMaterialType" = "Unlit"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
@@ -59,8 +52,6 @@ Shader "Rayman/RaymarchDebugLit"
         
         int _MaxSteps;
 		float _MaxDistance;
-        int _ShadowMaxSteps;
-		float _ShadowMaxDistance;
 		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAABB> _NodeBuffer;
         
@@ -159,34 +150,8 @@ Shader "Rayman/RaymarchDebugLit"
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchDebugLitForward.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchDebugUnlitForward.hlsl"
             ENDHLSL
-		}
-
-		Pass
-		{
-			Name "Shadow Caster"
-			Tags
-			{
-				"LightMode" = "ShadowCaster"
-			}
-
-			ZWrite On
-			ZTest LEqual
-			ColorMask 0
-			Cull [_Cull]
-
-			HLSLPROGRAM
-			#pragma target 5.0
-			#pragma multi_compile_instancing
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
-			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-
-			#pragma vertex Vert
-		    #pragma fragment Frag
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/RaymarchLitShadowCaster.hlsl"
-			ENDHLSL
 		}
     }
     FallBack "Diffuse"

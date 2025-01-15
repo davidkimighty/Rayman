@@ -45,8 +45,8 @@ namespace Rayman
             {
                 BoundingVolume<AABB> volume = boundingVolumes[j];
                 var shape = volume.Source as RaymarchShape;
-                if (shape != null)
-                    shapeData[j] = new ShapeData(shape);
+                // if (shape != null)
+                //     shapeData[j] = new ShapeData(shape);
                 //volume.SyncVolume(ref bvh);
             }
             //NodeDataAABB.UpdateAabbNodeData(bvh, ref nodeData);

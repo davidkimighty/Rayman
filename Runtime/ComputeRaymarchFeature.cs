@@ -89,8 +89,8 @@ namespace Rayman
                 if (setting.DebugMode != DebugModes.None)
                 {
                     requiresIntermediateTexture = true;
-                    cs.SetInt(RaymarchRenderer.DebugModeId, (int)setting.DebugMode);
-                    cs.SetInt(RaymarchRenderer.BoundsDisplayThresholdId, setting.BoundsDisplayThreshold);
+                    // cs.SetInt(RaymarchRenderer.DebugModeId, (int)setting.DebugMode);
+                    // cs.SetInt(RaymarchRenderer.BoundsDisplayThresholdId, setting.BoundsDisplayThreshold);
                 }
 #endif
                 setting.SetTrigger(false);

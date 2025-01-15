@@ -8,14 +8,14 @@
 struct NodeAABB
 {
     int id;
-    AABB bounds;
     int childIndex;
+    AABB bounds;
 };
 
 // Must be implemented by the including shader.
 inline NodeAABB GetNode(const int index);
 
-inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 hitCount)
+inline void TraverseTree(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 hitCount)
 {
     int nodeStack[STACK_SIZE];
     int ptr = hitCount = 0; // count.x is leaf

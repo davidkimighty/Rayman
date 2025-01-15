@@ -112,7 +112,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - _CameraPosition.xyz);
 
-    TraverseAabbTree(0, ray, hitIds, hitCount);
+    TraverseTree(0, ray, hitIds, hitCount);
     InsertionSort(hitIds, hitCount.x);
     Raymarch(ray);
     

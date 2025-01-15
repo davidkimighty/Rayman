@@ -46,7 +46,7 @@ FragOut Frag(Varyings input)
     Ray ray = CreateRay(input.posWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     
-    TraverseAabbTree(0, ray, hitIds, hitCount);
+    TraverseTree(0, ray, hitIds, hitCount);
     InsertionSort(hitIds, hitCount.x);
     
     if (!Raymarch(ray)) discard;

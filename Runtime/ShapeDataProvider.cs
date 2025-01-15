@@ -6,15 +6,12 @@ namespace Rayman
 #if UNITY_EDITOR
     public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
 #endif
-    public class ShapeDataProvider : RaymarchBufferProvider
+    public class ShapeDataProvider : RaymarchDataProvider
     {
         private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         
-        [Header("Shape Group")]
-        
 #if UNITY_EDITOR
         [Header("Debugging")]
-        [SerializeField] private bool executeInEditor;
         [SerializeField] private bool drawGizmos;
 #endif
         private GraphicsBuffer shapeBuffer;
@@ -36,6 +33,8 @@ namespace Rayman
 
         public override void SetData()
         {
+            if (!IsInitialized) return;
+            
             for (int i = 0; i < shapes.Length; i++)
             {
                 if (shapes[i] == null) continue;
@@ -57,11 +56,8 @@ namespace Rayman
         {
             if (!drawGizmos) return;
             
-            if (!executeInEditor)
-            {
-                Gizmos.color = new Color(1, 1, 1, 0.3f);
-                Gizmos.DrawSphere(transform.position, 0.1f);
-            }
+            Gizmos.color = new Color(1, 1, 1, 0.3f);
+            Gizmos.DrawSphere(transform.position, 0.1f);
         }
 #endif
     }

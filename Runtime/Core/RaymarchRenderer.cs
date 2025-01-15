@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
-using UnityEngine.Rendering;
 
 namespace Rayman
 {
@@ -16,11 +12,10 @@ namespace Rayman
         public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
         public static readonly int ShadowMaxStepsId = Shader.PropertyToID("_ShadowMaxSteps");
         public static readonly int ShadowMaxDistanceId = Shader.PropertyToID("_ShadowMaxDistance");
-#if UNITY_EDITOR
-        public static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
-        public static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
-#endif
 
+        public event Action<RaymarchRenderer> OnBuild;
+        public event Action<RaymarchRenderer> OnRelease;
+        
         [SerializeField] protected Renderer mainRenderer;
         [SerializeField] protected int maxSteps = 64;
         [SerializeField] protected float maxDistance = 100f;
@@ -30,8 +25,6 @@ namespace Rayman
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] protected bool executeInEditor;
-        [SerializeField] protected bool drawGizmos;
-        [SerializeField] protected int boundsDisplayThreshold = 300;
 #endif
 
         protected virtual void OnEnable()
@@ -39,11 +32,7 @@ namespace Rayman
 #if UNITY_EDITOR
             if (!Application.isPlaying && !executeInEditor) return;
 #endif
-            if (Build())
-            {
-                RaymarchDebugger.Add(this);
-                SpatialStructureDebugger.Add(this);
-            }
+            Build();
         }
         
         protected virtual void OnDisable()
@@ -52,23 +41,24 @@ namespace Rayman
         }
         
         [ContextMenu("Build")]
-        public bool Build()
+        public void Build()
         {
             foreach (RaymarchGroup group in raymarchGroups)
             {
-                group.Setup();
+                group.Build();
                 SetupRaymarchProperties(ref group.MaterialInstance);
-
             }
             mainRenderer.materials = raymarchGroups.Select(g => g.MaterialInstance).ToArray();
-            return true;
+            OnBuild?.Invoke(this);
         }
 
+        [ContextMenu("Release")]
         public void Release()
         {
             foreach (RaymarchGroup group in raymarchGroups)
-                group.Release();
+                group?.Release();
             mainRenderer.materials = Array.Empty<Material>();
+            OnRelease?.Invoke(this);
         }
         
         protected void SetupRaymarchProperties(ref Material mat)
@@ -86,50 +76,23 @@ namespace Rayman
         {
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
-            //
-            // if (executeInEditor && !IsInitialized)
-            // {
-            //     if (Build())
-            //     {
-            //         RaymarchDebugger.Add(this);
-            //         SpatialStructureDebugger.Add(this);
-            //     }
-            // }
-            //
-            // if (!executeInEditor && !Application.isPlaying)
-            // {
-            //     SpatialStructureDebugger.Remove(this);
-            //     RaymarchDebugger.Remove(this);
-            //     Release();
-            // }
-            //
-            // if (IsInitialized)
-            // {
-            //     for (int i = 0; i < groupData.Count; i++)
-            //     {
-            //         SetupRaymarchProperties(ref groupData[i].MaterialInstance);
-            //         if (debugMode != DebugModes.None)
-            //             SetupDebugProperties(ref groupData[i].MaterialInstance);
-            //     }
-            // }
+            
+            if (executeInEditor)
+            {
+                foreach (RaymarchGroup group in raymarchGroups)
+                {
+                    if (!group.IsInitialized) continue;
+                    
+                    SetupRaymarchProperties(ref group.MaterialInstance);
+                }
+            }
         }
 
-        protected void SetupDebugProperties(ref Material mat)
-        {
-            if (mat == null) return;
-            
-            //mat.SetInt(DebugModeId, (int)debugMode);
-            mat.SetInt(BoundsDisplayThresholdId, boundsDisplayThreshold);
-        }
-        
-        [ContextMenu("Find all entities")]
+        [ContextMenu("Find all groups")]
         protected void FindAllEntities()
         {
-            //raymarchEntities = RaymarchUtils.GetChildrenByHierarchical<RaymarchEntity>(transform);
-            EditorUtility.SetDirty(this);
+            raymarchGroups = RaymarchUtils.GetChildrenByHierarchical<RaymarchGroup>(transform);
         }
 #endif
     }
-    
-    
 }

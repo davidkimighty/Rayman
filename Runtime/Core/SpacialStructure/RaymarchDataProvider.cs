@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class RaymarchBufferProvider : MonoBehaviour
+    public abstract class RaymarchDataProvider : MonoBehaviour
     {
         public abstract void Setup(ref Material mat, RaymarchEntity[] entities);
         public abstract void SetData();

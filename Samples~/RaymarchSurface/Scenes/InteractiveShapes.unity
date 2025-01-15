@@ -285,31 +285,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.3, y: 0.3, z: 0.3}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 2
-    Size: {x: 0.3, y: 0.3, z: 0.3}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 0
-    Operation: 0
-    Smoothness: 0
-    Roundness: 0.003
-    AdditionalExpandBounds: 0.2
-    UpdateBounds: 0
-    Color: {r: 0, g: 0.61223125, b: 1, a: 1}
-    EmissionColor: {r: 0, g: 0.17190266, b: 2, a: 1}
-    EmissionIntensity: 0.06
+  ExpandBounds: 0.1
   Shape: 2
-  Size: {x: 0.3, y: 0.3, z: 0.3}
   Operation: 0
   Smoothness: 0
   Roundness: 0.003
-  AdditionalExpandBounds: 0.2
-  UpdateBounds: 0
-  Color: {r: 0, g: 0, b: 0, a: 0}
-  EmissionColor: {r: 0, g: 0, b: 0, a: 0}
-  EmissionIntensity: 0
 --- !u!4 &207929453
 Transform:
   m_ObjectHideFlags: 0
@@ -495,31 +478,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.1, y: 0.1, z: 0.1}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 0
-    Size: {x: 0.1, y: 0.1, z: 0.1}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 0
-    Operation: 0
-    Smoothness: 0.35
-    Roundness: 0
-    AdditionalExpandBounds: 0.2
-    UpdateBounds: 0
-    Color: {r: 0, g: 0.6117647, b: 1, a: 1}
-    EmissionColor: {r: 0, g: 0.6117647, b: 1, a: 1}
-    EmissionIntensity: 0.1
+  ExpandBounds: 0.1
   Shape: 0
-  Size: {x: 0.1, y: 0.1, z: 0.1}
   Operation: 0
   Smoothness: 0.35
   Roundness: 0
-  AdditionalExpandBounds: 0.2
-  UpdateBounds: 0
-  Color: {r: 0, g: 0.6117647, b: 1, a: 1}
-  EmissionColor: {r: 0, g: 0.6117647, b: 1, a: 1}
-  EmissionIntensity: 0.1
 --- !u!114 &447563328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,6 +534,9 @@ GameObject:
   - component: {fileID: 492288775}
   - component: {fileID: 492288774}
   - component: {fileID: 492288773}
+  - component: {fileID: 492288777}
+  - component: {fileID: 492288779}
+  - component: {fileID: 492288778}
   m_Layer: 0
   m_Name: Raymarch Renderer
   m_TagString: Untagged
@@ -592,15 +561,9 @@ MonoBehaviour:
   maxDistance: 30
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 2100000, guid: d4503e1e3daee044ca4dff08646aacb0, type: 2}
-    Shapes:
-    - {fileID: 207929452}
-    - {fileID: 447563327}
+  raymarchGroups:
+  - {fileID: 492288777}
   executeInEditor: 0
-  debugMode: 0
-  drawGizmos: 1
-  boundsDisplayThreshold: 300
 --- !u!23 &492288774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -668,6 +631,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1077939009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &492288777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492288772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialInstance: {fileID: 0}
+  materialRef: {fileID: 2100000, guid: d4503e1e3daee044ca4dff08646aacb0, type: 2}
+  providers:
+  - {fileID: 492288778}
+  - {fileID: 492288779}
+  entities:
+  - {fileID: 207929452}
+  - {fileID: 447563327}
+--- !u!114 &492288778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492288772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawGizmos: 0
+--- !u!114 &492288779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492288772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateBoundsThreshold: 0
+  drawGizmos: 1
+  boundsDisplayThreshold: 300
 --- !u!1 &623862682
 GameObject:
   m_ObjectHideFlags: 0

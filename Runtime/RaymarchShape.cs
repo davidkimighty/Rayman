@@ -17,24 +17,14 @@ namespace Rayman
         Link,
         CappedCone,
     }
-
-    public enum Operations
-    {
-        Union,
-        Subtract,
-        Intersect
-    }
-
+    
     public class RaymarchShape : RaymarchEntity
     {
-        [Header("Shape Provider")]
+        [Header("Shape")]
         public Shapes Shape = Shapes.Sphere;
         public Operations Operation = Operations.Union;
         [Range(0, 1f)] public float Smoothness;
         [Range(0, 1f)] public float Roundness;
-        public Color Color;
-        [ColorUsage(true, true)] public Color EmissionColor;
-        [Range(0, 1f)] public float EmissionIntensity;
 
         public override T GetBounds<T>()
         {
@@ -47,7 +37,7 @@ namespace Rayman
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
         }
 
-        private Vector3 GetShapeSize()
+        protected Vector3 GetShapeSize()
         {
             switch (Shape)
             {
@@ -77,7 +67,7 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData
     {
-        public static readonly int Stride = sizeof(float) * 33 + sizeof(int) * 2;
+        public static readonly int Stride = sizeof(float) * 24 + sizeof(int) * 2;
         
         public int Type;
         public Matrix4x4 Transform;
@@ -86,9 +76,6 @@ namespace Rayman
         public int Operation;
         public float Smoothness;
         public float Roundness;
-        public Vector4 Color;
-        public Vector4 EmissionColor;
-        public float EmissionIntensity;
 
         public ShapeData(RaymarchShape shape)
         {
@@ -100,9 +87,6 @@ namespace Rayman
             Operation = (int)shape.Operation;
             Smoothness = shape.Smoothness;
             Roundness = shape.Roundness;
-            Color = shape.Color;
-            EmissionColor = shape.EmissionColor;
-            EmissionIntensity = shape.EmissionIntensity;
         }
     }
 }

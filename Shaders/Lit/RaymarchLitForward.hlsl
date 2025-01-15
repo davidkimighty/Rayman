@@ -73,11 +73,11 @@ FragOutput Frag (Varyings input)
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	TraverseAabbTree(0, ray, hitIds, hitCount);
+	TraverseTree(0, ray, hitIds, hitCount);
 	InsertionSort(hitIds, hitCount.x);
 	
 	if (!Raymarch(ray)) discard;
-
+	
 	const float3 normal = GetNormal(ray.hitPoint);
 	float lengthToSurface = length(input.posWS - cameraPos);
 	const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
@@ -85,17 +85,17 @@ FragOutput Frag (Varyings input)
 	
 	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	const float schlick = GetFresnelSchlick(viewDir, normal, _F0);
-
+	
 	const float2 uv = GetMatCap(viewDir, normal);
 	finalColor.rgb *= _MainTex.Sample(sampler_MainTex, uv);
 	
 	float3 shade = MainLightShade(ray.hitPoint, ray.dir, _ShadowBiasVal, normal, schlick, _SpecularPow);
 	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, schlick, _SpecularPow, shade);
 	shade += RimLightShade(normal, viewDir, _RimPow, _RimColor);
-
+	
 	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
-
+	
 	FragOutput output;
 	output.color = finalColor;
 	output.depth = depth;

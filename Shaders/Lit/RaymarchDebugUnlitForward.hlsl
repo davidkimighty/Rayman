@@ -1,25 +1,22 @@
-#ifndef RAYMAN_TEXTURE_LIT_FORWARD
-#define RAYMAN_TEXTURE_LIT_FORWARD
+﻿#ifndef RAYMAN_DEBUG_FORWARD
+#define RAYMAN_DEBUG_FORWARD
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
+
+#define B float3(0.0, 0.3, 1.0)
+#define Y float3(1.0, 0.8, 0.0)
 
 struct Attributes
 {
     float4 vertex : POSITION;
     float3 normal : NORMAL;
-    float4 tangent : TANGENT;
-    float2 texcoord : TEXCOORD0;
-    float2 lightmapUV : TEXCOORD1;
 };
 
 struct Varyings
 {
     float4 posCS : SV_POSITION;
-    float4 posSS : TEXCOORD0;
-    float3 posWS : TEXCOORD1;
-    float3 normalWS : TEXCOORD2;
+    float3 posWS : TEXCOORD0;
 };
 
 struct FragOutput
@@ -28,18 +25,9 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
-float4 _FresnelColor;
-float _FresnelPow;
-
 Varyings Vert (Attributes input)
 {
     Varyings output = (Varyings)0;
-	UNITY_SETUP_INSTANCE_ID(input);
-	UNITY_TRANSFER_INSTANCE_ID(input, output);
-	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
 	output.posCS = TransformObjectToHClip(input.vertex.xyz);
 	output.posWS = TransformObjectToWorld(input.vertex.xyz);
     return output;
@@ -47,34 +35,46 @@ Varyings Vert (Attributes input)
 
 FragOutput Frag (Varyings input)
 {
-	UNITY_SETUP_INSTANCE_ID(input);
-	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.posWS - cameraPos);
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	TraverseAabbTree(0, ray, hitIds, hitCount);
+	TraverseTree(0, ray, hitIds, hitCount);
 	InsertionSort(hitIds, hitCount.x);
-	
-	if (!Raymarch(ray)) discard;
 
+	int raymarchCount;
+	bool rayHit = RaymarchHitCount(ray, raymarchCount);
+	
 	const float3 normal = GetNormal(ray.hitPoint);
 	float lengthToSurface = length(input.posWS - cameraPos);
 	const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
 		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
-	
-	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float2 uv = GetMatCap(viewDir, normal);
-	float4 finalColor = _MainTex.Sample(sampler_MainTex, uv);
-	
-	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
-	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
 
 	FragOutput output;
 	output.color = finalColor;
 	output.depth = depth;
+	
+	switch (_DebugMode)
+	{
+		case 1:
+			if (!rayHit) discard;
+			break;
+		case 2:
+			if (!rayHit) discard;
+			output.color = float4(normal * 0.5 + 0.5, 1);
+			break;
+		case 3:
+			output.color = float4(GetHitMap(raymarchCount, ray.maxSteps, B, Y), 1);
+			output.depth = 1;
+			break;
+		case 4:
+			int total = hitCount.x + hitCount.y;
+			float intensity = saturate((float)total / (total + _BoundsDisplayThreshold));
+			output.color = 1 * intensity;
+			output.depth = 1;
+			break;
+	}
 	return output;
 }
 

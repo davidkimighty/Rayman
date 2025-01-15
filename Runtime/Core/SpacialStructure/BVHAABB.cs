@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BVHAABB : RaymarchBufferProvider
+    public class BVHAABB : RaymarchDataProvider
     {
         [StructLayout(LayoutKind.Sequential, Pack = 0)]
-        public struct AABBNodeData
+        public struct NodeDataAABB
         {
             public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
 
@@ -22,7 +22,6 @@ namespace Rayman
         [SerializeField] private float updateBoundsThreshold;
 #if UNITY_EDITOR
         [Header("Debugging")]
-        [SerializeField] protected bool executeInEditor;
         [SerializeField] protected bool drawGizmos;
         [SerializeField] protected int boundsDisplayThreshold = 300;
 #endif
@@ -30,7 +29,7 @@ namespace Rayman
         private GraphicsBuffer nodeBuffer;
         private ISpatialStructure<AABB> bvh;
         private BoundingVolume<AABB>[] volumes;
-        private AABBNodeData[] nodeData;
+        private NodeDataAABB[] nodeData;
 
         public bool IsInitialized => bvh != null && nodeData != null;
         
@@ -41,9 +40,9 @@ namespace Rayman
             if (bvh == null) return;
 
             int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
-            nodeData = new AABBNodeData[nodesCount];
+            nodeData = new NodeDataAABB[nodesCount];
             
-            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodesCount, AABBNodeData.Stride);
+            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodesCount, NodeDataAABB.Stride);
             mat.SetBuffer(NodeBufferId, nodeBuffer);
         }
 
@@ -75,7 +74,7 @@ namespace Rayman
             while (queue.Count > 0)
             {
                 (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
-                AABBNodeData data = new()
+                NodeDataAABB data = new()
                 {
                     Id = current.Id,
                     ChildIndex = -1,

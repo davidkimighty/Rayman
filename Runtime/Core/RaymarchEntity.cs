@@ -2,6 +2,13 @@ using UnityEngine;
 
 namespace Rayman
 {
+    public enum Operations
+    {
+        Union,
+        Subtract,
+        Intersect
+    }
+    
     public class RaymarchEntity : MonoBehaviour, IBoundsProvider
     {
         public Vector3 Size = Vector3.one * 0.5f;
