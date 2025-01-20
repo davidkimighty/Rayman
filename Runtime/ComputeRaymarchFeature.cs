@@ -118,20 +118,20 @@ namespace Rayman
                 shapeBuffer.SetData(shapeData);
             }
 
-            // public void SetupNodeBuffer(NodeDataAABB[] nodeData)
-            // {
-            //     if (nodeData == null) return;
-            //     
-            //     int nodeCount = nodeData.Length;
-            //     if (nodeBuffer == null || nodeBuffer.count != nodeCount)
-            //     {
-            //         nodeBuffer?.Release();
-            //         nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount,
-            //             Marshal.SizeOf(typeof(NodeDataAABB)));
-            //         Debug.Log($"[Raymarch Feature] NodeBuffer initialized.");
-            //     }
-            //     nodeBuffer.SetData(nodeData);
-            // }
+            public void SetupNodeBuffer(NodeDataAABB[] nodeData)
+            {
+                if (nodeData == null) return;
+                
+                int nodeCount = nodeData.Length;
+                if (nodeBuffer == null || nodeBuffer.count != nodeCount)
+                {
+                    nodeBuffer?.Release();
+                    nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount,
+                        Marshal.SizeOf(typeof(NodeDataAABB)));
+                    Debug.Log($"[Raymarch Feature] NodeBuffer initialized.");
+                }
+                nodeBuffer.SetData(nodeData);
+            }
 
             private static void ExecutePass(PassData data, ComputeGraphContext cgContext)
             {
@@ -142,8 +142,8 @@ namespace Rayman
                 Matrix4x4 viewProjectionMatrix = Camera.main.projectionMatrix * Camera.main.worldToCameraMatrix;
                 cgContext.cmd.SetComputeMatrixParam(data.Cs, ViewProjectionMatrixId, viewProjectionMatrix);
                 
-                //cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.ShapeBufferId, data.ShapeBufferHandle);
-                //cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, RaymarchRenderer.NodeBufferId, data.NodeBufferHandle);
+                cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, ShapeBufferId, data.ShapeBufferHandle);
+                cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, NodeBufferId, data.NodeBufferHandle);
                 cgContext.cmd.SetComputeBufferParam(data.Cs, mainKernel, ResultBufferId, data.ResultBufferHandle);
 #if UNITY_EDITOR
                 if (data.DebugMode != DebugModes.None)
@@ -162,6 +162,8 @@ namespace Rayman
         private static readonly int RenderScaleId = Shader.PropertyToID("_RenderScale");
         private static readonly int ScreenWidthId = Shader.PropertyToID("_ScreenWidth");
         private static readonly int ScreenHeightId = Shader.PropertyToID("_ScreenHeight");
+        private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
+        private static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
         private static readonly int ResultBufferId = Shader.PropertyToID("_ResultBuffer");
         
         public RaymarchSetting Setting = new();
@@ -207,7 +209,7 @@ namespace Rayman
                 
                 computePass.InitializePassSettings();
                 computePass.SetupShapeResultBuffer(PassDataProvider.GetShapeData());
-                //computePass.SetupNodeBuffer(PassDataProvider.GetNodeData());
+                computePass.SetupNodeBuffer(PassDataProvider.GetNodeData());
                 renderer.EnqueuePass(computePass);
             }
         }

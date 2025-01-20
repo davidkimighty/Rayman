@@ -16,26 +16,21 @@ namespace Rayman
         public event Action<RaymarchRenderer> OnBuild;
         public event Action<RaymarchRenderer> OnRelease;
         
-        [SerializeField] protected Renderer mainRenderer;
-        [SerializeField] protected int maxSteps = 64;
-        [SerializeField] protected float maxDistance = 100f;
-        [SerializeField] protected int shadowMaxSteps = 32;
-        [SerializeField] protected float shadowMaxDistance = 30f;
-        [SerializeField] protected List<RaymarchGroup> raymarchGroups = new();
-#if UNITY_EDITOR
-        [Header("Debugging")]
-        [SerializeField] protected bool executeInEditor;
-#endif
+        [SerializeField] private Renderer mainRenderer;
+        [SerializeField] private int maxSteps = 64;
+        [SerializeField] private float maxDistance = 100f;
+        [SerializeField] private int shadowMaxSteps = 32;
+        [SerializeField] private float shadowMaxDistance = 30f;
+        [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
 
-        protected virtual void OnEnable()
+        public Material[] Materials => mainRenderer.materials;
+
+        private void OnEnable()
         {
-#if UNITY_EDITOR
-            if (!Application.isPlaying && !executeInEditor) return;
-#endif
             Build();
         }
         
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             Release();
         }
@@ -43,12 +38,16 @@ namespace Rayman
         [ContextMenu("Build")]
         public void Build()
         {
+            List<Material> matInstances = new();
             foreach (RaymarchGroup group in raymarchGroups)
             {
-                group.Build();
-                SetupRaymarchProperties(ref group.MaterialInstance);
+                Material mat = group.Build();
+                if (mat == null) continue;
+                
+                matInstances.Add(mat);
+                SetupRaymarchProperties(ref mat);
             }
-            mainRenderer.materials = raymarchGroups.Select(g => g.MaterialInstance).ToArray();
+            mainRenderer.materials = matInstances.ToArray();
             OnBuild?.Invoke(this);
         }
 
@@ -57,11 +56,12 @@ namespace Rayman
         {
             foreach (RaymarchGroup group in raymarchGroups)
                 group?.Release();
+
             mainRenderer.materials = Array.Empty<Material>();
             OnRelease?.Invoke(this);
         }
         
-        protected void SetupRaymarchProperties(ref Material mat)
+        private void SetupRaymarchProperties(ref Material mat)
         {
             if (mat == null) return;
             
@@ -72,26 +72,17 @@ namespace Rayman
         }
         
 #if UNITY_EDITOR
-        protected virtual void OnValidate()
+        private void OnValidate()
         {
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
-            
-            if (executeInEditor)
-            {
-                foreach (RaymarchGroup group in raymarchGroups)
-                {
-                    if (!group.IsInitialized) continue;
-                    
-                    SetupRaymarchProperties(ref group.MaterialInstance);
-                }
-            }
         }
 
         [ContextMenu("Find all groups")]
-        protected void FindAllEntities()
+        private void FindAllEntities()
         {
-            raymarchGroups = RaymarchUtils.GetChildrenByHierarchical<RaymarchGroup>(transform);
+            raymarchGroups = GetComponents<RaymarchGroup>().ToList();
+            raymarchGroups.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchGroup>(transform));
         }
 #endif
     }

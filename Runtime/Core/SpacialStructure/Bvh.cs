@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BVH<T> : ISpatialStructure<T> where T : struct, IBounds<T>
+    public class Bvh<T> : ISpatialStructure<T> where T : struct, IBounds<T>
     {
         public SpatialNode<T> Root { get; private set; }
         public int Count => SpatialNode<T>.GetNodesCount(Root);
         public int MaxHeight { get; private set; }
 
-        public static BVH<T> Create(BoundingVolume<T>[] volumes)
+        public static Bvh<T> Create(BoundingVolume<T>[] volumes)
         {
-            var structure = new BVH<T>();
+            var structure = new Bvh<T>();
             int shapeId = 0;
             
             for (int i = 0; i < volumes.Length; i++)

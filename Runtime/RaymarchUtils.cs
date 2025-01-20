@@ -15,7 +15,7 @@ namespace Rayman
         public static List<T> GetChildrenByHierarchical<T>(Transform root = null) where T : Component
         {
             List<T> found = new();
-            Transform[] transforms = Object.FindObjectsByType<Transform>(FindObjectsSortMode.InstanceID);
+            Transform[] transforms = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None);
 
             foreach (Transform transform in transforms)
             {

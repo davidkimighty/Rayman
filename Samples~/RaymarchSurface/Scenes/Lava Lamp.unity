@@ -128,8 +128,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 98985110}
-  - component: {fileID: 98985111}
   - component: {fileID: 98985112}
+  - component: {fileID: 98985113}
   m_Layer: 0
   m_Name: Lava (1)
   m_TagString: Untagged
@@ -152,43 +152,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1872132478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &98985111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 98985109}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.0013, y: 0.0014, z: 0.0015}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.15
-    Roundness: 0.1
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.3
-  Shape: 1
-  Size: {x: 0.0013, y: 0.0014, z: 0.0015}
-  Operation: 0
-  Smoothness: 0.15
-  Roundness: 0.1
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
-  Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.3
 --- !u!114 &98985112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,13 +164,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe0319faa4937ee4fa6345537bcba83a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchShape: {fileID: 98985111}
+  raymarchShape: {fileID: 98985113}
   topLava: {fileID: 277458963}
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
   squashFrequency: 3.5
   squashDuration: 6
   moveSpeedMinMax: {x: 0.02, y: 0.06}
+--- !u!114 &98985113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 98985109}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: {x: 0.0013, y: 0.0014, z: 0.0015}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
+  ExpandBounds: 0.1
+  Shape: 1
+  Operation: 0
+  Smoothness: 0.15
+  Roundness: 0
+  Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &277458962
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,34 +235,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 277458962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.0045, y: 0.0045, z: 0.002}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.0045, y: 0.0045, z: 0.002}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.2
-    Roundness: 0
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.5
+  ExpandBounds: 0
   Shape: 1
-  Size: {x: 0.0045, y: 0.0045, z: 0.002}
   Operation: 0
   Smoothness: 0.2
   Roundness: 0
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &343540672
 GameObject:
   m_ObjectHideFlags: 0
@@ -286,8 +258,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 343540673}
-  - component: {fileID: 343540675}
   - component: {fileID: 343540674}
+  - component: {fileID: 343540675}
   m_Layer: 0
   m_Name: Lava (3)
   m_TagString: Untagged
@@ -338,164 +310,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 343540672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.005, y: 0.006, z: 0.004}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.005, y: 0.006, z: 0.004}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.15
-    Roundness: 0.1
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.3
+  ExpandBounds: 0.1
   Shape: 0
-  Size: {x: 0.005, y: 0.006, z: 0.004}
   Operation: 0
   Smoothness: 0.15
-  Roundness: 0.1
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
+  Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.3
---- !u!21 &780316931
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: LavaLamp_Blob
-  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses:
-  - MOTIONVECTORS
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _SpecGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_Lightmaps:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_LightmapsInd:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - unity_ShadowMasks:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AddPrecomputedVelocity: 0
-    - _AlphaClip: 0
-    - _AlphaToMask: 0
-    - _Blend: 0
-    - _BlendModePreserveSpecular: 1
-    - _BumpScale: 1
-    - _ClearCoatMask: 0
-    - _ClearCoatSmoothness: 0
-    - _Cull: 2
-    - _Cutoff: 0.5
-    - _DetailAlbedoMapScale: 1
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _DstBlendAlpha: 0
-    - _EnvironmentReflections: 1
-    - _F0: 0.4
-    - _FresnelPow: 0.3
-    - _GlossMapScale: 0
-    - _Glossiness: 0
-    - _GlossyReflections: 0
-    - _MaxDistance: 100
-    - _MaxSteps: 64
-    - _Metallic: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.005
-    - _QueueOffset: 0
-    - _ReceiveShadows: 1
-    - _RimPow: 0.1
-    - _ShadowBiasVal: 0.006
-    - _Smoothness: 0.5
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SpecularPow: 10
-    - _SrcBlend: 1
-    - _SrcBlendAlpha: 1
-    - _Surface: 0
-    - _WorkflowMode: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FresnelColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _RimColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &829910653
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,8 +459,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 938474308}
-  - component: {fileID: 938474310}
   - component: {fileID: 938474309}
+  - component: {fileID: 938474310}
   m_Layer: 0
   m_Name: Lava (5)
   m_TagString: Untagged
@@ -683,34 +511,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 938474307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.0023, y: 0.0024, z: 0.0024}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.0023, y: 0.0024, z: 0.0024}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.15
-    Roundness: 0.1
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.3
+  ExpandBounds: 0.1
   Shape: 0
-  Size: {x: 0.0023, y: 0.0024, z: 0.0024}
   Operation: 0
   Smoothness: 0.15
-  Roundness: 0.1
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
+  Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.3
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &965167135
 GameObject:
   m_ObjectHideFlags: 0
@@ -720,8 +534,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 965167136}
-  - component: {fileID: 965167138}
   - component: {fileID: 965167137}
+  - component: {fileID: 965167138}
   m_Layer: 0
   m_Name: Lava (4)
   m_TagString: Untagged
@@ -772,34 +586,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 965167135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.003, y: 0.002, z: 0.0021}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.003, y: 0.002, z: 0.0021}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.15
-    Roundness: 0.1
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.3
+  ExpandBounds: 0.1
   Shape: 0
-  Size: {x: 0.003, y: 0.002, z: 0.0021}
   Operation: 0
   Smoothness: 0.15
-  Roundness: 0.1
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
+  Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.3
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &969997285
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,9 +609,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 969997286}
-  - component: {fileID: 969997287}
   - component: {fileID: 969997289}
   - component: {fileID: 969997288}
+  - component: {fileID: 969997290}
   m_Layer: 0
   m_Name: Lava Bottom
   m_TagString: Untagged
@@ -834,43 +634,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1872132478}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &969997287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969997285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.008, y: 0.008, z: 0.003}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.2
-    Roundness: 0
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.5
-  Shape: 1
-  Size: {x: 0.008, y: 0.008, z: 0.003}
-  Operation: 0
-  Smoothness: 0.2
-  Roundness: 0
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
-  Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!114 &969997288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,6 +722,29 @@ Light:
   m_LightUnit: 1
   m_LuxAtDistance: 1
   m_EnableSpotReflector: 1
+--- !u!114 &969997290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969997285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Size: {x: 0.008, y: 0.008, z: 0.003}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  UseLossyScale: 1
+  ExpandBounds: 0
+  Shape: 1
+  Operation: 0
+  Smoothness: 0.2
+  Roundness: 0
+  Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &1086591522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1105,8 +891,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1284175779}
-  - component: {fileID: 1284175781}
   - component: {fileID: 1284175780}
+  - component: {fileID: 1284175781}
   m_Layer: 0
   m_Name: Lava (2)
   m_TagString: Untagged
@@ -1157,34 +943,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284175778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Size: {x: 0.0036, y: 0.0035, z: 0.0035}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  settings:
-    Shape: 1
-    Size: {x: 0.0036, y: 0.0035, z: 0.0035}
-    Pivot: {x: 0.5, y: 0.5, z: 0.5}
-    UseLossyScale: 1
-    Operation: 0
-    Smoothness: 0.15
-    Roundness: 0.1
-    AdditionalExpandBounds: 0
-    UpdateBounds: 0
-    Color: {r: 1, g: 0.4175163, b: 0, a: 1}
-    EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-    EmissionIntensity: 0.3
+  ExpandBounds: 0.1
   Shape: 0
-  Size: {x: 0.0036, y: 0.0035, z: 0.0035}
   Operation: 0
   Smoothness: 0.15
-  Roundness: 0.1
-  AdditionalExpandBounds: 0
-  UpdateBounds: 0
+  Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 47.937252, g: 3.1366186, b: 0, a: 1}
-  EmissionIntensity: 0.3
+  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
+  EmissionIntensity: 0.5
 --- !u!1 &1851803349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1318,6 +1090,7 @@ GameObject:
   - component: {fileID: 1872132481}
   - component: {fileID: 1872132480}
   - component: {fileID: 1872132479}
+  - component: {fileID: 1872132482}
   m_Layer: 0
   m_Name: RaymarchRenderer
   m_TagString: Untagged
@@ -1364,20 +1137,8 @@ MonoBehaviour:
   maxDistance: 100
   shadowMaxSteps: 32
   shadowMaxDistance: 30
-  materialGroups:
-  - MaterialReference: {fileID: 2100000, guid: 17d27ebc6b8e45141abf1709b7cf4fb8, type: 2}
-    Shapes:
-    - {fileID: 98985111}
-    - {fileID: 277458964}
-    - {fileID: 343540675}
-    - {fileID: 938474310}
-    - {fileID: 965167138}
-    - {fileID: 969997287}
-    - {fileID: 1284175781}
-  executeInEditor: 1
-  debugMode: 0
-  drawGizmos: 1
-  boundsDisplayThreshold: 300
+  raymarchGroups:
+  - {fileID: 1872132482}
 --- !u!23 &1872132480
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1401,7 +1162,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 780316931}
+  - {fileID: 1994300335}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1431,6 +1192,161 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1872132477}
   m_Mesh: {fileID: -9146618070568788744, guid: 08485ee3b57b03d48a7dfecd7bcf79e1, type: 3}
+--- !u!114 &1872132482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872132477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  materialRef: {fileID: 2100000, guid: 17d27ebc6b8e45141abf1709b7cf4fb8, type: 2}
+  providers:
+  - {fileID: 11400000, guid: 14840b47db910a647a39a44000f3f150, type: 2}
+  - {fileID: 11400000, guid: 0690b27f05f68564cb7dc9be1964be10, type: 2}
+  entities:
+  - {fileID: 969997290}
+  - {fileID: 277458964}
+  - {fileID: 98985113}
+  - {fileID: 343540675}
+  - {fileID: 938474310}
+  - {fileID: 965167138}
+  - {fileID: 1284175781}
+  drawGizmos: 0
+--- !u!21 &1994300335
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LavaLamp_Blob
+  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - MOTIONVECTORS
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AddPrecomputedVelocity: 0
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _F0: 0.4
+    - _FresnelPow: 0.3
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _RimPow: 0.1
+    - _ShadowBiasVal: 0.006
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SpecularPow: 10
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FresnelColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _RimColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!4 &543450653230414587
 Transform:
   m_ObjectHideFlags: 0
