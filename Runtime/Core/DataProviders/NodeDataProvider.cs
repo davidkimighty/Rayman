@@ -6,15 +6,15 @@ namespace Rayman
 {
     public abstract class NodeDataProvider<T, U> : RaymarchDataProvider  where T : struct, IBounds<T> where U : struct
     {
-        private static int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
+        protected static int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
         
-        [SerializeField] private float updateBoundsThreshold;
+        [SerializeField] protected float updateBoundsThreshold;
         
-        private Dictionary<int, NodeGroupData<T, U>> NodeDataByGroup = new();
+        protected Dictionary<int, NodeGroupData<T, U>> nodeDataByGroup = new();
         
         public override void Setup(int groupId, RaymarchEntity[] entities, ref Material mat)
         {
-            if (NodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData))
+            if (nodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData))
                 groupData.Buffer?.Release();
 
             BoundingVolume<T>[] volumes = entities.Select(e => new BoundingVolume<T>(e)).ToArray();
@@ -29,13 +29,13 @@ namespace Rayman
                 Data = new U[nodeCount],
                 Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, GetNodeStride())
             };
-            NodeDataByGroup[groupId] = groupData;
+            nodeDataByGroup[groupId] = groupData;
             mat.SetBuffer(NodeBufferId, groupData.Buffer);
         }
 
         public override void SetData(int groupId)
         {
-            if (!NodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData)) return;
+            if (!nodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData)) return;
 
             for (int i = 0; i < groupData.Volumes.Length; i++)
                 groupData.Volumes[i].SyncVolume(ref groupData.Structure, updateBoundsThreshold);
@@ -47,16 +47,16 @@ namespace Rayman
 
         public override void Release(int groupId)
         {
-            if (!NodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData)) return;
+            if (!nodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> groupData)) return;
 
             groupData.Buffer?.Release();
-            NodeDataByGroup.Remove(groupId);
+            nodeDataByGroup.Remove(groupId);
         }
-        
+
 #if UNITY_EDITOR
         public override void DrawGizmos(int groupId)
         {
-            if (!NodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> data)) return;
+            if (!nodeDataByGroup.TryGetValue(groupId, out NodeGroupData<T, U> data)) return;
             
             data.Structure.DrawStructure();
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
@@ -7,6 +8,13 @@ namespace Rayman
     [CreateAssetMenu(menuName = "Rayman/Data Provider/BVH AABB Node Data")]
     public class BvhAabbNodeDataProvider : NodeDataProvider<Aabb, NodeDataAABB>
     {
+        public override string GetDebugMessage()
+        {
+            int sum = nodeDataByGroup.Sum(g => g.Value.Structure.Count);
+            int maxHeight = nodeDataByGroup.Max(g => g.Value.Structure.MaxHeight);
+            return $"BVH {nodeDataByGroup.Count} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
+        }
+        
         protected override ISpatialStructure<Aabb> CreateSpatialStructure(BoundingVolume<Aabb>[] volumes)
         {
             return Bvh<Aabb>.Create(volumes);

@@ -1,33 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class RaymarchDebugger : MonoBehaviour, IDebug
+    public class RaymarchDebugger : DebugElement
     {
-        private static List<RaymarchRenderer> RaymarchRenderers = new();
+        [SerializeField] private RaymarchDataProvider provider;
         
-        public static void Add(RaymarchRenderer raymarchRenderer)
+        public override string GetDebugMessage()
         {
-            if (RaymarchRenderers.Contains(raymarchRenderer)) return;
-
-            RaymarchRenderers.Add(raymarchRenderer);
-        }
-
-        public static void Remove(RaymarchRenderer raymarchRenderer)
-        {
-            if (!RaymarchRenderers.Contains(raymarchRenderer)) return;
-
-            int i = RaymarchRenderers.IndexOf(raymarchRenderer);
-            RaymarchRenderers.RemoveAt(i);
-        }
-
-        public string GetDebugMessage()
-        {
-            //int count = RaymarchRenderers.Sum(r => r.VolumeCount);
-            int count = 0;
-            return $"SDF {count,4}";
+            return provider.GetDebugMessage();
         }
     }
 }

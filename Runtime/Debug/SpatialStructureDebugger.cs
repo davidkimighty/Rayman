@@ -1,34 +1,14 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class SpatialStructureDebugger : MonoBehaviour, IDebug
+    public class SpatialStructureDebugger : DebugElement
     {
-        private static List<RaymarchRenderer> RaymarchRenderers = new();
+        [SerializeField] private RaymarchDataProvider provider;
         
-        public static void Add(RaymarchRenderer raymarchRenderer)
+        public override string GetDebugMessage()
         {
-            if (RaymarchRenderers.Contains(raymarchRenderer)) return;
-
-            RaymarchRenderers.Add(raymarchRenderer);
-        }
-
-        public static void Remove(RaymarchRenderer raymarchRenderer)
-        {
-            if (!RaymarchRenderers.Contains(raymarchRenderer)) return;
-
-            int i = RaymarchRenderers.IndexOf(raymarchRenderer);
-            RaymarchRenderers.RemoveAt(i);
-        }
-        
-        public string GetDebugMessage()
-        {
-            // int sum = RaymarchRenderers.Sum(r => r.NodeCount);
-            // int maxHeight = RaymarchRenderers.Max(r => r.MaxHeight);
-            // return $"BVH {RaymarchRenderers.Sum(r => r.GroupCount)} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
-            return string.Empty;
+            return provider.GetDebugMessage();
         }
     }
 }

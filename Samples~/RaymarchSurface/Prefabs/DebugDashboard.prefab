@@ -104,6 +104,11 @@ MonoBehaviour:
   _debugMessageText: {fileID: 4514276502548308804}
   _textHolder: {fileID: 7256422418150026806}
   _interval: 0.1
+  elements:
+  - {fileID: 7810850993907234641}
+  - {fileID: 1150958362426273387}
+  - {fileID: 1636577364676101513}
+  - {fileID: 8321606309719911787}
 --- !u!114 &7810850993907234641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,6 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a074f2ee73b9264688805d1439ec76b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  provider: {fileID: 0}
 --- !u!114 &8321606309719911787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,6 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b923e03ab2c52438c549df676c80b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  provider: {fileID: 0}
 --- !u!1 &7112863507741784345
 GameObject:
   m_ObjectHideFlags: 0

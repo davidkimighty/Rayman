@@ -17,13 +17,13 @@ namespace Rayman
     
     public abstract class ShapeDataProvider<T, U> : RaymarchDataProvider where T : RaymarchEntity where U : struct
     {
-        private static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
+        protected static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
 
-        private Dictionary<int, GroupData<T, U>> ShapeDataByGroup = new();
+        protected Dictionary<int, GroupData<T, U>> shapeDataByGroup = new();
 
         public override void Setup(int groupId, RaymarchEntity[] entities, ref Material mat)
         {
-            if (ShapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data))
+            if (shapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data))
                 data.Buffer?.Release();
 
             T[] shapes = entities.OfType<T>().ToArray();
@@ -36,13 +36,13 @@ namespace Rayman
                 Data = new U[count],
                 Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, GetStride())
             };
-            ShapeDataByGroup[groupId] = groupData;
+            shapeDataByGroup[groupId] = groupData;
             mat.SetBuffer(ShapeBufferId, groupData.Buffer);
         }
 
         public override void SetData(int groupId)
         {
-            if (!ShapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data)) return;
+            if (!shapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data)) return;
 
             for (int i = 0; i < data.Entities.Length; i++)
             {
@@ -55,10 +55,10 @@ namespace Rayman
 
         public override void Release(int groupId)
         {
-            if (!ShapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data)) return;
+            if (!shapeDataByGroup.TryGetValue(groupId, out GroupData<T, U> data)) return;
 
             data.Buffer?.Release();
-            ShapeDataByGroup.Remove(groupId);
+            shapeDataByGroup.Remove(groupId);
         }
 
         protected abstract int GetStride();

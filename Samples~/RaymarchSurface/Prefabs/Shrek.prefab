@@ -53,7 +53,7 @@ MonoBehaviour:
   Operation: 0
   Smoothness: 0.02
   Roundness: 0.03
-  Color: {r: 0.38260537, g: 0.46666667, b: 0.16078433, a: 0}
+  Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
   EmissionIntensity: 0
 --- !u!1 &546671557711746959
@@ -109,7 +109,7 @@ MonoBehaviour:
   Operation: 0
   Smoothness: 0.1
   Roundness: 0
-  Color: {r: 0.38260537, g: 0.46666667, b: 0.16078433, a: 0}
+  Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
   EmissionIntensity: 0
 --- !u!1 &935731666881967999
@@ -219,7 +219,7 @@ MonoBehaviour:
   Operation: 0
   Smoothness: 0.16
   Roundness: 0
-  Color: {r: 0.38260537, g: 0.46666667, b: 0.16078433, a: 0}
+  Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
   EmissionIntensity: 0
 --- !u!1 &1689958482481471478
@@ -377,7 +377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.015, y: 0, z: 0}
+  Size: {x: 0.016, y: 0, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0
@@ -497,7 +497,7 @@ MonoBehaviour:
   Operation: 0
   Smoothness: 0.02
   Roundness: 0.03
-  Color: {r: 0.38260537, g: 0.46666667, b: 0.16078433, a: 0}
+  Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
   EmissionIntensity: 0
 --- !u!1 &5108480026871741860
@@ -808,7 +808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.015, y: 0, z: 0}
+  Size: {x: 0.016, y: 0, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0

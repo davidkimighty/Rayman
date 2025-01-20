@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class FPSDebugger : MonoBehaviour, IDebug
+    public class FPSDebugger : DebugElement
     {
         private int _frameIndex;
         private float[] _frameDeltaTimes;
@@ -32,7 +32,7 @@ namespace Rayman
             //_msValue = Time.unscaledDeltaTime * 1000f;
         }
         
-        public string GetDebugMessage()
+        public override string GetDebugMessage()
         {
             return $"FPS {_frameValue,3} [ {_msValue:00.00} ms ]";
         }
