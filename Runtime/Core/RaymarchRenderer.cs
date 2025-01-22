@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Rayman
 {
-    [ExecuteInEditMode]
     public class RaymarchRenderer : MonoBehaviour
     {
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
@@ -38,6 +37,8 @@ namespace Rayman
         [ContextMenu("Build")]
         public void Build()
         {
+            if (raymarchGroups.Count == 0) return;
+            
             List<Material> matInstances = new();
             foreach (RaymarchGroup group in raymarchGroups)
             {
@@ -79,7 +80,7 @@ namespace Rayman
         }
 
         [ContextMenu("Find all groups")]
-        private void FindAllEntities()
+        public void FindAllGroups()
         {
             raymarchGroups = GetComponents<RaymarchGroup>().ToList();
             raymarchGroups.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchGroup>(transform));

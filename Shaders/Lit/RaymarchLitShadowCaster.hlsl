@@ -41,7 +41,7 @@ FragOut Frag(Varyings input)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-
+    
     float3 cameraPos = GetCameraPosition();
     Ray ray = CreateRay(input.posWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);

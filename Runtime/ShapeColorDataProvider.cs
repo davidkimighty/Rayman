@@ -15,6 +15,8 @@ namespace Rayman
 
         protected override ShapeColorData CreateData(RaymarchShapeColor shape)
         {
+            if (shape == null)
+                Debug.Log("hi");
             return new ShapeColorData(shape);
         }
     }

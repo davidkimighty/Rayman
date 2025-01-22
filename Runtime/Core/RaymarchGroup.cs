@@ -13,6 +13,7 @@ namespace Rayman
         [SerializeField] private List<RaymarchEntity> entities = new();
 #if UNITY_EDITOR
         [Header("Debugging")]
+        [SerializeField] private bool executeInEditMode;
         [SerializeField] private bool drawGizmos;
 #endif
 
@@ -23,6 +24,9 @@ namespace Rayman
 
         public Material Build()
         {
+#if UNITY_EDITOR
+            if (!executeInEditMode && !Application.isPlaying) return null;
+#endif
             activeEntities = entities.Where(s => s != null && s.gameObject.activeInHierarchy).ToArray();
             if (activeEntities.Length == 0) return null;
             
@@ -37,6 +41,9 @@ namespace Rayman
 
         private void LateUpdate()
         {
+#if UNITY_EDITOR
+            if (!executeInEditMode && !Application.isPlaying) return;
+#endif
             if (!IsInitialized) return;
             
             foreach (RaymarchDataProvider provider in providers)
@@ -45,8 +52,12 @@ namespace Rayman
 
         public void Release()
         {
+#if UNITY_EDITOR
+            if (!executeInEditMode && !Application.isPlaying) return;
+#endif
             foreach (RaymarchDataProvider provider in providers)
                 provider.Release(groupId);
+            activeEntities = null;
         }
         
 #if UNITY_EDITOR
