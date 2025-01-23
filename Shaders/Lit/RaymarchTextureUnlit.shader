@@ -4,7 +4,7 @@ Shader "Rayman/RaymarchTextureUnlit"
     {
         [Header(Shade)][Space]
     	_MainTex ("Main Texture", 2D) = "white" {}
-    	_FresnelColor ("Fresnel Color", Color) = (0.5, 0.5, 0.5, 1)
+    	_FresnelColor ("Fresnel Color", Color) = (0.3, 0.3, 0.3, 1)
     	_FresnelPow ("Fresnel Power", Float) = 0.3
     	
     	[Header(Blending)][Space]

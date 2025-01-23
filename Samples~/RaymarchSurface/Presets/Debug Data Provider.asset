@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
-  m_Name: BVH AABB Node Data Provider
+  m_Script: {fileID: 11500000, guid: 20fd33ff1d2e8b54bb361015b3a4efe6, type: 3}
+  m_Name: Debug Data Provider
   m_EditorClassIdentifier: 
-  updateBoundsThreshold: 0
+  debugMode: 2
+  boundsDisplayThreshold: 300
+  srcBlend: 1
+  dstBlend: 0
+  cull: 2
+  zWrite: 1

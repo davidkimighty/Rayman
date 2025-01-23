@@ -535,6 +535,8 @@ GameObject:
   - component: {fileID: 492288774}
   - component: {fileID: 492288773}
   - component: {fileID: 492288777}
+  - component: {fileID: 492288779}
+  - component: {fileID: 492288778}
   m_Layer: 0
   m_Name: Raymarch Renderer
   m_TagString: Untagged
@@ -561,7 +563,6 @@ MonoBehaviour:
   shadowMaxDistance: 30
   raymarchGroups:
   - {fileID: 492288777}
-  executeInEditor: 0
 --- !u!23 &492288774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -641,15 +642,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaterialInstance: {fileID: 0}
-  materialRef: {fileID: 2100000, guid: d4503e1e3daee044ca4dff08646aacb0, type: 2}
-  providers:
-  - {fileID: 11400000, guid: ffab8235c8b6eee45963b4ff9b45e6d8, type: 2}
-  - {fileID: 11400000, guid: 14840b47db910a647a39a44000f3f150, type: 2}
+  shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
+  bufferProviders:
+  - {fileID: 492288779}
+  - {fileID: 492288778}
   entities:
   - {fileID: 207929452}
   - {fileID: 447563327}
   drawGizmos: 0
+--- !u!114 &492288778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492288772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &492288779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492288772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateBoundsThreshold: 0
 --- !u!1 &623862682
 GameObject:
   m_ObjectHideFlags: 0

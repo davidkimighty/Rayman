@@ -12,9 +12,9 @@ namespace Rayman
         public static readonly int ShadowMaxStepsId = Shader.PropertyToID("_ShadowMaxSteps");
         public static readonly int ShadowMaxDistanceId = Shader.PropertyToID("_ShadowMaxDistance");
 
-        public event Action<RaymarchRenderer> OnBuild;
+        public event Action<RaymarchRenderer> OnSetup;
         public event Action<RaymarchRenderer> OnRelease;
-        
+
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private int maxSteps = 64;
         [SerializeField] private float maxDistance = 100f;
@@ -22,34 +22,37 @@ namespace Rayman
         [SerializeField] private float shadowMaxDistance = 30f;
         [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
 
+        public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
 
         private void OnEnable()
         {
-            Build();
+            if (Application.isPlaying)
+                Setup();
         }
-        
+
         private void OnDisable()
         {
             Release();
         }
         
-        [ContextMenu("Build")]
-        public void Build()
+        [ContextMenu("Setup")]
+        public void Setup()
         {
             if (raymarchGroups.Count == 0) return;
-            
+
             List<Material> matInstances = new();
             foreach (RaymarchGroup group in raymarchGroups)
             {
-                Material mat = group.Build();
-                if (mat == null) continue;
+                Material mat = group.Setup();
+                if (!mat) continue;
                 
-                matInstances.Add(mat);
                 SetupRaymarchProperties(ref mat);
+                matInstances.Add(mat);
             }
             mainRenderer.materials = matInstances.ToArray();
-            OnBuild?.Invoke(this);
+            IsInitialized = true;
+            OnSetup?.Invoke(this);
         }
 
         [ContextMenu("Release")]
@@ -59,24 +62,31 @@ namespace Rayman
                 group?.Release();
 
             mainRenderer.materials = Array.Empty<Material>();
+            IsInitialized = false;
             OnRelease?.Invoke(this);
         }
-        
+
         private void SetupRaymarchProperties(ref Material mat)
         {
-            if (mat == null) return;
-            
+            if (!mat) return;
+
             mat.SetInt(MaxStepsId, maxSteps);
             mat.SetFloat(MaxDistanceId, maxDistance);
             mat.SetInt(ShadowMaxStepsId, shadowMaxSteps);
             mat.SetFloat(ShadowMaxDistanceId, shadowMaxDistance);
         }
-        
+
 #if UNITY_EDITOR
         private void OnValidate()
         {
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
+
+            if (!IsInitialized)
+            {
+                if (!Application.isPlaying)
+                    Release();
+            }
         }
 
         [ContextMenu("Find all groups")]

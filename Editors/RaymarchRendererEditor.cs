@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 namespace RaymanEditor
 {
     [CustomEditor(typeof(RaymarchRenderer))]
+    [CanEditMultipleObjects]
     public class RaymarchRendererEditor : Editor
     {
         private RaymarchRenderer raymarchRenderer;
@@ -14,27 +15,26 @@ namespace RaymanEditor
         private void OnEnable()
         {
             raymarchRenderer = (RaymarchRenderer)target;
-            AssemblyReloadEvents.afterAssemblyReload += Reload;
+            AssemblyReloadEvents.afterAssemblyReload += Release;
             EditorSceneManager.sceneSaved += Reload;
         }
 
         private void OnDisable()
         {
-            AssemblyReloadEvents.afterAssemblyReload -= Reload;
+            AssemblyReloadEvents.afterAssemblyReload -= Release;
             EditorSceneManager.sceneSaved -= Reload;
-
         }
 
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
-
+            
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Controls", EditorStyles.boldLabel);
 
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Build"))
-                raymarchRenderer.Build();
+                raymarchRenderer.Setup();
 
             if (GUILayout.Button("Release"))
                 raymarchRenderer.Release();
@@ -44,16 +44,17 @@ namespace RaymanEditor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void Reload()
+        private void Release()
         {
             raymarchRenderer.Release();
-            raymarchRenderer.Build();
         }
 
         private void Reload(Scene scene)
         {
+            bool rebuild = raymarchRenderer.IsInitialized;
             raymarchRenderer.Release();
-            raymarchRenderer.Build();
+            if (rebuild)
+                raymarchRenderer.Setup();
         }
     }
 }

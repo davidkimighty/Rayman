@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -42,10 +41,5 @@ namespace Rayman
     public abstract class DebugElement : MonoBehaviour
     {
         public abstract string GetDebugMessage();
-    }
-
-    public interface IDebugProvider
-    {
-        string GetDebugMessage();
     }
 }
