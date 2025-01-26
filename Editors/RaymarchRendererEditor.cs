@@ -27,13 +27,21 @@ namespace RaymanEditor
 
         public override void OnInspectorGUI()
         {
-            DrawDefaultInspector();
+            SerializedProperty property = serializedObject.GetIterator();
+            property.NextVisible(true);
+
+            while (property.NextVisible(false))
+            {
+                EditorGUILayout.PropertyField(property, true);
+            }
+
+            serializedObject.ApplyModifiedProperties();
             
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Controls", EditorStyles.boldLabel);
 
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Build"))
+            if (GUILayout.Button("Setup"))
                 raymarchRenderer.Setup();
 
             if (GUILayout.Button("Release"))

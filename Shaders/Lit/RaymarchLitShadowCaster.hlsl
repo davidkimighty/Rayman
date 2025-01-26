@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_SHADOWCASTER
-#define RAYMAN_SHADOWCASTER
+﻿#ifndef RAYMAN_LIT_SHADOWCASTER
+#define RAYMAN_LIT_SHADOWCASTER
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
@@ -46,7 +46,7 @@ FragOut Frag(Varyings input)
     Ray ray = CreateRay(input.posWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     
-    TraverseTree(0, ray, hitIds, hitCount);
+    hitCount = GetHitIds(0, ray, hitIds);
     InsertionSort(hitIds, hitCount.x);
     
     if (!Raymarch(ray)) discard;

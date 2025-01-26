@@ -1,7 +1,7 @@
 ﻿#ifndef RAYMAN_RAY
 #define RAYMAN_RAY
 
-#define RAY_MAX_HITS 8
+#define RAY_MAX_HITS 16
 
 struct Ray
 {

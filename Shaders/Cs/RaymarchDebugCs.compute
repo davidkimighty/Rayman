@@ -2,10 +2,10 @@
 #pragma target 5.0
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Sdf.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
 
 #define B float3(0.0, 0.3, 1.0)
 #define Y float3(1.0, 0.8, 0.0)
@@ -38,14 +38,14 @@ int _BoundsDisplayThreshold;
 int _MaxSteps;
 int _MaxDistance;
 StructuredBuffer<Shape> _ShapeBuffer;
-StructuredBuffer<NodeAABB> _NodeBuffer;
+StructuredBuffer<NodeAabb> _NodeBuffer;
 RWTexture2D<float4> _ResultTexture;
 
 int2 hitCount; // x is leaf
 int hitIds[RAY_MAX_HITS];
 float4 color;
 
-inline float Map(const Ray ray)
+inline float Map(const float3 pos)
 {
     float totalDist = _MaxDistance;
     float4 localColor = _ShapeBuffer[hitIds[0]].color;
@@ -53,12 +53,12 @@ inline float Map(const Ray ray)
     for (int i = 0; i < hitCount.x; i++)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
-        float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
-        pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+        float3 p = ApplyMatrix(pos, shape.transform);
+        p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
         
         float3 scale = GetScale(shape.transform);
         float scaleFactor = min(scale.x, min(scale.y, scale.z));
-        float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+        float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
         totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
@@ -68,19 +68,19 @@ inline float Map(const Ray ray)
     return totalDist;
 }
 
-inline float NormalMap(const float3 rayPos)
+inline float NormalMap(const float3 pos)
 {
     float totalDist = _MaxDistance;
     
     for (int i = 0; i < hitCount.x; i++)
     {
         Shape shape = _ShapeBuffer[hitIds[i]];
-        float3 pos = ApplyMatrix(rayPos, shape.transform);
-        pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+        float3 p = ApplyMatrix(pos, shape.transform);
+        p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
         
         float3 scale = GetScale(shape.transform);
         float scaleFactor = min(scale.x, min(scale.y, scale.z));
-        float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+        float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
         totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
@@ -88,7 +88,7 @@ inline float NormalMap(const float3 rayPos)
     return totalDist;
 }
 
-inline NodeAABB GetNode(const int index)
+inline NodeAabb GetNode(const int index)
 {
     return _NodeBuffer[index];
 }
@@ -107,7 +107,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
     
-    TraverseTree(0, ray, hitIds, hitCount);
+    hitCount = GetHitIds(0, ray, hitIds);
     InsertionSort(hitIds, hitCount.x);
     
     int raymarchCount = 0;

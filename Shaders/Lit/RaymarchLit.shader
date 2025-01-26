@@ -56,13 +56,13 @@ Shader "Rayman/RaymarchLit"
         int _ShadowMaxSteps;
         float _ShadowMaxDistance;
 		StructuredBuffer<Shape> _ShapeBuffer;
-        StructuredBuffer<NodeAABB> _NodeBuffer;
+        StructuredBuffer<NodeAabb> _NodeBuffer;
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
 		float4 finalColor;
 
-		inline float Map(const Ray ray)
+		inline float Map(const float3 pos)
 		{
 			float totalDist = _MaxDistance;
 			finalColor = _ShapeBuffer[hitIds[0]].color;
@@ -70,13 +70,13 @@ Shader "Rayman/RaymarchLit"
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 pos = ApplyMatrix(ray.hitPoint, shape.transform);
-				pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+				float3 p = ApplyMatrix(pos, shape.transform);
+				p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 
-				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
@@ -84,27 +84,27 @@ Shader "Rayman/RaymarchLit"
 			return totalDist;
 		}
 
-		inline float NormalMap(const float3 rayPos)
+		inline float NormalMap(const float3 pos)
 		{
 			float totalDist = _MaxDistance;
 			
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 pos = ApplyMatrix(rayPos, shape.transform);
-				pos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+				float3 p = ApplyMatrix(pos, shape.transform);
+				p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 				
 				float3 scale = GetScale(shape.transform);
 		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 
-				float dist = GetShapeSDF(pos, shape.type, shape.size, shape.roundness) / scaleFactor;
+				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
 				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
 			}
 			return totalDist;
 		}
 
-		inline NodeAABB GetNode(const int index)
+		inline NodeAabb GetNode(const int index)
 		{
 			return _NodeBuffer[index];
 		}

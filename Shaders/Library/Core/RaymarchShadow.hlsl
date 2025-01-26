@@ -5,7 +5,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-inline float ShadowMap(const float3 rayPos);
+inline float ShadowMap(const float3 pos);
 
 inline float GetHardShadow(inout Ray ray)
 {
@@ -42,7 +42,7 @@ inline float GetAmbientOcclusion(const float3 pos, const float3 normal, const in
     float sca = 1;
     for(int i = 0; i < maxSteps; i++)
     {
-        float h = 0.01 + 0.12 * float(i) / 4;
+        float h = 0.01 + 0.12 * float(i) / float(maxSteps);
         float d = ShadowMap(pos + h * normal);
         occ += (h - d) * sca;
         sca *= 0.95;

@@ -5,13 +5,13 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-inline float Map(const Ray ray);
+inline float Map(const float3 pos);
 
 inline bool Raymarch(inout Ray ray)
 {
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        ray.hitDistance = Map(ray);
+        ray.hitDistance = Map(ray.hitPoint);
         ray.distanceTravelled += ray.hitDistance;
         ray.hitPoint += ray.dir * ray.hitDistance;
         if (ray.hitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;
@@ -20,7 +20,7 @@ inline bool Raymarch(inout Ray ray)
 }
 
 // Must be implemented by the including shader.
-inline float NormalMap(const float3 rayPos);
+inline float NormalMap(const float3 pos);
 
 inline float3 GetNormal(const float3 pos)
 {
@@ -45,7 +45,7 @@ inline bool RaymarchHitCount(inout Ray ray, out int count)
     count = 0;
     for (int i = 0; i < ray.maxSteps; i++)
     {
-        ray.hitDistance = Map(ray);
+        ray.hitDistance = Map(ray.hitPoint);
         ray.distanceTravelled += ray.hitDistance;
         ray.hitPoint += ray.dir * ray.hitDistance;
         if (ray.hitDistance < EPSILON || ray.distanceTravelled > ray.maxDistance) break;

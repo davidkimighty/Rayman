@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_FORWARD
-#define RAYMAN_FORWARD
+﻿#ifndef RAYMAN_LIT_FORWARD
+#define RAYMAN_LIT_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
@@ -73,7 +73,7 @@ FragOutput Frag (Varyings input)
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	TraverseTree(0, ray, hitIds, hitCount);
+	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 	
 	if (!Raymarch(ray)) discard;
@@ -89,9 +89,31 @@ FragOutput Frag (Varyings input)
 	const float2 uv = GetMatCap(viewDir, normal);
 	finalColor.rgb *= _MainTex.Sample(sampler_MainTex, uv);
 	
-	float3 shade = MainLightShade(ray.hitPoint, ray.dir, _ShadowBiasVal, normal, schlick, _SpecularPow);
-	AdditionalLightsShade(ray.hitPoint, ray.dir, normal, schlick, _SpecularPow, shade);
-	shade += RimLightShade(normal, viewDir, _RimPow, _RimColor);
+	// main light
+	float4 shadowCoord = TransformWorldToShadowCoord(ray.hitPoint);
+	const Light mainLight = GetMainLight(shadowCoord);
+
+	const float normalBias = _ShadowBiasVal * max(0.0, dot(mainLight.direction, normal));
+	shadowCoord.z += normalBias;
+	const Light mainLightWithBias = GetMainLight(shadowCoord);
+	float3 shade = mainLight.color *  mainLightWithBias.shadowAttenuation;
+	
+	const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
+	float mainSpecular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, schlick);
+	mainSpecular *= mainDiffuse * schlick;
+	shade *= mainDiffuse + mainSpecular;
+
+	// additional lights
+	const int count = GetAdditionalLightsCount();
+	for (int i = 0; i < count; ++i)
+	{
+		const Light light = GetAdditionalLight(i, ray.hitPoint);
+		const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
+		float specular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, schlick);
+		specular *= diffuse * schlick;
+		shade += light.color * (diffuse + specular);
+	}
+	shade += _RimColor * GetFresnel(viewDir, normal, _RimPow);
 	
 	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
 	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);

@@ -9,9 +9,9 @@ namespace Rayman
     public class RaymarchGroup : MonoBehaviour
     {
         [SerializeField] private Shader shader;
-        [SerializeField] private List<RaymarchDataProvider> dataProviders = new();
-        [SerializeField] private List<RaymarchBufferProvider> bufferProviders = new();
         [SerializeField] private List<RaymarchEntity> entities = new();
+        [SerializeField] private List<RaymarchBufferProvider> bufferProviders = new();
+        [SerializeField] private List<RaymarchDataProvider> dataProviders = new();
 #if UNITY_EDITOR
         [Header("Debugging")]
         [SerializeField] private bool drawGizmos;
@@ -63,13 +63,13 @@ namespace Rayman
         }
         
         [ContextMenu("Find all entities")]
-        private void FindAllEntities()
+        public void FindAllEntities()
         {
             entities = RaymarchUtils.GetChildrenByHierarchical<RaymarchEntity>(transform);
         }
         
         [ContextMenu("Find buffer providers")]
-        private void FindAllBufferProviders()
+        public void FindAllBufferProviders()
         {
             bufferProviders = GetComponents<RaymarchBufferProvider>().ToList();
         }

@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_DEPTHNORMAL
-#define RAYMAN_DEPTHNORMAL
+﻿#ifndef RAYMAN_LIT_DEPTHNORMAL
+#define RAYMAN_LIT_DEPTHNORMAL
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
@@ -40,7 +40,7 @@ FragOut Frag(Varyings input)
     Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-    TraverseTree(0, ray, hitIds, hitCount);
+    hitCount = GetHitIds(0, ray, hitIds);
     InsertionSort(hitIds, hitCount.x);
 	
     if (!Raymarch(ray)) discard;

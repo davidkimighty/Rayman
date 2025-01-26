@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_DEPTHONLY
-#define RAYMAN_DEPTHONLY
+﻿#ifndef RAYMAN_LIT_DEPTHONLY
+#define RAYMAN_LIT_DEPTHONLY
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
@@ -35,10 +35,10 @@ FragOut Frag(Varyings input)
 {
     const float3 cameraPos = GetCameraPosition();
     const float3 rayDir = normalize(input.posWS - cameraPos);
-    Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDist);
+    Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-    TraverseAabbTree(ray, hitIds, hitCount);
+    hitCount = GetHitIds(0, ray, hitIds);
     InsertionSort(hitIds, hitCount.x);
 	
     if (!Raymarch(ray)) discard;

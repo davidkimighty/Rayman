@@ -78,9 +78,10 @@ output frag (v2f i)
     const float3 viewDir = normalize(cameraPos - result.hitPoint);
     const float fresnel = GetFresnelSchlick(viewDir, result.normal, _F0);
     
-    half3 shade = MainLightShade(result.hitPoint, result.rayDirection, _ShadowBiasVal, result.normal, fresnel, _SpecularPow);
-    AdditionalLightsShade(result.hitPoint, result.rayDirection, result.normal, fresnel, _SpecularPow, shade);
-    shade += RimLightShade(result.normal, viewDir, _RimPow, _RimColor);
+    // half3 shade = ApplyMainLight(result.hitPoint, result.rayDirection, _ShadowBiasVal, result.normal, fresnel, _SpecularPow);
+    // ApplyAdditionalLights(result.hitPoint, result.rayDirection, result.normal, fresnel, _SpecularPow, shade);
+    // shade += RimLightShade(result.normal, viewDir, _RimPow, _RimColor);
+    half shade = 0;
 
     float4 finalColor = result.color;
     finalColor.rgb *= shade + SAMPLE_GI(i.lightmapUV, i.vertexSH, result.normal);

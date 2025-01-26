@@ -55,7 +55,7 @@ FragOutput Frag (Varyings input)
 	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	TraverseTree(0, ray, hitIds, hitCount);
+	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 	
 	if (!Raymarch(ray)) discard;

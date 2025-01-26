@@ -12,6 +12,8 @@
 #define LINK (8)
 #define CAPPED_CONE (9)
 
+// Inigo Quilez - distance functions
+
 inline float Sphere(const float3 pos, const float radius)
 {
     return length(pos) - radius;
@@ -99,7 +101,7 @@ inline float CappedCone(const float3 pos, const float3 size)
     return s * sqrt(min(dot(ca, ca), dot(cb, cb)));
 }
 
-inline float GetShapeSDF(const float3 pos, const int type, const float3 size, const float roundness)
+inline float GetShapeSdf(const float3 pos, const int type, const float3 size, const float roundness)
 {
     switch (type)
     {
