@@ -5,6 +5,7 @@ Shader "Rayman/RaymarchSssLit"
         [Header(Shade)][Space]
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
     	_F0 ("Schlick F0", Float) = 0.04
+    	_Roughness ("Roughness", Float) = 0.5
     	_SssDistortion ("SSS Distortion", Float) = 0.1
     	_SssPower ("SSS Power", Float) = 1.0
     	_SssScale ("SSS Scale", Float) = 0.5

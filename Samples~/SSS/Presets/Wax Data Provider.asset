@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 670f32233db48ce45a5a72b349c676dd, type: 3}
   m_Name: Wax Data Provider
   m_EditorClassIdentifier: 
-  f0: 0.1
+  f0: 0.04
+  roughness: 0.9
   sssDistortion: 0.7
   sssPower: 2
   sssScale: 2.5

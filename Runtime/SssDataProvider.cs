@@ -6,6 +6,7 @@ namespace Rayman
     public class SssDataProvider : RaymarchDataProvider
     {
         private static readonly int F0Id = Shader.PropertyToID("_F0");
+        private static readonly int RoughnessId = Shader.PropertyToID("_Roughness");
         private static readonly int SssDistortionId = Shader.PropertyToID("_SssDistortion");
         private static readonly int SssPowerId = Shader.PropertyToID("_SssPower");
         private static readonly int SssScaleId = Shader.PropertyToID("_SssScale");
@@ -13,6 +14,7 @@ namespace Rayman
         private static readonly int SssThicknessId = Shader.PropertyToID("_SssThickness");
 
         [SerializeField] private float f0 = 0.04f;
+        [SerializeField] private float roughness = 0.5f;
         [SerializeField] private float sssDistortion = 0.1f;
         [SerializeField] private float sssPower = 1f;
         [SerializeField] private float sssScale = 0.5f;
@@ -22,6 +24,7 @@ namespace Rayman
         public override void SetData(ref Material mat)
         {
             mat.SetFloat(F0Id, f0);
+            mat.SetFloat(RoughnessId, roughness);
             mat.SetFloat(SssDistortionId, sssDistortion);
             mat.SetFloat(SssPowerId, sssPower);
             mat.SetFloat(SssScaleId, sssScale);

@@ -6,7 +6,7 @@ Shader "Rayman/RaymarchLit"
     	_MainTex ("Main Texture", 2D) = "white" {}
     	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
     	_F0 ("Schlick F0", Float) = 0.04
-    	_SpecularPow ("Specular Power", Float) = 10.0
+    	_Roughness ("Roughness", Float) = 0.5
     	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
     	_RimPow ("Rim Power", Float) = 0.1
     	

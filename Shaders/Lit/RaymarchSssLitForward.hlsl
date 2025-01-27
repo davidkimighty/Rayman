@@ -34,10 +34,9 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
 float _ShadowBiasVal;
 float _F0;
+float _Roughness;
 float _SssDistortion;
 float _SssPower;
 float _SssScale;
@@ -98,7 +97,7 @@ FragOutput Frag (Varyings input)
 	float3 shade = mainLight.color *  mainLightWithBias.shadowAttenuation;
 	
 	const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
-	float mainSpecular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, schlick);
+	float mainSpecular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, 1.0 - _Roughness);
 	mainSpecular *= mainDiffuse * schlick;
 	shade *= mainDiffuse + mainSpecular;
 
@@ -108,7 +107,7 @@ FragOutput Frag (Varyings input)
 	{
 		const Light light = GetAdditionalLight(i, ray.hitPoint);
 		const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
-		float specular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, schlick);
+		float specular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, 1.0 - _Roughness);
 		specular *= diffuse * schlick;
 		shade += light.color * (diffuse + specular);
 

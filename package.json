@@ -10,12 +10,16 @@
   },
   "samples": [
     {
-      "displayName": "Raymarch Surface Only Shader",
+      "displayName": "Raymarch Surface Shader",
       "path": "Samples~/RaymarchSurface"
     },
     {
-      "displayName": "Raymarch Compute & Surface Shader",
+      "displayName": "Raymarch Compute Shader",
       "path": "Samples~/RaymarchCompute"
+    },
+    {
+      "displayName": "Raymarch Subscurface Scattering Shader",
+      "path": "Samples~/SSS"
     }
   ]
 }

@@ -53,15 +53,14 @@ namespace Rayman
         }
 
 #if UNITY_EDITOR
-        private void OnValidate()
+        private void OnDrawGizmos()
         {
-            if (drawGizmos)
-            {
-                foreach (RaymarchBufferProvider provider in bufferProviders)
-                    provider.DrawGizmos();
-            }
+            if (!drawGizmos || !IsInitialized) return;
+            
+            foreach (RaymarchBufferProvider provider in bufferProviders)
+                provider.DrawGizmos();
         }
-        
+
         [ContextMenu("Find all entities")]
         public void FindAllEntities()
         {
