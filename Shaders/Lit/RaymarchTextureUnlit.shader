@@ -41,7 +41,7 @@ Shader "Rayman/RaymarchTextureUnlit"
 			float3 size;
         	float3 pivot;
         	int operation;
-        	float smoothness;
+        	float blend;
 			float roundness;
 		};
 
@@ -68,7 +68,7 @@ Shader "Rayman/RaymarchTextureUnlit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
 			}
 			return totalDist;
 		}

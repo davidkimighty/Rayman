@@ -3,16 +3,18 @@ Shader "Rayman/RaymarchCelLit"
     Properties
     {
         [Header(Shade)][Space]
-    	_MainTex ("Main Texture", 2D) = "white" {}
-    	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.008
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
+    	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+    	_MainCelCount ("Main Cel Count", Range(1.0, 10.0)) = 1.0
+    	_AdditionalCelCount ("Additional Cel Count", Range(1.0, 10.0)) = 1.0
+    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_CelSharpness ("Cel Sharpness", Float) = 80.0
+    	_SpecularSharpness ("Specular Sharpness", Float) = 30.0
+    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.75
+    	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
+    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9
     	_F0 ("Schlick F0", Float) = 0.04
-    	_Roughness ("Roughness", Float) = 0.5
-    	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_RimPow ("Rim Power", Float) = 0.1
-    	_CelOffset ("Cel Offset", Range(-1., 1.)) = 0.
-    	_CelSpread ("Cel Spread", Range(0., 1.)) = 0.3
-    	_CelSteps ("Cel Steps", Range(1, 10)) = 2
-    	_Specular ("Specular", Range(0., 0.25)) = 0.005
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -37,22 +39,20 @@ Shader "Rayman/RaymarchCelLit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Distortion.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
         
 		struct Shape
 		{
         	int type;
 			float4x4 transform;
-			float3 size;
-        	float3 pivot;
+			half3 size;
+        	half3 pivot;
         	int operation;
-        	float smoothness;
-			float roundness;
-			float4 color;
-			float4 emissionColor;
-			float emissionIntensity;
+        	half blend;
+			half roundness;
+			half4 color;
 		};
 
         int _MaxSteps;
@@ -64,12 +64,12 @@ Shader "Rayman/RaymarchCelLit"
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
-		float4 finalColor;
+		half4 baseColor;
 
 		inline float Map(const float3 pos)
 		{
 			float totalDist = _MaxDistance;
-			finalColor = _ShapeBuffer[hitIds[0]].color;
+			baseColor = _ShapeBuffer[hitIds[0]].color;
 			
 			for (int i = 0; i < hitCount.x; i++)
 			{
@@ -82,8 +82,8 @@ Shader "Rayman/RaymarchCelLit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+				baseColor = lerp(baseColor, shape.color, blend);
 			}
 			return totalDist;
 		}
@@ -103,7 +103,7 @@ Shader "Rayman/RaymarchCelLit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
 			}
 			return totalDist;
 		}
@@ -129,6 +129,7 @@ Shader "Rayman/RaymarchCelLit"
 		    
 			HLSLPROGRAM
 			#pragma target 5.0
+			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
@@ -140,21 +141,25 @@ Shader "Rayman/RaymarchCelLit"
             #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
             #pragma multi_compile _ _LIGHT_LAYERS
-            #pragma multi_compile _ _FORWARD_PLUS
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+            #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
 		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
             #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
             #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fog
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
-			#pragma multi_compile _ DOTS_INSTANCING_ON
             #pragma instancing_options renderinglayer
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
 			#pragma vertex Vert
             #pragma fragment Frag

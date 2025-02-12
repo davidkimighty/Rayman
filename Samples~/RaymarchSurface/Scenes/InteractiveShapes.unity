@@ -291,7 +291,7 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 2
   Operation: 0
-  Smoothness: 0
+  Blend: 0
   Roundness: 0.003
 --- !u!4 &207929453
 Transform:
@@ -484,7 +484,7 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 0
   Operation: 0
-  Smoothness: 0.35
+  Blend: 0.34
   Roundness: 0
 --- !u!114 &447563328
 MonoBehaviour:
@@ -643,12 +643,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
-  bufferProviders:
-  - {fileID: 492288779}
-  - {fileID: 492288778}
   entities:
   - {fileID: 207929452}
   - {fileID: 447563327}
+  bufferProviders:
+  - {fileID: 492288779}
+  - {fileID: 492288778}
+  dataProviders: []
   drawGizmos: 0
 --- !u!114 &492288778
 MonoBehaviour:

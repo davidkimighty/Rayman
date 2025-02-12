@@ -189,11 +189,9 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 1
   Operation: 0
-  Smoothness: 0.15
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &277458962
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,11 +242,9 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 1
   Operation: 0
-  Smoothness: 0.2
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &343540672
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,11 +315,9 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 0
   Operation: 0
-  Smoothness: 0.15
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &829910653
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,11 +514,9 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 0
   Operation: 0
-  Smoothness: 0.15
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &965167135
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,11 +587,9 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 0
   Operation: 0
-  Smoothness: 0.15
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &969997285
 GameObject:
   m_ObjectHideFlags: 0
@@ -740,11 +730,9 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 1
   Operation: 0
-  Smoothness: 0.2
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &1086591522
 GameObject:
   m_ObjectHideFlags: 0
@@ -952,11 +940,9 @@ MonoBehaviour:
   ExpandBounds: 0.1
   Shape: 0
   Operation: 0
-  Smoothness: 0.15
+  Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
-  EmissionColor: {r: 42.45381, g: 0.6666065, b: 0, a: 1}
-  EmissionIntensity: 0.5
 --- !u!1 &1851803349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1206,9 +1192,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1872132484}
-  - {fileID: 1872132483}
   entities:
   - {fileID: 969997290}
   - {fileID: 277458964}
@@ -1217,6 +1200,11 @@ MonoBehaviour:
   - {fileID: 938474310}
   - {fileID: 965167138}
   - {fileID: 1284175781}
+  bufferProviders:
+  - {fileID: 1872132484}
+  - {fileID: 1872132483}
+  dataProviders:
+  - {fileID: 11400000, guid: 3951d11bc78c38b4089f71526991084f, type: 2}
   drawGizmos: 0
 --- !u!114 &1872132483
 MonoBehaviour:

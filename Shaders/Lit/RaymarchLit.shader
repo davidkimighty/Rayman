@@ -1,14 +1,11 @@
-Shader "Rayman/RaymarchLit"
+	Shader "Rayman/RaymarchLit"
 {
     Properties
     {
         [Header(Shade)][Space]
-    	_MainTex ("Main Texture", 2D) = "white" {}
-    	_ShadowBiasVal ("Shadow Bias", Float) = 0.006
-    	_F0 ("Schlick F0", Float) = 0.04
-    	_Roughness ("Roughness", Float) = 0.5
-    	_RimColor ("Rim Color", Color) = (0.5, 0.5, 0.5, 1)
-    	_RimPow ("Rim Power", Float) = 0.1
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -44,11 +41,9 @@ Shader "Rayman/RaymarchLit"
 			float3 size;
         	float3 pivot;
         	int operation;
-        	float smoothness;
+        	float blend;
 			float roundness;
 			float4 color;
-			float4 emissionColor;
-			float emissionIntensity;
 		};
 
         int _MaxSteps;
@@ -60,12 +55,12 @@ Shader "Rayman/RaymarchLit"
         
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
-		float4 finalColor;
+		float4 baseColor;
 
 		inline float Map(const float3 pos)
 		{
 			float totalDist = _MaxDistance;
-			finalColor = _ShapeBuffer[hitIds[0]].color;
+			baseColor = _ShapeBuffer[hitIds[0]].color;
 			
 			for (int i = 0; i < hitCount.x; i++)
 			{
@@ -78,8 +73,8 @@ Shader "Rayman/RaymarchLit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+				baseColor = lerp(baseColor, shape.color, blend);
 			}
 			return totalDist;
 		}
@@ -99,7 +94,7 @@ Shader "Rayman/RaymarchLit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
 			}
 			return totalDist;
 		}
@@ -125,6 +120,7 @@ Shader "Rayman/RaymarchLit"
 		    
 			HLSLPROGRAM
 			#pragma target 5.0
+			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
@@ -136,21 +132,25 @@ Shader "Rayman/RaymarchLit"
             #pragma multi_compile_fragment _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
             #pragma multi_compile _ _LIGHT_LAYERS
-            #pragma multi_compile _ _FORWARD_PLUS
+            #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+            #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
 		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
+            #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
             #pragma multi_compile _ DYNAMICLIGHTMAP_ON
             #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
             #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fog
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
-			#pragma multi_compile _ DOTS_INSTANCING_ON
             #pragma instancing_options renderinglayer
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
 			#pragma vertex Vert
             #pragma fragment Frag

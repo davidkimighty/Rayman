@@ -27,7 +27,7 @@ namespace Rayman
         [Header("Shape")]
         public Shapes Shape = Shapes.Sphere;
         public Operations Operation = Operations.Union;
-        [Range(0, 1f)] public float Smoothness;
+        [Range(0, 1f)] public float Blend;
         [Range(0, 1f)] public float Roundness;
 
         public override T GetBounds<T>()
@@ -35,7 +35,7 @@ namespace Rayman
             if (typeof(T) == typeof(Aabb))
             {
                 Aabb aabb = Aabb.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
-                aabb = aabb.Expand(Smoothness + Roundness + ExpandBounds + 0.001f);
+                aabb = aabb.Expand(Blend + Roundness + ExpandBounds + 0.001f);
                 return (T)(object)aabb;
             }
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
@@ -78,7 +78,7 @@ namespace Rayman
         public Vector3 Size;
         public Vector3 Pivot;
         public int Operation;
-        public float Smoothness;
+        public float Blend;
         public float Roundness;
 
         public ShapeData(RaymarchShape shape)
@@ -89,7 +89,7 @@ namespace Rayman
             Size = shape.Size;
             Pivot = shape.Pivot;
             Operation = (int)shape.Operation;
-            Smoothness = shape.Smoothness;
+            Blend = shape.Blend;
             Roundness = shape.Roundness;
         }
     }

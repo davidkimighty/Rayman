@@ -1,28 +1,27 @@
 ﻿#ifndef RAYMAN_LIT_SHADOWCASTER
 #define RAYMAN_LIT_SHADOWCASTER
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
+float3 _LightDirection;
+float3 _LightPosition;
+
 struct Attributes
 {
-    float4 vertex : POSITION;
-    float3 normal : NORMAL;
+    float4 positionOS : POSITION;
+    float3 normalOS : NORMAL;
+    float2 texcoord : TEXCOORD0;
     UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct Varyings
 {
-    float4 posCS : SV_POSITION;
-    float3 posWS : TEXCOORD0;
+    float4 positionCS : SV_POSITION;
+    float3 positionWS : TEXCOORD0;
     UNITY_VERTEX_INPUT_INSTANCE_ID
-    UNITY_VERTEX_OUTPUT_STEREO
-};
-
-struct FragOut
-{
-    float4 color : SV_Target;
-    float depth : SV_Depth;
 };
 
 Varyings Vert(Attributes input)
@@ -30,20 +29,30 @@ Varyings Vert(Attributes input)
     Varyings output;
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
-    UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
-    output.posCS = TransformObjectToHClip(input.vertex.xyz);
-    output.posWS = TransformObjectToWorld(input.vertex.xyz);
+    float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+    float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
+
+#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+    float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+#else
+    float3 lightDirectionWS = _LightDirection;
+#endif
+
+    float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+    positionCS = ApplyShadowClamping(positionCS);
+    
+    output.positionCS = positionCS;
+    output.positionWS = positionWS;
     return output;
 }
 
-FragOut Frag(Varyings input)
+float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
-    UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     
     float3 cameraPos = GetCameraPosition();
-    Ray ray = CreateRay(input.posWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
+    Ray ray = CreateRay(input.positionWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     
     hitCount = GetHitIds(0, ray, hitIds);
@@ -51,13 +60,9 @@ FragOut Frag(Varyings input)
     
     if (!Raymarch(ray)) discard;
 
-    float lengthToSurface = length(input.posWS - cameraPos);
-    const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
-        GetDepth(input.posWS) : GetDepth(ray.hitPoint);
-
-    FragOut output;
-    output.color = output.depth = depth;
-    return output;
+    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+        GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+    return depth;
 }
 
 #endif

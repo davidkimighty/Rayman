@@ -51,7 +51,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 9
   Operation: 0
-  Smoothness: 0.02
+  Blend: 0.03
   Roundness: 0.03
   Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -104,10 +104,10 @@ MonoBehaviour:
   Size: {x: 0.2, y: 0, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  ExpandBounds: 0
+  ExpandBounds: 0.08
   Shape: 0
   Operation: 0
-  Smoothness: 0.1
+  Blend: 0
   Roundness: 0
   Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -162,7 +162,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 1
   Operation: 0
-  Smoothness: 0.013
+  Blend: 0.016
   Roundness: 0
   Color: {r: 0.2876026, g: 0.35220122, b: 0.120723, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -217,7 +217,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 0
-  Smoothness: 0.16
+  Blend: 0.13
   Roundness: 0
   Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -273,7 +273,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 0
-  Smoothness: 0.0005
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9213836, b: 0.9213836, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -328,7 +328,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 1
-  Smoothness: 0.05
+  Blend: 0.05
   Roundness: 0
   Color: {r: 0.073790535, g: 0.2578616, b: 0.073790535, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -383,7 +383,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 0
-  Smoothness: 0.001
+  Blend: 0
   Roundness: 0
   Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -439,7 +439,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 0
-  Smoothness: 0.0005
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9213836, b: 0.9213836, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -495,7 +495,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 9
   Operation: 0
-  Smoothness: 0.02
+  Blend: 0.03
   Roundness: 0.03
   Color: {r: 0.42718688, g: 0.5471698, b: 0.1015189, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -550,7 +550,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 1
-  Smoothness: 0.05
+  Blend: 0.05
   Roundness: 0
   Color: {r: 0.073790535, g: 0.2578616, b: 0.073790535, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -605,7 +605,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 7
   Operation: 0
-  Smoothness: 0.005
+  Blend: 0.01
   Roundness: 0
   Color: {r: 0.19496846, g: 0.14102533, b: 0.04230445, a: 1}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -700,7 +700,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 7
   Operation: 0
-  Smoothness: 0.005
+  Blend: 0.01
   Roundness: 0
   Color: {r: 0.19496846, g: 0.14102533, b: 0.04230445, a: 1}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -759,7 +759,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 7
   Operation: 1
-  Smoothness: 0.01
+  Blend: 0.01
   Roundness: 0
   Color: {r: 0.3962264, g: 0.15076533, b: 0.15076533, a: 1}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -814,7 +814,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 0
   Operation: 0
-  Smoothness: 0.001
+  Blend: 0
   Roundness: 0
   Color: {r: 0.047058824, g: 0.047058824, b: 0.047058824, a: 1}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -869,7 +869,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 4
   Operation: 0
-  Smoothness: 0
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9631176, b: 0.87106913, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -924,7 +924,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 4
   Operation: 0
-  Smoothness: 0
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9631176, b: 0.87106913, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -979,7 +979,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 4
   Operation: 0
-  Smoothness: 0
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9631176, b: 0.87106913, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   ExpandBounds: 0
   Shape: 4
   Operation: 0
-  Smoothness: 0
+  Blend: 0
   Roundness: 0
   Color: {r: 1, g: 0.9631176, b: 0.87106913, a: 0}
   EmissionColor: {r: 0, g: 0, b: 0, a: 0}

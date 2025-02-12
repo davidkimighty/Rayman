@@ -40,11 +40,9 @@ Shader "Rayman/RaymarchDebugUnlit"
 			float3 size;
         	float3 pivot;
         	int operation;
-        	float smoothness;
+        	float blend;
 			float roundness;
 			float4 color;
-			float4 emissionColor;
-			float emissionIntensity;
 		};
 
         int _DebugMode;
@@ -74,8 +72,8 @@ Shader "Rayman/RaymarchDebugUnlit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-				finalColor = lerp(finalColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+				finalColor = lerp(finalColor, shape.color, blend);
 			}
 			return totalDist;
 		}
@@ -94,7 +92,7 @@ Shader "Rayman/RaymarchDebugUnlit"
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
 			}
 			return totalDist;
 		}

@@ -21,14 +21,13 @@ namespace Rayman
         [SerializeField] private int shadowMaxSteps = 32;
         [SerializeField] private float shadowMaxDistance = 30f;
         [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
-
+        
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
 
         private void OnEnable()
         {
-            if (Application.isPlaying)
-                Setup();
+            Setup();
         }
 
         private void OnDisable()
@@ -88,7 +87,7 @@ namespace Rayman
                     Release();
             }
         }
-
+        
         [ContextMenu("Find all groups")]
         public void FindAllGroups()
         {

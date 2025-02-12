@@ -1,8 +1,6 @@
 using Rayman;
 using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace RaymanEditor
 {
@@ -11,20 +9,12 @@ namespace RaymanEditor
     public class RaymarchRendererEditor : Editor
     {
         private RaymarchRenderer raymarchRenderer;
-        
+
         private void OnEnable()
         {
             raymarchRenderer = (RaymarchRenderer)target;
-            AssemblyReloadEvents.afterAssemblyReload += Release;
-            EditorSceneManager.sceneSaved += Reload;
         }
-
-        private void OnDisable()
-        {
-            AssemblyReloadEvents.afterAssemblyReload -= Release;
-            EditorSceneManager.sceneSaved -= Reload;
-        }
-
+        
         public override void OnInspectorGUI()
         {
             SerializedProperty property = serializedObject.GetIterator();
@@ -50,19 +40,6 @@ namespace RaymanEditor
             if (GUILayout.Button("Find All Groups"))
                 raymarchRenderer.FindAllGroups();
             EditorGUILayout.EndHorizontal();
-        }
-
-        private void Release()
-        {
-            raymarchRenderer.Release();
-        }
-
-        private void Reload(Scene scene)
-        {
-            bool rebuild = raymarchRenderer.IsInitialized;
-            raymarchRenderer.Release();
-            if (rebuild)
-                raymarchRenderer.Setup();
         }
     }
 }

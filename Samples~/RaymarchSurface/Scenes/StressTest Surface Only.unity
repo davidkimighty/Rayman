@@ -334,9 +334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 20000888}
-  - {fileID: 20000887}
   entities:
   - {fileID: 714322782}
   - {fileID: 149789635}
@@ -356,6 +353,11 @@ MonoBehaviour:
   - {fileID: 659650624}
   - {fileID: 1079207055}
   - {fileID: 482267306}
+  bufferProviders:
+  - {fileID: 20000888}
+  - {fileID: 20000887}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &20000887
 MonoBehaviour:
@@ -515,9 +517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 22828812}
-  - {fileID: 22828811}
   entities:
   - {fileID: 1998787812}
   - {fileID: 1194097388}
@@ -537,6 +536,11 @@ MonoBehaviour:
   - {fileID: 2006960559}
   - {fileID: 1815825419}
   - {fileID: 922645315}
+  bufferProviders:
+  - {fileID: 22828812}
+  - {fileID: 22828811}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &22828811
 MonoBehaviour:
@@ -917,9 +921,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 72219487}
-  - {fileID: 72219486}
   entities:
   - {fileID: 980132314}
   - {fileID: 2097428134}
@@ -939,6 +940,11 @@ MonoBehaviour:
   - {fileID: 588147814}
   - {fileID: 647668565}
   - {fileID: 1805921610}
+  bufferProviders:
+  - {fileID: 72219487}
+  - {fileID: 72219486}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &72219486
 MonoBehaviour:
@@ -2007,9 +2013,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 211336108}
-  - {fileID: 211336107}
   entities:
   - {fileID: 2070387259}
   - {fileID: 1918410215}
@@ -2029,6 +2032,11 @@ MonoBehaviour:
   - {fileID: 989887742}
   - {fileID: 1033702367}
   - {fileID: 1465357945}
+  bufferProviders:
+  - {fileID: 211336108}
+  - {fileID: 211336107}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &211336107
 MonoBehaviour:
@@ -2549,9 +2557,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 290972873}
-  - {fileID: 290972872}
   entities:
   - {fileID: 503069998}
   - {fileID: 1882634226}
@@ -2571,6 +2576,11 @@ MonoBehaviour:
   - {fileID: 921256802}
   - {fileID: 130616825}
   - {fileID: 1115156765}
+  bufferProviders:
+  - {fileID: 290972873}
+  - {fileID: 290972872}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &290972872
 MonoBehaviour:
@@ -2807,9 +2817,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 309833722}
-  - {fileID: 309833721}
   entities:
   - {fileID: 897915357}
   - {fileID: 1800996819}
@@ -2829,6 +2836,11 @@ MonoBehaviour:
   - {fileID: 909473267}
   - {fileID: 1855244214}
   - {fileID: 736735747}
+  bufferProviders:
+  - {fileID: 309833722}
+  - {fileID: 309833721}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &309833721
 MonoBehaviour:
@@ -3065,9 +3077,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 331814433}
-  - {fileID: 331814432}
   entities:
   - {fileID: 1111475338}
   - {fileID: 1413170436}
@@ -3087,6 +3096,11 @@ MonoBehaviour:
   - {fileID: 1586603719}
   - {fileID: 1692417782}
   - {fileID: 1011302567}
+  bufferProviders:
+  - {fileID: 331814433}
+  - {fileID: 331814432}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &331814432
 MonoBehaviour:
@@ -3295,9 +3309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 346191820}
-  - {fileID: 346191819}
   entities:
   - {fileID: 1957113747}
   - {fileID: 74943271}
@@ -3317,6 +3328,11 @@ MonoBehaviour:
   - {fileID: 1257569930}
   - {fileID: 2018679441}
   - {fileID: 590432268}
+  bufferProviders:
+  - {fileID: 346191820}
+  - {fileID: 346191819}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &346191819
 MonoBehaviour:
@@ -3707,9 +3723,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 414928528}
-  - {fileID: 414928527}
   entities:
   - {fileID: 1395116235}
   - {fileID: 1959850466}
@@ -3729,6 +3742,11 @@ MonoBehaviour:
   - {fileID: 1441877845}
   - {fileID: 1657739527}
   - {fileID: 102279574}
+  bufferProviders:
+  - {fileID: 414928528}
+  - {fileID: 414928527}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &414928527
 MonoBehaviour:
@@ -4223,9 +4241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 458852618}
-  - {fileID: 458852617}
   entities:
   - {fileID: 1395414963}
   - {fileID: 1455585087}
@@ -4245,6 +4260,11 @@ MonoBehaviour:
   - {fileID: 331165329}
   - {fileID: 1549941017}
   - {fileID: 401848108}
+  bufferProviders:
+  - {fileID: 458852618}
+  - {fileID: 458852617}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &458852617
 MonoBehaviour:
@@ -5241,9 +5261,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 550197600}
-  - {fileID: 550197599}
   entities:
   - {fileID: 375027103}
   - {fileID: 1867877957}
@@ -5263,6 +5280,11 @@ MonoBehaviour:
   - {fileID: 2082041130}
   - {fileID: 1320360050}
   - {fileID: 957835404}
+  bufferProviders:
+  - {fileID: 550197600}
+  - {fileID: 550197599}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &550197599
 MonoBehaviour:
@@ -5444,9 +5466,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 557972440}
-  - {fileID: 557972439}
   entities:
   - {fileID: 1307597834}
   - {fileID: 950955655}
@@ -5466,6 +5485,11 @@ MonoBehaviour:
   - {fileID: 1406628594}
   - {fileID: 340192994}
   - {fileID: 2097550748}
+  bufferProviders:
+  - {fileID: 557972440}
+  - {fileID: 557972439}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &557972439
 MonoBehaviour:
@@ -5702,9 +5726,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 580185890}
-  - {fileID: 580185889}
   entities:
   - {fileID: 549759680}
   - {fileID: 1966540961}
@@ -5724,6 +5745,11 @@ MonoBehaviour:
   - {fileID: 252017913}
   - {fileID: 96561624}
   - {fileID: 936859420}
+  bufferProviders:
+  - {fileID: 580185890}
+  - {fileID: 580185889}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &580185889
 MonoBehaviour:
@@ -6042,9 +6068,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 616646373}
-  - {fileID: 616646372}
   entities:
   - {fileID: 942690164}
   - {fileID: 856522337}
@@ -6064,6 +6087,11 @@ MonoBehaviour:
   - {fileID: 818270729}
   - {fileID: 2104070225}
   - {fileID: 1906031751}
+  bufferProviders:
+  - {fileID: 616646373}
+  - {fileID: 616646372}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &616646372
 MonoBehaviour:
@@ -6633,9 +6661,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 673822511}
-  - {fileID: 673822510}
   entities:
   - {fileID: 1807426684}
   - {fileID: 1366607102}
@@ -6655,6 +6680,11 @@ MonoBehaviour:
   - {fileID: 1859781514}
   - {fileID: 635916976}
   - {fileID: 932271207}
+  bufferProviders:
+  - {fileID: 673822511}
+  - {fileID: 673822510}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &673822510
 MonoBehaviour:
@@ -7259,9 +7289,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 778406859}
-  - {fileID: 778406858}
   entities:
   - {fileID: 295442165}
   - {fileID: 956164658}
@@ -7281,6 +7308,11 @@ MonoBehaviour:
   - {fileID: 1182612671}
   - {fileID: 209918365}
   - {fileID: 152074406}
+  bufferProviders:
+  - {fileID: 778406859}
+  - {fileID: 778406858}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &778406858
 MonoBehaviour:
@@ -7582,9 +7614,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 809319307}
-  - {fileID: 809319306}
   entities:
   - {fileID: 596051718}
   - {fileID: 795786787}
@@ -7604,6 +7633,11 @@ MonoBehaviour:
   - {fileID: 220095803}
   - {fileID: 2089721034}
   - {fileID: 12758566}
+  bufferProviders:
+  - {fileID: 809319307}
+  - {fileID: 809319306}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &809319306
 MonoBehaviour:
@@ -7987,9 +8021,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 829917200}
-  - {fileID: 829917199}
   entities:
   - {fileID: 2007698191}
   - {fileID: 1367017763}
@@ -8009,6 +8040,11 @@ MonoBehaviour:
   - {fileID: 188823821}
   - {fileID: 569701055}
   - {fileID: 1500454343}
+  bufferProviders:
+  - {fileID: 829917200}
+  - {fileID: 829917199}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &829917199
 MonoBehaviour:
@@ -8366,9 +8402,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 868972362}
-  - {fileID: 868972361}
   entities:
   - {fileID: 1984390347}
   - {fileID: 1398531255}
@@ -8388,6 +8421,11 @@ MonoBehaviour:
   - {fileID: 1998165085}
   - {fileID: 437614162}
   - {fileID: 1773782392}
+  bufferProviders:
+  - {fileID: 868972362}
+  - {fileID: 868972361}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &868972361
 MonoBehaviour:
@@ -8569,9 +8607,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 875681834}
-  - {fileID: 875681833}
   entities:
   - {fileID: 672422740}
   - {fileID: 482729020}
@@ -8591,6 +8626,11 @@ MonoBehaviour:
   - {fileID: 1900845908}
   - {fileID: 1272231447}
   - {fileID: 1621102275}
+  bufferProviders:
+  - {fileID: 875681834}
+  - {fileID: 875681833}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &875681833
 MonoBehaviour:
@@ -9169,9 +9209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 932787429}
-  - {fileID: 932787428}
   entities:
   - {fileID: 1777037300}
   - {fileID: 520652303}
@@ -9191,6 +9228,11 @@ MonoBehaviour:
   - {fileID: 1091645340}
   - {fileID: 107010879}
   - {fileID: 820105075}
+  bufferProviders:
+  - {fileID: 932787429}
+  - {fileID: 932787428}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &932787428
 MonoBehaviour:
@@ -9982,9 +10024,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1031074510}
-  - {fileID: 1031074509}
   entities:
   - {fileID: 1202827448}
   - {fileID: 207699709}
@@ -10004,6 +10043,11 @@ MonoBehaviour:
   - {fileID: 1722782591}
   - {fileID: 733608510}
   - {fileID: 321877473}
+  bufferProviders:
+  - {fileID: 1031074510}
+  - {fileID: 1031074509}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1031074509
 MonoBehaviour:
@@ -10362,9 +10406,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1064590824}
-  - {fileID: 1064590823}
   entities:
   - {fileID: 2146368682}
   - {fileID: 1327921701}
@@ -10384,6 +10425,11 @@ MonoBehaviour:
   - {fileID: 1675104510}
   - {fileID: 1610581009}
   - {fileID: 1373816934}
+  bufferProviders:
+  - {fileID: 1064590824}
+  - {fileID: 1064590823}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1064590823
 MonoBehaviour:
@@ -10820,9 +10866,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1132131697}
-  - {fileID: 1132131696}
   entities:
   - {fileID: 954713205}
   - {fileID: 491201958}
@@ -10842,6 +10885,11 @@ MonoBehaviour:
   - {fileID: 662936058}
   - {fileID: 706572558}
   - {fileID: 459385521}
+  bufferProviders:
+  - {fileID: 1132131697}
+  - {fileID: 1132131696}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1132131696
 MonoBehaviour:
@@ -11428,9 +11476,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1232119004}
-  - {fileID: 1232119003}
   entities:
   - {fileID: 288647657}
   - {fileID: 1654324852}
@@ -11450,6 +11495,11 @@ MonoBehaviour:
   - {fileID: 2125882064}
   - {fileID: 1983240990}
   - {fileID: 171859740}
+  bufferProviders:
+  - {fileID: 1232119004}
+  - {fileID: 1232119003}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1232119003
 MonoBehaviour:
@@ -11620,9 +11670,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1235429040}
-  - {fileID: 1235429039}
   entities:
   - {fileID: 1327714763}
   - {fileID: 1559492137}
@@ -11642,6 +11689,11 @@ MonoBehaviour:
   - {fileID: 1208711945}
   - {fileID: 2059554539}
   - {fileID: 1327382552}
+  bufferProviders:
+  - {fileID: 1235429040}
+  - {fileID: 1235429039}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1235429039
 MonoBehaviour:
@@ -12081,9 +12133,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1276846662}
-  - {fileID: 1276846661}
   entities:
   - {fileID: 945595841}
   - {fileID: 845073169}
@@ -12103,6 +12152,11 @@ MonoBehaviour:
   - {fileID: 1755882808}
   - {fileID: 503777245}
   - {fileID: 1186413790}
+  bufferProviders:
+  - {fileID: 1276846662}
+  - {fileID: 1276846661}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1276846661
 MonoBehaviour:
@@ -12350,9 +12404,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1310379946}
-  - {fileID: 1310379945}
   entities:
   - {fileID: 106038374}
   - {fileID: 397978878}
@@ -12372,6 +12423,11 @@ MonoBehaviour:
   - {fileID: 1402607082}
   - {fileID: 26614041}
   - {fileID: 813046706}
+  bufferProviders:
+  - {fileID: 1310379946}
+  - {fileID: 1310379945}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1310379945
 MonoBehaviour:
@@ -13237,9 +13293,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1428563582}
-  - {fileID: 1428563581}
   entities:
   - {fileID: 1759726732}
   - {fileID: 1183030636}
@@ -13259,6 +13312,11 @@ MonoBehaviour:
   - {fileID: 492887133}
   - {fileID: 842816116}
   - {fileID: 990346804}
+  bufferProviders:
+  - {fileID: 1428563582}
+  - {fileID: 1428563581}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1428563581
 MonoBehaviour:
@@ -13596,9 +13654,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1449392208}
-  - {fileID: 1449392207}
   entities:
   - {fileID: 895094257}
   - {fileID: 1934588332}
@@ -13618,6 +13673,11 @@ MonoBehaviour:
   - {fileID: 19830231}
   - {fileID: 2110243358}
   - {fileID: 948665292}
+  bufferProviders:
+  - {fileID: 1449392208}
+  - {fileID: 1449392207}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1449392207
 MonoBehaviour:
@@ -13995,9 +14055,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1476563019}
-  - {fileID: 1476563018}
   entities:
   - {fileID: 587506683}
   - {fileID: 383754217}
@@ -14017,6 +14074,11 @@ MonoBehaviour:
   - {fileID: 1431198658}
   - {fileID: 370310277}
   - {fileID: 2041650772}
+  bufferProviders:
+  - {fileID: 1476563019}
+  - {fileID: 1476563018}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1476563018
 MonoBehaviour:
@@ -14209,9 +14271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1492692397}
-  - {fileID: 1492692396}
   entities:
   - {fileID: 1695828050}
   - {fileID: 1711400201}
@@ -14231,6 +14290,11 @@ MonoBehaviour:
   - {fileID: 1012581906}
   - {fileID: 739297765}
   - {fileID: 1564619916}
+  bufferProviders:
+  - {fileID: 1492692397}
+  - {fileID: 1492692396}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1492692396
 MonoBehaviour:
@@ -14524,9 +14588,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1525038261}
-  - {fileID: 1525038260}
   entities:
   - {fileID: 296331184}
   - {fileID: 1302221221}
@@ -14546,6 +14607,11 @@ MonoBehaviour:
   - {fileID: 345495703}
   - {fileID: 1365155588}
   - {fileID: 1833955466}
+  bufferProviders:
+  - {fileID: 1525038261}
+  - {fileID: 1525038260}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1525038260
 MonoBehaviour:
@@ -14836,9 +14902,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1553158073}
-  - {fileID: 1553158072}
   entities:
   - {fileID: 1712951514}
   - {fileID: 878286676}
@@ -14858,6 +14921,11 @@ MonoBehaviour:
   - {fileID: 126537185}
   - {fileID: 1520892523}
   - {fileID: 509889563}
+  bufferProviders:
+  - {fileID: 1553158073}
+  - {fileID: 1553158072}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1553158072
 MonoBehaviour:
@@ -15421,9 +15489,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1627785082}
-  - {fileID: 1627785081}
   entities:
   - {fileID: 1251694627}
   - {fileID: 177169798}
@@ -15443,6 +15508,11 @@ MonoBehaviour:
   - {fileID: 1302237240}
   - {fileID: 1076700931}
   - {fileID: 554817096}
+  bufferProviders:
+  - {fileID: 1627785082}
+  - {fileID: 1627785081}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1627785081
 MonoBehaviour:
@@ -15723,9 +15793,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1668664826}
-  - {fileID: 1668664825}
   entities:
   - {fileID: 547727067}
   - {fileID: 266851660}
@@ -15745,6 +15812,11 @@ MonoBehaviour:
   - {fileID: 922280458}
   - {fileID: 724462969}
   - {fileID: 141198374}
+  bufferProviders:
+  - {fileID: 1668664826}
+  - {fileID: 1668664825}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1668664825
 MonoBehaviour:
@@ -16230,9 +16302,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1737723356}
-  - {fileID: 1737723355}
   entities:
   - {fileID: 1978361}
   - {fileID: 1101509368}
@@ -16252,6 +16321,11 @@ MonoBehaviour:
   - {fileID: 1426060466}
   - {fileID: 825205265}
   - {fileID: 967122618}
+  bufferProviders:
+  - {fileID: 1737723356}
+  - {fileID: 1737723355}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1737723355
 MonoBehaviour:
@@ -16715,9 +16789,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1812690702}
-  - {fileID: 1812690701}
   entities:
   - {fileID: 338422715}
   - {fileID: 100834511}
@@ -16737,6 +16808,11 @@ MonoBehaviour:
   - {fileID: 997176037}
   - {fileID: 1244995290}
   - {fileID: 491703085}
+  bufferProviders:
+  - {fileID: 1812690702}
+  - {fileID: 1812690701}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1812690701
 MonoBehaviour:
@@ -16918,9 +16994,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1817946591}
-  - {fileID: 1817946590}
   entities:
   - {fileID: 118139553}
   - {fileID: 1618621822}
@@ -16940,6 +17013,11 @@ MonoBehaviour:
   - {fileID: 692825737}
   - {fileID: 1539190376}
   - {fileID: 25992178}
+  bufferProviders:
+  - {fileID: 1817946591}
+  - {fileID: 1817946590}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1817946590
 MonoBehaviour:
@@ -17578,9 +17656,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1878116094}
-  - {fileID: 1878116093}
   entities:
   - {fileID: 752566343}
   - {fileID: 2016676748}
@@ -17600,6 +17675,11 @@ MonoBehaviour:
   - {fileID: 254211965}
   - {fileID: 1399762545}
   - {fileID: 1824717087}
+  bufferProviders:
+  - {fileID: 1878116094}
+  - {fileID: 1878116093}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1878116093
 MonoBehaviour:
@@ -18133,9 +18213,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 1923378808}
-  - {fileID: 1923378807}
   entities:
   - {fileID: 751878907}
   - {fileID: 1846879289}
@@ -18155,6 +18232,11 @@ MonoBehaviour:
   - {fileID: 2070297157}
   - {fileID: 336439334}
   - {fileID: 819097600}
+  bufferProviders:
+  - {fileID: 1923378808}
+  - {fileID: 1923378807}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &1923378807
 MonoBehaviour:
@@ -18938,9 +19020,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 2053277497}
-  - {fileID: 2053277496}
   entities:
   - {fileID: 542330413}
   - {fileID: 977417133}
@@ -18960,6 +19039,11 @@ MonoBehaviour:
   - {fileID: 446257479}
   - {fileID: 484168435}
   - {fileID: 949332548}
+  bufferProviders:
+  - {fileID: 2053277497}
+  - {fileID: 2053277496}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &2053277496
 MonoBehaviour:
@@ -19245,9 +19329,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 2085708320}
-  - {fileID: 2085708319}
   entities:
   - {fileID: 368253365}
   - {fileID: 1062977743}
@@ -19267,6 +19348,11 @@ MonoBehaviour:
   - {fileID: 695189557}
   - {fileID: 1818011322}
   - {fileID: 800588444}
+  bufferProviders:
+  - {fileID: 2085708320}
+  - {fileID: 2085708319}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &2085708319
 MonoBehaviour:
@@ -19448,9 +19534,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 2091829681}
-  - {fileID: 2091829680}
   entities:
   - {fileID: 873394733}
   - {fileID: 1606811992}
@@ -19470,6 +19553,11 @@ MonoBehaviour:
   - {fileID: 1394413113}
   - {fileID: 107325997}
   - {fileID: 1164197488}
+  bufferProviders:
+  - {fileID: 2091829681}
+  - {fileID: 2091829680}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &2091829680
 MonoBehaviour:
@@ -19739,9 +19827,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  bufferProviders:
-  - {fileID: 2120122705}
-  - {fileID: 2120122704}
   entities:
   - {fileID: 1480829439}
   - {fileID: 760365054}
@@ -19761,6 +19846,11 @@ MonoBehaviour:
   - {fileID: 1588071676}
   - {fileID: 1950736259}
   - {fileID: 867594590}
+  bufferProviders:
+  - {fileID: 2120122705}
+  - {fileID: 2120122704}
+  dataProviders:
+  - {fileID: 11400000, guid: a65e85ce7def82d4e94bd6fb7d812725, type: 2}
   drawGizmos: 0
 --- !u!114 &2120122704
 MonoBehaviour:

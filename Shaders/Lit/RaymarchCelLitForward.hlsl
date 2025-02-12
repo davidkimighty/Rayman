@@ -1,82 +1,147 @@
 ﻿#ifndef RAYMAN_CEL_LIT_FORWARD
 #define RAYMAN_CEL_LIT_FORWARD
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/CommonMaterial.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RealtimeLights.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
+float _RayShadowBias;
+float _MainCelCount;
+float _AdditionalCelCount;
+float _CelSpread;
+float _CelSharpness;
+float _SpecularSharpness;
+float _RimAmount;
+float _RimSmoothness;
+float _BlendDiffuse;
+float _F0;
+
 struct Attributes
 {
-    float4 vertex : POSITION;
-    float3 normal : NORMAL;
-    float4 tangent : TANGENT;
-    float2 texcoord : TEXCOORD0;
-    float2 lightmapUV : TEXCOORD1;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
+	float4 positionOS : POSITION;
+	float3 normalOS : NORMAL;
+	float4 tangentOS : TANGENT;
+	float2 texcoord : TEXCOORD0;
+	float2 staticLightmapUV : TEXCOORD1;
+	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct Varyings
 {
-    float4 posCS : SV_POSITION;
-    float4 posSS : TEXCOORD0;
-    float3 posWS : TEXCOORD1;
-    float3 normalWS : TEXCOORD2;
-    DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 3);
-    half4 fogFactorAndVertexLight : TEXCOORD4;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-    UNITY_VERTEX_OUTPUT_STEREO
+	float4 positionCS : SV_POSITION;
+	float2 uv : TEXCOORD0;
+	float3 positionWS : TEXCOORD1;
+#ifdef _ADDITIONAL_LIGHTS_VERTEX
+	half4 fogFactorAndVertexLight : TEXCOORD2;
+#else
+	half  fogFactor : TEXCOORD2;
+#endif
+	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 3);
+#ifdef DYNAMICLIGHTMAP_ON
+	float2  dynamicLightmapUV : TEXCOORD4;
+#endif
+	UNITY_VERTEX_INPUT_INSTANCE_ID
+	UNITY_VERTEX_OUTPUT_STEREO
 };
 
 struct FragOutput
 {
-    float4 color : SV_Target;
+    half4 color : SV_Target;
     float depth : SV_Depth;
 };
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
-float _ShadowBiasVal;
-float _F0;
-float _Roughness;
-float4 _RimColor;
-float _RimPow;
-float _CelOffset;
-float _CelSpread;
-float _CelSteps;
-float _Specular;
-
-inline float ConvertToCel(float value)
+inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDirectionWS, float3 normalWS, out InputData inputData)
 {
-	float cel = smoothstep(_CelOffset - _CelSpread, _CelOffset + _CelSpread, value);
-	cel = floor(cel / (1. / -_CelSteps)) * (1. / -_CelSteps);
-	return cel;
+	inputData = (InputData)0;
+	inputData.positionWS = positionWS;
+	inputData.normalWS = normalWS;
+	inputData.viewDirectionWS = viewDirectionWS;
+	inputData.shadowCoord = TransformWorldToShadowCoord(positionWS);
+#ifdef _ADDITIONAL_LIGHTS_VERTEX
+	inputData.fogCoord = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactorAndVertexLight.x);
+	inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
+#else
+	inputData.fogCoord = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactor);
+#endif
+	inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
 }
 
-inline float ConvertToCelSpecular(float specular)
+inline void InitializeBakedGIData(Varyings input, inout InputData inputData)
 {
-	return step(1. - _Specular, specular);
+#if defined(DYNAMICLIGHTMAP_ON)
+	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
+	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+#elif !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
+	inputData.bakedGI = SAMPLE_GI(input.vertexSH, GetAbsolutePositionWS(inputData.positionWS),
+		inputData.normalWS, inputData.viewDirectionWS, input.positionCS.xy, input.probeOcclusion, inputData.shadowMask);
+#else
+	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, inputData.normalWS);
+	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+#endif
+}
+
+inline float CelShading(float value, float celCount)
+{
+	float celSize = 1.0 / celCount;
+	float scaled = saturate(value) / celSize;
+	float cel = floor(scaled) * celSize;
+	float blend = Sigmoid(frac(scaled), _CelSharpness);
+	return lerp(cel, cel + celSize, blend);
+}
+
+inline half3 CelLighting(Light light, float celCount, float diffuse, half3 normalWS, half3 viewDirectionWS, float3 F0)
+{
+	diffuse *= light.distanceAttenuation;
+	float cel = CelShading(diffuse, celCount);
+	half3 celShade = light.color * cel * lerp(1.0, 0.0, _Metallic);
+	
+	float roughness = max(1.0 - _Smoothness, EPSILON);
+	half specular = GGXSpecular(normalWS, viewDirectionWS, light.direction, F0, roughness);
+	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness) * light.distanceAttenuation;
+	celShade += light.color * specular * cel;
+	
+	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0) * light.distanceAttenuation;
+	float rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
+	half3 rim = smoothstep(_RimAmount - _RimSmoothness, _RimAmount + _RimSmoothness, rimIntensity);
+	celShade += light.color * rim * fresnel;
+
+	return celShade * light.shadowAttenuation;
 }
 
 Varyings Vert (Attributes input)
 {
-    Varyings output = (Varyings)0;
+	Varyings output = (Varyings)0;
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 	
-	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
-	output.posCS = vertexInput.positionCS;
-	output.posWS = vertexInput.positionWS;
-	output.normalWS = TransformObjectToWorldNormal(input.normal);
-	
-	half3 vertexLight = VertexLighting(output.posWS, output.normalWS);
-	half fogFactor = ComputeFogFactor(output.posCS.z);
-	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
-	OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
-	OUTPUT_SH(output.normalWS.xyz, output.vertexSH);
-    return output;
+	output.positionCS = vertexInput.positionCS;
+	output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+	output.positionWS = vertexInput.positionWS;
+	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
+	
+	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
+#ifdef DYNAMICLIGHTMAP_ON
+	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
+#endif
+	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
+	
+	half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
+#ifdef _ADDITIONAL_LIGHTS_VERTEX
+	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
+	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+#else
+	output.fogFactor = fogFactor;
+#endif
+	return output;
 }
 
 FragOutput Frag (Varyings input)
@@ -84,60 +149,97 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 	
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.posWS - cameraPos);
-	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
+	float3 cameraPos = GetCameraPosition();
+	half3 rayDir = normalize(input.positionWS - cameraPos);
+	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
-	
 	if (!Raymarch(ray)) discard;
 	
-	const float3 normal = GetNormal(ray.hitPoint);
-	float lengthToSurface = length(input.posWS - cameraPos);
-	const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
-		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
-	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float schlick = GetFresnelSchlick(viewDir, normal, _F0);
+	InputData inputData;
+	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
+	InitializeBakedGIData(input, inputData);
 	
-	const float2 uv = GetMatCap(viewDir, normal);
-	finalColor.rgb *= _MainTex.Sample(sampler_MainTex, uv);
+	SurfaceData surfaceData;
+	InitializeStandardLitSurfaceData(input.uv, surfaceData);
+	surfaceData.albedo = baseColor.rgb;
+	surfaceData.metallic = _Metallic;
+	surfaceData.smoothness = _Smoothness;
 	
-	// main light
-	float4 shadowCoord = TransformWorldToShadowCoord(ray.hitPoint);
-	const Light mainLight = GetMainLight(shadowCoord);
+	BRDFData brdfData;
+	InitializeBRDFData(surfaceData, brdfData);
 
-	const float normalBias = _ShadowBiasVal * max(0.0, dot(mainLight.direction, normal));
-	shadowCoord.z += normalBias;
-	const Light mainLightWithBias = GetMainLight(shadowCoord);
-	float3 shade = mainLight.color;
-
-	const float NdotL = saturate(dot(normal, mainLight.direction));
-	const float mainDiffuse = ConvertToCel(NdotL);
+	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
+	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
 	
-	const float NdotSH = saturate(dot(normal, normalize(mainLight.direction - viewDir)));
-	const float celSpecular = ConvertToCelSpecular(NdotSH) * NdotL;
-	shade *= mainDiffuse + celSpecular;
-
-	// additional lights
-	// const int count = GetAdditionalLightsCount();
-	// for (int i = 0; i < count; ++i)
-	// {
-	// 	const Light light = GetAdditionalLight(i, ray.hitPoint);
-	// 	const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
-	// 	float specular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, 1.0 - _Roughness);
-	// 	specular *= diffuse * schlick;
-	// 	shade += light.color * (diffuse + specular);
-	// }
-	// shade += _RimColor * GetFresnel(viewDir, normal, _RimPow);
+	inputData.shadowCoord.z += _RayShadowBias;
+	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+	Light mainLight = GetMainLight(inputData.shadowCoord, ray.hitPoint, shadowMask);
 	
-	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
+	float3 F0 = lerp(_F0, brdfData.albedo, _Metallic);
+	half3 celLighting = 0;
+	
+#ifdef _LIGHT_LAYERS
+	uint meshRenderingLayers = GetMeshRenderingLayer();
+	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+#endif
+	{
+		float nSpread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _MainCelCount));
+		float celDiffuse = smoothstep(-nSpread, _CelSpread, dot(inputData.normalWS, mainLight.direction));
+		celLighting = CelLighting(mainLight, _MainCelCount, celDiffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
+
+		float diffuse = saturate(dot(inputData.normalWS, mainLight.direction)) * mainLight.shadowAttenuation;
+		celLighting = lerp(diffuse, celLighting, _BlendDiffuse);
+	}
+	
+#if defined(_ADDITIONAL_LIGHTS)
+	uint pixelLightCount = GetAdditionalLightsCount();
+#if USE_CLUSTER_LIGHT_LOOP
+	[loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+	{
+		CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
+		Light light = GetAdditionalLight(lightIndex, ray.hitPoint);
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			float diffuse = saturate(dot(inputData.normalWS, light.direction));
+			celLighting += CelLighting(light, _AdditionalCelCount, diffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
+		}
+	}
+#endif
+
+	LIGHT_LOOP_BEGIN(pixelLightCount)
+		Light light = GetAdditionalLight(lightIndex, ray.hitPoint);
+
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			float diffuse = saturate(dot(inputData.normalWS, light.direction));
+			celLighting += CelLighting(light, _AdditionalCelCount, diffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
+		}
+	LIGHT_LOOP_END
+#endif
+
+#if defined(_ADDITIONAL_LIGHTS_VERTEX)
+	celLighting += inputData.vertexLighting * brdfData.diffuse;
+#endif
+
+	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+	half3 giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
+		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
+		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
+	
+	baseColor.rgb *= giColor + celLighting + _EmissionColor;
 	
 	FragOutput output;
-	output.color = finalColor;
+	output.color = baseColor;
 	output.depth = depth;
 	return output;
 }

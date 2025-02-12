@@ -1,31 +1,32 @@
 ﻿#ifndef RAYMAN_LIT_FORWARD
 #define RAYMAN_LIT_FORWARD
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct Attributes
 {
-    float4 vertex : POSITION;
-    float3 normal : NORMAL;
-    float4 tangent : TANGENT;
-    float2 texcoord : TEXCOORD0;
-    float2 lightmapUV : TEXCOORD1;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
+	float4 positionOS : POSITION;
+	float3 normalOS : NORMAL;
+	float4 tangentOS : TANGENT;
+	float2 texcoord : TEXCOORD0;
+	float2 staticLightmapUV : TEXCOORD1;
+	UNITY_VERTEX_INPUT_INSTANCE_ID
 };
 
 struct Varyings
 {
-    float4 posCS : SV_POSITION;
-    float4 posSS : TEXCOORD0;
-    float3 posWS : TEXCOORD1;
-    float3 normalWS : TEXCOORD2;
-    DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 3);
-    half4 fogFactorAndVertexLight : TEXCOORD4;
-    UNITY_VERTEX_INPUT_INSTANCE_ID
-    UNITY_VERTEX_OUTPUT_STEREO
+	float4 positionCS : SV_POSITION;
+	float2 uv : TEXCOORD0;
+	float3 positionWS : TEXCOORD1;
+	float3 normalWS : TEXCOORD2;
+	half4 fogFactorAndVertexLight : TEXCOORD3;
+	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 4);
+	UNITY_VERTEX_INPUT_INSTANCE_ID
+	UNITY_VERTEX_OUTPUT_STEREO
 };
 
 struct FragOutput
@@ -34,43 +35,38 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
-float _ShadowBiasVal;
-float _F0;
-float _Roughness;
-float4 _RimColor;
-float _RimPow;
-
 Varyings Vert (Attributes input)
 {
-    Varyings output = (Varyings)0;
+	Varyings output = (Varyings)0;
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 	
-	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
-	output.posCS = vertexInput.positionCS;
-	output.posWS = vertexInput.positionWS;
-	output.normalWS = TransformObjectToWorldNormal(input.normal);
-	
-	half3 vertexLight = VertexLighting(output.posWS, output.normalWS);
-	half fogFactor = ComputeFogFactor(output.posCS.z);
-	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
-	OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
-	OUTPUT_SH(output.normalWS.xyz, output.vertexSH);
-    return output;
+	output.positionCS = vertexInput.positionCS;
+	output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+	output.positionWS = vertexInput.positionWS;
+	output.normalWS = normalInput.normalWS;
+	
+	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
+	OUTPUT_SH4(vertexInput.positionWS, output.normalWS.xyz, GetWorldSpaceNormalizeViewDir(vertexInput.positionWS), output.vertexSH, output.probeOcclusion);
+
+	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
+	half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
+	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
+	return output;
 }
 
 FragOutput Frag (Varyings input)
-{	
+{
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 	
 	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.posWS - cameraPos);
-	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
+	const float3 rayDir = normalize(input.positionWS - cameraPos);
+	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
@@ -78,48 +74,32 @@ FragOutput Frag (Varyings input)
 	
 	if (!Raymarch(ray)) discard;
 	
-	const float3 normal = GetNormal(ray.hitPoint);
-	float lengthToSurface = length(input.posWS - cameraPos);
-	const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
-		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
-	
-	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float schlick = GetFresnelSchlick(viewDir, normal, _F0);
-	
-	const float2 uv = GetMatCap(viewDir, normal);
-	finalColor.rgb *= _MainTex.Sample(sampler_MainTex, uv);
-	
-	// main light
-	float4 shadowCoord = TransformWorldToShadowCoord(ray.hitPoint);
-	const Light mainLight = GetMainLight(shadowCoord);
+	const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 
-	const float normalBias = _ShadowBiasVal * max(0.0, dot(mainLight.direction, normal));
-	shadowCoord.z += normalBias;
-	const Light mainLightWithBias = GetMainLight(shadowCoord);
-	float3 shade = mainLight.color *  mainLightWithBias.shadowAttenuation;
-	
-	const float mainDiffuse = GetDiffuse(mainLight.direction, normal);
-	float mainSpecular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, 1.0 - _Roughness);
-	mainSpecular *= mainDiffuse * schlick;
-	shade *= mainDiffuse + mainSpecular;
+	SurfaceData surfaceData;
+	InitializeStandardLitSurfaceData(input.uv, surfaceData);
 
-	// additional lights
-	const int count = GetAdditionalLightsCount();
-	for (int i = 0; i < count; ++i)
-	{
-		const Light light = GetAdditionalLight(i, ray.hitPoint);
-		const float diffuse = GetDiffuse(light.direction, normal) * light.distanceAttenuation;
-		float specular = GGXSpecular(normal, viewDir, mainLight.direction, _F0, 1.0 - _Roughness);
-		specular *= diffuse * schlick;
-		shade += light.color * (diffuse + specular);
-	}
-	shade += _RimColor * GetFresnel(viewDir, normal, _RimPow);
-	
-	finalColor.rgb *= shade + SAMPLE_GI(input.lightmapUV, input.vertexSH, normal);
-	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
+	half4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+	surfaceData.albedo = baseColor.rgb * baseMap.rgb;
+	surfaceData.metallic = _Metallic;
+	surfaceData.smoothness = _Smoothness;
+
+	InputData inputData = (InputData)0;
+	inputData.positionWS = input.positionWS;
+	inputData.normalWS = GetNormal(ray.hitPoint);
+	inputData.viewDirectionWS = normalize(cameraPos - ray.hitPoint);
+	inputData.shadowCoord = TransformWorldToShadowCoord(input.positionWS);
+	inputData.fogCoord = ComputeFogFactor(input.positionCS.z);
+
+	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, inputData.normalWS);
+	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+
+	half4 color = UniversalFragmentPBR(inputData, surfaceData);
+	color += _EmissionColor;
 	
 	FragOutput output;
-	output.color = finalColor;
+	output.color = color;
 	output.depth = depth;
 	return output;
 }
