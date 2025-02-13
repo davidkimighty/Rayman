@@ -18,10 +18,6 @@ namespace Rayman
         CappedCone,
     }
     
-#if UNITY_EDITOR
-    public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
-#endif
-    
     public class RaymarchShape : RaymarchEntity
     {
         [Header("Shape")]
@@ -32,9 +28,9 @@ namespace Rayman
 
         public override T GetBounds<T>()
         {
-            if (typeof(T) == typeof(AABB))
+            if (typeof(T) == typeof(Aabb))
             {
-                AABB aabb = AABB.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
+                Aabb aabb = Aabb.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
                 aabb = aabb.Expand(Blend + Roundness + ExpandBounds + 0.001f);
                 return (T)(object)aabb;
             }

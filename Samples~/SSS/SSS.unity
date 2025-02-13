@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -665,6 +665,45 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3224620771394106619, guid: a5ddbf0fc13a6d241b0456505607cbef, type: 3}
   m_PrefabInstance: {fileID: 4217274152654995196}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &615632713
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/RaymarchSssLit
+  m_Shader: {fileID: 4800000, guid: c90fa055a1a68ad4eb719d028275f65b, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Metallic: 0
+    - _Smoothness: 0.6
+    - _SrcBlend: 1
+    - _SssAmbient: 0.3
+    - _SssDistortion: 0.7
+    - _SssPower: 2
+    - _SssScale: 2.5
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &672591333 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 239752658558085016, guid: a5ddbf0fc13a6d241b0456505607cbef, type: 3}
@@ -724,7 +763,7 @@ Transform:
   m_GameObject: {fileID: 675458200}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.017, z: 0}
+  m_LocalPosition: {x: 0, y: 0.116, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -906,9 +945,7 @@ GameObject:
   - component: {fileID: 1421598550}
   - component: {fileID: 1421598549}
   - component: {fileID: 1421598548}
-  - component: {fileID: 1421598547}
-  - component: {fileID: 1421598546}
-  - component: {fileID: 1421598545}
+  - component: {fileID: 1421598552}
   m_Layer: 0
   m_Name: Renderer
   m_TagString: Untagged
@@ -916,68 +953,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1421598545
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421598544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateBoundsThreshold: 0
---- !u!114 &1421598546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421598544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46eb2603f15aba4a82e2046db4283d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1421598547
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1421598544}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: c90fa055a1a68ad4eb719d028275f65b, type: 3}
-  entities:
-  - {fileID: 1126527779}
-  - {fileID: 680155276}
-  - {fileID: 725686016}
-  - {fileID: 174104431}
-  - {fileID: 186563726}
-  - {fileID: 1490591839}
-  - {fileID: 672591333}
-  - {fileID: 379466709}
-  - {fileID: 1746534539}
-  - {fileID: 416315099}
-  - {fileID: 898152156}
-  - {fileID: 1883116615}
-  - {fileID: 1621732242}
-  - {fileID: 85376913}
-  - {fileID: 675458201}
-  bufferProviders:
-  - {fileID: 1421598546}
-  - {fileID: 1421598545}
-  dataProviders:
-  - {fileID: 11400000, guid: 41fc7dfc973ec004395e3994d3514320, type: 2}
-  - {fileID: 11400000, guid: 1d13ec6db0d9af94eb9071cec89b5d32, type: 2}
-  - {fileID: 11400000, guid: 0e4b07e39fc76234eba22ad3663ab887, type: 2}
-  drawGizmos: 0
 --- !u!114 &1421598548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -996,7 +971,7 @@ MonoBehaviour:
   shadowMaxSteps: 32
   shadowMaxDistance: 30
   raymarchGroups:
-  - {fileID: 1421598547}
+  - {fileID: 1421598552}
 --- !u!23 &1421598549
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1020,7 +995,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 615632713}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1070,6 +1045,40 @@ Transform:
   - {fileID: 1618545024}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -9.284, y: 163.889, z: -10.98}
+--- !u!114 &1421598552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1421598544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1791d74747d39654da4e22b0a3ebb713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: c90fa055a1a68ad4eb719d028275f65b, type: 3}
+  drawGizmos: 0
+  updateBoundsThreshold: 0
+  entities:
+  - {fileID: 1126527779}
+  - {fileID: 1490591839}
+  - {fileID: 379466709}
+  - {fileID: 672591333}
+  - {fileID: 1746534539}
+  - {fileID: 680155276}
+  - {fileID: 725686016}
+  - {fileID: 174104431}
+  - {fileID: 186563726}
+  - {fileID: 416315099}
+  - {fileID: 898152156}
+  - {fileID: 1883116615}
+  - {fileID: 1621732242}
+  - {fileID: 85376913}
+  - {fileID: 675458201}
+  metallic: 0
+  smoothness: 0.6
+  sssData: {fileID: 11400000, guid: deb34e9b137bf3e49b17ab661bd2b442, type: 2}
 --- !u!114 &1490591839 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7264186742310434800, guid: a5ddbf0fc13a6d241b0456505607cbef, type: 3}

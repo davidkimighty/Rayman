@@ -534,9 +534,6 @@ GameObject:
   - component: {fileID: 492288775}
   - component: {fileID: 492288774}
   - component: {fileID: 492288773}
-  - component: {fileID: 492288777}
-  - component: {fileID: 492288779}
-  - component: {fileID: 492288778}
   m_Layer: 0
   m_Name: Raymarch Renderer
   m_TagString: Untagged
@@ -562,7 +559,7 @@ MonoBehaviour:
   shadowMaxSteps: 32
   shadowMaxDistance: 30
   raymarchGroups:
-  - {fileID: 492288777}
+  - {fileID: 0}
 --- !u!23 &492288774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -630,52 +627,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1077939009}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &492288777
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
-  entities:
-  - {fileID: 207929452}
-  - {fileID: 447563327}
-  bufferProviders:
-  - {fileID: 492288779}
-  - {fileID: 492288778}
-  dataProviders: []
-  drawGizmos: 0
---- !u!114 &492288778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b58dcb08a2ddba4db76a03f2067fb2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &492288779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateBoundsThreshold: 0
 --- !u!1 &623862682
 GameObject:
   m_ObjectHideFlags: 0
