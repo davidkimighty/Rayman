@@ -9,8 +9,8 @@ namespace Rayman
         
         private void Awake()
         {
-            providers = FindObjectsByType<RaymarchBufferProvider>(FindObjectsSortMode.None)
-                .OfType<ISpatialStructureDebugProvider>().ToArray();
+            // providers = FindObjectsByType<RaymarchBufferProvider>(FindObjectsSortMode.None)
+            //     .OfType<ISpatialStructureDebugProvider>().ToArray();
         }
 
         public override string GetDebugMessage()

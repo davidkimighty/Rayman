@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Debug Data Provider")]
-    public class DebugDataProvider : RaymarchDataProvider
+    public class DebugDataProvider : RaymarchMaterialDataProvider
     {
         private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
         private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");

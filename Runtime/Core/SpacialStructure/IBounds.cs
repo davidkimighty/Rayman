@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -14,19 +15,29 @@ namespace Rayman
         T Include(Vector3 point);
         T Union(T other);
     }
+    
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct NodeDataAABB
+    {
+        public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
 
-    public struct Aabb : IBounds<Aabb>
+        public int Id;
+        public int ChildIndex;
+        public AABB Bounds;
+    }
+
+    public struct AABB : IBounds<AABB>
     {
         public Vector3 Min;
         public Vector3 Max;
 
-        public Aabb(Vector3 min, Vector3 max)
+        public AABB(Vector3 min, Vector3 max)
         {
             Min = min;
             Max = max;
         }
 
-        public static Aabb GetBounds(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)
+        public static AABB GetBounds(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)
         {
             Vector3 right = transform.right * (scale.x * size.x);
             Vector3 up = transform.up * (scale.y * size.y);
@@ -44,17 +55,17 @@ namespace Rayman
 
             Vector3 min = center - extent;
             Vector3 max = center + extent;
-            return new Aabb(min, max);
+            return new AABB(min, max);
         }
 
-        public bool Contains(Aabb aabb)
+        public bool Contains(AABB aabb)
         {
             return Min.x <= aabb.Min.x && Min.y <= aabb.Min.y &&
                    Min.z <= aabb.Min.z && Max.x >= aabb.Max.x &&
                    Max.y >= aabb.Max.y && Max.z >= aabb.Max.z;
         }
 
-        public bool Intersects(Aabb aabb)
+        public bool Intersects(AABB aabb)
         {
             return Min.x <= aabb.Max.x && Max.x >= aabb.Min.x && 
                    Min.y <= aabb.Max.y && Max.y >= aabb.Min.y &&
@@ -71,37 +82,37 @@ namespace Rayman
 
         public Vector3 Extents() => Max - Min;
 
-        public Aabb Expand(float size)
+        public AABB Expand(float size)
         {
             Vector3 expandSize = Vector3.one * size;
-            return new Aabb
+            return new AABB
             {
                 Min = Min - expandSize,
                 Max = Max + expandSize
             };
         }
 
-        public Aabb Expand(Vector3 size)
+        public AABB Expand(Vector3 size)
         {
-            return new Aabb
+            return new AABB
             {
                 Min = Min - size,
                 Max = Max + size
             };
         }
 
-        public Aabb Include(Vector3 point)
+        public AABB Include(Vector3 point)
         {
-            return new Aabb
+            return new AABB
             {
                 Min = Vector3.Min(Min, point),
                 Max = Vector3.Max(Max, point)
             };
         }
 
-        public Aabb Union(Aabb aabb)
+        public AABB Union(AABB aabb)
         {
-            return new Aabb
+            return new AABB
             {
                 Min = Vector3.Min(Min, aabb.Min),
                 Max = Vector3.Max(Max, aabb.Max)

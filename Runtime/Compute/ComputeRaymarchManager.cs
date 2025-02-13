@@ -16,8 +16,8 @@ namespace Rayman
         [SerializeField] private bool drawGizmos;
         [SerializeField] private int boundsDisplayThreshold = 1300;
 #endif
-        private ISpatialStructure<Aabb> bvh;
-        private BoundingVolume<Aabb>[] boundingVolumes;
+        private ISpatialStructure<AABB> bvh;
+        private BoundingVolume<AABB>[] boundingVolumes;
         private ShapeData[] shapeData;
         private NodeDataAABB[] nodeData;
 
@@ -44,7 +44,7 @@ namespace Rayman
             
             for (int j = 0; j < boundingVolumes.Length; j++)
             {
-                BoundingVolume<Aabb> volume = boundingVolumes[j];
+                BoundingVolume<AABB> volume = boundingVolumes[j];
                 var shape = volume.Source as RaymarchShape;
                  if (shape != null)
                      shapeData[j] = new ShapeData(shape);
@@ -62,7 +62,7 @@ namespace Rayman
         {
             if (raymarchRenderers.Count == 0) return false;
             
-            List<BoundingVolume<Aabb>> volumes = new();
+            List<BoundingVolume<AABB>> volumes = new();
             foreach (ComputeRaymarchRenderer rr in raymarchRenderers)
             {
                 if (rr == null || !rr.gameObject.activeInHierarchy) continue;
@@ -70,30 +70,30 @@ namespace Rayman
                 var activeShapes = rr.Shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
                 if (activeShapes.Count == 0) continue;
                 
-                volumes.AddRange(rr.Shapes.Select(e => new BoundingVolume<Aabb>(e)).ToArray());
+                volumes.AddRange(rr.Shapes.Select(e => new BoundingVolume<AABB>(e)).ToArray());
             }
             if (volumes.Count == 0) return false;
             
             boundingVolumes = volumes.ToArray();
-            bvh = Bvh<Aabb>.Create(boundingVolumes);
+            bvh = Bvh<AABB>.Create(boundingVolumes);
             
             int shapeCount = boundingVolumes.Length;
             shapeData = new ShapeData[shapeCount];
             
-            int nodesCount = SpatialNode<Aabb>.GetNodesCount(bvh.Root);
+            int nodesCount = SpatialNode<AABB>.GetNodesCount(bvh.Root);
             nodeData = new NodeDataAABB[nodesCount];
             return true;
         }
         
-        private void UpdateNodeData(ISpatialStructure<Aabb> structure, ref NodeDataAABB[] nodeData)
+        private void UpdateNodeData(ISpatialStructure<AABB> structure, ref NodeDataAABB[] nodeData)
         {
             int index = 0;
-            Queue<(SpatialNode<Aabb> node, int parentIndex)> queue = new();
+            Queue<(SpatialNode<AABB> node, int parentIndex)> queue = new();
             queue.Enqueue((structure.Root, -1));
 
             while (queue.Count > 0)
             {
-                (SpatialNode<Aabb> current, int parentIndex) = queue.Dequeue();
+                (SpatialNode<AABB> current, int parentIndex) = queue.Dequeue();
                 NodeDataAABB data = new()
                 {
                     Id = current.Id,

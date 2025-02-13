@@ -1008,9 +1008,7 @@ GameObject:
   - component: {fileID: 1264651314}
   - component: {fileID: 1264651313}
   - component: {fileID: 1264651312}
-  - component: {fileID: 1264651311}
-  - component: {fileID: 1264651310}
-  - component: {fileID: 1264651309}
+  - component: {fileID: 1264651316}
   m_Layer: 0
   m_Name: Cel
   m_TagString: Untagged
@@ -1018,64 +1016,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1264651309
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264651308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46eb2603f15aba4a82e2046db4283d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1264651310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264651308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateBoundsThreshold: 0
---- !u!114 &1264651311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264651308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  entities:
-  - {fileID: 271632379}
-  - {fileID: 271632378}
-  - {fileID: 271632377}
-  - {fileID: 271632376}
-  - {fileID: 271632375}
-  - {fileID: 271632374}
-  - {fileID: 271632373}
-  - {fileID: 271632372}
-  - {fileID: 271632371}
-  - {fileID: 271632370}
-  - {fileID: 271632369}
-  - {fileID: 271632368}
-  - {fileID: 271632367}
-  - {fileID: 271632365}
-  bufferProviders:
-  - {fileID: 1264651310}
-  - {fileID: 1264651309}
-  dataProviders: []
-  drawGizmos: 0
 --- !u!114 &1264651312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1094,7 +1034,7 @@ MonoBehaviour:
   shadowMaxSteps: 64
   shadowMaxDistance: 30
   raymarchGroups:
-  - {fileID: 1264651311}
+  - {fileID: 1264651316}
 --- !u!23 &1264651313
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1117,8 +1057,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 0}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1164,6 +1103,36 @@ Transform:
   - {fileID: 271632366}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0.097, y: -207.004, z: -13.311}
+--- !u!114 &1264651316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264651308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4890c01f01fb246baa446bdc719c9363, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
+  entities:
+  - {fileID: 271632379}
+  - {fileID: 271632378}
+  - {fileID: 271632377}
+  - {fileID: 271632376}
+  - {fileID: 271632375}
+  - {fileID: 271632374}
+  - {fileID: 271632373}
+  - {fileID: 271632372}
+  - {fileID: 271632371}
+  - {fileID: 271632370}
+  - {fileID: 271632369}
+  - {fileID: 271632368}
+  - {fileID: 271632367}
+  - {fileID: 271632365}
+  drawGizmos: 0
+  updateBoundsThreshold: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

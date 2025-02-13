@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace Rayman
 {
-    [CreateAssetMenu(menuName = "Rayman/Data Providers/SSS Data Provider")]
-    public class SssDataProvider : RaymarchDataProvider
+    [CreateAssetMenu(menuName = "Rayman/Data/SSS")]
+    public class SSSData : ScriptableObject
     {
         private static readonly int F0Id = Shader.PropertyToID("_F0");
         private static readonly int RoughnessId = Shader.PropertyToID("_Roughness");
@@ -21,7 +21,7 @@ namespace Rayman
         [SerializeField] private float sssAmbient = 0.1f;
         [SerializeField] private float sssThickness = 0.5f;
         
-        public override void SetData(ref Material mat)
+        public void SetData(ref Material mat)
         {
             mat.SetFloat(F0Id, f0);
             mat.SetFloat(RoughnessId, roughness);

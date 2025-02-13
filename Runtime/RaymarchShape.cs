@@ -32,9 +32,9 @@ namespace Rayman
 
         public override T GetBounds<T>()
         {
-            if (typeof(T) == typeof(Aabb))
+            if (typeof(T) == typeof(AABB))
             {
-                Aabb aabb = Aabb.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
+                AABB aabb = AABB.GetBounds(transform, GetShapeSize(), GetScale(), Pivot);
                 aabb = aabb.Expand(Blend + Roundness + ExpandBounds + 0.001f);
                 return (T)(object)aabb;
             }

@@ -142,8 +142,6 @@ Shader "Rayman/RaymarchCelLit"
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
             #pragma multi_compile _ _LIGHT_LAYERS
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
-            #include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
 		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
@@ -154,12 +152,9 @@ Shader "Rayman/RaymarchCelLit"
             #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
 			#pragma vertex Vert
             #pragma fragment Frag

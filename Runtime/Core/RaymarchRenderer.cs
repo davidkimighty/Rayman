@@ -43,7 +43,7 @@ namespace Rayman
             List<Material> matInstances = new();
             foreach (RaymarchGroup group in raymarchGroups)
             {
-                Material mat = group.Setup();
+                Material mat = group.InitializeGroup();
                 if (!mat) continue;
                 
                 SetupRaymarchProperties(ref mat);
@@ -58,7 +58,7 @@ namespace Rayman
         public void Release()
         {
             foreach (RaymarchGroup group in raymarchGroups)
-                group?.Release();
+                group?.ReleaseGroup();
 
             mainRenderer.materials = Array.Empty<Material>();
             IsInitialized = false;

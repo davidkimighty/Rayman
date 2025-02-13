@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/PBR Data Provider")]
-    public class PbrDataProvider : RaymarchDataProvider
+    public class PbrDataProvider : RaymarchMaterialDataProvider
     {
         private static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
         private static readonly int MetallicId = Shader.PropertyToID("_Metallic");
