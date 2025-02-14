@@ -70,7 +70,7 @@ inline void InitializeBakedGIData(Varyings input, inout InputData inputData)
 #endif
 }
 
-#if defined(DEBUG_MODE)
+#ifdef DEBUG_MODE
 #define B float3(0.0, 0.3, 1.0)
 #define Y float3(1.0, 0.8, 0.0)
 
@@ -145,13 +145,13 @@ FragOutput Frag (Varyings input)
 	
 	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
-//
-// #if defined(DEBUG_MODE)
-// 	FragOutput output;
-// 	Debugging(ray, input.positionWS, cameraPos, output);
-// 	return output;
-// #endif
-// 	
+
+#ifdef DEBUG_MODE
+	FragOutput debugOutput;
+	Debugging(ray, input.positionWS, cameraPos, debugOutput);
+	return debugOutput;
+#endif
+	
 	if (!Raymarch(ray)) discard;
 	
 	const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?

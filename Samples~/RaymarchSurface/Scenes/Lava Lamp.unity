@@ -318,6 +318,46 @@ MonoBehaviour:
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+--- !u!21 &535178624
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/Lit
+  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Metallic: 0
+    - _RayShadowBias: 0.008
+    - _Smoothness: 0.5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &829910653
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,8 +1117,6 @@ GameObject:
   - component: {fileID: 1872132480}
   - component: {fileID: 1872132479}
   - component: {fileID: 1872132482}
-  - component: {fileID: 1872132484}
-  - component: {fileID: 1872132483}
   m_Layer: 0
   m_Name: RaymarchRenderer
   m_TagString: Untagged
@@ -1149,7 +1187,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 535178624}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1188,49 +1227,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1872132477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca4c1b3ce557db64fbc51c1c1e75fc30, type: 3}
+  m_Script: {fileID: 11500000, guid: dce17337e86c0ac468fa92cbee40d62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MatInstance: {fileID: 535178624}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  drawGizmos: 0
   entities:
   - {fileID: 969997290}
   - {fileID: 277458964}
-  - {fileID: 98985113}
-  - {fileID: 343540675}
-  - {fileID: 938474310}
-  - {fileID: 965167138}
   - {fileID: 1284175781}
-  bufferProviders:
-  - {fileID: 1872132484}
-  - {fileID: 1872132483}
-  dataProviders:
-  - {fileID: 11400000, guid: 3951d11bc78c38b4089f71526991084f, type: 2}
-  drawGizmos: 0
---- !u!114 &1872132483
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872132477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8ef770989abe45c6a1ca674d94d8618, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  - {fileID: 343540675}
+  - {fileID: 965167138}
+  - {fileID: 938474310}
+  - {fileID: 98985113}
   updateBoundsThreshold: 0
---- !u!114 &1872132484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1872132477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b46eb2603f15aba4a82e2046db4283d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  renderStateData: {fileID: 0}
+  metallic: 0
+  smoothness: 0.5
+  emissionColor: {r: 53.201614, g: 1.5468426, b: 0, a: 1}
 --- !u!4 &543450653230414587
 Transform:
   m_ObjectHideFlags: 0

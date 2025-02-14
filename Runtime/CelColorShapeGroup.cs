@@ -24,17 +24,18 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] private float rimSmoothness = 0.03f;
         [Range(0f, 1f), SerializeField] private float blendDiffuse = 0.9f;
         
-        protected override void SetupShaderProperties(ref Material mat)
+        public override void SetupShaderProperties(ref Material material)
         {
-            base.SetupShaderProperties(ref mat);
-            mat.SetFloat(MainCelCountId, mainCelCount);
-            mat.SetFloat(AdditionalCelCountId, additionalCelCount);
-            mat.SetFloat(CelSpreadId, celSpread);
-            mat.SetFloat(CelSharpnessId, mainCelSharpness);
-            mat.SetFloat(SpecularSharpnessId, specularCelSharpness);
-            mat.SetFloat(RimAmountId, rimAmount);
-            mat.SetFloat(RimSmoothnessId, rimSmoothness);
-            mat.SetFloat(BlendDiffuseId, blendDiffuse);
+            base.SetupShaderProperties(ref material);
+            
+            material.SetFloat(MainCelCountId, mainCelCount);
+            material.SetFloat(AdditionalCelCountId, additionalCelCount);
+            material.SetFloat(CelSpreadId, celSpread);
+            material.SetFloat(CelSharpnessId, mainCelSharpness);
+            material.SetFloat(SpecularSharpnessId, specularCelSharpness);
+            material.SetFloat(RimAmountId, rimAmount);
+            material.SetFloat(RimSmoothnessId, rimSmoothness);
+            material.SetFloat(BlendDiffuseId, blendDiffuse);
         }
     }
 }

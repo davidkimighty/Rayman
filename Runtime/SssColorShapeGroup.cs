@@ -14,14 +14,15 @@ namespace Rayman
         [Header("SSS")]
         [SerializeField] private SssData sssData;
 
-        protected override void SetupShaderProperties(ref Material mat)
+        public override void SetupShaderProperties(ref Material material)
         {
-            base.SetupShaderProperties(ref mat);
-            mat.SetFloat(SssDistortionId, sssData.sssDistortion);
-            mat.SetFloat(SssPowerId, sssData.sssPower);
-            mat.SetFloat(SssScaleId, sssData.sssScale);
-            mat.SetFloat(SssAmbientId, sssData.sssAmbient);
-            mat.SetFloat(SssThicknessId, sssData.sssThickness);
+            base.SetupShaderProperties(ref material);
+            
+            material.SetFloat(SssDistortionId, sssData.sssDistortion);
+            material.SetFloat(SssPowerId, sssData.sssPower);
+            material.SetFloat(SssScaleId, sssData.sssScale);
+            material.SetFloat(SssAmbientId, sssData.sssAmbient);
+            material.SetFloat(SssThicknessId, sssData.sssThickness);
         }
     }
 }

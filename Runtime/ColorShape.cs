@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class SingleColorShape : RaymarchShape
+    public class ColorShape : RaymarchShape
     {
         [Header("Color")]
         public Color Color;
@@ -23,7 +23,7 @@ namespace Rayman
         public float Roundness;
         public Vector4 Color;
 
-        public ShapeColorData(SingleColorShape shape)
+        public ShapeColorData(ColorShape shape)
         {
             Type = (int)shape.Shape;
             Transform = shape.UseLossyScale ? shape.transform.worldToLocalMatrix : 

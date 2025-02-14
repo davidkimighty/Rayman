@@ -4,32 +4,31 @@ using UnityEngine;
 
 namespace Rayman
 {
-#if UNITY_EDITOR
-    public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
-#endif
-    
     [ExecuteInEditMode]
     public class ColorShapeGroup : RaymarchGroup
     {
+        protected static readonly int SrcBlendId = Shader.PropertyToID("_SrcBlend");
+        protected static readonly int DstBlendId = Shader.PropertyToID("_DstBlend");
+        protected static readonly int CullId = Shader.PropertyToID("_Cull");
+        protected static readonly int ZWriteId = Shader.PropertyToID("_ZWrite");
+        
         protected static readonly int MetallicId = Shader.PropertyToID("_Metallic");
         protected static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
+        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        
         protected static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
         protected static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         
-        [SerializeField] protected List<SingleColorShape> entities = new();
+        [SerializeField] protected List<ColorShape> entities = new();
         [SerializeField] protected float updateBoundsThreshold;
         
-        [Header("PBR")]
+        [Header("Shader Properties")]
+        [SerializeField] protected RenderStateData renderStateData;
         [Range(0f, 1f), SerializeField] protected float metallic;
         [Range(0f, 1f), SerializeField] protected float smoothness = 0.5f;
-#if UNITY_EDITOR
-        [Header("Dubug Mode")]
-        [SerializeField] protected DebugModes debugMode = DebugModes.Hitmap;
-        [SerializeField] protected int boundsDisplayThreshold = 300;
-#endif
-
-        protected Material matInstance;
-        protected SingleColorShape[] activeEntities;
+        [ColorUsage(true, true), SerializeField] protected Color emissionColor;
+        
+        protected ColorShape[] activeEntities;
         protected ISpatialStructure<Aabb> bvh;
         protected BoundingVolume<Aabb>[] boundingVolumes;
         
@@ -37,7 +36,7 @@ namespace Rayman
         protected GraphicsBuffer nodeBuffer;
         protected ShapeColorData[] shapeData;
         protected GraphicsBuffer shapeBuffer;
-        
+
         private void LateUpdate()
         {
             if (!IsInitialized()) return;
@@ -57,9 +56,9 @@ namespace Rayman
         {
             if (!IsInitialized()) return;
 
-            if (matInstance)
+            if (MatInstance)
             {
-                SetupShaderProperties(ref matInstance);                
+                SetupShaderProperties(ref MatInstance);                
             }
         }
 
@@ -70,58 +69,62 @@ namespace Rayman
             bvh.DrawStructure();
         }
 #endif
-        
-        public override bool IsInitialized() => matInstance && activeEntities != null &&
-                                                bvh != null && boundingVolumes != null;
 
         public override Material InitializeGroup()
         {
             activeEntities = entities.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
             if (activeEntities.Length == 0) return null;
 
-            matInstance = new Material(shader);
-            if (!matInstance) return null;
+            MatInstance = new Material(shader);
+            if (!MatInstance) return null;
             
-            SetupShaderProperties(ref matInstance);
+            SetupShaderProperties(ref MatInstance);
 
-            SetupNodeBuffer(ref matInstance);
-            SetupShapeBuffer(ref matInstance);
+            SetupNodeBuffer(ref MatInstance);
+            SetupShapeBuffer(ref MatInstance);
             
-            return matInstance;
+            InvokeOnSetup();
+            return MatInstance;
         }
 
         public override void ReleaseGroup()
         {
             if (Application.isEditor)
-                DestroyImmediate(matInstance);
+                DestroyImmediate(MatInstance);
             else
-                Destroy(matInstance);
+                Destroy(MatInstance);
             activeEntities = null;
             ReleaseNodeBuffer();
             ReleaseShapeBuffer();
+            
+            InvokeOnRelease();
+        }
+        
+        public override bool IsInitialized() => MatInstance && activeEntities != null &&
+                                                bvh != null && boundingVolumes != null;
+        
+        public override void SetupShaderProperties(ref Material material)
+        {
+            if (renderStateData != null)
+            {
+                material.SetFloat(SrcBlendId, (float)renderStateData.SrcBlend);
+                material.SetFloat(DstBlendId, (float)renderStateData.DstBlend);
+                material.SetInt(CullId, (int)renderStateData.Cull);
+                material.SetFloat(ZWriteId, renderStateData.ZWrite ? 1f : 0f);
+            }
+            
+            material.SetFloat(MetallicId, metallic);
+            material.SetFloat(SmoothnessId, smoothness);
+            material.SetColor(EmissionColorId, emissionColor);
         }
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            entities = RaymarchUtils.GetChildrenByHierarchical<SingleColorShape>(transform);
+            entities = RaymarchUtils.GetChildrenByHierarchical<ColorShape>(transform);
         }
 #endif
-
-        protected virtual void SetupShaderProperties(ref Material mat)
-        {
-            mat.SetFloat(MetallicId, metallic);
-            mat.SetFloat(SmoothnessId, smoothness);
-#if UNITY_EDITOR
-            if (debugMode != DebugModes.None)
-            {
-                mat.EnableKeyword("DEBUG_MODE");
-                mat.SetInt("_DebugMode", (int)debugMode);
-                mat.SetInt("_BoundsDisplayThreshold", boundsDisplayThreshold);
-            }
-#endif
-        }
         
         private void UpdateNodeData()
         {
