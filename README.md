@@ -5,7 +5,7 @@
 <div align="center">
   <h1 align="center">Rayman</h1>
   <p align="center">
-    <a href="https://davidkimighty.github.io/Rayman/">Demo scene »
+    <a href="https://davidkimighty.github.io/Rayman/">Demo »
   </p>
 </div>
 <br />
@@ -17,10 +17,12 @@ This package provides Ray marching shader in Unity.
 
 ## Features
 - **Basic Shape Providers**: Provides basic primitives such as spheres, cubes, toruses, and more.
+- **Operators & Distortions**: Provides basic operators such as smooth union, subtract, and intersect, as well as shape altering distortions like rounding.
 - **Bounding Volume Hierarchy (BVH)**: Leveraging AABB alongside BVH, the shader minimizes unnecessary distance field calculations.
 - **Pivot Points**: Customizable pivot point for each shape, enabling precise control over positioning and transformations.
 
 ## Changelog
+- [v0.1.1 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/2?closed=1)
 - [v0.1.0 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/1?closed=1)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
