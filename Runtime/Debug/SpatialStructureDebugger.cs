@@ -1,33 +1,54 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class SpatialStructureDebugger : MonoBehaviour, IDebug
+    public class SpatialStructureDebugger : DebugElement
     {
-        private static List<ISpatialStructure<AABB>> SpatialStructures = new();
-
-        public static void Add(ISpatialStructure<AABB> structure)
-        {
-            if (SpatialStructures.Contains(structure)) return;
-
-            SpatialStructures.Add(structure);
-        }
-
-        public static void Remove(ISpatialStructure<AABB> structure)
-        {
-            if (!SpatialStructures.Contains(structure)) return;
-
-            int i = SpatialStructures.IndexOf(structure);
-            SpatialStructures.RemoveAt(i);
-        }
+        [SerializeField] private RaymarchManager raymarchManager;
+        private int totalGroupCount;
+        private int totalNodeCount;
+        private int maxHeight;
         
-        public string GetDebugMessage()
+        private void Start()
         {
-            int sum = SpatialStructures.Sum(s => s?.Count ?? 0);
-            int maxHeight = SpatialStructures.Max(s => s?.MaxHeight ?? 0);
-            return $"BVH {SpatialStructures.Count} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
+            if (raymarchManager == null)
+                raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager != null)
+            {
+                totalGroupCount = raymarchManager.Renderers.Sum(r => r.Groups.Count);
+                totalNodeCount = raymarchManager.Renderers.Sum(r => r.NodeCount);
+                maxHeight = raymarchManager.Renderers.Max(r => r.MaxHeight);
+                
+                raymarchManager.OnAddRenderer += (r) =>
+                {
+                    totalGroupCount += r.Groups.Count;
+                    totalNodeCount += r.NodeCount;
+                    maxHeight = Mathf.Max(maxHeight, r.MaxHeight);
+                };
+                raymarchManager.OnRemoveRenderer += (r) =>
+                {
+                    totalGroupCount -= r.Groups.Count;
+                    totalNodeCount -= r.NodeCount;
+                };
+                return;
+            }
+
+            RaymarchRenderer[] renderers = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None);
+            totalGroupCount = renderers.Sum(r => r.Groups.Count);
+            totalNodeCount = renderers.Sum(r => r.NodeCount);
+            maxHeight = renderers.Max(r => r.MaxHeight);
         }
+
+        public override string GetDebugMessage()
+        {
+            return $"BVH {totalGroupCount} [ Nodes {totalNodeCount,4}, Max Height {maxHeight,2} ]";
+        }
+    }
+    
+    public interface ISpatialStructureDebug
+    {
+        int GetNodeCount();
+        int GetMaxHeight();
     }
 }

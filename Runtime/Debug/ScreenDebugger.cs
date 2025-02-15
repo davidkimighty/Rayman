@@ -3,9 +3,9 @@ using UnityEngine.Rendering.Universal;
 
 namespace Rayman
 {
-    public class ScreenDebugger : MonoBehaviour, IDebug
+    public class ScreenDebugger : DebugElement
     {
-        public string GetDebugMessage()
+        public override string GetDebugMessage()
         {
             var upscaling = UniversalRenderPipeline.asset.upscalingFilter.ToString();
             float renderScale = UniversalRenderPipeline.asset.renderScale;

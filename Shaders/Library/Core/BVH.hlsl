@@ -1,35 +1,36 @@
 ﻿#ifndef RAYMAN_BVH
 #define RAYMAN_BVH
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/AABB.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Aabb.hlsl"
 
 #define STACK_SIZE 32
 
-struct NodeAABB
+struct NodeAabb
 {
     int id;
-    AABB bounds;
     int childIndex;
+    Aabb bounds;
 };
 
 // Must be implemented by the including shader.
-inline NodeAABB GetNode(const int index);
+inline NodeAabb GetNode(const int index);
 
-inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS], inout int2 hitCount)
+inline int2 GetHitIds(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
-    int ptr = hitCount = 0; // count.x is leaf
+    int2 count = 0; // count.x is leaf
+    int ptr = 0;
     nodeStack[ptr++] = startIndex;
 
     while (ptr > 0)
     {
-        NodeAABB node = GetNode(nodeStack[--ptr]);
+        NodeAabb node = GetNode(nodeStack[--ptr]);
         if (!RayIntersect(ray, node.bounds)) continue;
         
         if (node.childIndex < 0) // leaf
         {
-            hitIds[hitCount.x++] = node.id;
-            if (hitCount.x >= RAY_MAX_HITS) break;
+            hitIds[count.x++] = node.id;
+            if (count.x >= RAY_MAX_HITS) break;
         }
         else
         {
@@ -41,9 +42,10 @@ inline void TraverseAabbTree(const int startIndex, const Ray ray, inout int hitI
             bool rightNear = dstL > dstR; 
             nodeStack[ptr++] = rightNear ? childL : childR;
             nodeStack[ptr++] = rightNear ? childR : childL;
-            hitCount.y += 2;
+            count.y += 2;
         }
     }
+    return count;
 }
 
 inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)

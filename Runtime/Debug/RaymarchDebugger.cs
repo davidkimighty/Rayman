@@ -1,32 +1,37 @@
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class RaymarchDebugger : MonoBehaviour, IDebug
+    public class RaymarchDebugger : DebugElement
     {
-        private static List<RaymarchRenderer> RaymarchRenderers = new();
-        
-        public static void Add(RaymarchRenderer raymarchRenderer)
-        {
-            if (RaymarchRenderers.Contains(raymarchRenderer)) return;
+        [SerializeField] private RaymarchManager raymarchManager;
+        private int totalSdfCount;
 
-            RaymarchRenderers.Add(raymarchRenderer);
+        private void Start()
+        {
+            if (raymarchManager == null)
+                raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager != null)
+            {
+                totalSdfCount = raymarchManager.Renderers.Sum(r => r.SdfCount);
+                raymarchManager.OnAddRenderer += (r) => totalSdfCount += r.SdfCount;
+                raymarchManager.OnRemoveRenderer += (r) => totalSdfCount -= r.SdfCount;
+                return;
+            }
+
+            totalSdfCount = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None)
+                .Sum(r => r.SdfCount);
         }
 
-        public static void Remove(RaymarchRenderer raymarchRenderer)
+        public override string GetDebugMessage()
         {
-            if (!RaymarchRenderers.Contains(raymarchRenderer)) return;
-
-            int i = RaymarchRenderers.IndexOf(raymarchRenderer);
-            RaymarchRenderers.RemoveAt(i);
+            return $"SDF {totalSdfCount,4}";
         }
-
-        public string GetDebugMessage()
-        {
-            int count = RaymarchRenderers.Sum(r => r.BoundingVolumes?.Length ?? 0);
-            return $"SDF {count,4}";
-        }
+    }
+    
+    public interface IRaymarchDebug
+    {
+        int GetSdfCount();
     }
 }

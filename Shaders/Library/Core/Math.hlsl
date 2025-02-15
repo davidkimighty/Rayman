@@ -20,4 +20,9 @@ inline float GetDepth(const float3 posWS, const float4x4 viewProj)
     return z;
 }
 
+inline float Sigmoid(float x, float k)
+{
+    return 1.0 / (1.0 + exp(-k * (x - 0.5)));
+}
+
 #endif

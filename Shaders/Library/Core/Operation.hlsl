@@ -35,7 +35,7 @@ inline float SmoothMax(const float a, const float b, const float k, const float 
 }
 
 inline float CombineShapes(const float primary, const float secondary, const int operation,
-    const float smoothness, out float blendValue)
+    const float blend, out float blendValue)
 {
     blendValue = 0;
     if (primary < -0.5)
@@ -44,11 +44,11 @@ inline float CombineShapes(const float primary, const float secondary, const int
     switch (operation)
     {
     case UNION:
-        return SmoothUnion(primary, secondary, smoothness, blendValue);
+        return SmoothUnion(primary, secondary, blend, blendValue);
     case SUBTRACT:
-        return SmoothSubtract(primary, secondary, smoothness, blendValue);
+        return SmoothSubtract(primary, secondary, blend, blendValue);
     case INTERSECT:
-        return SmoothIntersect(primary, secondary, smoothness, blendValue);
+        return SmoothIntersect(primary, secondary, blend, blendValue);
     default:
         return secondary;
     }
