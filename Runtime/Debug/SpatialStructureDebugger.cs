@@ -5,24 +5,50 @@ namespace Rayman
 {
     public class SpatialStructureDebugger : DebugElement
     {
-        private ISpatialStructureDebugProvider[] providers;
+        [SerializeField] private RaymarchManager raymarchManager;
+        private int totalGroupCount;
+        private int totalNodeCount;
+        private int maxHeight;
         
-        private void Awake()
+        private void Start()
         {
-            // providers = FindObjectsByType<RaymarchBufferProvider>(FindObjectsSortMode.None)
-            //     .OfType<ISpatialStructureDebugProvider>().ToArray();
+            if (raymarchManager == null)
+                raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager != null)
+            {
+                totalGroupCount = raymarchManager.Renderers.Sum(r => r.Groups.Count);
+                totalNodeCount = raymarchManager.Renderers.Sum(r => r.NodeCount);
+                maxHeight = raymarchManager.Renderers.Max(r => r.MaxHeight);
+                
+                raymarchManager.OnAddRenderer += (r) =>
+                {
+                    totalGroupCount += r.Groups.Count;
+                    totalNodeCount += r.NodeCount;
+                    maxHeight = Mathf.Max(maxHeight, r.MaxHeight);
+                };
+                raymarchManager.OnRemoveRenderer += (r) =>
+                {
+                    totalGroupCount -= r.Groups.Count;
+                    totalNodeCount -= r.NodeCount;
+                };
+                return;
+            }
+
+            RaymarchRenderer[] renderers = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None);
+            totalGroupCount = renderers.Sum(r => r.Groups.Count);
+            totalNodeCount = renderers.Sum(r => r.NodeCount);
+            maxHeight = renderers.Max(r => r.MaxHeight);
         }
 
         public override string GetDebugMessage()
         {
-            int sum = providers.Sum(p => p.GetDebugInfo().nodeCount);
-            int maxHeight = providers.Max(p => p.GetDebugInfo().maxHeight);
-            return $"BVH {providers.Length} [ Nodes {sum,4}, Max Height {maxHeight,2} ]";
+            return $"BVH {totalGroupCount} [ Nodes {totalNodeCount,4}, Max Height {maxHeight,2} ]";
         }
     }
     
-    public interface ISpatialStructureDebugProvider
+    public interface ISpatialStructureDebug
     {
-        (int nodeCount, int maxHeight) GetDebugInfo();
+        int GetNodeCount();
+        int GetMaxHeight();
     }
 }

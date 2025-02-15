@@ -16,6 +16,8 @@ namespace Rayman
         protected NodeDataAabb[] nodeData;
         protected GraphicsBuffer nodeBuffer;
 
+        public ISpatialStructure<Aabb> SpatialStructure => spatialStructure;
+
         public BvhAabbNodeBufferProvider(float updateBoundsThreshold)
         {
             this.updateBoundsThreshold = updateBoundsThreshold;

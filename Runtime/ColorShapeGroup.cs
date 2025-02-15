@@ -89,7 +89,8 @@ namespace Rayman
             InvokeOnRelease();
         }
         
-        public override bool IsInitialized() => MatInstance && nodeBufferProvider != null && shapeBufferProvider != null;
+        public override bool IsInitialized() => MatInstance &&
+            nodeBufferProvider != null && shapeBufferProvider != null;
         
         public override void SetupShaderProperties(ref Material material)
         {
@@ -105,7 +106,13 @@ namespace Rayman
             material.SetFloat(SmoothnessId, smoothness);
             material.SetColor(EmissionColorId, emissionColor);
         }
+
+        public override int GetSdfCount() => activeEntities?.Length ?? 0;
+
+        public override int GetNodeCount() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.Count ?? 0;
         
+        public override int GetMaxHeight() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.MaxHeight ?? 0;
+
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()

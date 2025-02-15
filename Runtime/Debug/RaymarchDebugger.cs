@@ -5,22 +5,33 @@ namespace Rayman
 {
     public class RaymarchDebugger : DebugElement
     {
-        private IRaymarchDebugProvider[] providers;
+        [SerializeField] private RaymarchManager raymarchManager;
+        private int totalSdfCount;
 
-        private void Awake()
+        private void Start()
         {
-            // providers = FindObjectsByType<RaymarchBufferProvider>(FindObjectsSortMode.None)
-            //     .OfType<IRaymarchDebugProvider>().ToArray();
+            if (raymarchManager == null)
+                raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager != null)
+            {
+                totalSdfCount = raymarchManager.Renderers.Sum(r => r.SdfCount);
+                raymarchManager.OnAddRenderer += (r) => totalSdfCount += r.SdfCount;
+                raymarchManager.OnRemoveRenderer += (r) => totalSdfCount -= r.SdfCount;
+                return;
+            }
+
+            totalSdfCount = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None)
+                .Sum(r => r.SdfCount);
         }
 
         public override string GetDebugMessage()
         {
-            return $"SDF {providers.Sum(p => p.GetDebugInfo()),4}";
+            return $"SDF {totalSdfCount,4}";
         }
     }
     
-    public interface IRaymarchDebugProvider
+    public interface IRaymarchDebug
     {
-        int GetDebugInfo();
+        int GetSdfCount();
     }
 }

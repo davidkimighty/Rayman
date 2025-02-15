@@ -16,25 +16,32 @@ namespace Rayman
         public event Action<RaymarchRenderer> OnRelease;
 
         [SerializeField] private Renderer mainRenderer;
+        [SerializeField] private bool setupOnStart = true;
         [SerializeField] private int maxSteps = 64;
-        [SerializeField] private float maxDistance = 100f;
+        [SerializeField] private float maxRayDistance = 100f;
         [SerializeField] private int shadowMaxSteps = 32;
-        [SerializeField] private float shadowMaxDistance = 30f;
+        [SerializeField] private float shadowMaxRayDistance = 30f;
         [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
         
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
+        public List<RaymarchGroup> Groups => raymarchGroups;
+        
+        public int SdfCount => raymarchGroups.Sum(g => g.GetSdfCount());
+        public int NodeCount => raymarchGroups.Sum(g => g.GetNodeCount());
+        public int MaxHeight => raymarchGroups.Sum(g => g.GetMaxHeight());
 
-        private void OnEnable()
+        private void Start()
         {
-            Setup();
+            if (setupOnStart)
+                Setup();
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             Release();
         }
-        
+
         [ContextMenu("Setup")]
         public void Setup()
         {
@@ -70,9 +77,9 @@ namespace Rayman
             if (!mat) return;
 
             mat.SetInt(MaxStepsId, maxSteps);
-            mat.SetFloat(MaxDistanceId, maxDistance);
+            mat.SetFloat(MaxDistanceId, maxRayDistance);
             mat.SetInt(ShadowMaxStepsId, shadowMaxSteps);
-            mat.SetFloat(ShadowMaxDistanceId, shadowMaxDistance);
+            mat.SetFloat(ShadowMaxDistanceId, shadowMaxRayDistance);
         }
 
 #if UNITY_EDITOR

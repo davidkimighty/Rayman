@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class RaymarchGroup : MonoBehaviour
+    public abstract class RaymarchGroup : MonoBehaviour, IRaymarchDebug, ISpatialStructureDebug
     {
         public event Action<RaymarchGroup> OnSetup;
         public event Action<RaymarchGroup> OnRelease;
@@ -21,6 +21,12 @@ namespace Rayman
         public virtual bool IsInitialized() => MatInstance != null;
         
         public virtual void SetupShaderProperties(ref Material material) { }
+
+        public virtual int GetSdfCount() => 0;
+
+        public virtual int GetNodeCount() => 0;
+
+        public virtual int GetMaxHeight() => 0;
 
         protected void InvokeOnSetup() => OnSetup?.Invoke(this);
         

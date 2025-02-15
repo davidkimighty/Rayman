@@ -80,17 +80,17 @@ namespace Rayman
             InvokeOnRelease();
         }
         
-        public override bool IsInitialized() => MatInstance && nodeBufferProvider != null && shapeBufferProvider != null;
+        public override bool IsInitialized() => MatInstance &&
+            nodeBufferProvider != null && shapeBufferProvider != null;
         
         public override void SetupShaderProperties(ref Material material)
         {
-            if (renderStateData)
-            {
-                material.SetFloat(SrcBlendId, (float)renderStateData.SrcBlend);
-                material.SetFloat(DstBlendId, (float)renderStateData.DstBlend);
-                material.SetInt(CullId, (int)renderStateData.Cull);
-                material.SetFloat(ZWriteId, renderStateData.ZWrite ? 1f : 0f);
-            }
+            if (!renderStateData) return;
+            
+            material.SetFloat(SrcBlendId, (float)renderStateData.SrcBlend);
+            material.SetFloat(DstBlendId, (float)renderStateData.DstBlend);
+            material.SetInt(CullId, (int)renderStateData.Cull);
+            material.SetFloat(ZWriteId, renderStateData.ZWrite ? 1f : 0f);
         }
         
 #if UNITY_EDITOR
