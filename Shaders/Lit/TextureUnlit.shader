@@ -30,7 +30,6 @@ Shader "Rayman/TextureUnlit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Sdf.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Distortion.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
         

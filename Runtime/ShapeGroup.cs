@@ -5,30 +5,21 @@ using UnityEngine;
 namespace Rayman
 {
     [ExecuteInEditMode]
-    public class ColorShapeGroup : RaymarchGroup
+    public class ShapeGroup : RaymarchGroup
     {
         protected static readonly int SrcBlendId = Shader.PropertyToID("_SrcBlend");
         protected static readonly int DstBlendId = Shader.PropertyToID("_DstBlend");
         protected static readonly int CullId = Shader.PropertyToID("_Cull");
         protected static readonly int ZWriteId = Shader.PropertyToID("_ZWrite");
         
-        protected static readonly int MetallicId = Shader.PropertyToID("_Metallic");
-        protected static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
-        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
-        
-        [SerializeField] protected List<ColorShape> entities = new();
+        [SerializeField] protected List<RaymarchShape> shapes = new();
         [SerializeField] protected float updateBoundsThreshold;
-        
-        [Header("PBR")]
         [SerializeField] protected RenderStateData renderStateData;
-        [Range(0f, 1f), SerializeField] protected float metallic;
-        [Range(0f, 1f), SerializeField] protected float smoothness = 0.5f;
-        [ColorUsage(true, true), SerializeField] protected Color emissionColor;
-
-        protected ColorShape[] activeEntities;
+        
+        protected RaymarchShape[] activeShapes;
         protected IBufferProvider nodeBufferProvider;
         protected IBufferProvider shapeBufferProvider;
-
+        
         private void LateUpdate()
         {
             if (!IsInitialized()) return;
@@ -36,7 +27,7 @@ namespace Rayman
             nodeBufferProvider.UpdateBufferData();
             shapeBufferProvider.UpdateBufferData();
         }
-        
+                
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -52,11 +43,11 @@ namespace Rayman
             nodeBufferProvider.DrawGizmos();
         }
 #endif
-
+        
         public override Material InitializeGroup()
         {
-            activeEntities = entities.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
-            if (activeEntities.Length == 0) return null;
+            activeShapes = shapes.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
+            if (activeShapes.Length == 0) return null;
 
             MatInstance = new Material(shader);
             if (!MatInstance) return null;
@@ -64,10 +55,10 @@ namespace Rayman
             SetupShaderProperties(ref MatInstance);
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
-            nodeBufferProvider.SetupBuffer(activeEntities, ref MatInstance);
+            nodeBufferProvider.SetupBuffer(activeShapes, ref MatInstance);
             
-            shapeBufferProvider = new ColorShapeBufferProvider();
-            shapeBufferProvider.SetupBuffer(activeEntities, ref MatInstance);
+            shapeBufferProvider = new ShapeBufferProvider();
+            shapeBufferProvider.SetupBuffer(activeShapes, ref MatInstance);
             
             InvokeOnSetup();
             return MatInstance;
@@ -79,7 +70,7 @@ namespace Rayman
                 DestroyImmediate(MatInstance);
             else
                 Destroy(MatInstance);
-            activeEntities = null;
+            activeShapes = null;
             
             nodeBufferProvider?.ReleaseBuffer();
             nodeBufferProvider = null;
@@ -100,17 +91,13 @@ namespace Rayman
                 material.SetInt(CullId, (int)renderStateData.Cull);
                 material.SetFloat(ZWriteId, renderStateData.ZWrite ? 1f : 0f);
             }
-            
-            material.SetFloat(MetallicId, metallic);
-            material.SetFloat(SmoothnessId, smoothness);
-            material.SetColor(EmissionColorId, emissionColor);
         }
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            entities = RaymarchUtils.GetChildrenByHierarchical<ColorShape>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShape>(transform);
         }
 #endif
     }

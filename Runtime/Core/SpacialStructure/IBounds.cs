@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -14,16 +13,6 @@ namespace Rayman
         T Expand(Vector3 size);
         T Include(Vector3 point);
         T Union(T other);
-    }
-    
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct NodeDataAabb
-    {
-        public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
-
-        public int Id;
-        public int ChildIndex;
-        public Aabb Bounds;
     }
 
     public struct Aabb : IBounds<Aabb>
