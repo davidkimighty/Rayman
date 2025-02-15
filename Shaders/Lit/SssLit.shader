@@ -138,7 +138,7 @@ Shader "Rayman/SssLit"
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -152,6 +152,8 @@ Shader "Rayman/SssLit"
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
             #pragma multi_compile _ _LIGHT_LAYERS
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
 		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
@@ -162,9 +164,12 @@ Shader "Rayman/SssLit"
             #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
@@ -183,7 +188,7 @@ Shader "Rayman/SssLit"
 		    Cull [_Cull]
 
 		    HLSLPROGRAM
-		    #pragma target 5.0
+		    #pragma target 2.0
 		    #pragma shader_feature _ALPHATEST_ON
 		    #pragma multi_compile_instancing
 
@@ -196,14 +201,14 @@ Shader "Rayman/SssLit"
 
        Pass
        {
-       	Name "Depth Normals"
+       		Name "Depth Normals"
 		    Tags { "LightMode" = "DepthNormals" }
 
 		    ZWrite On
 		    Cull [_Cull]
 
 		    HLSLPROGRAM
-		    #pragma target 5.0
+		    #pragma target 2.0
 		    #pragma shader_feature _ALPHATEST_ON
 		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
 		    #pragma multi_compile_instancing
@@ -229,7 +234,7 @@ Shader "Rayman/SssLit"
 			Cull [_Cull]
 
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			#pragma multi_compile_instancing
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW

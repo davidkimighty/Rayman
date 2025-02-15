@@ -1,7 +1,11 @@
 ﻿#ifndef RAYMAN_LIT_SHADOWCASTER
 #define RAYMAN_LIT_SHADOWCASTER
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+#if defined(LOD_FADE_CROSSFADE)
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
+#endif
 
 float3 _LightDirection;
 float3 _LightPosition;
@@ -56,6 +60,10 @@ float Frag(Varyings input) : SV_Depth
     InsertionSort(hitIds, hitCount.x);
     
     if (!Raymarch(ray)) discard;
+
+#if defined(LOD_FADE_CROSSFADE)
+    LODFadeCrossFade(input.positionCS);
+#endif
 
     const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
         GetDepth(input.positionWS) : GetDepth(ray.hitPoint);

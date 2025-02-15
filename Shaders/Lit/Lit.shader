@@ -6,7 +6,7 @@
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.008
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -121,7 +121,7 @@
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -135,6 +135,8 @@
             #pragma multi_compile_fragment _ _LIGHT_COOKIES
             #pragma multi_compile _ _LIGHT_LAYERS
             #pragma multi_compile _ _CLUSTER_LIGHT_LOOP
+			#include_with_pragmas "Packages/com.unity.render-pipelines.core/ShaderLibrary/FoveatedRenderingKeywords.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 
 		    #pragma multi_compile _ LIGHTMAP_SHADOW_MIXING
             #pragma multi_compile _ SHADOWS_SHADOWMASK
@@ -145,9 +147,12 @@
             #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
             #pragma multi_compile _ LOD_FADE_CROSSFADE
             #pragma multi_compile_fragment _ DEBUG_DISPLAY
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
+            #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
 			#pragma multi_compile_fragment _ DEBUG_MODE
 			
@@ -158,47 +163,55 @@
             ENDHLSL
 		}
 
-	    Pass
-		{
-			Name "Depth Only"
-		    Tags { "LightMode" = "DepthOnly" }
-
-		    ZTest LEqual
-		    ZWrite On
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 5.0
-		    #pragma shader_feature _ALPHATEST_ON
-		    #pragma multi_compile_instancing
-
-		    #pragma vertex Vert
-		    #pragma fragment Frag
-		    
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthOnlyPass.hlsl"
-		    ENDHLSL
-		}
-
-       Pass
-       {
-       	Name "Depth Normals"
-		    Tags { "LightMode" = "DepthNormals" }
-
-		    ZWrite On
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 5.0
-		    #pragma shader_feature _ALPHATEST_ON
-		    #pragma multi_compile_fragment _ _GBUFFER_NORMALS_OCT
-		    #pragma multi_compile_instancing
-
-			#pragma vertex Vert
-		    #pragma fragment Frag
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthNormalsPass.hlsl"
-		    ENDHLSL
-       }
+//	    Pass
+//		{
+//			Name "Depth Only"
+//		    Tags { "LightMode" = "DepthOnly" }
+//
+//		    ZTest LEqual
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//		    
+//		    #pragma shader_feature_local _ALPHATEST_ON
+//            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+//
+//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
+//		    
+//		    #pragma multi_compile_instancing
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+//
+//		    #pragma vertex Vert
+//		    #pragma fragment Frag
+//		    
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthOnlyPass.hlsl"
+//		    ENDHLSL
+//		}
+//
+//       Pass
+//       {
+//       		Name "Depth Normals"
+//		    Tags { "LightMode" = "DepthNormals" }
+//
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//		    
+//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+//		    #pragma multi_compile_instancing
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+//
+//			#pragma vertex Vert
+//		    #pragma fragment Frag
+//
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthNormalsPass.hlsl"
+//		    ENDHLSL
+//       }
 
 		Pass
 		{
@@ -214,8 +227,10 @@
 			Cull [_Cull]
 
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			#pragma multi_compile_instancing
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 			

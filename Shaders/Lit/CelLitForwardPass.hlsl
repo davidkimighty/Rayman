@@ -31,11 +31,7 @@ struct Varyings
 	float4 positionCS : SV_POSITION;
 	float2 uv : TEXCOORD0;
 	float3 positionWS : TEXCOORD1;
-#ifdef _ADDITIONAL_LIGHTS_VERTEX
 	half4 fogFactorAndVertexLight : TEXCOORD2;
-#else
-	half  fogFactor : TEXCOORD2;
-#endif
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 3);
 #ifdef DYNAMICLIGHTMAP_ON
 	float2  dynamicLightmapUV : TEXCOORD4;
@@ -57,12 +53,8 @@ inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDir
 	inputData.normalWS = normalWS;
 	inputData.viewDirectionWS = viewDirectionWS;
 	inputData.shadowCoord = TransformWorldToShadowCoord(positionWS);
-#ifdef _ADDITIONAL_LIGHTS_VERTEX
 	inputData.fogCoord = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactorAndVertexLight.x);
 	inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
-#else
-	inputData.fogCoord = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactor);
-#endif
 	inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
 }
 
@@ -130,12 +122,8 @@ Varyings Vert (Attributes input)
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 	
 	half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
-#ifdef _ADDITIONAL_LIGHTS_VERTEX
 	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
 	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
-#else
-	output.fogFactor = fogFactor;
-#endif
 	return output;
 }
 
@@ -165,6 +153,7 @@ FragOutput Frag (Varyings input)
 	surfaceData.albedo = baseColor.rgb;
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
+	surfaceData.emission = _EmissionColor;
 	
 	BRDFData brdfData;
 	InitializeBRDFData(surfaceData, brdfData);
@@ -232,6 +221,7 @@ FragOutput Frag (Varyings input)
 		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
 	
 	baseColor.rgb *= giColor + celLighting + _EmissionColor;
+	baseColor.rgb = MixFog(baseColor.rgb, input.fogFactorAndVertexLight.x);
 	
 	FragOutput output;
 	output.color = baseColor;
