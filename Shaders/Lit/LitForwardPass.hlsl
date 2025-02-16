@@ -132,7 +132,7 @@ FragOutput Frag (Varyings input)
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
-	//InsertionSort(hitIds, hitCount.x);
+	InsertionSort(hitIds, hitCount.x);
 #ifdef DEBUG_MODE
 	FragOutput debugOutput;
 	Debugging(ray, input.positionWS, cameraPos, debugOutput);
