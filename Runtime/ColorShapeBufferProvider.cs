@@ -10,7 +10,7 @@ namespace Rayman
         public bool IsInitialized => shapeData != null;
 
         protected ColorShape[] colorShapes;
-        protected ShapeColorData[] shapeData;
+        protected ColorShapeData[] shapeData;
         protected GraphicsBuffer shapeBuffer;
         
         public void SetupBuffer(RaymarchEntity[] entities, ref Material mat)
@@ -20,8 +20,8 @@ namespace Rayman
             if (count == 0) return;
 
             shapeBuffer?.Release(); 
-            shapeData = new ShapeColorData[count];
-            shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, ShapeColorData.Stride);
+            shapeData = new ColorShapeData[count];
+            shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, ColorShapeData.Stride);
             mat.SetBuffer(ShapeBufferId, shapeBuffer);
         }
 
@@ -33,7 +33,7 @@ namespace Rayman
             {
                 if (!colorShapes[i]) continue;
 
-                shapeData[i] = new ShapeColorData(colorShapes[i]);
+                shapeData[i] = new ColorShapeData(colorShapes[i]);
             }
             shapeBuffer.SetData(shapeData);
         }

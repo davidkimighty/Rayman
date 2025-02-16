@@ -14,21 +14,9 @@ struct Shape
     float3 size;
     float3 pivot;
     int operation;
-    float smoothness;
+    float blend;
     float roundness;
     float4 color;
-    float4 emissionColor;
-    float emissionIntensity;
-};
-
-struct RaymarchResult
-{
-    float3 hitPoint;
-    float travelDistance;
-    float lastHitDistance;
-    float3 rayDirection;
-    float4 color;
-    float3 normal;
 };
 
 float _ScreenWidth;
@@ -43,7 +31,7 @@ int _MaxSteps;
 float _MaxDistance;
 StructuredBuffer<Shape> _ShapeBuffer;
 StructuredBuffer<NodeAabb> _NodeBuffer;
-RWStructuredBuffer<RaymarchResult> _ResultBuffer;
+RWTexture2D<float4> _ResultTexture;
 
 int2 hitCount; // x is leaf
 int hitIds[RAY_MAX_HITS];
@@ -65,8 +53,8 @@ inline float Map(const float3 pos)
         float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
-        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-        localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+        localColor = lerp(localColor, shape.color, blend);
     }
     color = localColor;
     return totalDist;
@@ -87,7 +75,7 @@ inline float NormalMap(const float3 pos)
         float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
-        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
     }
     return totalDist;
 }
@@ -116,14 +104,6 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     InsertionSort(hitIds, hitCount.x);
     Raymarch(ray);
     
-    RaymarchResult result = (RaymarchResult)0;
-    result.hitPoint = ray.hitPoint;
-    result.travelDistance = ray.distanceTravelled;
-    result.lastHitDistance = ray.hitDistance;
-    result.rayDirection = ray.dir;
-    result.color = color;
-    result.normal = GetNormal(ray.hitPoint);
-    
-    uint index = id.y * _ScreenWidth + id.x;
-    _ResultBuffer[index] = result;
+    color = ray.hitDistance > EPSILON ? 0 : color;
+    _ResultTexture[id.xy] = color;
 }

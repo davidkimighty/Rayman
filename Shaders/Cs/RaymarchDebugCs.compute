@@ -20,8 +20,6 @@ struct Shape
     float smoothness;
     float roundness;
     float4 color;
-    float4 emissionColor;
-    float emissionIntensity;
 };
 
 float _ScreenWidth;
@@ -62,7 +60,7 @@ inline float Map(const float3 pos)
         
         float blend = 0;
         totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
-        localColor = lerp(localColor, shape.color + shape.emissionColor * shape.emissionIntensity, blend);
+        localColor = lerp(localColor, shape.color, blend);
     }
     color = localColor;
     return totalDist;

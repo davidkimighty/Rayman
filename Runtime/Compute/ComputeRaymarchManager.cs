@@ -1,88 +1,78 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
-    [ExecuteInEditMode]
-    public class ComputeRaymarchManager : MonoBehaviour, IComputeRaymarchDataProvider
+    public class ComputeRaymarchManager : MonoBehaviour
     {
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
-        [SerializeField] private List<ComputeRaymarchRenderer> raymarchRenderers = new();
-        [SerializeField] private bool buildOnAwake;
+        [SerializeField] private List<ColorShape> Shapes = new();
+        [SerializeField] private bool buildOnStart;
         [SerializeField] private float boundsUpdateThreshold;
-#if UNITY_EDITOR
-        [SerializeField] private DebugModes debugMode = DebugModes.None;
         [SerializeField] private bool drawGizmos;
-        [SerializeField] private int boundsDisplayThreshold = 1300;
-#endif
+        
         private ISpatialStructure<Aabb> bvh;
         private BoundingVolume<Aabb>[] boundingVolumes;
-        private ShapeData[] shapeData;
+        private ColorShapeData[] shapeData;
         private NodeDataAabb[] nodeData;
 
-        private void Awake()
+        public bool IsInitialized => boundingVolumes != null;
+        public ColorShapeData[] ShapeData => shapeData;
+        public NodeDataAabb[] NodeData => nodeData;
+
+        private void Start()
         {
             if (raymarchFeature == null) return;
             
             if (!raymarchFeature.isActive)
                 raymarchFeature.SetActive(true);
             
-            if (buildOnAwake)
+            if (buildOnStart)
             {
                 Build();
-#if UNITY_EDITOR
-                SetupDebugProperties();
-#endif
             }
-            raymarchFeature.PassDataProvider = this;
         }
 
         private void LateUpdate()
         {
-            if (boundingVolumes == null || bvh == null) return;
+            if (!IsInitialized) return;
             
             for (int j = 0; j < boundingVolumes.Length; j++)
             {
                 BoundingVolume<Aabb> volume = boundingVolumes[j];
-                var shape = volume.Source as RaymarchShape;
-                 if (shape != null)
-                     shapeData[j] = new ShapeData(shape);
                 volume.SyncVolume(ref bvh, boundsUpdateThreshold);
+                
+                var shape = volume.Source as ColorShape;
+                if (shape != null)
+                    shapeData[j] = new ColorShapeData(shape);
             }
             UpdateNodeData(bvh, ref nodeData);
         }
 
-        public ShapeData[] GetShapeData() => shapeData;
-
-        public NodeDataAabb[] GetNodeData() => nodeData;
-
         [ContextMenu("Build")]
-        public bool Build()
+        public void Build()
         {
-            if (raymarchRenderers.Count == 0) return false;
+            if (Shapes.Count == 0) return;
             
             List<BoundingVolume<Aabb>> volumes = new();
-            foreach (ComputeRaymarchRenderer rr in raymarchRenderers)
+            foreach (ColorShape shape in Shapes)
             {
-                if (rr == null || !rr.gameObject.activeInHierarchy) continue;
+                if (shape == null || !shape.gameObject.activeInHierarchy) continue;
                 
-                var activeShapes = rr.Shapes.Where(s => s != null && s.gameObject.activeInHierarchy).ToList();
-                if (activeShapes.Count == 0) continue;
-                
-                volumes.AddRange(rr.Shapes.Select(e => new BoundingVolume<Aabb>(e)).ToArray());
+                volumes.Add(new BoundingVolume<Aabb>(shape));
             }
-            if (volumes.Count == 0) return false;
+            if (volumes.Count == 0) return;
             
             boundingVolumes = volumes.ToArray();
             bvh = Bvh<Aabb>.Create(boundingVolumes);
             
             int shapeCount = boundingVolumes.Length;
-            shapeData = new ShapeData[shapeCount];
+            shapeData = new ColorShapeData[shapeCount];
             
             int nodesCount = SpatialNode<Aabb>.GetNodesCount(bvh.Root);
             nodeData = new NodeDataAabb[nodesCount];
-            return true;
+
+            raymarchFeature.RaymarchManager = this;
         }
         
         private void UpdateNodeData(ISpatialStructure<Aabb> structure, ref NodeDataAabb[] nodeData)
@@ -119,10 +109,6 @@ namespace Rayman
         {
             if (raymarchFeature == null)
                 raymarchFeature = RaymarchUtils.GetRendererFeature<ComputeRaymarchFeature>();
-            else
-            {
-                SetupDebugProperties();
-            }
         }
         
         private void OnDrawGizmos()
@@ -132,19 +118,10 @@ namespace Rayman
             bvh.DrawStructure();
         }
 
-        private void SetupDebugProperties()
-        {
-            if (raymarchFeature == null) return;
-
-            raymarchFeature.Setting.DebugMode = debugMode;
-            raymarchFeature.Setting.BoundsDisplayThreshold = boundsDisplayThreshold;
-            raymarchFeature.Setting.SetTrigger();
-        }
-
-        [ContextMenu("Find All Raymarch Renderers")]
+        [ContextMenu("Find All Color Shapes")]
         private void FindAllGroups()
         {
-            raymarchRenderers = RaymarchUtils.GetChildrenByHierarchical<ComputeRaymarchRenderer>();
+            Shapes = RaymarchUtils.GetChildrenByHierarchical<ColorShape>();
         }
 #endif
     }

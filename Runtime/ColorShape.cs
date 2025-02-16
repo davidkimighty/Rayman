@@ -10,7 +10,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeColorData
+    public struct ColorShapeData
     {
         public static readonly int Stride = sizeof(float) * 28 + sizeof(int) * 2;
         
@@ -23,7 +23,7 @@ namespace Rayman
         public float Roundness;
         public Vector4 Color;
 
-        public ShapeColorData(ColorShape shape)
+        public ColorShapeData(ColorShape shape)
         {
             Type = (int)shape.Shape;
             Transform = shape.UseLossyScale ? shape.transform.worldToLocalMatrix : 
