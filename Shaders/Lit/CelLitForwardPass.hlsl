@@ -138,7 +138,7 @@ FragOutput Frag (Varyings input)
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
-	InsertionSort(hitIds, hitCount.x);
+	//InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray)) discard;
 	
 	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?

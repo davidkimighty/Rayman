@@ -40,12 +40,12 @@
 		{
         	int type;
 			float4x4 transform;
-			float3 size;
-        	float3 pivot;
+			half3 size;
+        	half3 pivot;
         	int operation;
         	float blend;
 			float roundness;
-			float4 color;
+			half4 color;
 		};
 
         int _MaxSteps;

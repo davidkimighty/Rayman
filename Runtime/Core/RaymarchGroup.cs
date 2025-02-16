@@ -22,6 +22,10 @@ namespace Rayman
         
         public virtual void SetupShaderProperties(ref Material material) { }
 
+        public virtual void AddEntity(RaymarchEntity entity) { }
+        
+        public virtual void RemoveEntity(RaymarchEntity entity) { }
+
         public virtual int GetSdfCount() => 0;
 
         public virtual int GetNodeCount() => 0;

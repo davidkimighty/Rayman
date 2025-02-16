@@ -1,9 +1,5 @@
-#ifndef RAYMAN_TEXTURE_LIT_FORWARD
-#define RAYMAN_TEXTURE_LIT_FORWARD
-
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
+﻿#ifndef RAYMAN_UNLIT_FORWARD
+#define RAYMAN_UNLIT_FORWARD
 
 struct Attributes
 {
@@ -24,14 +20,9 @@ struct Varyings
 
 struct FragOutput
 {
-    float4 color : SV_Target;
+    half4 color : SV_Target;
     float depth : SV_Depth;
 };
-
-Texture2D _MainTex;
-SamplerState sampler_MainTex;
-float4 _FresnelColor;
-float _FresnelPow;
 
 Varyings Vert (Attributes input)
 {
@@ -56,24 +47,14 @@ FragOutput Frag (Varyings input)
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
-	InsertionSort(hitIds, hitCount.x);
-	
+	//InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray)) discard;
 
-	const float3 normal = GetNormal(ray.hitPoint);
-	float lengthToSurface = length(input.posWS - cameraPos);
-	const float depth = ray.distanceTravelled - lengthToSurface < EPSILON ?
+	const float depth = ray.distanceTravelled - length(input.posWS - cameraPos) < EPSILON ?
 		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
-	
-	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float2 uv = GetMatCap(viewDir, normal);
-	float4 finalColor = _MainTex.Sample(sampler_MainTex, uv);
-	
-	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
-	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
 
 	FragOutput output;
-	output.color = finalColor;
+	output.color = baseColor;
 	output.depth = depth;
 	return output;
 }

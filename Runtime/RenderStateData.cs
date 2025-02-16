@@ -3,7 +3,8 @@ using UnityEngine.Rendering;
 
 namespace Rayman
 {
-    public class RenderStateData : MonoBehaviour
+    [CreateAssetMenu(menuName = "Rayman/Data/Render State")]
+    public class RenderStateData : ScriptableObject
     {
         public BlendMode SrcBlend = BlendMode.One;
         public BlendMode DstBlend = BlendMode.Zero;

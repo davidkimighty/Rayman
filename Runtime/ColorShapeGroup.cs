@@ -107,6 +107,26 @@ namespace Rayman
             material.SetColor(EmissionColorId, emissionColor);
         }
 
+        public override void AddEntity(RaymarchEntity entity)
+        {
+            if (entities.Contains(entity)) return;
+
+            ColorShape colorShape = entity as ColorShape;
+            if (colorShape == null) return;
+            
+            entities.Add(colorShape);
+        }
+
+        public override void RemoveEntity(RaymarchEntity entity)
+        {
+            if (!entities.Contains(entity)) return;
+
+            ColorShape colorShape = entity as ColorShape;
+            if (colorShape == null) return;
+            
+            entities.Remove(colorShape);
+        }
+
         public override int GetSdfCount() => activeEntities?.Length ?? 0;
 
         public override int GetNodeCount() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.Count ?? 0;

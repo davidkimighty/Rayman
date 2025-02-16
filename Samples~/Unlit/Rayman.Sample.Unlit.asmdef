@@ -1,0 +1,14 @@
+{
+    "name": "Rayman.Sample.Unlit",
+    "rootNamespace": "",
+    "references": ["GUID:b55cdc2fb24e3224da1fbec2aafd5a91"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
