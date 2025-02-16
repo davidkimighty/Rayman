@@ -278,10 +278,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shapePrefab: {fileID: 495928288609191614, guid: cff4e235ce10c7a4ea99cc65ca6aa083, type: 3}
-  count: 1000
-  bounds: {x: 13, y: 7.3, z: 23}
+  spawnArea: {x: 13, y: 7.3, z: 10}
+  spawnCount: 1000
+  minSize: {x: 0.1, y: 0.1, z: 0.1}
+  maxSize: {x: 0.3, y: 0.3, z: 0.3}
   raymarchRenderer: {fileID: 1476837634}
   raymarchGroup: {fileID: 1476837633}
+  spawnPerFrame: 100
 --- !u!4 &1622846070
 Transform:
   m_ObjectHideFlags: 0
