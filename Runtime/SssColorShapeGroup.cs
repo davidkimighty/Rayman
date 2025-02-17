@@ -10,7 +10,7 @@ namespace Rayman
         private static readonly int SssScaleId = Shader.PropertyToID("_SssScale");
         private static readonly int SssAmbientId = Shader.PropertyToID("_SssAmbient");
         private static readonly int SssThicknessId = Shader.PropertyToID("_SssThickness");
-        
+
         [Header("SSS")]
         [SerializeField] private SssData sssData;
 

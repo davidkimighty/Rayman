@@ -12,15 +12,17 @@ namespace Rayman
         protected static readonly int CullId = Shader.PropertyToID("_Cull");
         protected static readonly int ZWriteId = Shader.PropertyToID("_ZWrite");
         
+        protected static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
         protected static readonly int MetallicId = Shader.PropertyToID("_Metallic");
         protected static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
-        private static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
+        protected static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
         
         [SerializeField] protected List<ColorShape> entities = new();
         [SerializeField] protected float updateBoundsThreshold;
         
         [Header("PBR")]
         [SerializeField] protected RenderStateData renderStateData;
+        [SerializeField] protected Texture baseMap;
         [Range(0f, 1f), SerializeField] protected float metallic;
         [Range(0f, 1f), SerializeField] protected float smoothness = 0.5f;
         [ColorUsage(true, true), SerializeField] protected Color emissionColor;
@@ -102,6 +104,7 @@ namespace Rayman
                 material.SetFloat(ZWriteId, renderStateData.ZWrite ? 1f : 0f);
             }
             
+            material.SetTexture(BaseMapId, baseMap);
             material.SetFloat(MetallicId, metallic);
             material.SetFloat(SmoothnessId, smoothness);
             material.SetColor(EmissionColorId, emissionColor);

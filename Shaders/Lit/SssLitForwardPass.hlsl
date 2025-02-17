@@ -107,9 +107,6 @@ FragOutput Frag (Varyings input)
 	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray)) discard;
-	
-	const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
-		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
@@ -118,7 +115,7 @@ FragOutput Frag (Varyings input)
 	
 	SurfaceData surfaceData;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb;
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
@@ -167,7 +164,11 @@ FragOutput Frag (Varyings input)
 	LIGHT_LOOP_END
 #endif
 
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 	
 	FragOutput output;
 	output.color = color;

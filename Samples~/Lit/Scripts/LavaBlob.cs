@@ -5,8 +5,8 @@ using Random = UnityEngine.Random;
 
 public class LavaBlob : MonoBehaviour
 {
-    private static readonly float TopRadius = 0.2f;
-    private static readonly float BottomRadius = 0.35f;
+    private static readonly float TopRadius = 0.1f;
+    private static readonly float BottomRadius = 0.15f;
     
     [SerializeField] private RaymarchShape raymarchShape;
     [SerializeField] private Transform topLava;

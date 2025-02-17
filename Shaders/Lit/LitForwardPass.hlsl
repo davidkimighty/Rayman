@@ -140,9 +140,6 @@ FragOutput Frag (Varyings input)
 #endif
 	if (!Raymarch(ray)) discard;
 	
-	const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
-		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
-
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
@@ -150,13 +147,18 @@ FragOutput Frag (Varyings input)
 	
 	SurfaceData surfaceData;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb;
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
 
 	half4 color = UniversalFragmentPBR(inputData, surfaceData);
+
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
 
 	FragOutput output;
 	output.color = color;

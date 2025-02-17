@@ -168,8 +168,8 @@ MonoBehaviour:
   topLava: {fileID: 277458963}
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
-  squashFrequency: 3.5
-  squashDuration: 6
+  squashFrequency: 3
+  squashDuration: 5
   moveSpeedMinMax: {x: 0.02, y: 0.06}
 --- !u!114 &98985113
 MonoBehaviour:
@@ -295,7 +295,7 @@ MonoBehaviour:
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
   squashFrequency: 3
-  squashDuration: 6
+  squashDuration: 5
   moveSpeedMinMax: {x: 0.01, y: 0.03}
 --- !u!114 &343540675
 MonoBehaviour:
@@ -444,6 +444,42 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a003612e23b90934aaa5e2f3eecb4eb1, type: 3}
+--- !u!21 &879075835
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/Lit
+  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _Smoothness: 0.4
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &938474307
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,8 +529,8 @@ MonoBehaviour:
   topLava: {fileID: 277458963}
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
-  squashFrequency: 3.5
-  squashDuration: 6
+  squashFrequency: 3
+  squashDuration: 5
   moveSpeedMinMax: {x: 0.02, y: 0.06}
 --- !u!114 &938474310
 MonoBehaviour:
@@ -566,8 +602,8 @@ MonoBehaviour:
   topLava: {fileID: 277458963}
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
-  squashFrequency: 3.5
-  squashDuration: 6
+  squashFrequency: 3
+  squashDuration: 5
   moveSpeedMinMax: {x: 0.02, y: 0.06}
 --- !u!114 &965167138
 MonoBehaviour:
@@ -771,19 +807,19 @@ Camera:
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
-  m_projectionMatrixMode: 1
+  m_projectionMatrixMode: 2
   m_GateFitMode: 2
   m_FOVAxisMode: 0
   m_Iso: 200
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 40.12527
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
   m_Anamorphism: 0
-  m_SensorSize: {x: 36, y: 24}
+  m_SensorSize: {x: 21.946, y: 16.002}
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -793,7 +829,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 33.3
+  field of view: 22.553806
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -820,7 +856,7 @@ Transform:
   m_GameObject: {fileID: 1086591522}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.13, z: 1}
+  m_LocalPosition: {x: 0, y: 1.13, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -850,7 +886,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 1
@@ -919,8 +955,8 @@ MonoBehaviour:
   topLava: {fileID: 277458963}
   bottomLava: {fileID: 969997286}
   squashAmount: 0.3
-  squashFrequency: 3.5
-  squashDuration: 6
+  squashFrequency: 3
+  squashDuration: 5
   moveSpeedMinMax: {x: 0.02, y: 0.06}
 --- !u!114 &1284175781
 MonoBehaviour:
@@ -1119,10 +1155,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1872132480}
+  setupOnAwake: 1
   maxSteps: 64
-  maxDistance: 100
+  maxRayDistance: 100
   shadowMaxSteps: 32
-  shadowMaxDistance: 30
+  shadowMaxRayDistance: 30
   raymarchGroups:
   - {fileID: 1872132482}
 --- !u!23 &1872132480
@@ -1147,7 +1184,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 879075835}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1189,7 +1227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dce17337e86c0ac468fa92cbee40d62b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 0}
+  MatInstance: {fileID: 879075835}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
   drawGizmos: 0
   entities:
@@ -1202,9 +1240,10 @@ MonoBehaviour:
   - {fileID: 98985113}
   updateBoundsThreshold: 0
   renderStateData: {fileID: 0}
+  baseMap: {fileID: 0}
   metallic: 0
-  smoothness: 0.5
-  emissionColor: {r: 53.201614, g: 1.5468426, b: 0, a: 1}
+  smoothness: 0.4
+  emissionColor: {r: 4.237095, g: 0.12319398, b: 0, a: 1}
 --- !u!4 &543450653230414587
 Transform:
   m_ObjectHideFlags: 0

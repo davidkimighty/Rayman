@@ -271,7 +271,7 @@ Transform:
   m_GameObject: {fileID: 47641563}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -1.911}
+  m_LocalPosition: {x: 0, y: 0.5, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -332,6 +332,7 @@ GameObject:
   - component: {fileID: 91517260}
   - component: {fileID: 91517259}
   - component: {fileID: 91517261}
+  - component: {fileID: 91517262}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -442,6 +443,23 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+--- !u!114 &91517262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 91517258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fae5751773ae1d45a2df2fdbc968969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetDir: {x: 0, y: 0, z: 1}
+  _rotateAxis: {x: 0, y: 1, z: 0}
+  _maxRotSpeed: 30
+  _minRotSpeed: 3
+  _randomRot: 0
 --- !u!1 &201042425
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,51 +965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &292289461
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/RaymarchCelLit
-  m_Shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdditionalCelCount: 1
-    - _BlendDiffuse: 0.7
-    - _CelSharpness: 100
-    - _CelSpread: 1
-    - _Cull: 2
-    - _DstBlend: 0
-    - _F0: 0.04
-    - _MainCelCount: 1
-    - _Metallic: 0
-    - _RayShadowBias: 0.008
-    - _RimAmount: 0.75
-    - _RimSmoothness: 0.03
-    - _Smoothness: 0.5
-    - _SpecularSharpness: 30
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &293326948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,13 +1050,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4890c01f01fb246baa446bdc719c9363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   drawGizmos: 0
-  updateBoundsThreshold: 0
   entities:
   - {fileID: 1419411784}
+  updateBoundsThreshold: 0
+  renderStateData: {fileID: 0}
+  baseMap: {fileID: 0}
   metallic: 0
   smoothness: 0.75
+  emissionColor: {r: 0, g: 0, b: 0, a: 0}
   mainCelCount: 1
   additionalCelCount: 1
   celSpread: 1
@@ -1105,10 +1082,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 560892393}
+  setupOnAwake: 1
   maxSteps: 128
-  maxDistance: 30
+  maxRayDistance: 100
   shadowMaxSteps: 64
-  shadowMaxDistance: 30
+  shadowMaxRayDistance: 30
   raymarchGroups:
   - {fileID: 560892391}
 --- !u!23 &560892393
@@ -1133,8 +1111,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 1672002688}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1180,51 +1157,6 @@ Transform:
   - {fileID: 1419411785}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -29.205, y: 26.094, z: -3.87}
---- !u!21 &922818980
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/RaymarchCelLit
-  m_Shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdditionalCelCount: 1
-    - _BlendDiffuse: 0.7
-    - _CelSharpness: 100
-    - _CelSpread: 1
-    - _Cull: 2
-    - _DstBlend: 0
-    - _F0: 0.04
-    - _MainCelCount: 1
-    - _Metallic: 0
-    - _RayShadowBias: 0.008
-    - _RimAmount: 0.75
-    - _RimSmoothness: 0.03
-    - _Smoothness: 0.5
-    - _SpecularSharpness: 30
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1128825920
 GameObject:
   m_ObjectHideFlags: 0
@@ -1249,7 +1181,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128825920}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1306,13 +1238,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4890c01f01fb246baa446bdc719c9363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   drawGizmos: 0
-  updateBoundsThreshold: 0
   entities:
   - {fileID: 293326949}
+  updateBoundsThreshold: 0
+  renderStateData: {fileID: 0}
+  baseMap: {fileID: 0}
   metallic: 0
   smoothness: 0.5
+  emissionColor: {r: 0, g: 0, b: 0, a: 0}
   mainCelCount: 1
   additionalCelCount: 1
   celSpread: 1
@@ -1334,10 +1270,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1141850301}
+  setupOnAwake: 1
   maxSteps: 128
-  maxDistance: 30
+  maxRayDistance: 100
   shadowMaxSteps: 64
-  shadowMaxDistance: 30
+  shadowMaxRayDistance: 30
   raymarchGroups:
   - {fileID: 1141850299}
 --- !u!23 &1141850301
@@ -1362,8 +1299,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 292289461}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1442,10 +1378,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1264651313}
+  setupOnAwake: 1
   maxSteps: 128
-  maxDistance: 30
+  maxRayDistance: 100
   shadowMaxSteps: 64
-  shadowMaxDistance: 30
+  shadowMaxRayDistance: 30
   raymarchGroups:
   - {fileID: 1264651316}
 --- !u!23 &1264651313
@@ -1470,8 +1407,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 922818980}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1529,9 +1465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4890c01f01fb246baa446bdc719c9363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   drawGizmos: 0
-  updateBoundsThreshold: 0
   entities:
   - {fileID: 271632379}
   - {fileID: 271632378}
@@ -1547,8 +1483,12 @@ MonoBehaviour:
   - {fileID: 271632368}
   - {fileID: 271632367}
   - {fileID: 271632365}
+  updateBoundsThreshold: 0
+  renderStateData: {fileID: 0}
+  baseMap: {fileID: 0}
   metallic: 0
   smoothness: 0.5
+  emissionColor: {r: 0.106918186, g: 0.044074427, b: 0.025216537, a: 0}
   mainCelCount: 1
   additionalCelCount: 1
   celSpread: 1
@@ -1556,7 +1496,7 @@ MonoBehaviour:
   specularCelSharpness: 30
   rimAmount: 0.75
   rimSmoothness: 0.03
-  blendDiffuse: 0.7
+  blendDiffuse: 0.5
 --- !u!1 &1419411783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1610,51 +1550,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 560892395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1672002688
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/RaymarchCelLit
-  m_Shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _AdditionalCelCount: 1
-    - _BlendDiffuse: 0.7
-    - _CelSharpness: 100
-    - _CelSpread: 1
-    - _Cull: 2
-    - _DstBlend: 0
-    - _F0: 0.04
-    - _MainCelCount: 1
-    - _Metallic: 0
-    - _RayShadowBias: 0.008
-    - _RimAmount: 0.75
-    - _RimSmoothness: 0.03
-    - _Smoothness: 0.75
-    - _SpecularSharpness: 30
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

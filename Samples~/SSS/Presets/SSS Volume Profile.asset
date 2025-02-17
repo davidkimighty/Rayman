@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
   m_Name: FilmGrain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   type:
     m_OverrideState: 1
     m_Value: 0
@@ -81,7 +81,7 @@ MonoBehaviour:
     m_Value: 0.82
   intensity:
     m_OverrideState: 1
-    m_Value: 0.8
+    m_Value: 0.43
   scatter:
     m_OverrideState: 1
     m_Value: 0.7

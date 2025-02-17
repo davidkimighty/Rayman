@@ -16,7 +16,7 @@ namespace Rayman
         public event Action<RaymarchRenderer> OnRelease;
 
         [SerializeField] private Renderer mainRenderer;
-        [SerializeField] private bool setupOnStart = true;
+        [SerializeField] private bool setupOnAwake = true;
         [SerializeField] private int maxSteps = 64;
         [SerializeField] private float maxRayDistance = 100f;
         [SerializeField] private int shadowMaxSteps = 32;
@@ -31,9 +31,9 @@ namespace Rayman
         public int NodeCount => raymarchGroups.Sum(g => g.GetNodeCount());
         public int MaxHeight => raymarchGroups.Sum(g => g.GetMaxHeight());
 
-        private void Start()
+        private void Awake()
         {
-            if (setupOnStart)
+            if (setupOnAwake)
                 Setup();
         }
 
