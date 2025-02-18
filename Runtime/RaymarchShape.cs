@@ -37,7 +37,7 @@ namespace Rayman
             throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
         }
 
-        protected Vector3 GetShapeSize()
+        public Vector3 GetShapeSize()
         {
             switch (Shape)
             {
