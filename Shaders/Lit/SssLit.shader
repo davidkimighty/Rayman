@@ -2,11 +2,13 @@ Shader "Rayman/SssLit"
 {
     Properties
     {
-        [Header(Shade)][Space]
+        [Header(PBR)][Space]
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.008
     	
+    	[Header(SSS)][Space]
     	_SssDistortion ("SSS Distortion", Float) = 0.1
     	_SssPower ("SSS Power", Float) = 1.0
     	_SssScale ("SSS Scale", Float) = 0.5

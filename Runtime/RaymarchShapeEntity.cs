@@ -18,7 +18,7 @@ namespace Rayman
         CappedCone,
     }
     
-    public class RaymarchShape : RaymarchEntity
+    public class RaymarchShapeEntity : RaymarchEntity
     {
         [Header("Shape")]
         public Shapes Shape = Shapes.Sphere;
@@ -77,7 +77,7 @@ namespace Rayman
         public float Blend;
         public float Roundness;
 
-        public ShapeData(RaymarchShape shape)
+        public ShapeData(RaymarchShapeEntity shape)
         {
             Type = (int)shape.Shape;
             Transform = shape.UseLossyScale ? shape.transform.worldToLocalMatrix : 

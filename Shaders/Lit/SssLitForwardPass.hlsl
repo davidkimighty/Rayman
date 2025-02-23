@@ -112,10 +112,14 @@ FragOutput Frag (Varyings input)
 	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
+
+	float4 hitPointOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0));
+	float3 directionOS = normalize(hitPointOS.xyz - float3(0, 0, 0));
+	float2 uv = float2((atan2(directionOS.x, directionOS.z) + PI) / (2 * PI), 1.0 - acos(directionOS.y) / PI);
 	
 	SurfaceData surfaceData;
-	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
+	InitializeStandardLitSurfaceData(uv, surfaceData);
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;

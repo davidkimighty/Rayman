@@ -9,13 +9,13 @@ namespace Rayman
 
         public bool IsInitialized => shapeData != null;
 
-        protected ColorShape[] colorShapes;
+        protected ColorShapeEntity[] colorShapes;
         protected ColorShapeData[] shapeData;
         protected GraphicsBuffer shapeBuffer;
         
         public void SetupBuffer(RaymarchEntity[] entities, ref Material mat)
         {
-            colorShapes = entities.OfType<ColorShape>().ToArray();
+            colorShapes = entities.OfType<ColorShapeEntity>().ToArray();
             int count = colorShapes.Length;
             if (count == 0) return;
 

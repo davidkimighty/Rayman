@@ -3,6 +3,7 @@
     Properties
     {
         [Header(Shade)][Space]
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Blending)][Space]

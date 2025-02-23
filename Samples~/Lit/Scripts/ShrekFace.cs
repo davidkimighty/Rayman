@@ -4,13 +4,13 @@ using UnityEngine.InputSystem;
 
 public class ShrekFace : MonoBehaviour
 {
-    [SerializeField] private RaymarchShape eyeLeft;
-    [SerializeField] private RaymarchShape eyeRight;
+    [SerializeField] private RaymarchShapeEntity eyeLeft;
+    [SerializeField] private RaymarchShapeEntity eyeRight;
     [SerializeField] private float maxAngle = 45f;
     [SerializeField] private float focusDst = 0.1f;
     [SerializeField] private InputActionReference mouseActionRef;
     
-    [SerializeField] private RaymarchShape mouth;
+    [SerializeField] private RaymarchShapeEntity mouth;
     [SerializeField] private Vector3 startShape;
     [SerializeField] private Vector3 endShape;
     [SerializeField] private float frequency = 1f;

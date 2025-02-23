@@ -2,10 +2,13 @@ Shader "Rayman/CelLit"
 {
     Properties
     {
-        [Header(Shade)][Space]
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+        [Header(PBR)][Space]
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	
+    	[Header(Cel Shade)][Space]
     	_MainCelCount ("Main Cel Count", Range(1.0, 10.0)) = 1.0
     	_AdditionalCelCount ("Additional Cel Count", Range(1.0, 10.0)) = 1.0
     	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0

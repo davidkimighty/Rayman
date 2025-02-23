@@ -12,11 +12,11 @@ namespace Rayman
         protected static readonly int CullId = Shader.PropertyToID("_Cull");
         protected static readonly int ZWriteId = Shader.PropertyToID("_ZWrite");
         
-        [SerializeField] protected List<RaymarchShape> shapes = new();
+        [SerializeField] protected List<RaymarchShapeEntity> shapes = new();
         [SerializeField] protected float updateBoundsThreshold;
         [SerializeField] protected RenderStateData renderStateData;
         
-        protected RaymarchShape[] activeShapes;
+        protected RaymarchShapeEntity[] activeShapes;
         protected IBufferProvider nodeBufferProvider;
         protected IBufferProvider shapeBufferProvider;
         
@@ -97,7 +97,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShape>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeEntity>(transform);
         }
 #endif
     }

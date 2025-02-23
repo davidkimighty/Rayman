@@ -2,7 +2,8 @@
 {
     Properties
     {
-        [Header(Shade)][Space]
+        [Header(PBR)][Space]
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006

@@ -119,46 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!21 &72171404
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/SssLit
-  m_Shader: {fileID: 4800000, guid: c90fa055a1a68ad4eb719d028275f65b, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DstBlend: 0
-    - _Metallic: 0
-    - _RayShadowBias: 0.008
-    - _Smoothness: 0.63
-    - _SrcBlend: 1
-    - _SssAmbient: 0.15
-    - _SssDistortion: 0.3
-    - _SssPower: 12
-    - _SssScale: 0.6
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &85376913 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2247483256214374033, guid: a5ddbf0fc13a6d241b0456505607cbef, type: 3}
@@ -560,7 +520,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 26.403297
+  m_FocalLength: 24.003
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25
@@ -575,7 +535,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 33.7168
+  field of view: 36.869896
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -906,7 +866,7 @@ Transform:
   m_GameObject: {fileID: 675458200}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.392, z: 0}
+  m_LocalPosition: {x: 0, y: 0.064, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1026,7 +986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69da1b304aa767042a7e224185496951, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 69da1b304aa767042a7e224185496951, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1138,8 +1098,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 72171404}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1178,7 +1137,7 @@ Transform:
   m_GameObject: {fileID: 1421598544}
   serializedVersion: 2
   m_LocalRotation: {x: -0.10570781, y: 0.98127276, z: 0.06640208, w: 0.14669831}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.3}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1201,7 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1791d74747d39654da4e22b0a3ebb713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 72171404}
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: c90fa055a1a68ad4eb719d028275f65b, type: 3}
   drawGizmos: 0
   entities:
@@ -1224,7 +1183,7 @@ MonoBehaviour:
   renderStateData: {fileID: 0}
   baseMap: {fileID: 2800000, guid: 5739b431199e4c149b867b68aa788825, type: 3}
   metallic: 0
-  smoothness: 0.63
+  smoothness: 0.73
   emissionColor: {r: 0, g: 0, b: 0, a: 0}
   sssData: {fileID: 11400000, guid: fad67c741b0f093418a0b2a9bd4cd764, type: 2}
 --- !u!114 &1490591839 stripped

@@ -17,7 +17,7 @@ namespace Rayman
         protected static readonly int SmoothnessId = Shader.PropertyToID("_Smoothness");
         protected static readonly int EmissionColorId = Shader.PropertyToID("_EmissionColor");
         
-        [SerializeField] protected List<ColorShape> entities = new();
+        [SerializeField] protected List<ColorShapeEntity> entities = new();
         [SerializeField] protected float updateBoundsThreshold;
         
         [Header("PBR")]
@@ -27,7 +27,7 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] protected float smoothness = 0.5f;
         [ColorUsage(true, true), SerializeField] protected Color emissionColor;
 
-        protected ColorShape[] activeEntities;
+        protected ColorShapeEntity[] activeEntities;
         protected IBufferProvider nodeBufferProvider;
         protected IBufferProvider shapeBufferProvider;
 
@@ -114,7 +114,7 @@ namespace Rayman
         {
             if (entities.Contains(entity)) return;
 
-            ColorShape colorShape = entity as ColorShape;
+            ColorShapeEntity colorShape = entity as ColorShapeEntity;
             if (colorShape == null) return;
             
             entities.Add(colorShape);
@@ -124,7 +124,7 @@ namespace Rayman
         {
             if (!entities.Contains(entity)) return;
 
-            ColorShape colorShape = entity as ColorShape;
+            ColorShapeEntity colorShape = entity as ColorShapeEntity;
             if (colorShape == null) return;
             
             entities.Remove(colorShape);
@@ -140,7 +140,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            entities = RaymarchUtils.GetChildrenByHierarchical<ColorShape>(transform);
+            entities = RaymarchUtils.GetChildrenByHierarchical<ColorShapeEntity>(transform);
         }
 #endif
     }

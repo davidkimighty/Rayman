@@ -1,9 +1,12 @@
 using Rayman;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace RaymanEditor
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(RaymarchRenderer))]
     [CanEditMultipleObjects]
     public class RaymarchRendererEditor : Editor
@@ -42,4 +45,5 @@ namespace RaymanEditor
             EditorGUILayout.EndHorizontal();
         }
     }
+#endif
 }
