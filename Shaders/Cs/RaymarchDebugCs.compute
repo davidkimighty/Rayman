@@ -59,7 +59,7 @@ inline float Map(const float3 pos)
         float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
-        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+        totalDist = Combine(totalDist, dist, shape.operation, shape.smoothness, blend);
         localColor = lerp(localColor, shape.color, blend);
     }
     color = localColor;
@@ -81,7 +81,7 @@ inline float NormalMap(const float3 pos)
         float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
         
         float blend = 0;
-        totalDist = CombineShapes(totalDist, dist, shape.operation, shape.smoothness, blend);
+        totalDist = Combine(totalDist, dist, shape.operation, shape.smoothness, blend);
     }
     return totalDist;
 }

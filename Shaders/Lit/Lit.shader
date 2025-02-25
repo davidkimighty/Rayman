@@ -29,12 +29,12 @@
         HLSLINCLUDE
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
         
 		struct Shape
 		{
@@ -75,7 +75,7 @@
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+				totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
 				baseColor = lerp(baseColor, shape.color, blend);
 			}
 			return totalDist;
@@ -96,7 +96,7 @@
 
 				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
 				float blend = 0;
-				totalDist = CombineShapes(totalDist, dist, shape.operation, shape.blend, blend);
+				totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
 			}
 			return totalDist;
 		}

@@ -15,17 +15,22 @@ namespace Rayman
         [SerializeField] private DebugModes debugMode = DebugModes.Hitmap;
         [SerializeField] private int boundsDisplayThreshold = 300;
 
-        private Material currentMatInstance;
-
         private void OnEnable()
         {
-            raymarchGroup.OnSetup += Setup;
+            if (raymarchGroup == null) return;
+            
+            if (raymarchGroup.IsInitialized())
+                Setup(raymarchGroup);
+            else
+                raymarchGroup.OnSetup += Setup;
         }
 
         private void OnDisable()
         {
-            if (currentMatInstance != null)
-                currentMatInstance.DisableKeyword(DebugModeKeyword);
+            if (raymarchGroup == null) return;
+            
+            if (raymarchGroup.IsInitialized())
+                raymarchGroup.MatInstance.DisableKeyword(DebugModeKeyword);
             raymarchGroup.OnSetup -= Setup;
         }
 
@@ -34,15 +39,21 @@ namespace Rayman
         {
             if (raymarchGroup == null)
                 raymarchGroup = GetComponent<RaymarchGroup>();
+            if (raymarchGroup == null) return;
             
-            if (currentMatInstance != null)
+            if (raymarchGroup.IsInitialized())
                 SetupShaderProperties(ref raymarchGroup.MatInstance);
+        }
+        
+        [ContextMenu("Find group")]
+        public void FindGroup()
+        {
+            raymarchGroup = GetComponent<RaymarchGroup>();
         }
 #endif
 
         public void Setup(RaymarchGroup group)
         {
-            currentMatInstance = group.MatInstance;
             SetupShaderProperties(ref group.MatInstance);
         }
         

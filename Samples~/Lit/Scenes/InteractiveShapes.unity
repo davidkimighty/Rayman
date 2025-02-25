@@ -285,14 +285,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.3, y: 0.3, z: 0.3}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0.1
+  Size: {x: 0.3, y: 0.3, z: 0.3}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 2
   Operation: 0
   Blend: 0
   Roundness: 0.003
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &207929453
 Transform:
   m_ObjectHideFlags: 0
@@ -478,14 +480,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.1, y: 0.1, z: 0.1}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0.1
+  Size: {x: 0.1, y: 0.1, z: 0.1}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 0
   Operation: 0
   Blend: 0.34
   Roundness: 0
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &447563328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -555,10 +559,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 492288774}
+  setupOnAwake: 1
   maxSteps: 256
-  maxDistance: 30
+  maxRayDistance: 100
   shadowMaxSteps: 32
-  shadowMaxDistance: 30
+  shadowMaxRayDistance: 30
   raymarchGroups:
   - {fileID: 492288777}
 --- !u!23 &492288774
@@ -642,12 +647,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
-  drawGizmos: 0
   shapes:
   - {fileID: 207929452}
   - {fileID: 447563327}
+  dataProviders: []
+  ColorUsage: 0
   updateBoundsThreshold: 0
-  renderStateData: {fileID: 0}
+  drawGizmos: 0
 --- !u!1 &623862682
 GameObject:
   m_ObjectHideFlags: 0

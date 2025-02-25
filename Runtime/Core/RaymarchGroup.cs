@@ -11,16 +11,11 @@ namespace Rayman
         [HideInInspector] public Material MatInstance;
         
         [SerializeField] protected Shader shader;
-#if UNITY_EDITOR
-        [SerializeField] protected bool drawGizmos;
-#endif
         
         public abstract Material InitializeGroup();
         public abstract void ReleaseGroup();
         
         public virtual bool IsInitialized() => MatInstance != null;
-        
-        public virtual void SetupShaderProperties(ref Material material) { }
 
         public virtual void AddEntity(RaymarchEntity entity) { }
         

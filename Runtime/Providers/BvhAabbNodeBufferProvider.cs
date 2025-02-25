@@ -7,14 +7,12 @@ namespace Rayman
 {
     public class BvhAabbNodeBufferProvider : IBufferProvider
     {
-        protected static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
+        public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
 
-        protected float updateBoundsThreshold;
-        protected ISpatialStructure<Aabb> spatialStructure;
-        protected BoundingVolume<Aabb>[] boundingVolumes;
-        
-        protected NodeDataAabb[] nodeData;
-        protected GraphicsBuffer nodeBuffer;
+        private float updateBoundsThreshold;
+        private ISpatialStructure<Aabb> spatialStructure;
+        private BoundingVolume<Aabb>[] boundingVolumes;
+        private NodeDataAabb[] nodeData;
 
         public ISpatialStructure<Aabb> SpatialStructure => spatialStructure;
 
@@ -25,20 +23,20 @@ namespace Rayman
 
         public bool IsInitialized => spatialStructure != null && boundingVolumes != null && nodeData != null;
 
-        public void SetupBuffer(RaymarchEntity[] entities, ref Material mat)
+        public GraphicsBuffer InitializeBuffer(RaymarchEntity[] entities, ref Material material)
         {
             boundingVolumes = entities.Select(e => new BoundingVolume<Aabb>(e)).ToArray();
             spatialStructure = Bvh<Aabb>.Create(boundingVolumes);
             int nodeCount = spatialStructure.Count;
-            if (nodeCount == 0) return;
+            if (nodeCount == 0) return null;
             
-            nodeBuffer?.Release();
             nodeData = new NodeDataAabb[nodeCount];
-            nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, NodeDataAabb.Stride);
-            mat.SetBuffer(NodeBufferId, nodeBuffer);
+            GraphicsBuffer nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, NodeDataAabb.Stride);
+            material.SetBuffer(NodeBufferId, nodeBuffer);
+            return nodeBuffer;
         }
         
-        public void UpdateBufferData()
+        public void SetData(ref GraphicsBuffer buffer)
         {
             if (!IsInitialized) return;
 
@@ -46,12 +44,11 @@ namespace Rayman
                 boundingVolumes[i].SyncVolume(ref spatialStructure, updateBoundsThreshold);
 
             UpdateNodeData();
-            nodeBuffer.SetData(nodeData);
+            buffer.SetData(nodeData);
         }
 
-        public void ReleaseBuffer()
+        public void ReleaseData()
         {
-            nodeBuffer?.Release();
             spatialStructure = null;
             boundingVolumes = null;
             nodeData = null;

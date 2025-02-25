@@ -6,7 +6,7 @@ namespace Rayman
     public class ComputeRaymarchManager : MonoBehaviour
     {
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
-        [SerializeField] private List<ColorShapeEntity> Shapes = new();
+        [SerializeField] private List<RaymarchShapeEntity> Shapes = new();
         [SerializeField] private bool buildOnStart;
         [SerializeField] private float boundsUpdateThreshold;
         [SerializeField] private bool drawGizmos;
@@ -42,9 +42,11 @@ namespace Rayman
                 BoundingVolume<Aabb> volume = boundingVolumes[j];
                 volume.SyncVolume(ref bvh, boundsUpdateThreshold);
                 
-                var shape = volume.Source as ColorShapeEntity;
-                if (shape != null)
-                    shapeData[j] = new ColorShapeData(shape);
+                var shape = volume.Source as RaymarchShapeEntity;
+                if (shape == null) continue;
+                
+                shapeData[j] = new ColorShapeData();
+                shapeData[j].InitializeData(shape);
             }
             UpdateNodeData(bvh, ref nodeData);
         }
@@ -55,7 +57,7 @@ namespace Rayman
             if (Shapes.Count == 0) return;
             
             List<BoundingVolume<Aabb>> volumes = new();
-            foreach (ColorShapeEntity shape in Shapes)
+            foreach (RaymarchShapeEntity shape in Shapes)
             {
                 if (shape == null || !shape.gameObject.activeInHierarchy) continue;
                 
@@ -118,10 +120,10 @@ namespace Rayman
             bvh.DrawStructure();
         }
 
-        [ContextMenu("Find All Color Shapes")]
+        [ContextMenu("Find All Shapes")]
         private void FindAllGroups()
         {
-            Shapes = RaymarchUtils.GetChildrenByHierarchical<ColorShapeEntity>();
+            Shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeEntity>();
         }
 #endif
     }

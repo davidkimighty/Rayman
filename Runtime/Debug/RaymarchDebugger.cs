@@ -12,6 +12,8 @@ namespace Rayman
         {
             if (raymarchManager == null)
                 raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager == null) return;
+            
             if (raymarchManager != null)
             {
                 totalSdfCount = raymarchManager.Renderers.Sum(r => r.SdfCount);

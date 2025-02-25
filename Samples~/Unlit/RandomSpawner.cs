@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 public class RandomSpawner : MonoBehaviour
 {
-    [SerializeField] private ColorShapeEntity shapePrefab;
+    [SerializeField] private RaymarchShapeEntity shapePrefab;
     [SerializeField] private Vector3 spawnArea = new(10f, 10f, 10f);
     [SerializeField] private int spawnCount = 1000;
     [SerializeField] private Vector3 minSize = new(0.1f, 0.1f, 0.1f);
@@ -35,7 +35,7 @@ public class RandomSpawner : MonoBehaviour
                 Random.Range(-spawnArea.x / 2f, spawnArea.x / 2f),
                 Random.Range(-spawnArea.y / 2f, spawnArea.y / 2f),
                 Random.Range(-spawnArea.z / 2f, spawnArea.z / 2f));
-            ColorShapeEntity shape = Instantiate(shapePrefab, transform.position + randomPos, Quaternion.identity);
+            RaymarchShapeEntity shape = Instantiate(shapePrefab, transform.position + randomPos, Quaternion.identity);
             
             Vector3 randomSize = new Vector3(
                 Random.Range(minSize.x, maxSize.x),

@@ -125,7 +125,7 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.positionWS - cameraPos);
 	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);

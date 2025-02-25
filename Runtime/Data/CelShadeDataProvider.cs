@@ -2,17 +2,17 @@ using UnityEngine;
 
 namespace Rayman
 {
-    [ExecuteInEditMode]
-    public class CelColorShapeGroup : ColorShapeGroup
+    [CreateAssetMenu(menuName = "Rayman/Data Providers/Cel Shade")]
+    public class CelShadeDataProvider : RaymarchDataProvider
     {
-        private static readonly int MainCelCountId = Shader.PropertyToID("_MainCelCount");
-        private static readonly int AdditionalCelCountId = Shader.PropertyToID("_AdditionalCelCount");
-        private static readonly int CelSpreadId = Shader.PropertyToID("_CelSpread");
-        private static readonly int CelSharpnessId = Shader.PropertyToID("_CelSharpness");
-        private static readonly int SpecularSharpnessId = Shader.PropertyToID("_SpecularSharpness");
-        private static readonly int RimAmountId = Shader.PropertyToID("_RimAmount");
-        private static readonly int RimSmoothnessId = Shader.PropertyToID("_RimSmoothness");
-        private static readonly int BlendDiffuseId = Shader.PropertyToID("_BlendDiffuse");
+        public static readonly int MainCelCountId = Shader.PropertyToID("_MainCelCount");
+        public static readonly int AdditionalCelCountId = Shader.PropertyToID("_AdditionalCelCount");
+        public static readonly int CelSpreadId = Shader.PropertyToID("_CelSpread");
+        public static readonly int CelSharpnessId = Shader.PropertyToID("_CelSharpness");
+        public static readonly int SpecularSharpnessId = Shader.PropertyToID("_SpecularSharpness");
+        public static readonly int RimAmountId = Shader.PropertyToID("_RimAmount");
+        public static readonly int RimSmoothnessId = Shader.PropertyToID("_RimSmoothness");
+        public static readonly int BlendDiffuseId = Shader.PropertyToID("_BlendDiffuse");
         
         [Header("Cel Shade")]
         [Range(1, 10), SerializeField] private int mainCelCount = 1;
@@ -26,8 +26,6 @@ namespace Rayman
         
         public override void SetupShaderProperties(ref Material material)
         {
-            base.SetupShaderProperties(ref material);
-            
             material.SetFloat(MainCelCountId, mainCelCount);
             material.SetFloat(AdditionalCelCountId, additionalCelCount);
             material.SetFloat(CelSpreadId, celSpread);

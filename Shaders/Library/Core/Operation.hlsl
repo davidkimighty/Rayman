@@ -34,7 +34,7 @@ inline float SmoothMax(const float a, const float b, const float k, const float 
     return lerp(a, b, h) + k * h * (1.0 - h);
 }
 
-inline float CombineShapes(const float primary, const float secondary, const int operation,
+inline float Combine(const float primary, const float secondary, const int operation,
     const float blend, out float blendValue)
 {
     blendValue = 0;
