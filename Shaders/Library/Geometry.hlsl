@@ -45,6 +45,42 @@ inline float2 GetScreenPosition(const float2 posCS)
     return screenPos;
 }
 
+inline float2 GetRotatedUV(float2 uv, float2 center, float rotation)
+{
+    uv -= center;
+    float s = sin(rotation);
+    float c = cos(rotation);
+
+    float2x2 rMatrix = float2x2(c, -s, s, c);
+    rMatrix *= 0.5;
+    rMatrix += 0.5;
+    rMatrix = rMatrix*2 - 1;
+
+    uv.xy = mul(uv.xy, rMatrix);
+    uv += center;
+    return uv;
+}
+
+inline float2 GetPlaneUV(float3 posOS, float2 size)
+{
+    return posOS.xz / size + 0.5;
+}
+
+inline float2 GetSphereUV(float3 posOS)
+{
+    float u = atan2(posOS.z, posOS.x) / (2.0 * PI) + 0.5;
+    float v = asin(posOS.y) / PI + 0.5;
+    return float2(u, v);
+}
+
+float2 GetCylinderUV(float3 posOS, float height)
+{
+    float u = atan2(posOS.z, posOS.x) / (2.0 * PI) + 0.5;
+    float v = posOS.y * height + 0.5;
+    return float2(u, v);
+}
+
+// hughsk - matcap
 inline float2 GetMatCap(const float3 viewDir, const float3 normal)
 {
     float3 reflected = reflect(viewDir, normal);

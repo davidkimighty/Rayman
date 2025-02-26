@@ -45,12 +45,9 @@ namespace Rayman
         {
             lineData = null;
         }
-
+        
 #if UNITY_EDITOR
-        public void DrawGizmos()
-        {
-            // empty
-        }
+        public void DrawGizmos() { }
 #endif
     }
 }

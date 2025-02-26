@@ -5,52 +5,72 @@
 #define SUBTRACT (1)
 #define INTERSECT (2)
 
-inline float SmoothUnion(const float d1, const float d2, const float k, out float h)
+// Inigo Quilez - smooth min functions
+
+inline float NormalizeBlend(float a, float b, float k)
 {
-    h = clamp(0.5 + 0.5 * (d1 - d2) / k, 0.0, 1.0);
-    return lerp(d1, d2, h) - k * h * (1. - h);
+    return max(k - abs(a - b), 0.0) / max(k, 1e-8f);
 }
 
-inline float SmoothSubtract(const float d1, const float d2, const float k, out float h)
+inline float SmoothMinQuadraticPolynomial(float a, float b, float k)
 {
-    h = clamp(0.5 - 0.5 * (d1 + d2) / k, 0.0, 1.0);
-    return lerp(d1, -d2, h) + k * h * (1. - h);
+    k *= 4.0;
+    float h = NormalizeBlend(a, b, k);
+    return min(a, b) - h * h * k * (1.0 / 4.0);
 }
 
-inline float SmoothIntersect(const float d1, const float d2, const float k, out float h)
+inline float SmoothMinCubicPolynomial(float a, float b, float k)
 {
-    h = clamp(0.5 - 0.5 * (d1 - d2) / k, 0.0, 1.0);
-    return lerp(d1, d2, h) + k * h * (1.0 - h);
+    k *= 6.0;
+    float h = NormalizeBlend(a, b, k);
+    return min(a, b) - h * h * h * k * (1.0 / 6.0);
+}
+
+inline float SmoothMinQuarticPolynomial(float a, float b, float k)
+{
+    k *= 16.0 / 3.0;
+    float h = NormalizeBlend(a, b, k);
+    return min(a, b) - h * h * h * (4.0 - h) * k * (1.0 / 16.0);
+}
+
+inline float SmoothMinCircular(float a, float b, float k)
+{
+    k *= 1.0 / (1.0 - sqrt(0.5));
+    float h = NormalizeBlend(a, b, k);
+    return min(a, b) - k * 0.5 * (1.0 + h - sqrt(1.0 - h * (h - 2.0)));
 }
 
 inline float SmoothMin(const float a, const float b, const float k)
 {
-    float h = max(k - abs(a - b), 0.0);
-    return min(a, b) - h * h * 0.25 / k;
+    float h = NormalizeBlend(a, b, k);
+    return min(a, b) - h * h * k * 0.25;
 }
 
-inline float SmoothMax(const float a, const float b, const float k, const float h)
+inline float SmoothMax(const float a, const float b, const float k)
 {
-    return lerp(a, b, h) + k * h * (1.0 - h);
+    float h = NormalizeBlend(a, b, k);
+    return max(a, b) + h * h * k * 0.25;
 }
 
-inline float Combine(const float primary, const float secondary, const int operation,
-    const float blend, out float blendValue)
+inline float2 SmoothOperation(const int operation, const float a, const float b, const float k)
 {
-    blendValue = 0;
-    if (primary < -0.5)
-        return secondary;
+    if (a < -0.5)
+        return b;
 
+    float colorBlend;
     switch (operation)
     {
-    case UNION:
-        return SmoothUnion(primary, secondary, blend, blendValue);
-    case SUBTRACT:
-        return SmoothSubtract(primary, secondary, blend, blendValue);
-    case INTERSECT:
-        return SmoothIntersect(primary, secondary, blend, blendValue);
-    default:
-        return secondary;
+        case UNION:
+            colorBlend = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
+            return float2(SmoothMin(a, b, k), colorBlend);
+        case SUBTRACT:
+            colorBlend = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
+            return float2(SmoothMax(a, -b, k), colorBlend);
+        case INTERSECT:
+            colorBlend = clamp(0.5 - 0.5 * (a - b) / k, 0.0, 1.0);
+            return float2(-SmoothMin(-a, -b, k), colorBlend);
+        default:
+            return b;
     }
 }
 

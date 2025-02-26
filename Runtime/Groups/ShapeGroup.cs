@@ -14,6 +14,8 @@ namespace Rayman
     [ExecuteInEditMode]
     public class ShapeGroup : RaymarchGroup
     {
+        public const string GradientColorKeyword = "GRADIENT_COLOR";
+        
         [SerializeField] private List<RaymarchShapeEntity> shapes = new();
         [SerializeField] private List<RaymarchDataProvider> dataProviders = new();
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
@@ -70,8 +72,11 @@ namespace Rayman
             shapeBufferProvider = ColorUsage switch
             {
                 ColorUsages.Color => new ShapeBufferProvider<ColorShapeData>(),
+                ColorUsages.Gradient => new ShapeBufferProvider<GradientColorShapeData>(),
                 _ => new ShapeBufferProvider<ShapeData>()
             };
+            if (ColorUsage == ColorUsages.Gradient)
+                MatInstance.EnableKeyword(GradientColorKeyword);
             shapeBuffer = shapeBufferProvider.InitializeBuffer(activeShapes, ref MatInstance);
             
             InvokeOnSetup();
@@ -104,7 +109,7 @@ namespace Rayman
             if (shapes.Contains(entity)) return;
 
             RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
-            if (shape == null) return;
+            if (!shape) return;
             
             shapes.Add(shape);
         }

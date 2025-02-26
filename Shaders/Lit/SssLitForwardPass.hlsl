@@ -113,9 +113,8 @@ FragOutput Frag (Varyings input)
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 
-	float4 hitPointOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0));
-	float3 directionOS = normalize(hitPointOS.xyz - float3(0, 0, 0));
-	float2 uv = float2((atan2(directionOS.x, directionOS.z) + PI) / (2 * PI), 1.0 - acos(directionOS.y) / PI);
+	float3 posOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0)).xyz;
+	float2 uv = GetCylinderUV(posOS, 1.0 - acos(normalize(posOS).y));
 	
 	SurfaceData surfaceData;
 	InitializeStandardLitSurfaceData(uv, surfaceData);

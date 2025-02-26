@@ -5,7 +5,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-inline float ShadowMap(const float3 pos);
+float ShadowMap(const float3 positionWS);
 
 inline float GetHardShadow(inout Ray ray)
 {

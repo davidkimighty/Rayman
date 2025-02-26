@@ -5,7 +5,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-inline float Map(const float3 pos);
+float Map(const float3 positionWS);
 
 inline bool Raymarch(inout Ray ray)
 {
@@ -20,17 +20,17 @@ inline bool Raymarch(inout Ray ray)
 }
 
 // Must be implemented by the including shader.
-inline float NormalMap(const float3 pos);
+float NormalMap(const float3 positionWS);
 
-inline float3 GetNormal(const float3 pos)
+inline float3 GetNormal(const float3 positionWS)
 {
     float3 x = float3(EPSILON, 0, 0);
     float3 y = float3(0, EPSILON, 0);
     float3 z = float3(0, 0, EPSILON);
 
-    float distX = NormalMap(pos + x) - NormalMap(pos - x);
-    float distY = NormalMap(pos + y) - NormalMap(pos - y);
-    float distZ = NormalMap(pos + z) - NormalMap(pos - z);
+    float distX = NormalMap(positionWS + x) - NormalMap(positionWS - x);
+    float distY = NormalMap(positionWS + y) - NormalMap(positionWS - y);
+    float distZ = NormalMap(positionWS + z) - NormalMap(positionWS - z);
     return normalize(float3(distX, distY, distZ));
 }
 

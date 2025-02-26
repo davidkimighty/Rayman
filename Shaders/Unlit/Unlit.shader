@@ -58,7 +58,19 @@
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		inline float Map(const float3 pos)
+		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
+		{
+			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
+			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+			
+			float3 scale = GetScale(shape.transform);
+	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+
+			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
+		}
+		
+		inline float Map(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
 			baseColor = _ShapeBuffer[hitIds[0]].color;
@@ -66,37 +78,18 @@
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 p = ApplyMatrix(pos, shape.transform);
-				p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
-				
-				float3 scale = GetScale(shape.transform);
-		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
-				float blend = 0;
-				totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
-				baseColor = lerp(baseColor, shape.color, blend);
+				float2 combined = CombineDistance(positionWS, shape, totalDist);
+				totalDist = combined.x;
+				baseColor = lerp(baseColor, shape.color, combined.y);
 			}
 			return totalDist;
 		}
 
-		inline float NormalMap(const float3 pos)
+		inline float NormalMap(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			
 			for (int i = 0; i < hitCount.x; i++)
-			{
-				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 p = ApplyMatrix(pos, shape.transform);
-				p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
-				
-				float3 scale = GetScale(shape.transform);
-		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
-				float blend = 0;
-				totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
-			}
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 

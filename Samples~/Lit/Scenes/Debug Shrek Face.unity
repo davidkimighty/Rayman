@@ -594,7 +594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 407645959}
-  debugMode: 2
+  debugMode: 0
   boundsDisplayThreshold: 300
 --- !u!114 &407645959
 MonoBehaviour:
@@ -613,7 +613,7 @@ MonoBehaviour:
   shapes:
   - {fileID: 1557142680}
   dataProviders: []
-  ColorUsage: 1
+  ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0
 --- !u!114 &434666194 stripped
@@ -688,10 +688,10 @@ MonoBehaviour:
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 2
   Operation: 0
-  Blend: 0
+  Blend: 0.007
   Roundness: 0.03
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  Color: {r: 0, g: 1, b: 0.5051193, a: 1}
+  GradientColor: {r: 0.9559748, g: 0.09920483, b: 0.26009023, a: 1}
 --- !u!1 &483120888
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +833,7 @@ MonoBehaviour:
   shapes:
   - {fileID: 458453442}
   dataProviders: []
-  ColorUsage: 1
+  ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0
 --- !u!1 &484591983
@@ -1163,7 +1163,7 @@ MonoBehaviour:
   shapes:
   - {fileID: 1090251723}
   dataProviders: []
-  ColorUsage: 1
+  ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0
 --- !u!114 &910304344 stripped
@@ -1262,8 +1262,8 @@ MonoBehaviour:
   Operation: 0
   Blend: 0
   Roundness: 0
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  Color: {r: 1, g: 0, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0.31415606, b: 1, a: 1}
 --- !u!1 &1092397780
 GameObject:
   m_ObjectHideFlags: 0
@@ -2782,9 +2782,37 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 841602544310056590, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1186640616453838938, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3193207331063523051, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3223819718905160758, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: a0dd128c33906d845b10678fa8065664, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 7990588505810057332, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8804870148724673258, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8939762635758409056, guid: a0dd128c33906d845b10678fa8065664, type: 3}
+      propertyPath: Blend
+      value: 0.001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

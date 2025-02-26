@@ -50,5 +50,9 @@ namespace Rayman
             pointData = null;
             lines = null;
         }
+        
+#if UNITY_EDITOR
+        public void DrawGizmos() { }
+#endif
     }
 }

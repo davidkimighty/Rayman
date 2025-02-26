@@ -10,7 +10,7 @@ namespace Rayman
         void SetData(ref GraphicsBuffer buffer);
         void ReleaseData();
 #if UNITY_EDITOR
-        public virtual void DrawGizmos(){}
+        void DrawGizmos();
 #endif
     }
 }

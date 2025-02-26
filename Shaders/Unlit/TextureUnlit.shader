@@ -31,6 +31,7 @@ Shader "Rayman/TextureUnlit"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
         
 		struct Shape
@@ -52,34 +53,32 @@ Shader "Rayman/TextureUnlit"
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
 
-		inline float GetDst(const float3 pos)
+		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
+		{
+			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
+			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+			
+			float3 scale = GetScale(shape.transform);
+	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+
+			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
+		}
+
+		inline float Map(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			
 			for (int i = 0; i < hitCount.x; i++)
-			{
-				Shape shape = _ShapeBuffer[hitIds[i]];
-				float3 p = ApplyMatrix(pos, shape.transform);
-				p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
-				
-				float3 scale = GetScale(shape.transform);
-		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-				float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
-				float blend = 0;
-				totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
-			}
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 
-		inline float Map(const float3 pos)
+		inline float NormalMap(const float3 positionWS)
 		{
-			return GetDst(pos);
-		}
-
-		inline float NormalMap(const float3 pos)
-		{
-			return GetDst(pos);
+			float totalDist = _MaxDistance;
+			for (int i = 0; i < hitCount.x; i++)
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
+			return totalDist;
 		}
 
 		inline NodeAabb GetNode(const int index)

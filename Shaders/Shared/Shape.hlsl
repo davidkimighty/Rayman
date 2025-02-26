@@ -14,7 +14,7 @@
 #define LINK (8)
 #define CAPPED_CONE (9)
 
-inline float GetShapeSdf(const float3 pos, const int type, const float3 size, const float roundness)
+float GetShapeSdf(const float3 pos, const int type, const float3 size, const float roundness)
 {
     switch (type)
     {
@@ -43,7 +43,7 @@ inline float GetShapeSdf(const float3 pos, const int type, const float3 size, co
     }
 }
 
-inline float3 GetPivotOffset(const int type, const float3 pivot, const float3 size)
+float3 GetPivotOffset(const int type, const float3 pivot, const float3 size)
 {
     switch (type)
     {

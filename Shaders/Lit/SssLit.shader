@@ -4,6 +4,9 @@ Shader "Rayman/SssLit"
     {
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
+    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.008
@@ -53,12 +56,18 @@ Shader "Rayman/SssLit"
         	half blend;
 			half roundness;
 			half4 color;
+#ifdef GRADIENT_COLOR
+			half4 gradientColor;
+#endif
 		};
 
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;
         float _ShadowMaxDistance;
+		float _GradientScaleY;
+		float _GradientOffsetY;
+		float _GradientAngle;
 		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
@@ -66,20 +75,19 @@ Shader "Rayman/SssLit"
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		inline void ApplyShapeDistance(float3 pos, Shape shape, inout float totalDist, out float blend)
+		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
 		{
-			float3 p = ApplyMatrix(pos, shape.transform);
-			p -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
+			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 			
 			float3 scale = GetScale(shape.transform);
 	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 
-			float dist = GetShapeSdf(p, shape.type, shape.size, shape.roundness) / scaleFactor;
-			blend = 0;
-			totalDist = Combine(totalDist, dist, shape.operation, shape.blend, blend);
+			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 
-		inline float Map(const float3 pos)
+		float Map(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
 			baseColor = _ShapeBuffer[hitIds[0]].color;
@@ -87,36 +95,36 @@ Shader "Rayman/SssLit"
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float blend = 0;
-				ApplyShapeDistance(pos, shape, totalDist, blend);
-				baseColor = lerp(baseColor, shape.color, blend);
+				float2 combined = CombineDistance(positionWS, shape, totalDist);
+				totalDist = combined.x;
+#ifdef GRADIENT_COLOR
+				float3 posOS = mul(shape.transform, float4(positionWS, 1.0)).xyz;
+				float2 uv = (posOS.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
+				uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
+				uv.y = 1.0 - uv.y;
+				uv = saturate(uv);
+				half4 color = lerp(shape.color, shape.gradientColor, uv.y);
+#else
+				half4 color = shape.color;
+#endif
+				baseColor = lerp(baseColor, color, combined.y);
 			}
 			return totalDist;
 		}
 
-		inline float NormalMap(const float3 pos)
+		float NormalMap(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			
 			for (int i = 0; i < hitCount.x; i++)
-			{
-				Shape shape = _ShapeBuffer[hitIds[i]];
-				float blend = 0;
-				ApplyShapeDistance(pos, shape, totalDist, blend);
-			}
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 
-		inline float ShadowMap(const float3 pos)
+		float ShadowMap(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			
 			for (int i = 0; i < hitCount.x; i++)
-			{
-				Shape shape = _ShapeBuffer[hitIds[i]];
-				float blend = 0;
-				ApplyShapeDistance(pos, shape, totalDist, blend);
-			}
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 
@@ -172,6 +180,8 @@ Shader "Rayman/SssLit"
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
             #pragma fragment Frag

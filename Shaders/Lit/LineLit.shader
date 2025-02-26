@@ -69,48 +69,41 @@
 			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
 		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
 		}
+
+		inline float2 CombineDistance(float3 posWS, Line entity, float totalDist)
+		{
+			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;
+			float3 scale = GetScale(entity.transform);
+	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+
+			float3 points[MAX_POINTS];
+			GetPoints(entity, points);
+
+			float2 lineSdf = GetLineSdf(posOS, entity.type, points);
+			float dist = ThickLine(lineSdf.x / scaleFactor, lineSdf.y, entity.radius.x, entity.radius.y);
+			return SmoothOperation(entity.operation, totalDist, dist, entity.blend);
+		}
 		
-		inline float Map(const float3 pos)
+		float Map(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			for (int i = 0; i < hitCount; i++)
+			//baseColor = _LineBuffer[hitIds[0]].color;
+			
+			for (int i = 0; i < hitCount.x; i++)
 			{
 				Line entity = _LineBuffer[hitIds[i]];
-				float3 p = ApplyMatrix(pos, entity.transform);
-				
-				float3 scale = GetScale(entity.transform);
-		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-				float3 points[MAX_POINTS];
-				GetPoints(entity, points);
-				float2 sdf = GetLineSdf(p, entity.type, points);
-				sdf.x /= scaleFactor;
-				float dist = ThickLine(sdf.x, sdf.y, entity.radius.x, entity.radius.y);
-				float blend = 0;
-				totalDist = Combine(totalDist, dist, 0, 0.1, blend);
+				float2 combined = CombineDistance(positionWS, entity, totalDist);
+				totalDist = combined.x;
+				//baseColor = lerp(baseColor, entity.color, combined.y);
 			}
 			return totalDist;
 		}
 
-		inline float NormalMap(const float3 pos)
+		float NormalMap(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			for (int i = 0; i < hitCount; i++)
-			{
-				Line entity = _LineBuffer[hitIds[i]];
-				float3 p = ApplyMatrix(pos, entity.transform);
-				
-				float3 scale = GetScale(entity.transform);
-		        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-				float3 points[MAX_POINTS];
-				GetPoints(entity, points);
-				float2 sdf = GetLineSdf(p, entity.type, points);
-				sdf.x /= scaleFactor;
-				float dist = ThickLine(sdf.x, sdf.y, entity.radius.x, entity.radius.y);
-				float blend = 0;
-				totalDist = Combine(totalDist, dist, 0, 0.1, blend);
-			}
+			for (int i = 0; i < hitCount.x; i++)
+				totalDist = CombineDistance(positionWS, _LineBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 
@@ -134,7 +127,7 @@
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -176,33 +169,33 @@
             ENDHLSL
 		}
 
-//		Pass
-//		{
-//			Name "Shadow Caster"
-//			Tags
-//			{
-//				"LightMode" = "ShadowCaster"
-//			}
-//
-//			ZWrite On
-//			ZTest LEqual
-//			ColorMask 0
-//			Cull [_Cull]
-//
-//			HLSLPROGRAM
-//			#pragma target 2.0
-//			#pragma multi_compile_instancing
-//			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-//			
-//			#pragma multi_compile _ LOD_FADE_CROSSFADE
-//			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-//			
-//			#pragma vertex Vert
-//		    #pragma fragment Frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitShadowCasterPass.hlsl"
-//			ENDHLSL
-//		}
+		Pass
+		{
+			Name "Shadow Caster"
+			Tags
+			{
+				"LightMode" = "ShadowCaster"
+			}
+
+			ZWrite On
+			ZTest LEqual
+			ColorMask 0
+			Cull [_Cull]
+
+			HLSLPROGRAM
+			#pragma target 2.0
+			#pragma multi_compile_instancing
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			
+			#pragma multi_compile _ LOD_FADE_CROSSFADE
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+			
+			#pragma vertex Vert
+		    #pragma fragment Frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitShadowCasterPass.hlsl"
+			ENDHLSL
+		}
     }
     FallBack "Diffuse"
 }
