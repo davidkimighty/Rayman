@@ -54,6 +54,7 @@
 #endif
 		};
 
+		CBUFFER_START(RaymarchPerGroup)
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;
@@ -61,6 +62,8 @@
 		float _GradientScaleY;
 		float _GradientOffsetY;
 		float _GradientAngle;
+		CBUFFER_END
+		
 		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         

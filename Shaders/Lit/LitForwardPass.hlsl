@@ -3,6 +3,7 @@
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Debug.hlsl"
 
 float _RayShadowBias;
 
@@ -62,38 +63,6 @@ inline void InitializeBakedGIData(Varyings input, inout InputData inputData)
 #endif
 }
 
-#ifdef DEBUG_MODE
-#define B float3(0.0, 0.3, 1.0)
-#define Y float3(1.0, 0.8, 0.0)
-
-int _DebugMode;
-int _BoundsDisplayThreshold;
-
-inline void Debugging(Ray ray, float3 posWS, float3 cameraPos, out FragOutput output)
-{
-	int raymarchCount;
-	bool rayHit = RaymarchHitCount(ray, raymarchCount);
-	output.depth = 1;
-	
-	switch (_DebugMode)
-	{
-		case 2:
-			if (!rayHit) discard;
-			output.color = float4(GetNormal(ray.hitPoint) * 0.5 + 0.5, 1);
-			output.depth = ray.distanceTravelled - length(posWS - cameraPos) < EPSILON ?
-				GetDepth(posWS) : GetDepth(ray.hitPoint);
-			break;
-		case 3:
-			output.color = float4(GetHitMap(raymarchCount, ray.maxSteps, B, Y), 1);
-			break;
-		case 4:
-			int total = hitCount.x + hitCount.y;
-			output.color = 1 * saturate((float)total / (total + _BoundsDisplayThreshold));
-			break;
-	}
-}
-#endif
-
 Varyings Vert (Attributes input)
 {
 	Varyings output = (Varyings)0;
@@ -135,7 +104,7 @@ FragOutput Frag (Varyings input)
 	InsertionSort(hitIds, hitCount.x);
 #ifdef DEBUG_MODE
 	FragOutput debugOutput;
-	Debugging(ray, input.positionWS, cameraPos, debugOutput);
+	debugOutput.color = DebugRaymarch(ray, input.positionWS, cameraPos, debugOutput.depth);
 	return debugOutput;
 #endif
 	if (!Raymarch(ray)) discard;
@@ -145,7 +114,7 @@ FragOutput Frag (Varyings input)
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 	
-	SurfaceData surfaceData;
+	SurfaceData surfaceData = (SurfaceData)0;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
 	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;

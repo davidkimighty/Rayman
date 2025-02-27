@@ -44,6 +44,7 @@ namespace Rayman
         public void ReleaseData()
         {
             lineData = null;
+            lines = null;
         }
         
 #if UNITY_EDITOR

@@ -146,8 +146,6 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct GradientColorShapeData : IRaymarchEntityData
     {
-        public static readonly int Stride = sizeof(float) * 28 + sizeof(int) * 2;
-        
         public int Type;
         public Matrix4x4 Transform;
         public Vector3 Size;

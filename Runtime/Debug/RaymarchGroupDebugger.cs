@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public enum DebugModes { None, Color, Normal, Hitmap, BoundingVolume, }
+    public enum DebugModes { None, Normal, Hitmap, BoundingVolume, }
     
     [ExecuteInEditMode]
     public class RaymarchGroupDebugger : MonoBehaviour

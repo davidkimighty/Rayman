@@ -7,6 +7,8 @@ namespace Rayman
     [ExecuteInEditMode]
     public class LineGroup : RaymarchGroup
     {
+        public const string GradientColorKeyword = "GRADIENT_COLOR";
+        
         [SerializeField] private List<RaymarchLineEntity> lines = new();
         [SerializeField] private List<RaymarchDataProvider> dataProviders = new();
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
@@ -63,7 +65,14 @@ namespace Rayman
             nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
             nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines, ref MatInstance);
             
-            lineBufferProvider = new LineBufferProvider<LineData>();
+            if (ColorUsage == ColorUsages.Gradient)
+                MatInstance.EnableKeyword(GradientColorKeyword);
+            lineBufferProvider = ColorUsage switch
+            {
+                ColorUsages.Color => new LineBufferProvider<LineData>(),
+                ColorUsages.Gradient => new LineBufferProvider<GradientLineData>(),
+                _ => new LineBufferProvider<LineData>()
+            };
             lineBuffer = lineBufferProvider.InitializeBuffer(activeLines, ref MatInstance);
             
             pointBufferProvider = new PointBufferProvider<PointData>();

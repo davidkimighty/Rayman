@@ -3,9 +3,10 @@
     Properties
     {
         [Header(PBR)][Space]
-    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
+    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Blending)][Space]
@@ -43,8 +44,13 @@
 			int operation;
         	half blend;
 			half2 radius;
+			half2 padding;
 			int pointStartIndex;
 			int pointsCount;
+			half4 color;
+#ifdef GRADIENT_COLOR
+			half4 gradientColor;
+#endif
 		};
 
 		struct Point
@@ -52,10 +58,15 @@
 			float3 position;
 		};
 
+        CBUFFER_START(RaymarchPerGroup)
         int _MaxSteps;
-		half _MaxDistance;
+		float _MaxDistance;
         int _ShadowMaxSteps;
-        half _ShadowMaxDistance;
+        float _ShadowMaxDistance;
+		float _GradientScaleY;
+		float _GradientOffsetY;
+		CBUFFER_END
+		
 		StructuredBuffer<Line> _LineBuffer;
 		StructuredBuffer<Point> _PointBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
@@ -64,37 +75,39 @@
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		inline void GetPoints(Line entity, out float3 points[MAX_POINTS])
-		{
-			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
-		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
-		}
-
-		inline float2 CombineDistance(float3 posWS, Line entity, float totalDist)
+		// result x: combined distance, y: combined color blend, z: line blend
+		float3 CombineDistance(float3 posWS, Line entity, float totalDist)
 		{
 			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;
 			float3 scale = GetScale(entity.transform);
 	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 
 			float3 points[MAX_POINTS];
-			GetPoints(entity, points);
+			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
+		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
 
 			float2 lineSdf = GetLineSdf(posOS, entity.type, points);
 			float dist = ThickLine(lineSdf.x / scaleFactor, lineSdf.y, entity.radius.x, entity.radius.y);
-			return SmoothOperation(entity.operation, totalDist, dist, entity.blend);
+			return float3(SmoothOperation(entity.operation, totalDist, dist, entity.blend), lineSdf.y);
 		}
 		
 		float Map(const float3 positionWS)
 		{
 			float totalDist = _MaxDistance;
-			//baseColor = _LineBuffer[hitIds[0]].color;
+			baseColor = _LineBuffer[hitIds[0]].color;
 			
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Line entity = _LineBuffer[hitIds[i]];
-				float2 combined = CombineDistance(positionWS, entity, totalDist);
+				float3 combined = CombineDistance(positionWS, entity, totalDist);
 				totalDist = combined.x;
-				//baseColor = lerp(baseColor, entity.color, combined.y);
+#ifdef GRADIENT_COLOR
+				float blend = saturate((combined.z + _GradientOffsetY - 1.0) * _GradientScaleY + 0.5);
+				half4 color = lerp(entity.color, entity.gradientColor, blend);
+#else
+				half4 color = entity.color;
+#endif
+				baseColor = lerp(baseColor, color, combined.y);
 			}
 			return totalDist;
 		}
@@ -127,7 +140,7 @@
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 2.0
+			#pragma target 5.0
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -161,6 +174,7 @@
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
 			#pragma multi_compile_fragment _ DEBUG_MODE
+			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
             #pragma fragment Frag

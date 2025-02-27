@@ -6,10 +6,13 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 float _RayShadowBias;
+
+CBUFFER_START(SssParams)
 float _SssDistortion;
 float _SssPower;
 float _SssScale;
 float _SssAmbient;
+CBUFFER_END
 
 struct Attributes
 {

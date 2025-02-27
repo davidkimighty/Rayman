@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 233407162}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &233407162
 MonoBehaviour:
@@ -535,7 +535,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 1326143552}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -594,7 +595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 407645959}
-  debugMode: 0
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &407645959
 MonoBehaviour:
@@ -608,7 +609,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 0}
+  MatInstance: {fileID: 1326143552}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
   shapes:
   - {fileID: 1557142680}
@@ -814,7 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 483120895}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &483120895
 MonoBehaviour:
@@ -1144,7 +1145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 896070101}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &896070101
 MonoBehaviour:
@@ -1440,7 +1441,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 1094907345}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1094907345
 MonoBehaviour:
@@ -1796,7 +1797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 1310379947}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1310379947
 MonoBehaviour:
@@ -1844,6 +1845,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &1326143552
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/Lit
+  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - DEBUG_MODE
+  - GRADIENT_COLOR
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0.5
+    - _GradientScaleY: 1
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _Smoothness: 0.5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1420686996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1966,7 +2012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 1420687003}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1420687003
 MonoBehaviour:
@@ -2094,8 +2140,8 @@ MonoBehaviour:
   Operation: 0
   Blend: 0
   Roundness: 0.03
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  Color: {r: 1, g: 0.49999988, b: 0.49999988, a: 1}
+  GradientColor: {r: 0.29947382, g: 0.5211873, b: 0.84276724, a: 1}
 --- !u!1 &1581845690
 GameObject:
   m_ObjectHideFlags: 0
@@ -2218,7 +2264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 1581845697}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1581845697
 MonoBehaviour:
@@ -2491,7 +2537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raymarchGroup: {fileID: 1772023122}
-  debugMode: 2
+  debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1772023122
 MonoBehaviour:

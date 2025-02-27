@@ -19,8 +19,8 @@ namespace Rayman
         [Range(0, 1f)] public float Blend;
         public Vector2 Radius = Vector2.one * 0.1f;
         public List<Transform> Points = new();
-        public ColorUsages ColorUsage = ColorUsages.Color;
         public Color Color = Color.white;
+        public Color GradientColor = Color.white;
         
 #if UNITY_EDITOR
         private void OnValidate()
@@ -62,9 +62,10 @@ namespace Rayman
         public Matrix4x4 Transform;
         public int Operation;
         public float Blend;
-        public Vector2 Radius;
+        public Vector4 Radius;
         public int PointStartIndex;
         public int PointsCount;
+        public Vector4 Color;
 
         public void InitializeData(RaymarchLineEntity line, int startIndex)
         {
@@ -76,6 +77,35 @@ namespace Rayman
             Radius = line.Radius;
             PointStartIndex = startIndex;
             PointsCount = line.Points.Count;
+            Color = line.Color;
+        }
+    }
+    
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct GradientLineData : ILineData
+    {
+        public int Type;
+        public Matrix4x4 Transform;
+        public int Operation;
+        public float Blend;
+        public Vector4 Radius;
+        public int PointStartIndex;
+        public int PointsCount;
+        public Vector4 Color;
+        public Vector4 GradientColor;
+        
+        public void InitializeData(RaymarchLineEntity line, int startIndex)
+        {
+            Type = (int)line.Line;
+            Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(line.transform.position, line.transform.rotation, Vector3.one).inverse;
+            Operation = (int)line.Operation;
+            Blend = line.Blend;
+            Radius = line.Radius;
+            PointStartIndex = startIndex;
+            PointsCount = line.Points.Count;
+            Color = line.Color;
+            GradientColor = line.GradientColor;
         }
     }
     

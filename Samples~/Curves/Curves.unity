@@ -630,7 +630,7 @@ Transform:
   m_GameObject: {fileID: 1310379938}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -672,11 +672,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: c9958ab368ee29741b0c13d9fc8bc16a, type: 3}
-  drawGizmos: 0
   lines:
   - {fileID: 1535027763}
   - {fileID: 1688190376}
+  dataProviders: []
+  ColorUsage: 2
   updateBoundsThreshold: 0
+  drawGizmos: 0
 --- !u!1 &1535027762
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,10 +713,12 @@ MonoBehaviour:
   Line: 0
   Operation: 0
   Blend: 0.1
-  Radius: {x: 0.05, y: 0.05}
+  Radius: {x: 0.1, y: 0.05}
   Points:
   - {fileID: 1736004254}
   - {fileID: 1195453662}
+  Color: {r: 0.11635202, g: 0.6163546, b: 1, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &1535027764
 Transform:
   m_ObjectHideFlags: 0
@@ -789,6 +793,8 @@ MonoBehaviour:
   - {fileID: 391170896}
   - {fileID: 2146679254}
   - {fileID: 35733077}
+  Color: {r: 0.27959055, g: 0.7169812, b: 0.047347713, a: 1}
+  GradientColor: {r: 1, g: 0.7460673, b: 0.2295596, a: 1}
 --- !u!1 &1736004253
 GameObject:
   m_ObjectHideFlags: 0
@@ -814,7 +820,7 @@ Transform:
   m_GameObject: {fileID: 1736004253}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.055, y: 0, z: 0}
+  m_LocalPosition: {x: -0.136, y: -0.02, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -69,14 +69,14 @@ namespace Rayman
             nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
             nodeBuffer = nodeBufferProvider.InitializeBuffer(activeShapes, ref MatInstance);
             
+            if (ColorUsage == ColorUsages.Gradient)
+                MatInstance.EnableKeyword(GradientColorKeyword);
             shapeBufferProvider = ColorUsage switch
             {
                 ColorUsages.Color => new ShapeBufferProvider<ColorShapeData>(),
                 ColorUsages.Gradient => new ShapeBufferProvider<GradientColorShapeData>(),
                 _ => new ShapeBufferProvider<ShapeData>()
             };
-            if (ColorUsage == ColorUsages.Gradient)
-                MatInstance.EnableKeyword(GradientColorKeyword);
             shapeBuffer = shapeBufferProvider.InitializeBuffer(activeShapes, ref MatInstance);
             
             InvokeOnSetup();

@@ -6,6 +6,8 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 float _RayShadowBias;
+
+CBUFFER_START(CelParams)
 float _MainCelCount;
 float _AdditionalCelCount;
 float _CelSpread;
@@ -15,6 +17,7 @@ float _RimAmount;
 float _RimSmoothness;
 float _BlendDiffuse;
 float _F0;
+CBUFFER_END
 
 struct Attributes
 {
