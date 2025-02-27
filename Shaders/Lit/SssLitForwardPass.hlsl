@@ -104,15 +104,20 @@ FragOutput Frag (Varyings input)
 	
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.positionWS, rayDir, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray)) discard;
 
+	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon.z);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon.z ?
+			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
+	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 
@@ -169,9 +174,6 @@ FragOutput Frag (Varyings input)
 		}
 	LIGHT_LOOP_END
 #endif
-
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
-			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
 	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));

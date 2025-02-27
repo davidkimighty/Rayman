@@ -235,10 +235,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 20000883}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 20000886}
 --- !u!23 &20000883
@@ -378,10 +376,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 22828807}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 22828810}
 --- !u!23 &22828807
@@ -753,10 +749,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 72219482}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 72219485}
 --- !u!23 &72219482
@@ -1607,10 +1601,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 211336103}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 211336106}
 --- !u!23 &211336103
@@ -2122,10 +2114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 290972868}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 290972871}
 --- !u!23 &290972868
@@ -2353,10 +2343,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 309833717}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 309833720}
 --- !u!23 &309833717
@@ -2650,10 +2638,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 331814428}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 331814431}
 --- !u!23 &331814428
@@ -2831,10 +2817,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 346191815}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 346191818}
 --- !u!23 &346191815
@@ -3238,10 +3222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 414928523}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 414928526}
 --- !u!23 &414928523
@@ -3617,10 +3599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 458852613}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 458852616}
 --- !u!23 &458852613
@@ -4377,10 +4357,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 550197595}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 550197598}
 --- !u!23 &550197595
@@ -4542,10 +4520,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 557972435}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 557972438}
 --- !u!23 &557972435
@@ -4795,10 +4771,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 580185885}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 580185888}
 --- !u!23 &580185885
@@ -5086,10 +5060,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 616646368}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 616646371}
 --- !u!23 &616646368
@@ -5753,10 +5725,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 673822506}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 673822509}
 --- !u!23 &673822506
@@ -6275,10 +6245,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 778406854}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 778406857}
 --- !u!23 &778406854
@@ -6505,10 +6473,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 809319302}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 809319305}
 --- !u!23 &809319302
@@ -6929,10 +6895,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 829917194}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 829917198}
 --- !u!114 &829917198
@@ -7147,10 +7111,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 868972357}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 868972360}
 --- !u!23 &868972357
@@ -7312,10 +7274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 875681829}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 875681832}
 --- !u!23 &875681829
@@ -7753,10 +7713,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 932787424}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 932787427}
 --- !u!23 &932787424
@@ -8451,10 +8409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1031074505}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1031074508}
 --- !u!23 &1031074505
@@ -8738,10 +8694,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1064590819}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1064590822}
 --- !u!23 &1064590819
@@ -9268,10 +9222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1132131692}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1132131695}
 --- !u!23 &1132131692
@@ -10003,10 +9955,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1232118999}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1232119002}
 --- !u!23 &1232118999
@@ -10157,10 +10107,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1235429035}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1235429038}
 --- !u!23 &1235429035
@@ -10659,10 +10607,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1276846656}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1276846660}
 --- !u!114 &1276846660
@@ -10901,10 +10847,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1310379940}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1310379944}
 --- !u!114 &1310379944
@@ -11519,10 +11463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1428563576}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1428563580}
 --- !u!114 &1428563580
@@ -11739,10 +11681,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1449392203}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1449392206}
 --- !u!23 &1449392203
@@ -12133,10 +12073,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1476563014}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1476563017}
 --- !u!23 &1476563014
@@ -12375,10 +12313,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1492692392}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1492692395}
 --- !u!23 &1492692392
@@ -12775,10 +12711,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1525038255}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1525038259}
 --- !u!114 &1525038259
@@ -12994,10 +12928,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1553158067}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1553158071}
 --- !u!114 &1553158071
@@ -13418,10 +13350,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1627785077}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1627785080}
 --- !u!23 &1627785077
@@ -13737,10 +13667,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1668664821}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1668664824}
 --- !u!23 &1668664821
@@ -14294,10 +14222,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1737723351}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1737723354}
 --- !u!23 &1737723351
@@ -14906,10 +14832,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1812690697}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1812690700}
 --- !u!23 &1812690697
@@ -15128,10 +15052,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1817946585}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1817946589}
 --- !u!114 &1817946589
@@ -15728,10 +15650,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1878116088}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1878116092}
 --- !u!114 &1878116092
@@ -16155,10 +16075,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1923378803}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 1923378806}
 --- !u!23 &1923378803
@@ -16867,10 +16785,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2053277492}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 2053277495}
 --- !u!23 &2053277492
@@ -17180,10 +17096,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2085708315}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 2085708318}
 --- !u!23 &2085708315
@@ -17345,10 +17259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2091829676}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 2091829679}
 --- !u!23 &2091829676
@@ -17655,10 +17567,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 2120122699}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
+  dataProviders:
+  - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
   raymarchGroups:
   - {fileID: 2120122703}
 --- !u!114 &2120122703
@@ -18037,7 +17947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_AnchoredPosition.x

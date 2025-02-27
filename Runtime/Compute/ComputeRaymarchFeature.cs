@@ -64,10 +64,10 @@ namespace Rayman
                 cs.SetInt(ScreenWidthId, Screen.width);
                 cs.SetInt(ScreenHeightId,  Screen.height);
                 cs.SetFloat(RenderScaleId, UniversalRenderPipeline.asset.renderScale);
-                cs.SetInt(RaymarchRenderer.MaxStepsId, setting.MaxSteps);
-                cs.SetFloat(RaymarchRenderer.MaxDistanceId, setting.MaxDistance);
-                cs.SetInt(RaymarchRenderer.ShadowMaxStepsId, setting.ShadowMaxSteps);
-                cs.SetFloat(RaymarchRenderer.ShadowMaxDistanceId, setting.ShadowMaxDistance);
+                cs.SetInt(RayDataProvider.MaxStepsId, setting.MaxSteps);
+                cs.SetFloat(RayDataProvider.MaxDistanceId, setting.MaxDistance);
+                cs.SetInt(RayDataProvider.ShadowMaxStepsId, setting.ShadowMaxSteps);
+                cs.SetFloat(RayDataProvider.ShadowMaxDistanceId, setting.ShadowMaxDistance);
             }
             
             public void SetupShapeResultBuffer(ColorShapeData[] shapeData)

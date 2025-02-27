@@ -11,6 +11,14 @@
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
+    	[Header(Raymarching)][Space]
+    	_EpsilonMin("Epsilon Min", Float) = 0.001
+    	_EpsilonMax("Epsilon Max", Float) = 0.01
+    	_MaxSteps("Max Steps", Int) = 64
+    	_MaxDistance("Max Distance", Float) = 100.0
+    	_ShadowMaxSteps("Shadow Max Steps", Int) = 16
+    	_ShadowMaxDistance("Shadow Max Distance", Float) = 30.0
+    	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
 		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("DstBlend ", Float) = 0.0
@@ -55,6 +63,8 @@
 		};
 
 		CBUFFER_START(RaymarchPerGroup)
+		float _EpsilonMin;
+		float _EpsilonMax;
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;

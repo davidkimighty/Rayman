@@ -10,7 +10,7 @@ namespace Rayman
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
         [SerializeField] private List<RaymarchLineEntity> lines = new();
-        [SerializeField] private List<RaymarchDataProvider> dataProviders = new();
+        [SerializeField] private List<DataProvider> dataProviders = new();
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
         [SerializeField] private float updateBoundsThreshold;
 #if UNITY_EDITOR
@@ -39,8 +39,8 @@ namespace Rayman
         {
             if (!IsInitialized()) return;
         
-            foreach (RaymarchDataProvider provider in dataProviders)
-                provider?.SetupShaderProperties(ref MatInstance);
+            foreach (DataProvider provider in dataProviders)
+                provider?.ProvideShaderProperties(ref MatInstance);
         }
 
         private void OnDrawGizmos()
@@ -59,8 +59,8 @@ namespace Rayman
             MatInstance = new Material(shader);
             if (!MatInstance) return null;
             
-            foreach (RaymarchDataProvider provider in dataProviders)
-                provider?.SetupShaderProperties(ref MatInstance);
+            foreach (DataProvider provider in dataProviders)
+                provider?.ProvideShaderProperties(ref MatInstance);
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
             nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines, ref MatInstance);

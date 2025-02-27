@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Render State")]
-    public class RenderStateDataProvider : RaymarchDataProvider
+    public class RenderStateDataProvider : DataProvider
     {
         public static readonly int SrcBlendId = Shader.PropertyToID("_SrcBlend");
         public static readonly int DstBlendId = Shader.PropertyToID("_DstBlend");
@@ -16,7 +16,7 @@ namespace Rayman
         public CullMode Cull = CullMode.Back;
         public bool ZWrite = true;
         
-        public override void SetupShaderProperties(ref Material material)
+        public override void ProvideShaderProperties(ref Material material)
         {
             material.SetFloat(SrcBlendId, (float)SrcBlend);
             material.SetFloat(DstBlendId, (float)DstBlend);

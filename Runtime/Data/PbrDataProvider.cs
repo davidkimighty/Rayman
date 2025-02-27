@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/PBR")]
-    public class PbrDataProvider : RaymarchDataProvider
+    public class PbrDataProvider : DataProvider
     {
         public static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
         public static readonly int MetallicId = Shader.PropertyToID("_Metallic");
@@ -15,7 +15,7 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] private float smoothness = 0.5f;
         [ColorUsage(true, true), SerializeField] private Color emissionColor;
         
-        public override void SetupShaderProperties(ref Material material)
+        public override void ProvideShaderProperties(ref Material material)
         {
             material.SetTexture(BaseMapId, baseMap);
             material.SetFloat(MetallicId, metallic);

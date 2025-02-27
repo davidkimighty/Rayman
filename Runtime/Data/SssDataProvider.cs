@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/SSS")]
-    public class SssDataProvider : RaymarchDataProvider
+    public class SssDataProvider : DataProvider
     {
         public static readonly int SssDistortionId = Shader.PropertyToID("_SssDistortion");
         public static readonly int SssPowerId = Shader.PropertyToID("_SssPower");
@@ -17,7 +17,7 @@ namespace Rayman
         [SerializeField] private float sssAmbient = 0.1f;
         [SerializeField] private float sssThickness = 0.5f;
         
-        public override void SetupShaderProperties(ref Material material)
+        public override void ProvideShaderProperties(ref Material material)
         {
             material.SetFloat(SssDistortionId, sssDistortion);
             material.SetFloat(SssPowerId, sssPower);

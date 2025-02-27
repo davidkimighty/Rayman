@@ -27,8 +27,11 @@ float4x4 _CameraToWorld;
 float4x4 _InverseProjectionMatrix;
 float4x4 _ViewProjectionMatrix;
 
+float _EpsilonMin;
+float _EpsilonMax;
 int _MaxSteps;
 float _MaxDistance;
+
 StructuredBuffer<Shape> _ShapeBuffer;
 StructuredBuffer<NodeAabb> _NodeBuffer;
 RWTexture2D<float4> _ResultTexture;
@@ -89,13 +92,13 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     
     float4 posWS = mul(_CameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
-    Ray ray = CreateRay(posWS.xyz, rayDirWS, _MaxSteps, _MaxDistance);
+    Ray ray = CreateRay(posWS.xyz, rayDirWS, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
     ray.distanceTravelled = length(ray.hitPoint - _CameraPosition.xyz);
 
     hitCount = GetHitIds(0, ray, hitIds);
     InsertionSort(hitIds, hitCount.x);
     Raymarch(ray);
     
-    color = ray.hitDistance > EPSILON ? 0 : color;
+    color = ray.hitDistance > ray.epsilon.z ? 0 : color;
     _ResultTexture[id.xy] = color;
 }

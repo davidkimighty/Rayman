@@ -43,14 +43,14 @@ FragOutput Frag (Varyings input)
 
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.posWS - cameraPos);
-	Ray ray = CreateRay(input.posWS, rayDir, _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.posWS, rayDir, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray)) discard;
 
-	const float depth = ray.distanceTravelled - length(input.posWS - cameraPos) < EPSILON ?
+	const float depth = ray.distanceTravelled - length(input.posWS - cameraPos) < ray.epsilon.z ?
 		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
 
 	FragOutput output;

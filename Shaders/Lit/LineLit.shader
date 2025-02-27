@@ -3,11 +3,20 @@
     Properties
     {
         [Header(PBR)][Space]
+    	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
     	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	
+    	[Header(Raymarching)][Space]
+    	_EpsilonMin("Epsilon Min", Float) = 0.001
+    	_EpsilonMax("Epsilon Max", Float) = 0.01
+    	_MaxSteps("Max Steps", Int) = 64
+    	_MaxDistance("Max Distance", Float) = 100.0
+    	_ShadowMaxSteps("Shadow Max Steps", Int) = 16
+    	_ShadowMaxDistance("Shadow Max Distance", Float) = 30.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -59,6 +68,8 @@
 		};
 
         CBUFFER_START(RaymarchPerGroup)
+		float _EpsilonMin;
+		float _EpsilonMax;
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;
@@ -140,7 +151,7 @@
 		    Cull [_Cull]
 		    
 			HLSLPROGRAM
-			#pragma target 5.0
+			#pragma target 2.0
 			
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
@@ -179,7 +190,7 @@
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LineLitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
             ENDHLSL
 		}
 

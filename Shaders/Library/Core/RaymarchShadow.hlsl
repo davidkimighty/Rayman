@@ -1,7 +1,6 @@
 ﻿#ifndef RAYMAN_RAYMARCH_SHADOW
 #define RAYMAN_RAYMARCH_SHADOW
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
@@ -13,7 +12,7 @@ inline float GetHardShadow(inout Ray ray)
     for (int i = 0; i < ray.maxSteps; i++)
     {
         float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
-        if(dist < EPSILON)
+        if(dist < ray.epsilon.z)
             return 0;
         if (ray.distanceTravelled > ray.maxDistance) break;
         ray.distanceTravelled += dist;
@@ -24,7 +23,7 @@ inline float GetHardShadow(inout Ray ray)
 inline float GetSoftShadow(in Ray ray, const float w)
 {
     float res = 1;
-    ray.distanceTravelled = EPSILON;
+    ray.distanceTravelled = ray.epsilon.z;
     for (int i = 0; i < ray.maxSteps; i++)
     {
         const float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);

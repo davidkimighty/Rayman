@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Cel Shade")]
-    public class CelShadeDataProvider : RaymarchDataProvider
+    public class CelShadeDataProvider : DataProvider
     {
         public static readonly int MainCelCountId = Shader.PropertyToID("_MainCelCount");
         public static readonly int AdditionalCelCountId = Shader.PropertyToID("_AdditionalCelCount");
@@ -24,7 +24,7 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] private float rimSmoothness = 0.03f;
         [Range(0f, 1f), SerializeField] private float blendDiffuse = 0.9f;
         
-        public override void SetupShaderProperties(ref Material material)
+        public override void ProvideShaderProperties(ref Material material)
         {
             material.SetFloat(MainCelCountId, mainCelCount);
             material.SetFloat(AdditionalCelCountId, additionalCelCount);
