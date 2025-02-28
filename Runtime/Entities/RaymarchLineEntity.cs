@@ -9,6 +9,7 @@ namespace Rayman
     {
         Segment,
         QuadraticBezier,
+        CubicBezier,
     }
     
     public class RaymarchLineEntity : RaymarchEntity
