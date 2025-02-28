@@ -137,16 +137,18 @@ FragOutput Frag (Varyings input)
 	
 	float3 cameraPos = GetCameraPosition();
 	half3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	hitCount = GetHitIds(0, ray, hitIds);
+	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+	if (hitCount.x == 0) discard;
+	
 	InsertionSort(hitIds, hitCount.x);
-	if (!Raymarch(ray)) discard;
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
 	float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	float3 normal = GetNormal(ray.hitPoint, ray.epsilon.z);
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon.z ?
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;

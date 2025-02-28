@@ -82,11 +82,10 @@
 		StructuredBuffer<Point> _PointBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
-        int hitCount = 0;
+        int2 hitCount = 0;
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		// result x: combined distance, y: combined color blend, z: line blend
 		float3 CombineDistance(float3 posWS, Line entity, float totalDist)
 		{
 			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;

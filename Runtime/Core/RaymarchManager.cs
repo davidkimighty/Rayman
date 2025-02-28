@@ -13,6 +13,14 @@ namespace Rayman
 
         public List<RaymarchRenderer> Renderers => raymarchRenderers;
 
+#if UNITY_EDITOR
+        [ContextMenu("Find all Raymarch Renderers")]
+        public void FindAllRaymarchRenderers()
+        {
+            raymarchRenderers = RaymarchUtils.GetChildrenByHierarchical<RaymarchRenderer>(transform);
+        }
+#endif
+        
         public void AddRenderer(RaymarchRenderer raymarchRenderer)
         {
             if (raymarchRenderers.Contains(raymarchRenderer)) return;

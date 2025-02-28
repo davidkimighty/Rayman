@@ -1,11 +1,8 @@
-﻿#ifndef RAYMAN_LIT_SHADOWCASTER
-#define RAYMAN_LIT_SHADOWCASTER
+﻿#ifndef RAYMAN_CONE_LIT_SHADOWCASTER
+#define RAYMAN_CONE_LIT_SHADOWCASTER
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-#if defined(LOD_FADE_CROSSFADE)
-#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/LODCrossFade.hlsl"
-#endif
 
 float3 _LightDirection;
 float3 _LightPosition;
@@ -54,18 +51,13 @@ float Frag(Varyings input) : SV_Depth
     
     float3 cameraPos = GetCameraPosition();
     float3 cameraForward = GetCameraForward();
-    Ray ray = CreateRay(input.positionWS, cameraForward, _EpsilonMin);
+    Ray ray = CreateRay(input.positionWS, cameraForward, _Epsilon);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     
     hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
-    if (hitCount.x == 0) discard;
-    
     InsertionSort(hitIds, hitCount.x);
-    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
-
-#if defined(LOD_FADE_CROSSFADE)
-    LODFadeCrossFade(input.positionCS);
-#endif
+    
+    if (!ConeMarch(ray, _PassCount, _ConeSubdivision, _MaxSteps, _MaxDistance, _Epsilon, _TangentHalfFov)) discard;
 
     const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
         GetDepth(input.positionWS) : GetDepth(ray.hitPoint);

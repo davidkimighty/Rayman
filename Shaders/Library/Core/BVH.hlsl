@@ -15,17 +15,18 @@ struct NodeAabb
 // Must be implemented by the including shader.
 inline NodeAabb GetNode(const int index);
 
-inline int2 GetHitIds(const int startIndex, const Ray ray, inout int hitIds[RAY_MAX_HITS])
+int2 TraverseBvh(const int startIndex, const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
     int2 count = 0; // count.x is leaf
     int ptr = 0;
     nodeStack[ptr++] = startIndex;
+    float3 invDir = rcp(rayDir);
 
     while (ptr > 0)
     {
         NodeAabb node = GetNode(nodeStack[--ptr]);
-        if (!RayIntersect(ray, node.bounds)) continue;
+        if (!RayIntersect(rayOrigin, invDir, node.bounds)) continue;
         
         if (node.childIndex < 0) // leaf
         {
@@ -36,8 +37,8 @@ inline int2 GetHitIds(const int startIndex, const Ray ray, inout int hitIds[RAY_
         {
             int childL = node.childIndex;
             int childR = childL + 1;
-            float dstL = RayIntersectNearDst(ray, GetNode(childL).bounds);
-            float dstR = RayIntersectNearDst(ray, GetNode(childR).bounds);
+            float dstL = RayIntersectNearDst(rayOrigin, invDir, GetNode(childL).bounds);
+            float dstR = RayIntersectNearDst(rayOrigin, invDir, GetNode(childR).bounds);
 
             bool rightNear = dstL > dstR; 
             nodeStack[ptr++] = rightNear ? childL : childR;
@@ -48,7 +49,7 @@ inline int2 GetHitIds(const int startIndex, const Ray ray, inout int hitIds[RAY_
     return count;
 }
 
-inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
+void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
 {
     for (int i = 1; i < numHits; i++)
     {

@@ -19,27 +19,27 @@ float GetShapeSdf(const float3 pos, const int type, const float3 size, const flo
     switch (type)
     {
         case SPHERE:
-            return Sphere(pos, size.x);
+            return SphereSdf(pos, size.x);
         case ELLIPSOID:
-            return Ellipsoid(pos, size);
+            return EllipsoidSdf(pos, size);
         case BOX:
-            return Box(pos, size) - roundness;
+            return BoxSdf(pos, size) - roundness;
         case OCTAHEDRON:
-            return Octahedron(pos, size.x) - roundness;
+            return OctahedronSdf(pos, size.x) - roundness;
         case CAPSULE:
-            return Capsule(pos, size.xy);
+            return CapsuleSdf(pos, size.xy);
         case CYLINDER:
-            return Cylinder(pos, size.xy) - roundness;
+            return CylinderSdf(pos, size.xy) - roundness;
         case TORUS:
-            return Torus(pos, size.xy);
+            return TorusSdf(pos, size.xy);
         case CAPPED_TORUS:
-            return CappedTorus(pos, size);
+            return CappedTorusSdf(pos, size);
         case LINK:
-            return Link(pos, size);
+            return LinkSdf(pos, size);
         case CAPPED_CONE:
-            return CappedCone(pos, size) - roundness;
+            return CappedConeSdf(pos, size) - roundness;
         default:
-            return Sphere(pos, size.x);
+            return SphereSdf(pos, size.x);
     }
 }
 

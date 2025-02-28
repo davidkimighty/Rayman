@@ -3,25 +3,25 @@
 
 // Inigo Quilez - distance functions
 
-inline float Sphere(const float3 pos, const float radius)
+inline float SphereSdf(const float3 pos, const float radius)
 {
     return length(pos) - radius;
 }
 
-inline float Ellipsoid(const float3 pos, const float3 size)
+inline float EllipsoidSdf(const float3 pos, const float3 size)
 {
     float k0 = length(pos / size);
     float k1 = length(pos / (size * size));
     return k0 * (k0 - 1.0) / k1;
 }
 
-inline float Box(const float3 pos, const float3 size)
+inline float BoxSdf(const float3 pos, const float3 size)
 {
     const float3 q = abs(pos) - size;
     return length(max(q, 0.0)) + min(max(q.x, max(q.y, q.z)), 0.0);
 }
 
-inline float Octahedron(float3 pos, const float size)
+inline float OctahedronSdf(float3 pos, const float size)
 {
     pos = abs(pos);
     const float m = pos.x + pos.y + pos.z - size;
@@ -38,26 +38,26 @@ inline float Octahedron(float3 pos, const float size)
     return length(float3(q.x, q.y - size + k, q.z - k));
 }
 
-inline float Capsule(float3 pos, const float2 size)
+inline float CapsuleSdf(float3 pos, const float2 size)
 {
     pos.y += size.y * 0.5;
     pos.y -= clamp(pos.y, 0.0, size.y);
     return length(pos) - size.x;
 }
 
-inline float Cylinder(const float3 pos, const float2 size)
+inline float CylinderSdf(const float3 pos, const float2 size)
 {
     const float2 d = abs(float2(length(pos.xz), pos.y)) - size;
     return min(max(d.x, d.y), 0.0) + length(max(d, 0.0));
 }
 
-inline float Torus(const float3 pos, const float2 size)
+inline float TorusSdf(const float3 pos, const float2 size)
 {
     const float2 q = float2(length(pos.xy) - size.x, pos.z);
     return length(q) - size.y;
 }
 
-inline float CappedTorus(float3 pos, const float3 size)
+inline float CappedTorusSdf(float3 pos, const float3 size)
 {
     const float2 sc = float2(sin(size.x), cos(size.x));
     pos.x = abs(pos.x);
@@ -65,19 +65,19 @@ inline float CappedTorus(float3 pos, const float3 size)
     return sqrt(dot(pos, pos) + size.y * size.y - 2.0 * size.y * k) - size.z;
 }
 
-inline float Link(const float3 pos, const float3 size)
+inline float LinkSdf(const float3 pos, const float3 size)
 {
     const float3 q = float3(pos.x, max(abs(pos.y) - size.y, 0.0), pos.z);
     return length(float2(length(q.xy) - size.x, q.z)) - size.z;
 }
 
-inline float Cone(const float3 pos, const float3 size)
+inline float ConeSdf(const float3 pos, const float3 size)
 {
     const float q = length(pos.xz);
     return max(dot(size.zx, float2(q, pos.y)), -size.y - pos.y);
 }
 
-inline float CappedCone(const float3 pos, const float3 size)
+inline float CappedConeSdf(const float3 pos, const float3 size)
 {
     const float2 q = float2(length(pos.xz), pos.y);
     const float2 k1 = float2(size.z, size.y);
@@ -90,7 +90,7 @@ inline float CappedCone(const float3 pos, const float3 size)
     return s * sqrt(min(dot(ca, ca), dot(cb, cb)));
 }
 
-inline float2 Segment(float3 p, float3 a, float3 b)
+inline float2 SegmentSdf(float3 p, float3 a, float3 b)
 {
     float3 pa = p - a, ba = b - a;
     float h = clamp(dot(pa, ba) / dot(ba, ba), 0.0, 1.0);
@@ -121,7 +121,7 @@ inline float3 ClosestPoint(float2 b0, float2 b1, float2 b2)
     return float3(lerp(lerp(b0, b1, t), lerp(b1, b2, t), t), t);
 }
 
-inline float2 QuadraticBezier(float3 p, float3 a, float3 b, float3 c, out float3 pos)
+inline float2 QuadraticBezierSdf(float3 p, float3 a, float3 b, float3 c, out float3 pos)
 {
     float3 w = normalize(cross(c - b, a - b));
     float3 u = normalize(c - b);

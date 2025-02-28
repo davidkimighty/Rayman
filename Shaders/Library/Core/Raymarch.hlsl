@@ -6,18 +6,43 @@
 // Must be implemented by the including shader.
 float Map(const float3 positionWS);
 
-bool Raymarch(inout Ray ray)
+bool Raymarch(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon)
 {
-    for (int i = 0; i < ray.maxSteps; i++)
+    for (int i = 0; i < maxSteps; i++)
     {
         ray.hitDistance = Map(ray.hitPoint);
-        ray.epsilon.z = lerp(ray.epsilon.x, ray.epsilon.y, ray.distanceTravelled / ray.maxDistance);
-        if (ray.hitDistance < ray.epsilon.z || ray.distanceTravelled > ray.maxDistance) break;
+        ray.epsilon = lerp(epsilon.x, epsilon.y, ray.distanceTravelled / maxDistance);
+        if (ray.hitDistance < ray.epsilon || ray.distanceTravelled > maxDistance) break;
 
         ray.distanceTravelled += ray.hitDistance;
         ray.hitPoint += ray.dir * ray.hitDistance;
     }
-    return ray.hitDistance < ray.epsilon.z;
+    return ray.hitDistance < ray.epsilon;
+}
+
+bool ConeMarch(inout Ray ray, const int passCount, const int coneSubdiv, const int maxSteps, const int maxDistance,
+    const float epsilon, const float tanHalfFov)
+{
+    for (int p = 0; p < passCount; p++)
+    {
+        int stepsPerPass = maxSteps / passCount;
+        float subdiv = coneSubdiv * pow(2, p);
+
+        for (int i = 0; i < stepsPerPass; i++)
+        {
+            ray.hitDistance = Map(ray.hitPoint);
+            float coneRadius = ray.distanceTravelled * tanHalfFov / subdiv;
+            ray.epsilon = lerp(epsilon, coneRadius, ray.distanceTravelled / maxDistance);
+            if (ray.hitDistance < coneRadius || ray.hitDistance < ray.epsilon) break;
+
+            float stepSize = max(ray.hitDistance, coneRadius);
+            ray.distanceTravelled += stepSize;
+            ray.hitPoint += ray.dir * stepSize;
+
+            if (ray.distanceTravelled > maxDistance) return false;
+        }
+    }
+    return true;
 }
 
 // Must be implemented by the including shader.
@@ -41,20 +66,20 @@ float3 GetHitMap(const int hit, const int maxSteps, const float3 col1, const flo
     return float3(lerp(col1, col2, smoothstep(0.0, 1.0, n)));
 }
 
-bool RaymarchHitCount(inout Ray ray, out int count)
+bool RaymarchHitCount(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon, out int count)
 {
     count = 0;
-    for (int i = 0; i < ray.maxSteps; i++)
+    for (int i = 0; i < maxSteps; i++)
     {
         ray.hitDistance = Map(ray.hitPoint);
-        ray.epsilon.z = lerp(ray.epsilon.x, ray.epsilon.y, ray.distanceTravelled / ray.maxDistance);
-        if (ray.hitDistance < ray.epsilon.z || ray.distanceTravelled > ray.maxDistance) break;
+        ray.epsilon = lerp(epsilon.x, epsilon.y, ray.distanceTravelled / maxDistance);
+        if (ray.hitDistance < ray.epsilon || ray.distanceTravelled > maxDistance) break;
         
         ray.distanceTravelled += ray.hitDistance;
         ray.hitPoint += ray.dir * ray.hitDistance;
         count++;
     }
-    return ray.hitDistance < ray.epsilon.z;
+    return ray.hitDistance < ray.epsilon;
 }
 
 #endif

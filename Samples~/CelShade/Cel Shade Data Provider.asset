@@ -9,12 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54baefe7c5c5aa342aea5c08f2eb50f3, type: 3}
-  m_Name: Ray Data Provider
+  m_Script: {fileID: 11500000, guid: 5e2509ac45d3fab45876f9a399d42a0e, type: 3}
+  m_Name: Cel Shade Data Provider
   m_EditorClassIdentifier: 
-  EpsilonMin: 0.001
-  EpsilonMax: 0.01
-  MaxSteps: 64
-  MaxRayDistance: 30
-  ShadowMaxSteps: 16
-  ShadowMaxRayDistance: 30
+  mainCelCount: 1
+  additionalCelCount: 1
+  celSpread: 1
+  mainCelSharpness: 100
+  specularCelSharpness: 30
+  rimAmount: 0.75
+  rimSmoothness: 0.03
+  blendDiffuse: 0.6

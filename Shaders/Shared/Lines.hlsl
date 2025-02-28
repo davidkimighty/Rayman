@@ -17,11 +17,11 @@ inline float2 GetLineSdf(float3 pos, int type, float3 points[MAX_POINTS])
     switch (type)
     {
         case SEGMENT:
-            return Segment(pos, points[0], points[1]);
+            return SegmentSdf(pos, points[0], points[1]);
         case QUADRATIC_BEZIER:
-            return QuadraticBezier(pos, points[0], points[1], points[2], pos);
+            return QuadraticBezierSdf(pos, points[0], points[1], points[2], pos);
         default:
-            return Segment(pos, points[0], points[1]);
+            return SegmentSdf(pos, points[0], points[1]);
     }
 }
 

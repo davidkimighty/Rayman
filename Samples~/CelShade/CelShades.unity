@@ -622,59 +622,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &211464834
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/CelLit
-  m_Shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - GRADIENT_COLOR
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AdditionalCelCount: 1
-    - _BlendDiffuse: 0.492
-    - _CelSharpness: 80
-    - _CelSpread: 1
-    - _Cull: 2
-    - _DstBlend: 0
-    - _F0: 0.04
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0.5
-    - _GradientScaleY: 1
-    - _MainCelCount: 1
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _RimAmount: 0.75
-    - _RimSmoothness: 0.03
-    - _Smoothness: 0.5
-    - _SpecularSharpness: 30
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1001 &271632364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1147,10 +1094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 560892393}
   setupOnAwake: 1
-  maxSteps: 128
-  maxRayDistance: 100
-  shadowMaxSteps: 64
-  shadowMaxRayDistance: 30
+  dataProviders: []
   raymarchGroups:
   - {fileID: 560892396}
 --- !u!23 &560892393
@@ -1237,7 +1181,8 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   shapes:
   - {fileID: 1419411786}
-  dataProviders: []
+  dataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0
@@ -1415,10 +1360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1141850301}
   setupOnAwake: 1
-  maxSteps: 128
-  maxRayDistance: 100
-  shadowMaxSteps: 64
-  shadowMaxRayDistance: 30
+  dataProviders: []
   raymarchGroups:
   - {fileID: 1141850304}
 --- !u!23 &1141850301
@@ -1505,7 +1447,8 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   shapes:
   - {fileID: 293326951}
-  dataProviders: []
+  dataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0
@@ -1543,10 +1486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1264651313}
   setupOnAwake: 1
-  maxSteps: 128
-  maxRayDistance: 100
-  shadowMaxSteps: 64
-  shadowMaxRayDistance: 30
+  dataProviders: []
   raymarchGroups:
   - {fileID: 1264651316}
 --- !u!23 &1264651313
@@ -1571,8 +1511,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 211464834}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1630,7 +1569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 211464834}
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   shapes:
   - {fileID: 271632379}
@@ -1647,7 +1586,8 @@ MonoBehaviour:
   - {fileID: 271632368}
   - {fileID: 271632367}
   - {fileID: 271632365}
-  dataProviders: []
+  dataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   ColorUsage: 2
   updateBoundsThreshold: 0
   drawGizmos: 0

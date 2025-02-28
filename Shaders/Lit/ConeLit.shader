@@ -1,4 +1,4 @@
-	Shader "Rayman/Lit"
+	Shader "Rayman/ConeLit"
 {
     Properties
     {
@@ -12,12 +12,14 @@
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Raymarching)][Space]
-    	_EpsilonMin("Epsilon Min", Float) = 0.001
-    	_EpsilonMax("Epsilon Max", Float) = 0.01
+    	_Epsilon("Epsilon", Float) = 0.001
+    	_PassCount("Pass Count", Int) = 4
     	_MaxSteps("Max Steps", Int) = 64
     	_MaxDistance("Max Distance", Float) = 100.0
     	_ShadowMaxSteps("Shadow Max Steps", Int) = 16
     	_ShadowMaxDistance("Shadow Max Distance", Float) = 30.0
+    	_TangentHalfFov("Tangent Half Fov", Float) = 0.0
+    	_ConeSubdivision("Cone Subdivision", Float) = 4.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -63,12 +65,14 @@
 		};
 
 		CBUFFER_START(RaymarchPerGroup)
-		float _EpsilonMin;
-		float _EpsilonMax;
+		float _Epsilon;
+		int _PassCount;
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;
         float _ShadowMaxDistance;
+		float _TangentHalfFov;
+    	float _ConeSubdivision;
 		float _GradientScaleY;
 		float _GradientOffsetY;
 		float _GradientAngle;
@@ -77,7 +81,7 @@
 		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
-        int2 hitCount; // x is leaf
+        int2 hitCount;
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
@@ -181,59 +185,9 @@
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ConeLitForwardPass.hlsl"
             ENDHLSL
 		}
-
-//	    Pass
-//		{
-//			Name "Depth Only"
-//		    Tags { "LightMode" = "DepthOnly" }
-//
-//		    ZTest LEqual
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 2.0
-//		    
-//		    #pragma shader_feature_local _ALPHATEST_ON
-//            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-//
-//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
-//		    
-//		    #pragma multi_compile_instancing
-//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-//
-//		    #pragma vertex Vert
-//		    #pragma fragment Frag
-//		    
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthOnlyPass.hlsl"
-//		    ENDHLSL
-//		}
-//
-//       Pass
-//       {
-//       		Name "Depth Normals"
-//		    Tags { "LightMode" = "DepthNormals" }
-//
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 2.0
-//		    
-//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
-//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-//		    #pragma multi_compile_instancing
-//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-//
-//			#pragma vertex Vert
-//		    #pragma fragment Frag
-//
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthNormalsPass.hlsl"
-//		    ENDHLSL
-//       }
 
 		Pass
 		{
@@ -253,13 +207,12 @@
 			#pragma multi_compile_instancing
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitShadowCasterPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/ConeLitShadowCasterPass.hlsl"
 			ENDHLSL
 		}
     }

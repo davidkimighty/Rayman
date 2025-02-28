@@ -24,9 +24,6 @@ struct Varyings
 	float3 positionWS : TEXCOORD1;
 	half4 fogFactorAndVertexLight : TEXCOORD2;
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 3);
-#ifdef DYNAMICLIGHTMAP_ON
-	float2  dynamicLightmapUV : TEXCOORD4;
-#endif
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -51,16 +48,8 @@ inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDir
 
 inline void InitializeBakedGIData(Varyings input, inout InputData inputData)
 {
-#if defined(DYNAMICLIGHTMAP_ON)
-	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
-	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-#elif !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
-	inputData.bakedGI = SAMPLE_GI(input.vertexSH, GetAbsolutePositionWS(inputData.positionWS),
-		inputData.normalWS, inputData.viewDirectionWS, input.positionCS.xy, input.probeOcclusion, inputData.shadowMask);
-#else
 	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, inputData.normalWS);
 	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-#endif
 }
 
 Varyings Vert (Attributes input)
@@ -79,9 +68,6 @@ Varyings Vert (Attributes input)
 	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	
 	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
-#ifdef DYNAMICLIGHTMAP_ON
-	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
-#endif
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 
 	half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
@@ -97,21 +83,24 @@ FragOutput Frag (Varyings input)
 
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	hitCount = GetHitIds(0, ray, hitIds);
+	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+	if (hitCount.x == 0) discard;
+	
 	InsertionSort(hitIds, hitCount.x);
 #ifdef DEBUG_MODE
 	FragOutput debugOutput;
-	debugOutput.color = DebugRaymarch(ray, input.positionWS, cameraPos, debugOutput.depth);
+	debugOutput.color = DebugRaymarch(input.positionWS, cameraPos,
+		ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax), debugOutput.depth);
 	return debugOutput;
 #endif
-	if (!Raymarch(ray)) discard;
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
 	float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	float3 normal = GetNormal(ray.hitPoint, ray.epsilon.z);
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon.z ?
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;

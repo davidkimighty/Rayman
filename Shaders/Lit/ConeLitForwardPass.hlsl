@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_LINE_LIT_FORWARD
-#define RAYMAN_LINE_LIT_FORWARD
+﻿#ifndef RAYMAN_CONE_LIT_FORWARD
+#define RAYMAN_CONE_LIT_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
@@ -24,9 +24,6 @@ struct Varyings
 	float3 positionWS : TEXCOORD1;
 	half4 fogFactorAndVertexLight : TEXCOORD2;
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 3);
-#ifdef DYNAMICLIGHTMAP_ON
-	float2  dynamicLightmapUV : TEXCOORD4;
-#endif
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -51,16 +48,8 @@ inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDir
 
 inline void InitializeBakedGIData(Varyings input, inout InputData inputData)
 {
-#if defined(DYNAMICLIGHTMAP_ON)
-	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.dynamicLightmapUV, input.vertexSH, inputData.normalWS);
-	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-#elif !defined(LIGHTMAP_ON) && (defined(PROBE_VOLUMES_L1) || defined(PROBE_VOLUMES_L2))
-	inputData.bakedGI = SAMPLE_GI(input.vertexSH, GetAbsolutePositionWS(inputData.positionWS),
-		inputData.normalWS, inputData.viewDirectionWS, input.positionCS.xy, input.probeOcclusion, inputData.shadowMask);
-#else
 	inputData.bakedGI = SAMPLE_GI(input.staticLightmapUV, input.vertexSH, inputData.normalWS);
 	inputData.shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-#endif
 }
 
 Varyings Vert (Attributes input)
@@ -79,9 +68,6 @@ Varyings Vert (Attributes input)
 	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	
 	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
-#ifdef DYNAMICLIGHTMAP_ON
-	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
-#endif
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 
 	half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
@@ -95,36 +81,41 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
+	float3 cameraPos = GetCameraPosition();
+	float3 rayDir = normalize(input.positionWS - cameraPos);
+	Ray ray = CreateRay(input.positionWS, rayDir, _Epsilon);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
+
+	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+	if (hitCount.x == 0) discard;
 	
-	hitCount = GetHitIds(0, ray, hitIds);
 	InsertionSort(hitIds, hitCount.x);
 #ifdef DEBUG_MODE
 	FragOutput debugOutput;
-	debugOutput.color = DebugRaymarch(ray, input.positionWS, cameraPos, debugOutput.depth);
+	debugOutput.color = DebugRaymarch(input.positionWS, cameraPos,
+		ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax), debugOutput.depth);
 	return debugOutput;
 #endif
-	if (!Raymarch(ray)) discard;
+	if (!ConeMarch(ray, _PassCount, _ConeSubdivision, _MaxSteps, _MaxDistance, _Epsilon, _TangentHalfFov)) discard;
+
+	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
+		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
+	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 	
 	SurfaceData surfaceData = (SurfaceData)0;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb;
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
 
 	half4 color = UniversalFragmentPBR(inputData, surfaceData);
-
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
-		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
 	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));

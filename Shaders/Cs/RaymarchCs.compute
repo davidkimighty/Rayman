@@ -92,13 +92,13 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     
     float4 posWS = mul(_CameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
-    Ray ray = CreateRay(posWS.xyz, rayDirWS, float2(_EpsilonMin, _EpsilonMax), _MaxSteps, _MaxDistance);
+    Ray ray = CreateRay(posWS.xyz, rayDirWS, _EpsilonMin);
     ray.distanceTravelled = length(ray.hitPoint - _CameraPosition.xyz);
 
-    hitCount = GetHitIds(0, ray, hitIds);
+    hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
     InsertionSort(hitIds, hitCount.x);
-    Raymarch(ray);
+    Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax));
     
-    color = ray.hitDistance > ray.epsilon.z ? 0 : color;
+    color = ray.hitDistance > ray.epsilon ? 0 : color;
     _ResultTexture[id.xy] = color;
 }
