@@ -15,7 +15,7 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] private float smoothness = 0.5f;
         [ColorUsage(true, true), SerializeField] private Color emissionColor;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetTexture(BaseMapId, baseMap);
             material.SetFloat(MetallicId, metallic);

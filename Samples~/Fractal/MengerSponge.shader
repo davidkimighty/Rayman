@@ -1,13 +1,18 @@
-	Shader "Rayman/LineLit"
+	Shader "Rayman/MengerSponge"
 {
     Properties
     {
+    	[Header(Menger Sponge)][Space]
+    	[MainColor] _BaseColor("Color", Color) = (1,1,1,1)
+    	_Size("Size", Float) = 0.5
+    	_Iterations("Iterations", Int) = 3
+    	_Scale("Scale", Float) = 3.0
+    	_ScaleMultiplier("Scale Multiplier", Float) = 4.0
+    	
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
-    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
-    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Raymarching)][Space]
@@ -39,100 +44,87 @@
         HLSLINCLUDE
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Shared/Lines.hlsl"
-		
-		struct Line
-		{
-        	int type;
-			float4x4 transform;
-			int operation;
-        	half blend;
-			half2 radius;
-			half2 padding;
-			int pointStartIndex;
-			int pointsCount;
-			half4 color;
-#ifdef GRADIENT_COLOR
-			half4 gradientColor;
-#endif
-		};
 
-		struct Point
-		{
-			float3 position;
-		};
-
-        CBUFFER_START(RaymarchPerGroup)
+		CBUFFER_START(RaymarchPerGroup)
 		float _EpsilonMin;
 		float _EpsilonMax;
         int _MaxSteps;
 		float _MaxDistance;
         int _ShadowMaxSteps;
         float _ShadowMaxDistance;
-		float _GradientScaleY;
-		float _GradientOffsetY;
 		CBUFFER_END
-		
-		StructuredBuffer<Line> _LineBuffer;
-		StructuredBuffer<Point> _PointBuffer;
-        StructuredBuffer<NodeAabb> _NodeBuffer;
-        
-        int2 hitCount = 0;
-		int hitIds[RAY_MAX_HITS];
-		half4 baseColor;
 
-		float3 CombineDistance(float3 posWS, Line entity, float totalDist)
+		float4x4 _Transform;
+		float _Size;
+		int _Iterations;
+		float _Scale;
+		float _ScaleMultiplier;
+		half4 color;
+
+		inline float SpongeDistance(float3 positionWS)
 		{
-			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;
-			float3 scale = GetScale(entity.transform);
-	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-			float3 points[MAX_POINTS];
-			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
-		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
-
-			float2 lineSdf = GetLineSdf(posOS, entity.type, points);
-			float dist = ThickLine(lineSdf.x / scaleFactor, lineSdf.y, entity.radius.x, entity.radius.y);
-			return float3(SmoothOperation(entity.operation, totalDist, dist, entity.blend), lineSdf.y);
+			float3 posOS = mul(_Transform, float4(positionWS, 1.0)).xyz;
+			float box = BoxSdf(posOS, _Size);
+			float scale = _Scale;
+			
+			for (int i = 0; i < _Iterations; i++)
+			{
+				float3 a = abs(fmod(posOS * scale + scale * 2.0, 2.0) - 1.0);
+				scale *= _ScaleMultiplier;
+				float3 r = abs(1.0 - 3.0 * abs(a));
+				
+				float da = max(r.x, r.y);
+				float db = max(r.y, r.z);
+				float dc = max(r.z, r.x);
+				float c = (min(da, min(db, dc)) - 1.0) / scale;
+				if (c > box)
+					box = c;
+			}
+			return box;
 		}
 		
 		float Map(inout Ray ray)
 		{
-			float totalDist = _MaxDistance;
-			baseColor = _LineBuffer[hitIds[0]].color;
+			float3 posOS = mul(_Transform, float4(ray.hitPoint, 1.0)).xyz;
+			float box = BoxSdf(posOS, _Size);
+			float scale = _Scale;
+			color = _BaseColor;
+			ray.data = float4(1.0, 0, 0, 0);
 			
-			for (int i = 0; i < hitCount.x; i++)
+			for (int i = 0; i < _Iterations; i++)
 			{
-				Line entity = _LineBuffer[hitIds[i]];
-				float3 combined = CombineDistance(ray.hitPoint, entity, totalDist);
-				totalDist = combined.x;
-#ifdef GRADIENT_COLOR
-				float blend = saturate((combined.z + _GradientOffsetY - 1.0) * _GradientScaleY + 0.5);
-				half4 color = lerp(entity.color, entity.gradientColor, blend);
-#else
-				half4 color = entity.color;
-#endif
-				baseColor = lerp(baseColor, color, combined.y);
+				float3 a = abs(fmod(posOS * scale + scale * 2.0, 2.0) - 1.0);
+				scale *= _ScaleMultiplier;
+				float3 r = abs(1.0 - 3.0 * abs(a));
+				
+				float da = max(r.x, r.y);
+				float db = max(r.y, r.z);
+				float dc = max(r.z, r.x);
+				float c = (min(da, min(db, dc)) - 1.0) / scale;
+				if (c > box)
+				{
+					box = c;
+					ray.data.x = min(ray.data.x, 0.2 * da * db * dc);
+					ray.data.y = (1.0 + float(i)) / _Iterations;
+				}
 			}
-			return totalDist;
+			return box;
 		}
 
 		float NormalMap(const float3 positionWS)
 		{
-			float totalDist = _MaxDistance;
-			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(positionWS, _LineBuffer[hitIds[i]], totalDist).x;
-			return totalDist;
+			return SpongeDistance(positionWS);
 		}
 
-		inline NodeAabb GetNode(const int index)
+		float ShadowMap(const float3 positionWS)
 		{
-			return _NodeBuffer[index];
+			return SpongeDistance(positionWS);
 		}
         
         ENDHLSL
@@ -172,10 +164,6 @@
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
-            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
@@ -189,7 +177,7 @@
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Samples/Fractal/MengerSpongeForwardPass.hlsl"
             ENDHLSL
 		}
 
@@ -211,13 +199,12 @@
 			#pragma multi_compile_instancing
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitShadowCasterPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Samples/Fractal/MengerSpongeShadowCasterPass.hlsl"
 			ENDHLSL
 		}
     }

@@ -24,7 +24,7 @@ namespace Rayman
         [Range(0f, 1f), SerializeField] private float rimSmoothness = 0.03f;
         [Range(0f, 1f), SerializeField] private float blendDiffuse = 0.9f;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetFloat(MainCelCountId, mainCelCount);
             material.SetFloat(AdditionalCelCountId, additionalCelCount);

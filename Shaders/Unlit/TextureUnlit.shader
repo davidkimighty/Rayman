@@ -75,11 +75,11 @@ Shader "Rayman/TextureUnlit"
 			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 
-		inline float Map(const float3 positionWS)
+		inline float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
+				totalDist = CombineDistance(ray.hitPoint, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 

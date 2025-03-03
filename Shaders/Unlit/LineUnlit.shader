@@ -99,7 +99,7 @@
 			return float3(SmoothOperation(entity.operation, totalDist, dist, entity.blend), lineSdf.y);
 		}
 		
-		float Map(const float3 positionWS)
+		float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
 			baseColor = _LineBuffer[hitIds[0]].color;
@@ -107,7 +107,7 @@
 			for (int i = 0; i < hitCount; i++)
 			{
 				Line entity = _LineBuffer[hitIds[i]];
-				float3 combined = CombineDistance(positionWS, entity, totalDist);
+				float3 combined = CombineDistance(ray.hitPoint, entity, totalDist);
 				totalDist = combined.x;
 #ifdef GRADIENT_COLOR
 				float blend = saturate((combined.z + _GradientOffsetY - 1.0) * _GradientScaleY + 0.5);

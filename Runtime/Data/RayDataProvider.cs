@@ -19,7 +19,7 @@ namespace Rayman
         public int ShadowMaxSteps = 16;
         public float ShadowMaxRayDistance = 30f;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetFloat(EpsilonMinId, EpsilonMin);
             material.SetFloat(EpsilonMaxId, EpsilonMax);

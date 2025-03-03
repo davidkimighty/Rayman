@@ -12,12 +12,12 @@ namespace Rayman
     }
     
     [ExecuteInEditMode]
-    public class ShapeGroup : RaymarchGroup
+    public class ShapeGroup : RaymarchGroup, IRaymarchEntityControl, IRaymarchDebug, ISpatialStructureDebug
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
         [SerializeField] private List<RaymarchShapeEntity> shapes = new();
-        [SerializeField] private List<DataProvider> dataProviders = new();
+        
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
         [SerializeField] private float updateBoundsThreshold;
 #if UNITY_EDITOR
@@ -43,8 +43,7 @@ namespace Rayman
         {
             if (!IsInitialized()) return;
 
-            foreach (DataProvider provider in dataProviders)
-                provider?.ProvideShaderProperties(ref MatInstance);
+            ProvideShaderProperties();
         }
 
         private void OnDrawGizmos()
@@ -63,8 +62,7 @@ namespace Rayman
             MatInstance = new Material(shader);
             if (!MatInstance) return null;
             
-            foreach (DataProvider provider in dataProviders)
-                provider?.ProvideShaderProperties(ref MatInstance);
+            ProvideShaderProperties();
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
             nodeBuffer = nodeBufferProvider.InitializeBuffer(activeShapes, ref MatInstance);
@@ -104,7 +102,7 @@ namespace Rayman
         public override bool IsInitialized() => MatInstance &&
             nodeBufferProvider != null && shapeBufferProvider != null;
         
-        public override void AddEntity(RaymarchEntity entity)
+        public void AddEntity(RaymarchEntity entity)
         {
             if (shapes.Contains(entity)) return;
 
@@ -114,7 +112,7 @@ namespace Rayman
             shapes.Add(shape);
         }
 
-        public override void RemoveEntity(RaymarchEntity entity)
+        public void RemoveEntity(RaymarchEntity entity)
         {
             if (!shapes.Contains(entity)) return;
 
@@ -124,11 +122,11 @@ namespace Rayman
             shapes.Remove(shape);
         }
         
-        public override int GetSdfCount() => activeShapes?.Length ?? 0;
+        public int GetSdfCount() => activeShapes?.Length ?? 0;
 
-        public override int GetNodeCount() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.Count ?? 0;
+        public int GetNodeCount() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.Count ?? 0;
         
-        public override int GetMaxHeight() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.MaxHeight ?? 0;
+        public int GetMaxHeight() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.MaxHeight ?? 0;
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]

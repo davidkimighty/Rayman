@@ -22,7 +22,7 @@ namespace Rayman
         public float ShadowMaxRayDistance = 30f;
         public float ConeSubdivision = 4f;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetFloat(EpsilonId, Epsilon);
             material.SetInt(PassCountId, PassCount);

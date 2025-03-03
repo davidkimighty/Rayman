@@ -83,7 +83,7 @@
 			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 		
-		inline float Map(const float3 positionWS)
+		inline float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
 			baseColor = _ShapeBuffer[hitIds[0]].color;
@@ -91,7 +91,7 @@
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float2 combined = CombineDistance(positionWS, shape, totalDist);
+				float2 combined = CombineDistance(ray.hitPoint, shape, totalDist);
 				totalDist = combined.x;
 				baseColor = lerp(baseColor, shape.color, combined.y);
 			}

@@ -97,7 +97,7 @@
 			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 		
-		float Map(const float3 positionWS)
+		float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
 			baseColor = _ShapeBuffer[hitIds[0]].color;
@@ -105,10 +105,10 @@
 			for (int i = 0; i < hitCount.x; i++)
 			{
 				Shape shape = _ShapeBuffer[hitIds[i]];
-				float2 combined = CombineDistance(positionWS, shape, totalDist);
+				float2 combined = CombineDistance(ray.hitPoint, shape, totalDist);
 				totalDist = combined.x;
 #ifdef GRADIENT_COLOR
-				float3 posOS = mul(shape.transform, float4(positionWS, 1.0)).xyz;
+				float3 posOS = mul(shape.transform, float4(ray.hitPoint, 1.0)).xyz;
 				float2 uv = (posOS.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
 				uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
 				uv.y = 1.0 - uv.y;

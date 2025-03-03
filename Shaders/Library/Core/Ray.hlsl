@@ -11,7 +11,7 @@ struct Ray
     float3 hitPoint;
     float distanceTravelled;
     float hitDistance;
-    bool hit;
+    float4 data;
 };
 
 inline Ray CreateRay(const float3 origin, const float3 dir, const float epsilon)

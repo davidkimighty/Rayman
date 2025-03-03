@@ -18,10 +18,6 @@ namespace Rayman
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
         public List<RaymarchGroup> Groups => raymarchGroups;
-        
-        public int SdfCount => raymarchGroups.Sum(g => g.GetSdfCount());
-        public int NodeCount => raymarchGroups.Sum(g => g.GetNodeCount());
-        public int MaxHeight => raymarchGroups.Sum(g => g.GetMaxHeight());
 
         private void Awake()
         {
@@ -46,7 +42,7 @@ namespace Rayman
                 if (!mat) continue;
                 
                 foreach (DataProvider provider in dataProviders)
-                    provider?.ProvideShaderProperties(ref mat);
+                    provider?.ProvideData(ref mat);
                 matInstances.Add(mat);
             }
             mainRenderer.materials = matInstances.ToArray();
@@ -60,7 +56,8 @@ namespace Rayman
             foreach (RaymarchGroup group in raymarchGroups)
                 group?.ReleaseGroup();
 
-            mainRenderer.materials = Array.Empty<Material>();
+            if (mainRenderer)
+                mainRenderer.materials = Array.Empty<Material>();
             IsInitialized = false;
             OnRelease?.Invoke(this);
         }

@@ -47,7 +47,7 @@ public class RandomSpawner : MonoBehaviour
             randomColor.a = shape.Color.a;
             shape.Color = randomColor;
             
-            raymarchGroup.AddEntity(shape);
+            ((IRaymarchEntityControl)raymarchGroup).AddEntity(shape);
             currentCount++;
 
             if (currentCount > spawnPerFrame)

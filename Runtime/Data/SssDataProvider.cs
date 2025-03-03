@@ -17,7 +17,7 @@ namespace Rayman
         [SerializeField] private float sssAmbient = 0.1f;
         [SerializeField] private float sssThickness = 0.5f;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetFloat(SssDistortionId, sssDistortion);
             material.SetFloat(SssPowerId, sssPower);

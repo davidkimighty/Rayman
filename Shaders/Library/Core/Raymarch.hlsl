@@ -4,13 +4,13 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-float Map(const float3 positionWS);
+float Map(inout Ray ray);
 
 bool Raymarch(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon)
 {
     for (int i = 0; i < maxSteps; i++)
     {
-        ray.hitDistance = Map(ray.hitPoint);
+        ray.hitDistance = Map(ray);
         ray.epsilon = lerp(epsilon.x, epsilon.y, ray.distanceTravelled / maxDistance);
         if (ray.hitDistance < ray.epsilon || ray.distanceTravelled > maxDistance) break;
 
@@ -30,7 +30,7 @@ bool ConeMarch(inout Ray ray, const int passCount, const int coneSubdiv, const i
 
         for (int i = 0; i < stepsPerPass; i++)
         {
-            ray.hitDistance = Map(ray.hitPoint);
+            ray.hitDistance = Map(ray);
             float coneRadius = ray.distanceTravelled * tanHalfFov / subdiv;
             ray.epsilon = lerp(epsilon, coneRadius, ray.distanceTravelled / maxDistance);
             if (ray.hitDistance < coneRadius || ray.hitDistance < ray.epsilon) break;
@@ -71,7 +71,7 @@ bool RaymarchHitCount(inout Ray ray, const int maxSteps, const int maxDistance, 
     count = 0;
     for (int i = 0; i < maxSteps; i++)
     {
-        ray.hitDistance = Map(ray.hitPoint);
+        ray.hitDistance = Map(ray);
         ray.epsilon = lerp(epsilon.x, epsilon.y, ray.distanceTravelled / maxDistance);
         if (ray.hitDistance < ray.epsilon || ray.distanceTravelled > maxDistance) break;
         

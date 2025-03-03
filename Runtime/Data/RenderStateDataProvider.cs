@@ -16,7 +16,7 @@ namespace Rayman
         public CullMode Cull = CullMode.Back;
         public bool ZWrite = true;
         
-        public override void ProvideShaderProperties(ref Material material)
+        public override void ProvideData(ref Material material)
         {
             material.SetFloat(SrcBlendId, (float)SrcBlend);
             material.SetFloat(DstBlendId, (float)DstBlend);
