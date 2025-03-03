@@ -9,7 +9,7 @@ namespace Rayman
         Intersect
     }
     
-    public class RaymarchEntity : MonoBehaviour, IBoundsProvider
+    public class RaymarchElement : MonoBehaviour, IBoundsProvider
     {
         public bool UseLossyScale = true;
         public float ExpandBounds;
@@ -22,14 +22,14 @@ namespace Rayman
         public Vector3 GetScale() => UseLossyScale ? transform.lossyScale : Vector3.one;
     }
 
-    public interface IRaymarchEntityControl
+    public interface IRaymarchElementControl
     {
-        void AddEntity(RaymarchEntity entity);
-        void RemoveEntity(RaymarchEntity entity);
+        void AddEntity(RaymarchElement element);
+        void RemoveEntity(RaymarchElement element);
     }
     
-    public interface IRaymarchEntityData
+    public interface IRaymarchElementData
     {
-        void InitializeData(RaymarchEntity entity);
+        void InitializeData(RaymarchElement element);
     }
 }

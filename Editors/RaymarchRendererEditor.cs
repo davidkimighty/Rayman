@@ -40,8 +40,8 @@ namespace RaymanEditor
             if (GUILayout.Button("Release"))
                 raymarchRenderer.Release();
             
-            if (GUILayout.Button("Find All Groups"))
-                raymarchRenderer.FindAllGroups();
+            if (GUILayout.Button("Find All Objects"))
+                raymarchRenderer.FindAllObjects();
             EditorGUILayout.EndHorizontal();
         }
     }

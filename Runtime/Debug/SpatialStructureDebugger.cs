@@ -16,30 +16,30 @@ namespace Rayman
                 raymarchManager = FindFirstObjectByType<RaymarchManager>();
             if (raymarchManager != null)
             {
-                totalGroupCount = raymarchManager.Renderers.Sum(r => r.Groups.Count);
-                totalNodeCount = raymarchManager.Renderers.Sum(r => r.Groups.OfType<ISpatialStructureDebug>()
+                totalGroupCount = raymarchManager.Renderers.Sum(r => r.Objects.Count);
+                totalNodeCount = raymarchManager.Renderers.Sum(r => r.Objects.OfType<ISpatialStructureDebug>()
                     .Sum(g => g.GetNodeCount()));
-                maxHeight = raymarchManager.Renderers.Max(r => r.Groups.OfType<ISpatialStructureDebug>()
+                maxHeight = raymarchManager.Renderers.Max(r => r.Objects.OfType<ISpatialStructureDebug>()
                     .Sum(g => g.GetMaxHeight()));
                 
                 raymarchManager.OnAddRenderer += (r) =>
                 {
-                    totalGroupCount += r.Groups.Count;
-                    totalNodeCount += r.Groups.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount());
-                    maxHeight = Mathf.Max(maxHeight, r.Groups.OfType<ISpatialStructureDebug>().Sum(g => g.GetMaxHeight()));
+                    totalGroupCount += r.Objects.Count;
+                    totalNodeCount += r.Objects.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount());
+                    maxHeight = Mathf.Max(maxHeight, r.Objects.OfType<ISpatialStructureDebug>().Sum(g => g.GetMaxHeight()));
                 };
                 raymarchManager.OnRemoveRenderer += (r) =>
                 {
-                    totalGroupCount -= r.Groups.Count;
-                    totalNodeCount -= r.Groups.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount());
+                    totalGroupCount -= r.Objects.Count;
+                    totalNodeCount -= r.Objects.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount());
                 };
                 return;
             }
 
             RaymarchRenderer[] renderers = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None);
-            totalGroupCount = renderers.Sum(r => r.Groups.Count);
-            totalNodeCount = renderers.Sum(r => r.Groups.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount()));
-            maxHeight = renderers.Max(r => r.Groups.OfType<ISpatialStructureDebug>().Sum(g => g.GetMaxHeight()));
+            totalGroupCount = renderers.Sum(r => r.Objects.Count);
+            totalNodeCount = renderers.Sum(r => r.Objects.OfType<ISpatialStructureDebug>().Sum(g => g.GetNodeCount()));
+            maxHeight = renderers.Max(r => r.Objects.OfType<ISpatialStructureDebug>().Sum(g => g.GetMaxHeight()));
         }
 
         public override string GetDebugMessage()

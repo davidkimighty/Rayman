@@ -11,7 +11,7 @@ namespace Rayman
         private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
         private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
 
-        [SerializeField] private RaymarchGroup raymarchGroup;
+        [SerializeField] private RaymarchObject raymarchGroup;
         [SerializeField] private DebugModes debugMode = DebugModes.Hitmap;
         [SerializeField] private int boundsDisplayThreshold = 300;
 
@@ -38,7 +38,7 @@ namespace Rayman
         private void OnValidate()
         {
             if (raymarchGroup == null)
-                raymarchGroup = GetComponent<RaymarchGroup>();
+                raymarchGroup = GetComponent<RaymarchObject>();
             if (raymarchGroup == null) return;
             
             if (raymarchGroup.IsInitialized())
@@ -48,11 +48,11 @@ namespace Rayman
         [ContextMenu("Find group")]
         public void FindGroup()
         {
-            raymarchGroup = GetComponent<RaymarchGroup>();
+            raymarchGroup = GetComponent<RaymarchObject>();
         }
 #endif
 
-        public void Setup(RaymarchGroup group)
+        public void Setup(RaymarchObject group)
         {
             SetupShaderProperties(ref group.MatInstance);
         }

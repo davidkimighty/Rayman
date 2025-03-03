@@ -6,7 +6,7 @@ namespace Rayman
     public class ComputeRaymarchManager : MonoBehaviour
     {
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
-        [SerializeField] private List<RaymarchShapeEntity> Shapes = new();
+        [SerializeField] private List<RaymarchShapeElement> Shapes = new();
         [SerializeField] private bool buildOnStart;
         [SerializeField] private float boundsUpdateThreshold;
         [SerializeField] private bool drawGizmos;
@@ -42,7 +42,7 @@ namespace Rayman
                 BoundingVolume<Aabb> volume = boundingVolumes[j];
                 volume.SyncVolume(ref bvh, boundsUpdateThreshold);
                 
-                var shape = volume.Source as RaymarchShapeEntity;
+                var shape = volume.Source as RaymarchShapeElement;
                 if (shape == null) continue;
                 
                 shapeData[j] = new ColorShapeData();
@@ -57,7 +57,7 @@ namespace Rayman
             if (Shapes.Count == 0) return;
             
             List<BoundingVolume<Aabb>> volumes = new();
-            foreach (RaymarchShapeEntity shape in Shapes)
+            foreach (RaymarchShapeElement shape in Shapes)
             {
                 if (shape == null || !shape.gameObject.activeInHierarchy) continue;
                 
@@ -123,7 +123,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         private void FindAllGroups()
         {
-            Shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeEntity>();
+            Shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeElement>();
         }
 #endif
     }

@@ -13,11 +13,11 @@ namespace Rayman
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
         [SerializeField] private List<DataProvider> dataProviders = new();
-        [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
+        [SerializeField] private List<RaymarchObject> raymarchGroups = new();
         
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
-        public List<RaymarchGroup> Groups => raymarchGroups;
+        public List<RaymarchObject> Objects => raymarchGroups;
 
         private void Awake()
         {
@@ -36,9 +36,9 @@ namespace Rayman
             if (raymarchGroups.Count == 0) return;
 
             List<Material> matInstances = new();
-            foreach (RaymarchGroup group in raymarchGroups)
+            foreach (RaymarchObject group in raymarchGroups)
             {
-                Material mat = group.InitializeGroup();
+                Material mat = group.Initialize();
                 if (!mat) continue;
                 
                 foreach (DataProvider provider in dataProviders)
@@ -53,8 +53,8 @@ namespace Rayman
         [ContextMenu("Release")]
         public void Release()
         {
-            foreach (RaymarchGroup group in raymarchGroups)
-                group?.ReleaseGroup();
+            foreach (RaymarchObject group in raymarchGroups)
+                group?.Release();
 
             if (mainRenderer)
                 mainRenderer.materials = Array.Empty<Material>();
@@ -76,10 +76,10 @@ namespace Rayman
         }
         
         [ContextMenu("Find all groups")]
-        public void FindAllGroups()
+        public void FindAllObjects()
         {
-            raymarchGroups = GetComponents<RaymarchGroup>().ToList();
-            raymarchGroups.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchGroup>(transform));
+            raymarchGroups = GetComponents<RaymarchObject>().ToList();
+            raymarchGroups.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchObject>(transform));
         }
 #endif
     }

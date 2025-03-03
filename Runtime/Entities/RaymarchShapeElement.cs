@@ -18,7 +18,7 @@ namespace Rayman
         CappedCone,
     }
     
-    public class RaymarchShapeEntity : RaymarchEntity
+    public class RaymarchShapeElement : RaymarchElement
     {
         [Header("Shape")]
         public Vector3 Size = Vector3.one * 0.5f;
@@ -84,7 +84,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeData : IRaymarchEntityData
+    public struct ShapeData : IRaymarchElementData
     {
         public static readonly int Stride = sizeof(float) * 24 + sizeof(int) * 2;
         
@@ -96,9 +96,9 @@ namespace Rayman
         public float Blend;
         public float Roundness;
 
-        public void InitializeData(RaymarchEntity entity)
+        public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
+            RaymarchShapeElement shape = element as RaymarchShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;
@@ -113,7 +113,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ColorShapeData : IRaymarchEntityData
+    public struct ColorShapeData : IRaymarchElementData
     {
         public static readonly int Stride = sizeof(float) * 28 + sizeof(int) * 2;
         
@@ -126,9 +126,9 @@ namespace Rayman
         public float Roundness;
         public Vector4 Color;
 
-        public void InitializeData(RaymarchEntity entity)
+        public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
+            RaymarchShapeElement shape = element as RaymarchShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;
@@ -144,7 +144,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct GradientColorShapeData : IRaymarchEntityData
+    public struct GradientColorShapeData : IRaymarchElementData
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -156,9 +156,9 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 GradientColor;
 
-        public void InitializeData(RaymarchEntity entity)
+        public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
+            RaymarchShapeElement shape = element as RaymarchShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;

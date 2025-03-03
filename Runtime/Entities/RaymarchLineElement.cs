@@ -12,7 +12,7 @@ namespace Rayman
         CubicBezier,
     }
     
-    public class RaymarchLineEntity : RaymarchEntity
+    public class RaymarchLineElement : RaymarchElement
     {
         [Header("Line")]
         public Lines Line = Lines.Segment;
@@ -48,7 +48,7 @@ namespace Rayman
     
     public interface ILineData
     {
-        void InitializeData(RaymarchLineEntity line, int startIndex);
+        void InitializeData(RaymarchLineElement line, int startIndex);
     }
     
     public interface IPointData
@@ -68,7 +68,7 @@ namespace Rayman
         public int PointsCount;
         public Vector4 Color;
 
-        public void InitializeData(RaymarchLineEntity line, int startIndex)
+        public void InitializeData(RaymarchLineElement line, int startIndex)
         {
             Type = (int)line.Line;
             Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
@@ -95,7 +95,7 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 GradientColor;
         
-        public void InitializeData(RaymarchLineEntity line, int startIndex)
+        public void InitializeData(RaymarchLineElement line, int startIndex)
         {
             Type = (int)line.Line;
             Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 

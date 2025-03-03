@@ -12,11 +12,11 @@ namespace Rayman
     }
     
     [ExecuteInEditMode]
-    public class ShapeGroup : RaymarchGroup, IRaymarchEntityControl, IRaymarchDebug, ISpatialStructureDebug
+    public class ShapeObject : RaymarchObject, IRaymarchElementControl, IRaymarchDebug, ISpatialStructureDebug
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<RaymarchShapeEntity> shapes = new();
+        [SerializeField] private List<RaymarchShapeElement> shapes = new();
         
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
         [SerializeField] private float updateBoundsThreshold;
@@ -24,7 +24,7 @@ namespace Rayman
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private RaymarchShapeEntity[] activeShapes;
+        private RaymarchShapeElement[] activeShapes;
         private IBufferProvider nodeBufferProvider;
         private IBufferProvider shapeBufferProvider;
         private GraphicsBuffer nodeBuffer;
@@ -54,7 +54,7 @@ namespace Rayman
         }
 #endif
         
-        public override Material InitializeGroup()
+        public override Material Initialize()
         {
             activeShapes = shapes.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
             if (activeShapes.Length == 0) return null;
@@ -81,7 +81,7 @@ namespace Rayman
             return MatInstance;
         }
 
-        public override void ReleaseGroup()
+        public override void Release()
         {
             if (Application.isEditor)
                 DestroyImmediate(MatInstance);
@@ -102,21 +102,21 @@ namespace Rayman
         public override bool IsInitialized() => MatInstance &&
             nodeBufferProvider != null && shapeBufferProvider != null;
         
-        public void AddEntity(RaymarchEntity entity)
+        public void AddEntity(RaymarchElement entity)
         {
             if (shapes.Contains(entity)) return;
 
-            RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
+            RaymarchShapeElement shape = entity as RaymarchShapeElement;
             if (!shape) return;
             
             shapes.Add(shape);
         }
 
-        public void RemoveEntity(RaymarchEntity entity)
+        public void RemoveEntity(RaymarchElement entity)
         {
             if (!shapes.Contains(entity)) return;
 
-            RaymarchShapeEntity shape = entity as RaymarchShapeEntity;
+            RaymarchShapeElement shape = entity as RaymarchShapeElement;
             if (shape == null) return;
             
             shapes.Remove(shape);
@@ -132,7 +132,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeEntity>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeElement>(transform);
         }
 #endif
     }

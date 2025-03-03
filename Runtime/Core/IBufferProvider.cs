@@ -6,7 +6,7 @@ namespace Rayman
     {
         bool IsInitialized { get; }
         
-        GraphicsBuffer InitializeBuffer(RaymarchEntity[] entities, ref Material material);
+        GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material);
         void SetData(ref GraphicsBuffer buffer);
         void ReleaseData();
 #if UNITY_EDITOR

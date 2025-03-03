@@ -23,7 +23,7 @@ namespace Rayman
 
         public bool IsInitialized => spatialStructure != null && boundingVolumes != null && nodeData != null;
 
-        public GraphicsBuffer InitializeBuffer(RaymarchEntity[] entities, ref Material material)
+        public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
         {
             boundingVolumes = entities.Select(e => new BoundingVolume<Aabb>(e)).ToArray();
             spatialStructure = Bvh<Aabb>.Create(boundingVolumes);

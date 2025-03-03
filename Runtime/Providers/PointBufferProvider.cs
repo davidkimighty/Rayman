@@ -8,14 +8,14 @@ namespace Rayman
     {
         public static readonly int PointBufferId = Shader.PropertyToID("_PointBuffer");
         
-        private RaymarchLineEntity[] lines;
+        private RaymarchLineElement[] lines;
         private T[] pointData;
         
         public bool IsInitialized => pointData != null;
         
-        public GraphicsBuffer InitializeBuffer(RaymarchEntity[] entities, ref Material material)
+        public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
         {
-            lines = entities.OfType<RaymarchLineEntity>().ToArray();
+            lines = entities.OfType<RaymarchLineElement>().ToArray();
             int lineCount = lines.Length;
             if (lineCount == 0) return null;
 

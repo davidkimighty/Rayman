@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class RaymarchGroup : MonoBehaviour
+    public abstract class RaymarchObject : MonoBehaviour
     {
-        public event Action<RaymarchGroup> OnSetup;
-        public event Action<RaymarchGroup> OnRelease;
+        public event Action<RaymarchObject> OnSetup;
+        public event Action<RaymarchObject> OnRelease;
         
         [HideInInspector] public Material MatInstance;
         
         [SerializeField] protected Shader shader;
         [SerializeField] protected List<DataProvider> dataProviders = new();
         
-        public abstract Material InitializeGroup();
-        public abstract void ReleaseGroup();
+        public abstract Material Initialize();
+        public abstract void Release();
         
-        public virtual bool IsInitialized() => MatInstance != null;
+        public virtual bool IsInitialized() => MatInstance;
 
         protected virtual void ProvideShaderProperties()
         {

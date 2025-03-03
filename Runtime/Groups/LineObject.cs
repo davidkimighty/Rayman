@@ -5,18 +5,18 @@ using UnityEngine;
 namespace Rayman
 {
     [ExecuteInEditMode]
-    public class LineGroup : RaymarchGroup
+    public class LineObject : RaymarchObject
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<RaymarchLineEntity> lines = new();
+        [SerializeField] private List<RaymarchLineElement> lines = new();
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
         [SerializeField] private float updateBoundsThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private RaymarchLineEntity[] activeLines;
+        private RaymarchLineElement[] activeLines;
         private IBufferProvider nodeBufferProvider;
         private IBufferProvider lineBufferProvider;
         private IBufferProvider pointBufferProvider;
@@ -49,7 +49,7 @@ namespace Rayman
         }
 #endif
         
-        public override Material InitializeGroup()
+        public override Material Initialize()
         {
             activeLines = lines.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
             if (activeLines.Length == 0) return null;
@@ -79,7 +79,7 @@ namespace Rayman
             return MatInstance;
         }
 
-        public override void ReleaseGroup()
+        public override void Release()
         {
             if (Application.isEditor)
                 DestroyImmediate(MatInstance);
@@ -107,7 +107,7 @@ namespace Rayman
         [ContextMenu("Find All Lines")]
         public void FindAllLines()
         {
-            lines = RaymarchUtils.GetChildrenByHierarchical<RaymarchLineEntity>(transform);
+            lines = RaymarchUtils.GetChildrenByHierarchical<RaymarchLineElement>(transform);
         }
 #endif
     }
