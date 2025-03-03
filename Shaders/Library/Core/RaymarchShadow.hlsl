@@ -1,36 +1,35 @@
 ﻿#ifndef RAYMAN_RAYMARCH_SHADOW
 #define RAYMAN_RAYMARCH_SHADOW
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-inline float ShadowMap(const float3 pos);
+float ShadowMap(const float3 positionWS);
 
-inline float GetHardShadow(inout Ray ray)
+inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance)
 {
     ray.distanceTravelled = 0.6;
-    for (int i = 0; i < ray.maxSteps; i++)
+    for (int i = 0; i < maxSteps; i++)
     {
         float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
-        if(dist < EPSILON)
+        if(dist < ray.epsilon)
             return 0;
-        if (ray.distanceTravelled > ray.maxDistance) break;
+        if (ray.distanceTravelled > maxDistance) break;
         ray.distanceTravelled += dist;
     }
     return 1;
 }
 
-inline float GetSoftShadow(in Ray ray, const float w)
+inline float GetSoftShadow(in Ray ray, const int maxSteps, const int maxDistance, const float w)
 {
     float res = 1;
-    ray.distanceTravelled = EPSILON;
-    for (int i = 0; i < ray.maxSteps; i++)
+    ray.distanceTravelled = ray.epsilon;
+    for (int i = 0; i < maxSteps; i++)
     {
         const float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
         res = min(res, dist / (w * ray.distanceTravelled));
         ray.distanceTravelled += clamp(dist, 0.005, 0.5);
-        if (res < -1 || ray.distanceTravelled > ray.maxDistance) break;
+        if (res < -1 || ray.distanceTravelled > maxDistance) break;
     }
     res = max(res, -1);
     return 0.25 * (1 + res) * (1 + res) * (2 - res);

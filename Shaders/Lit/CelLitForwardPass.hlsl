@@ -6,6 +6,8 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 float _RayShadowBias;
+
+CBUFFER_START(CelParams)
 float _MainCelCount;
 float _AdditionalCelCount;
 float _CelSpread;
@@ -15,6 +17,7 @@ float _RimAmount;
 float _RimSmoothness;
 float _BlendDiffuse;
 float _F0;
+CBUFFER_END
 
 struct Attributes
 {
@@ -87,7 +90,7 @@ inline half3 CelLighting(Light light, float celCount, float diffuse, half3 norma
 	float cel = CelShading(diffuse, celCount);
 	half3 celShade = light.color * cel * lerp(1.0, 0.0, _Metallic);
 	
-	float roughness = max(1.0 - _Smoothness, EPSILON);
+	float roughness = max(1.0 - _Smoothness, 0.01);
 	half specular = GGXSpecular(normalWS, viewDirectionWS, light.direction, F0, roughness);
 	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness) * light.distanceAttenuation;
 	celShade += light.color * specular * cel;
@@ -134,18 +137,22 @@ FragOutput Frag (Varyings input)
 	
 	float3 cameraPos = GetCameraPosition();
 	half3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	hitCount = GetHitIds(0, ray, hitIds);
-	InsertionSort(hitIds, hitCount.x);
-	if (!Raymarch(ray)) discard;
+	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+	if (hitCount.x == 0) discard;
 	
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+	InsertionSort(hitIds, hitCount.x);
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+
+	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
+	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
 	InitializeBakedGIData(input, inputData);
 	
 	SurfaceData surfaceData;

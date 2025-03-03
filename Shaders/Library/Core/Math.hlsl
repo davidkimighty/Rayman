@@ -1,13 +1,6 @@
 ﻿#ifndef RAYMAN_MATH
 #define RAYMAN_MATH
 
-#define EPSILON (0.001)
-
-inline float3 ApplyMatrix(const float3 pos, const float4x4 transform)
-{
-    return mul(transform, float4(pos, 1.0)).xyz;
-}
-
 inline float3 GetScale(const float4x4 transform)
 {
     return float3(length(transform[0].xyz), length(transform[1].xyz), length(transform[2].xyz));

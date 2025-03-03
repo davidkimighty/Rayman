@@ -180,18 +180,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 98985109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseLossyScale: 1
+  ExpandBounds: 0
   Size: {x: 0.0013, y: 0.0014, z: 0.0015}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  ExpandBounds: 0.1
   Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &277458962
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,18 +234,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 277458962}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.0045, y: 0.0045, z: 0.002}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0
+  Size: {x: 0.0045, y: 0.0045, z: 0.002}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &343540672
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,18 +308,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 343540672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseLossyScale: 1
+  ExpandBounds: 0
   Size: {x: 0.005, y: 0.006, z: 0.004}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  ExpandBounds: 0.1
-  Shape: 0
+  Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &829910653
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,42 +447,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a003612e23b90934aaa5e2f3eecb4eb1, type: 3}
---- !u!21 &879075835
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/Lit
-  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs: []
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DstBlend: 0
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _Smoothness: 0.4
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &938474307
 GameObject:
   m_ObjectHideFlags: 0
@@ -541,18 +508,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 938474307}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseLossyScale: 1
+  ExpandBounds: 0
   Size: {x: 0.0023, y: 0.0024, z: 0.0024}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  ExpandBounds: 0.1
-  Shape: 0
+  Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &965167135
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,18 +582,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 965167135}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseLossyScale: 1
+  ExpandBounds: 0
   Size: {x: 0.003, y: 0.002, z: 0.0021}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  UseLossyScale: 1
-  ExpandBounds: 0.1
-  Shape: 0
+  Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &969997285
 GameObject:
   m_ObjectHideFlags: 0
@@ -757,18 +726,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 969997285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.008, y: 0.008, z: 0.003}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
   ExpandBounds: 0
+  Size: {x: 0.008, y: 0.008, z: 0.003}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1086591522
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,18 +937,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1284175778}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f804f5c56ae594f6baef245b99759b86, type: 3}
+  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Size: {x: 0.0036, y: 0.0035, z: 0.0035}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   UseLossyScale: 1
-  ExpandBounds: 0.1
-  Shape: 0
+  ExpandBounds: 0
+  Size: {x: 0.0013, y: 0.0014, z: 0.0015}
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  Shape: 1
   Operation: 0
   Blend: 0.1
   Roundness: 0
   Color: {r: 1, g: 0.41568628, b: 0, a: 1}
+  GradientColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1851803349
 GameObject:
   m_ObjectHideFlags: 0
@@ -1184,8 +1155,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 879075835}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1224,26 +1194,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1872132477}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dce17337e86c0ac468fa92cbee40d62b, type: 3}
+  m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 879075835}
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  drawGizmos: 0
-  entities:
-  - {fileID: 969997290}
+  shapes:
   - {fileID: 277458964}
-  - {fileID: 1284175781}
-  - {fileID: 343540675}
+  - {fileID: 969997290}
   - {fileID: 965167138}
-  - {fileID: 938474310}
+  - {fileID: 343540675}
+  - {fileID: 1284175781}
   - {fileID: 98985113}
+  - {fileID: 938474310}
+  dataProviders:
+  - {fileID: 11400000, guid: f1bb96f0e5f769e48b6fda344c16a6aa, type: 2}
+  ColorUsage: 1
   updateBoundsThreshold: 0
-  renderStateData: {fileID: 0}
-  baseMap: {fileID: 0}
-  metallic: 0
-  smoothness: 0.4
-  emissionColor: {r: 4.237095, g: 0.12319398, b: 0, a: 1}
+  drawGizmos: 0
 --- !u!4 &543450653230414587
 Transform:
   m_ObjectHideFlags: 0

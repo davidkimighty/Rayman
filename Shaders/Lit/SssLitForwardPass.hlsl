@@ -6,10 +6,13 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 float _RayShadowBias;
+
+CBUFFER_START(SssParams)
 float _SssDistortion;
 float _SssPower;
 float _SssScale;
 float _SssAmbient;
+CBUFFER_END
 
 struct Attributes
 {
@@ -101,21 +104,27 @@ FragOutput Frag (Varyings input)
 	
 	const float3 cameraPos = GetCameraPosition();
 	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _MaxSteps, _MaxDistance);
+	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	hitCount = GetHitIds(0, ray, hitIds);
+	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+	if (hitCount.x == 0) discard;
+	
 	InsertionSort(hitIds, hitCount.x);
-	if (!Raymarch(ray)) discard;
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
+	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
+			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, normalize(cameraPos - ray.hitPoint), GetNormal(ray.hitPoint), inputData);
+	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 
-	float4 hitPointOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0));
-	float3 directionOS = normalize(hitPointOS.xyz - float3(0, 0, 0));
-	float2 uv = float2((atan2(directionOS.x, directionOS.z) + PI) / (2 * PI), 1.0 - acos(directionOS.y) / PI);
+	float3 posOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0)).xyz;
+	float2 uv = GetCylinderUV(posOS, 1.0 - acos(normalize(posOS).y));
 	
 	SurfaceData surfaceData;
 	InitializeStandardLitSurfaceData(uv, surfaceData);
@@ -167,9 +176,6 @@ FragOutput Frag (Varyings input)
 		}
 	LIGHT_LOOP_END
 #endif
-
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
-			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
 	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));

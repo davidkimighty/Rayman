@@ -1,9 +1,10 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class RaymarchGroup : MonoBehaviour, IRaymarchDebug, ISpatialStructureDebug
+    public abstract class RaymarchGroup : MonoBehaviour
     {
         public event Action<RaymarchGroup> OnSetup;
         public event Action<RaymarchGroup> OnRelease;
@@ -11,26 +12,18 @@ namespace Rayman
         [HideInInspector] public Material MatInstance;
         
         [SerializeField] protected Shader shader;
-#if UNITY_EDITOR
-        [SerializeField] protected bool drawGizmos;
-#endif
+        [SerializeField] protected List<DataProvider> dataProviders = new();
         
         public abstract Material InitializeGroup();
         public abstract void ReleaseGroup();
         
         public virtual bool IsInitialized() => MatInstance != null;
-        
-        public virtual void SetupShaderProperties(ref Material material) { }
 
-        public virtual void AddEntity(RaymarchEntity entity) { }
-        
-        public virtual void RemoveEntity(RaymarchEntity entity) { }
-
-        public virtual int GetSdfCount() => 0;
-
-        public virtual int GetNodeCount() => 0;
-
-        public virtual int GetMaxHeight() => 0;
+        protected virtual void ProvideShaderProperties()
+        {
+            foreach (DataProvider provider in dataProviders)
+                provider?.ProvideData(ref MatInstance);
+        }
 
         protected void InvokeOnSetup() => OnSetup?.Invoke(this);
         

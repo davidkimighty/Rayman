@@ -7,29 +7,17 @@ namespace Rayman
 {
     public class RaymarchRenderer : MonoBehaviour
     {
-        public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
-        public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
-        public static readonly int ShadowMaxStepsId = Shader.PropertyToID("_ShadowMaxSteps");
-        public static readonly int ShadowMaxDistanceId = Shader.PropertyToID("_ShadowMaxDistance");
-
         public event Action<RaymarchRenderer> OnSetup;
         public event Action<RaymarchRenderer> OnRelease;
 
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
-        [SerializeField] private int maxSteps = 64;
-        [SerializeField] private float maxRayDistance = 100f;
-        [SerializeField] private int shadowMaxSteps = 32;
-        [SerializeField] private float shadowMaxRayDistance = 30f;
+        [SerializeField] private List<DataProvider> dataProviders = new();
         [SerializeField] private List<RaymarchGroup> raymarchGroups = new();
         
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
         public List<RaymarchGroup> Groups => raymarchGroups;
-        
-        public int SdfCount => raymarchGroups.Sum(g => g.GetSdfCount());
-        public int NodeCount => raymarchGroups.Sum(g => g.GetNodeCount());
-        public int MaxHeight => raymarchGroups.Sum(g => g.GetMaxHeight());
 
         private void Awake()
         {
@@ -53,7 +41,8 @@ namespace Rayman
                 Material mat = group.InitializeGroup();
                 if (!mat) continue;
                 
-                SetupRaymarchProperties(ref mat);
+                foreach (DataProvider provider in dataProviders)
+                    provider?.ProvideData(ref mat);
                 matInstances.Add(mat);
             }
             mainRenderer.materials = matInstances.ToArray();
@@ -67,19 +56,10 @@ namespace Rayman
             foreach (RaymarchGroup group in raymarchGroups)
                 group?.ReleaseGroup();
 
-            mainRenderer.materials = Array.Empty<Material>();
+            if (mainRenderer)
+                mainRenderer.materials = Array.Empty<Material>();
             IsInitialized = false;
             OnRelease?.Invoke(this);
-        }
-
-        private void SetupRaymarchProperties(ref Material mat)
-        {
-            if (!mat) return;
-
-            mat.SetInt(MaxStepsId, maxSteps);
-            mat.SetFloat(MaxDistanceId, maxRayDistance);
-            mat.SetInt(ShadowMaxStepsId, shadowMaxSteps);
-            mat.SetFloat(ShadowMaxDistanceId, shadowMaxRayDistance);
         }
 
 #if UNITY_EDITOR

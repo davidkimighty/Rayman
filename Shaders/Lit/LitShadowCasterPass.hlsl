@@ -53,19 +53,21 @@ float Frag(Varyings input) : SV_Depth
     UNITY_SETUP_INSTANCE_ID(input);
     
     float3 cameraPos = GetCameraPosition();
-    Ray ray = CreateRay(input.positionWS, GetCameraForward(), _ShadowMaxSteps, _ShadowMaxDistance);
+    float3 cameraForward = GetCameraForward();
+    Ray ray = CreateRay(input.positionWS, cameraForward, _EpsilonMin);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     
-    hitCount = GetHitIds(0, ray, hitIds);
-    InsertionSort(hitIds, hitCount.x);
+    hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
+    if (hitCount.x == 0) discard;
     
-    if (!Raymarch(ray)) discard;
+    InsertionSort(hitIds, hitCount.x);
+    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
 #if defined(LOD_FADE_CROSSFADE)
     LODFadeCrossFade(input.positionCS);
 #endif
 
-    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < EPSILON ?
+    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
         GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
     return depth;
 }

@@ -26,7 +26,7 @@ namespace Rayman
             Max = max;
         }
 
-        public static Aabb GetBounds(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)
+        public Aabb(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)
         {
             Vector3 right = transform.right * (scale.x * size.x);
             Vector3 up = transform.up * (scale.y * size.y);
@@ -42,9 +42,8 @@ namespace Rayman
             Vector3 rotatedOffset = right * offset.x + up * offset.y + forward * offset.z;
             Vector3 center = transform.position + rotatedOffset;
 
-            Vector3 min = center - extent;
-            Vector3 max = center + extent;
-            return new Aabb(min, max);
+            Min = center - extent;
+            Max = center + extent;
         }
 
         public bool Contains(Aabb aabb)

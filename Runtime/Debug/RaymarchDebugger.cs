@@ -12,16 +12,21 @@ namespace Rayman
         {
             if (raymarchManager == null)
                 raymarchManager = FindFirstObjectByType<RaymarchManager>();
+            if (raymarchManager == null) return;
+            
             if (raymarchManager != null)
             {
-                totalSdfCount = raymarchManager.Renderers.Sum(r => r.SdfCount);
-                raymarchManager.OnAddRenderer += (r) => totalSdfCount += r.SdfCount;
-                raymarchManager.OnRemoveRenderer += (r) => totalSdfCount -= r.SdfCount;
+                totalSdfCount = raymarchManager.Renderers.Sum(r => r.Groups.OfType<IRaymarchDebug>()
+                    .Sum(g => g.GetSdfCount()));
+                raymarchManager.OnAddRenderer += (r) => totalSdfCount += r.Groups.OfType<ISpatialStructureDebug>()
+                    .Sum(g => g.GetNodeCount());
+                raymarchManager.OnRemoveRenderer += (r) => totalSdfCount -= r.Groups.OfType<ISpatialStructureDebug>()
+                    .Sum(g => g.GetMaxHeight());
                 return;
             }
 
             totalSdfCount = FindObjectsByType<RaymarchRenderer>(FindObjectsSortMode.None)
-                .Sum(r => r.SdfCount);
+                .Sum(r => r.Groups.OfType<IRaymarchDebug>().Sum(g => g.GetSdfCount()));
         }
 
         public override string GetDebugMessage()

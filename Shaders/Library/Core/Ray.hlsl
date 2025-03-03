@@ -7,22 +7,19 @@ struct Ray
 {
     float3 origin;
     float3 dir;
-    float3 invDir;
-    int maxSteps;
-    float maxDistance;
+    float epsilon;
     float3 hitPoint;
     float distanceTravelled;
     float hitDistance;
+    float4 data;
 };
 
-inline Ray CreateRay(const float3 origin, const float3 dir, const int maxSteps, const float maxDistance)
+inline Ray CreateRay(const float3 origin, const float3 dir, const float epsilon)
 {
     Ray ray = (Ray)0;
     ray.origin = origin;
     ray.dir = dir;
-    ray.invDir = 1 / ray.dir;
-    ray.maxSteps = maxSteps;
-    ray.maxDistance = maxDistance;
+    ray.epsilon = epsilon;
     ray.hitPoint = ray.origin;
     ray.distanceTravelled = 0;
     ray.hitDistance = 0;

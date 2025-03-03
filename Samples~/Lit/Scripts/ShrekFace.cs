@@ -4,8 +4,6 @@ using UnityEngine.InputSystem;
 
 public class ShrekFace : MonoBehaviour
 {
-    [SerializeField] private RaymarchShapeEntity eyeLeft;
-    [SerializeField] private RaymarchShapeEntity eyeRight;
     [SerializeField] private float maxAngle = 45f;
     [SerializeField] private float focusDst = 0.1f;
     [SerializeField] private InputActionReference mouseActionRef;
@@ -18,21 +16,9 @@ public class ShrekFace : MonoBehaviour
 
     private Quaternion leftEyeStartRotation;
     private Quaternion rightEyeStartRotation;
-
-    private void Start()
-    {
-        leftEyeStartRotation = eyeLeft.transform.rotation;
-        rightEyeStartRotation = eyeRight.transform.rotation;
-    }
     
     private void Update()
     {
-        Vector3 mousePoint = mouseActionRef.action.ReadValue<Vector2>();
-        mousePoint.z = Camera.main.nearClipPlane + focusDst;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(mousePoint);
-        LookAt(eyeLeft.transform, mousePos, leftEyeStartRotation);
-        LookAt(eyeRight.transform, mousePos, rightEyeStartRotation);
-        
         float s = Mathf.Sin(Time.time * frequency * Mathf.PI);
         mouth.Size = Vector3.LerpUnclamped(startShape, endShape, curve.Evaluate(s));
     }
