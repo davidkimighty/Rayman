@@ -16,24 +16,27 @@ namespace Rayman
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<RaymarchShapeElement> shapes = new();
+        [SerializeField] private List<ShapeElement> shapes = new();
         
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
-        [SerializeField] private float updateBoundsThreshold;
+        [SerializeField] private float syncThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private RaymarchShapeElement[] activeShapes;
-        private IBufferProvider nodeBufferProvider;
-        private IBufferProvider shapeBufferProvider;
+        private ShapeElement[] activeShapes;
+        private INodeBufferProvider<Aabb> nodeBufferProvider;
+        private IRaymarchElementBufferProvider shapeBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer shapeBuffer;
-        
+
         private void LateUpdate()
         {
             if (!IsInitialized()) return;
 
+            for (int i = 0; i < activeShapes.Length; i++)
+                nodeBufferProvider.SyncBounds(i, activeShapes[i].GetBounds<Aabb>(), syncThreshold);
+            
             nodeBufferProvider.SetData(ref nodeBuffer);
             shapeBufferProvider.SetData(ref shapeBuffer);
         }
@@ -64,8 +67,9 @@ namespace Rayman
             
             ProvideShaderProperties();
 
-            nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeShapes, ref MatInstance);
+            nodeBufferProvider = new BvhAabbNodeBufferProvider();
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(
+                activeShapes.Select(s => s.GetBounds<Aabb>()).ToArray(), ref MatInstance);
             
             if (ColorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
@@ -106,7 +110,7 @@ namespace Rayman
         {
             if (shapes.Contains(entity)) return;
 
-            RaymarchShapeElement shape = entity as RaymarchShapeElement;
+            ShapeElement shape = entity as ShapeElement;
             if (!shape) return;
             
             shapes.Add(shape);
@@ -116,7 +120,7 @@ namespace Rayman
         {
             if (!shapes.Contains(entity)) return;
 
-            RaymarchShapeElement shape = entity as RaymarchShapeElement;
+            ShapeElement shape = entity as ShapeElement;
             if (shape == null) return;
             
             shapes.Remove(shape);
@@ -124,15 +128,15 @@ namespace Rayman
         
         public int GetSdfCount() => activeShapes?.Length ?? 0;
 
-        public int GetNodeCount() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.Count ?? 0;
+        public int GetNodeCount() => nodeBufferProvider?.SpatialStructure.Count ?? 0;
         
-        public int GetMaxHeight() => ((BvhAabbNodeBufferProvider)nodeBufferProvider)?.SpatialStructure.MaxHeight ?? 0;
+        public int GetMaxHeight() => nodeBufferProvider?.SpatialStructure.MaxHeight ?? 0;
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeElement>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<ShapeElement>(transform);
         }
 #endif
     }

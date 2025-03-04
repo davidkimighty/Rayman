@@ -9,17 +9,17 @@ namespace Rayman
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<RaymarchLineElement> lines = new();
+        [SerializeField] private List<LineElement> lines = new();
         [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
-        [SerializeField] private float updateBoundsThreshold;
+        [SerializeField] private float syncThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private RaymarchLineElement[] activeLines;
-        private IBufferProvider nodeBufferProvider;
-        private IBufferProvider lineBufferProvider;
-        private IBufferProvider pointBufferProvider;
+        private LineElement[] activeLines;
+        private INodeBufferProvider<Aabb> nodeBufferProvider;
+        private IRaymarchElementBufferProvider lineBufferProvider;
+        private IRaymarchElementBufferProvider pointBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer lineBuffer;
         private GraphicsBuffer pointBuffer;
@@ -28,6 +28,9 @@ namespace Rayman
         {
             if (!IsInitialized()) return;
 
+            for (int i = 0; i < activeLines.Length; i++)
+                nodeBufferProvider.SyncBounds(i, activeLines[i].GetBounds<Aabb>(), syncThreshold);
+            
             nodeBufferProvider.SetData(ref nodeBuffer);
             lineBufferProvider.SetData(ref lineBuffer);
             pointBufferProvider.SetData(ref pointBuffer);
@@ -59,8 +62,9 @@ namespace Rayman
             
             ProvideShaderProperties();
 
-            nodeBufferProvider = new BvhAabbNodeBufferProvider(updateBoundsThreshold);
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines, ref MatInstance);
+            nodeBufferProvider = new BvhAabbNodeBufferProvider();
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(
+                activeLines.Select(s => s.GetBounds<Aabb>()).ToArray(), ref MatInstance);
             
             if (ColorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
@@ -107,7 +111,7 @@ namespace Rayman
         [ContextMenu("Find All Lines")]
         public void FindAllLines()
         {
-            lines = RaymarchUtils.GetChildrenByHierarchical<RaymarchLineElement>(transform);
+            lines = RaymarchUtils.GetChildrenByHierarchical<LineElement>(transform);
         }
 #endif
     }

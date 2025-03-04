@@ -5,50 +5,50 @@ namespace Rayman
     public enum DebugModes { None, Normal, Hitmap, BoundingVolume, }
     
     [ExecuteInEditMode]
-    public class RaymarchGroupDebugger : MonoBehaviour
+    public class RaymarchObjectDebugger : MonoBehaviour
     {
         private const string DebugModeKeyword = "DEBUG_MODE";
         private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
         private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
 
-        [SerializeField] private RaymarchObject raymarchGroup;
+        [SerializeField] private RaymarchObject raymarchObject;
         [SerializeField] private DebugModes debugMode = DebugModes.Hitmap;
         [SerializeField] private int boundsDisplayThreshold = 300;
 
         private void OnEnable()
         {
-            if (raymarchGroup == null) return;
+            if (raymarchObject == null) return;
             
-            if (raymarchGroup.IsInitialized())
-                Setup(raymarchGroup);
+            if (raymarchObject.IsInitialized())
+                Setup(raymarchObject);
             else
-                raymarchGroup.OnSetup += Setup;
+                raymarchObject.OnSetup += Setup;
         }
 
         private void OnDisable()
         {
-            if (raymarchGroup == null) return;
+            if (raymarchObject == null) return;
             
-            if (raymarchGroup.IsInitialized())
-                raymarchGroup.MatInstance.DisableKeyword(DebugModeKeyword);
-            raymarchGroup.OnSetup -= Setup;
+            if (raymarchObject.IsInitialized())
+                raymarchObject.MatInstance.DisableKeyword(DebugModeKeyword);
+            raymarchObject.OnSetup -= Setup;
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (raymarchGroup == null)
-                raymarchGroup = GetComponent<RaymarchObject>();
-            if (raymarchGroup == null) return;
+            if (raymarchObject == null)
+                raymarchObject = GetComponent<RaymarchObject>();
+            if (raymarchObject == null) return;
             
-            if (raymarchGroup.IsInitialized())
-                SetupShaderProperties(ref raymarchGroup.MatInstance);
+            if (raymarchObject.IsInitialized())
+                SetupShaderProperties(ref raymarchObject.MatInstance);
         }
         
-        [ContextMenu("Find group")]
-        public void FindGroup()
+        [ContextMenu("Find object")]
+        public void FindObject()
         {
-            raymarchGroup = GetComponent<RaymarchObject>();
+            raymarchObject = GetComponent<RaymarchObject>();
         }
 #endif
 

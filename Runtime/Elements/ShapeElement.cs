@@ -18,7 +18,7 @@ namespace Rayman
         CappedCone,
     }
     
-    public class RaymarchShapeElement : RaymarchElement
+    public class ShapeElement : RaymarchElement
     {
         [Header("Shape")]
         public Vector3 Size = Vector3.one * 0.5f;
@@ -98,7 +98,7 @@ namespace Rayman
 
         public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeElement shape = element as RaymarchShapeElement;
+            ShapeElement shape = element as ShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;
@@ -128,7 +128,7 @@ namespace Rayman
 
         public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeElement shape = element as RaymarchShapeElement;
+            ShapeElement shape = element as ShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;
@@ -158,7 +158,7 @@ namespace Rayman
 
         public void InitializeData(RaymarchElement element)
         {
-            RaymarchShapeElement shape = element as RaymarchShapeElement;
+            ShapeElement shape = element as ShapeElement;
             if (!shape) return;
             
             Type = (int)shape.Shape;

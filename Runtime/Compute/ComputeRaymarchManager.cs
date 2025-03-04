@@ -6,19 +6,17 @@ namespace Rayman
     public class ComputeRaymarchManager : MonoBehaviour
     {
         [SerializeField] private ComputeRaymarchFeature raymarchFeature;
-        [SerializeField] private List<RaymarchShapeElement> Shapes = new();
+        [SerializeField] private List<ShapeElement> Shapes = new();
         [SerializeField] private bool buildOnStart;
         [SerializeField] private float boundsUpdateThreshold;
         [SerializeField] private bool drawGizmos;
         
         private ISpatialStructure<Aabb> bvh;
-        private BoundingVolume<Aabb>[] boundingVolumes;
         private ColorShapeData[] shapeData;
-        private NodeDataAabb[] nodeData;
+        private AabbNodeData[] nodeData;
 
-        public bool IsInitialized => boundingVolumes != null;
         public ColorShapeData[] ShapeData => shapeData;
-        public NodeDataAabb[] NodeData => nodeData;
+        public AabbNodeData[] NodeData => nodeData;
 
         private void Start()
         {
@@ -35,19 +33,19 @@ namespace Rayman
 
         private void LateUpdate()
         {
-            if (!IsInitialized) return;
+            //if (!IsInitialized) return;
             
-            for (int j = 0; j < boundingVolumes.Length; j++)
-            {
-                BoundingVolume<Aabb> volume = boundingVolumes[j];
-                volume.SyncVolume(ref bvh, boundsUpdateThreshold);
-                
-                var shape = volume.Source as RaymarchShapeElement;
-                if (shape == null) continue;
-                
-                shapeData[j] = new ColorShapeData();
-                shapeData[j].InitializeData(shape);
-            }
+            // for (int j = 0; j < boundingVolumes.Length; j++)
+            // {
+            //     BoundingVolume<Aabb> volume = boundingVolumes[j];
+            //     volume.SyncVolume(ref bvh, boundsUpdateThreshold);
+            //     
+            //     var shape = volume.Source as RaymarchShapeElement;
+            //     if (shape == null) continue;
+            //     
+            //     shapeData[j] = new ColorShapeData();
+            //     shapeData[j].InitializeData(shape);
+            // }
             UpdateNodeData(bvh, ref nodeData);
         }
 
@@ -56,28 +54,28 @@ namespace Rayman
         {
             if (Shapes.Count == 0) return;
             
-            List<BoundingVolume<Aabb>> volumes = new();
-            foreach (RaymarchShapeElement shape in Shapes)
+            //List<BoundingVolume<Aabb>> volumes = new();
+            foreach (ShapeElement shape in Shapes)
             {
                 if (shape == null || !shape.gameObject.activeInHierarchy) continue;
                 
-                volumes.Add(new BoundingVolume<Aabb>(shape));
+                //volumes.Add(new BoundingVolume<Aabb>(shape));
             }
-            if (volumes.Count == 0) return;
+            //if (volumes.Count == 0) return;
             
-            boundingVolumes = volumes.ToArray();
-            bvh = Bvh<Aabb>.Create(boundingVolumes);
+            //boundingVolumes = volumes.ToArray();
+            //bvh = Bvh<Aabb>.Create(boundingVolumes);
             
-            int shapeCount = boundingVolumes.Length;
-            shapeData = new ColorShapeData[shapeCount];
+            //int shapeCount = boundingVolumes.Length;
+            //shapeData = new ColorShapeData[shapeCount];
             
             int nodesCount = SpatialNode<Aabb>.GetNodesCount(bvh.Root);
-            nodeData = new NodeDataAabb[nodesCount];
+            nodeData = new AabbNodeData[nodesCount];
 
             raymarchFeature.RaymarchManager = this;
         }
         
-        private void UpdateNodeData(ISpatialStructure<Aabb> structure, ref NodeDataAabb[] nodeData)
+        private void UpdateNodeData(ISpatialStructure<Aabb> structure, ref AabbNodeData[] nodeData)
         {
             int index = 0;
             Queue<(SpatialNode<Aabb> node, int parentIndex)> queue = new();
@@ -86,7 +84,7 @@ namespace Rayman
             while (queue.Count > 0)
             {
                 (SpatialNode<Aabb> current, int parentIndex) = queue.Dequeue();
-                NodeDataAabb data = new()
+                AabbNodeData data = new()
                 {
                     Id = current.Id,
                     ChildIndex = -1,
@@ -123,7 +121,7 @@ namespace Rayman
         [ContextMenu("Find All Shapes")]
         private void FindAllGroups()
         {
-            Shapes = RaymarchUtils.GetChildrenByHierarchical<RaymarchShapeElement>();
+            Shapes = RaymarchUtils.GetChildrenByHierarchical<ShapeElement>();
         }
 #endif
     }

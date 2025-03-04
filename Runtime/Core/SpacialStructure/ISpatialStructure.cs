@@ -6,9 +6,9 @@ namespace Rayman
         int Count { get; }
         int MaxHeight { get; }
         
-        void AddLeafNode(int id, T bounds, IBoundsProvider provider);
-        void RemoveLeafNode(IBoundsProvider provider);
-        void UpdateBounds(IBoundsProvider provider, T updatedBounds);
+        void AddLeafNode(int id, T bounds);
+        void RemoveLeafNode(int id);
+        void UpdateBounds(int id, T updatedBounds);
         float CalculateCost();
 #if UNITY_EDITOR
         void DrawStructure();

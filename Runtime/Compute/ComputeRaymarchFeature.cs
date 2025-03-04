@@ -84,7 +84,7 @@ namespace Rayman
                 shapeBuffer.SetData(shapeData);
             }
 
-            public void SetupNodeBuffer(NodeDataAabb[] nodeData)
+            public void SetupNodeBuffer(AabbNodeData[] nodeData)
             {
                 if (nodeData == null) return;
                 
@@ -93,7 +93,7 @@ namespace Rayman
                 {
                     nodeBuffer?.Release();
                     nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount,
-                        Marshal.SizeOf(typeof(NodeDataAabb)));
+                        Marshal.SizeOf(typeof(AabbNodeData)));
                 }
                 nodeBuffer.SetData(nodeData);
             }

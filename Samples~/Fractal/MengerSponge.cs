@@ -2,7 +2,7 @@ using Rayman;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class MengerSponge : RaymarchGroup
+public class MengerSponge : RaymarchObject
 {
     public float Size = 0.5f;
     [Range(1, 10)] public int Iterations = 4;
@@ -25,7 +25,7 @@ public class MengerSponge : RaymarchGroup
     }
 #endif
     
-    public override Material InitializeGroup()
+    public override Material Initialize()
     {
         MatInstance = new Material(shader);
         if (!MatInstance) return null;
@@ -35,7 +35,7 @@ public class MengerSponge : RaymarchGroup
         return MatInstance;
     }
 
-    public override void ReleaseGroup()
+    public override void Release()
     {
         if (Application.isEditor)
             DestroyImmediate(MatInstance);
