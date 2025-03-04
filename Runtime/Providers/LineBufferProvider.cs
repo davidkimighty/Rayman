@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class LineBufferProvider<T> : IBufferProvider where T : struct, ILineData
+    public class LineBufferProvider<T> : IRaymarchElementBufferProvider where T : struct, ILineData
     {
         public static readonly int LineBufferId = Shader.PropertyToID("_LineBuffer");
         
-        private RaymarchLineElement[] lines;
+        private LineElement[] lines;
         private T[] lineData;
         
         public bool IsInitialized => lineData != null;
         
         public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
         {
-            lines = entities.OfType<RaymarchLineElement>().ToArray();
+            lines = entities.OfType<LineElement>().ToArray();
             int lineCount = lines.Length;
             if (lineCount == 0) return null;
 

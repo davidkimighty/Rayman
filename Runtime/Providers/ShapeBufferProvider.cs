@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeBufferProvider<T> : IBufferProvider where T : struct, IRaymarchElementData
+    public class ShapeBufferProvider<T> : IRaymarchElementBufferProvider where T : struct, IRaymarchElementData
     {
         public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
 
         public bool IsInitialized => shapeData != null;
 
-        private RaymarchShapeElement[] raymarchShapes;
+        private ShapeElement[] raymarchShapes;
         private T[] shapeData;
         
         public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
         {
-            raymarchShapes = entities.OfType<RaymarchShapeElement>().ToArray();
+            raymarchShapes = entities.OfType<ShapeElement>().ToArray();
             int count = raymarchShapes.Length;
             if (count == 0) return null;
 

@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public interface IBufferProvider
+    public interface IRaymarchElementBufferProvider
     {
         bool IsInitialized { get; }
         
-        GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material);
+        GraphicsBuffer InitializeBuffer(RaymarchElement[] elements, ref Material material);
         void SetData(ref GraphicsBuffer buffer);
         void ReleaseData();
 #if UNITY_EDITOR

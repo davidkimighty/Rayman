@@ -9,30 +9,22 @@ namespace Rayman
         public SpatialNode<T> Root { get; private set; }
         public int Count => SpatialNode<T>.GetNodesCount(Root);
         public int MaxHeight { get; private set; }
-
-        public static Bvh<T> Create(BoundingVolume<T>[] volumes)
+        
+        public Bvh(T[] bounds)
         {
-            var structure = new Bvh<T>();
-            int shapeId = 0;
-            
-            for (int i = 0; i < volumes.Length; i++)
-            {
-                BoundingVolume<T> volume = volumes[i];
-                structure.AddLeafNode(shapeId, volume.Bounds, volume.Source);
-                shapeId++;
-            }
-            return structure;
+            for (int i = 0; i < bounds.Length; i++)
+                AddLeafNode(i, bounds[i]);
         }
         
-        public void AddLeafNode(int id, T bounds, IBoundsProvider source)
+        public void AddLeafNode(int id, T bounds)
         {
-            SpatialNode<T> nodeToInsert = new(id, 0, bounds, source);
+            SpatialNode<T> nodeToInsert = new(id, 0, bounds);
             PerformInsertNode(nodeToInsert);
         }
         
-        public void RemoveLeafNode(IBoundsProvider source)
+        public void RemoveLeafNode(int id)
         {
-            if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
+            if (!TraverseDFS(Root, id, out SpatialNode<T> nodeToRemove))
             {
                 Debug.Log("[ BVH ] Node to remove does not exist.");
                 return;
@@ -40,16 +32,16 @@ namespace Rayman
             PerformRemoveNode(nodeToRemove);
         }
 
-        public void UpdateBounds(IBoundsProvider source, T updatedBounds)
+        public void UpdateBounds(int id, T updatedBounds)
         {
-            if (!TraverseDFS(Root, source, out SpatialNode<T> nodeToRemove))
+            if (!TraverseDFS(Root, id, out SpatialNode<T> nodeToRemove))
             {
                 Debug.Log("[ BVH ] Node to update does not exist.");
                 return;
             }
             PerformRemoveNode(nodeToRemove);
             
-            SpatialNode<T> nodeToInsert = new(nodeToRemove.Id, 0, updatedBounds, nodeToRemove.Source);
+            SpatialNode<T> nodeToInsert = new(nodeToRemove.Id, 0, updatedBounds);
             PerformInsertNode(nodeToInsert);
         }
 
@@ -275,17 +267,17 @@ namespace Rayman
             }
         }
         
-        private bool TraverseDFS(SpatialNode<T> current, IBoundsProvider source, out SpatialNode<T> targetNode)
+        private bool TraverseDFS(SpatialNode<T> current, int id, out SpatialNode<T> targetNode)
         {
             if (current == null)
             {
                 targetNode = null;
                 return false;
             }
-            if (current.Source != source)
+            if (current.Id != id)
             {
-                return TraverseDFS(current.LeftChild, source, out targetNode) ||
-                       TraverseDFS(current.RightChild, source, out targetNode);
+                return TraverseDFS(current.LeftChild, id, out targetNode) ||
+                       TraverseDFS(current.RightChild, id, out targetNode);
             }
             targetNode = current;
             return true;

@@ -9,7 +9,7 @@ namespace Rayman
         Intersect
     }
     
-    public class RaymarchElement : MonoBehaviour, IBoundsProvider
+    public abstract class RaymarchElement : MonoBehaviour, IBoundsProvider
     {
         public bool UseLossyScale = true;
         public float ExpandBounds;

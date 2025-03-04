@@ -1,47 +1,46 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class BvhAabbNodeBufferProvider : IBufferProvider
+    public class BvhAabbNodeBufferProvider : INodeBufferProvider<Aabb>
     {
         public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
 
-        private float updateBoundsThreshold;
         private ISpatialStructure<Aabb> spatialStructure;
-        private BoundingVolume<Aabb>[] boundingVolumes;
-        private NodeDataAabb[] nodeData;
+        private Aabb[] activeBounds;
+        private AabbNodeData[] nodeData;
 
         public ISpatialStructure<Aabb> SpatialStructure => spatialStructure;
 
-        public BvhAabbNodeBufferProvider(float updateBoundsThreshold)
+        public bool IsInitialized => spatialStructure != null && nodeData != null;
+        
+        public GraphicsBuffer InitializeBuffer(Aabb[] bounds, ref Material material)
         {
-            this.updateBoundsThreshold = updateBoundsThreshold;
-        }
-
-        public bool IsInitialized => spatialStructure != null && boundingVolumes != null && nodeData != null;
-
-        public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
-        {
-            boundingVolumes = entities.Select(e => new BoundingVolume<Aabb>(e)).ToArray();
-            spatialStructure = Bvh<Aabb>.Create(boundingVolumes);
-            int nodeCount = spatialStructure.Count;
-            if (nodeCount == 0) return null;
+            activeBounds = bounds;
+            spatialStructure = new Bvh<Aabb>(bounds);
+            int count = spatialStructure.Count;
+            if (count == 0) return null;
             
-            nodeData = new NodeDataAabb[nodeCount];
-            GraphicsBuffer nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, NodeDataAabb.Stride);
+            nodeData = new AabbNodeData[count];
+            GraphicsBuffer nodeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, AabbNodeData.Stride);
             material.SetBuffer(NodeBufferId, nodeBuffer);
             return nodeBuffer;
+        }
+
+        public void SyncBounds(int id, Aabb bounds, float threshold = 0f)
+        {
+            Aabb buffBounds = activeBounds[id].Expand(threshold);
+            if (buffBounds.Contains(bounds)) return;
+
+            activeBounds[id] = bounds;
+            spatialStructure.UpdateBounds(id, bounds);
         }
         
         public void SetData(ref GraphicsBuffer buffer)
         {
             if (!IsInitialized) return;
-
-            for (int i = 0; i < boundingVolumes.Length; i++)
-                boundingVolumes[i].SyncVolume(ref spatialStructure, updateBoundsThreshold);
 
             UpdateNodeData();
             buffer.SetData(nodeData);
@@ -50,7 +49,6 @@ namespace Rayman
         public void ReleaseData()
         {
             spatialStructure = null;
-            boundingVolumes = null;
             nodeData = null;
         }
         
@@ -70,7 +68,7 @@ namespace Rayman
             while (queue.Count > 0)
             {
                 (SpatialNode<Aabb> current, int parentIndex) = queue.Dequeue();
-                NodeDataAabb node = new()
+                AabbNodeData node = new()
                 {
                     Id = current.Id,
                     ChildIndex = -1,
@@ -92,7 +90,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct NodeDataAabb
+    public struct AabbNodeData
     {
         public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
 

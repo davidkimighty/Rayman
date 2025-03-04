@@ -75,7 +75,7 @@ namespace Rayman
             }
         }
         
-        [ContextMenu("Find all groups")]
+        [ContextMenu("Find all Objects")]
         public void FindAllObjects()
         {
             raymarchGroups = GetComponents<RaymarchObject>().ToList();
