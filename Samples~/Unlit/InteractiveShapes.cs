@@ -12,12 +12,12 @@ public class InteractiveShapes : MonoBehaviour
     [SerializeField] private InputActionReference clickActionReference;
     [SerializeField] private List<Texture> matcaps;
     
-    [SerializeField] private RaymarchShapeEntity shapePrimary;
+    [SerializeField] private ShapeElement shapePrimary;
     [SerializeField] private float interactSize;
     [SerializeField] private float interactDuration;
     [SerializeField] private AnimationCurve interactCurve;
     
-    [SerializeField] private RaymarchShapeEntity shapeSecondary;
+    [SerializeField] private ShapeElement shapeSecondary;
     [SerializeField] private Vector2 sizeMinMax;
     [SerializeField] private float pulseFrequency;
 
@@ -58,7 +58,7 @@ public class InteractiveShapes : MonoBehaviour
         StartCoroutine(pulseImpact);
     }
 
-    public IEnumerator PulseImpact(RaymarchShapeEntity shape, Vector3 targetSize, float duration)
+    public IEnumerator PulseImpact(ShapeElement shape, Vector3 targetSize, float duration)
     {
         float elapsedTime = 0f;
         Vector3 startSize = shape.Size;
@@ -73,7 +73,7 @@ public class InteractiveShapes : MonoBehaviour
         shape.Size = targetSize;
     }
 
-    private void ContinuousPulse(RaymarchShapeEntity shape, float frequency, Vector2 minmax)
+    private void ContinuousPulse(ShapeElement shape, float frequency, Vector2 minmax)
     {
         float sin = (Mathf.Sin(Time.time * frequency) + 1f) / 2f;
         float size = Mathf.Lerp(minmax.x, minmax.y, sin);
