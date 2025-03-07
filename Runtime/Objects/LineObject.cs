@@ -17,7 +17,7 @@ namespace Rayman
 #endif
         
         private LineElement[] activeLines;
-        private INodeBufferProvider<Aabb> nodeBufferProvider;
+        private BvhAabbNodeBufferProvider nodeBufferProvider;
         private IRaymarchElementBufferProvider lineBufferProvider;
         private IRaymarchElementBufferProvider pointBufferProvider;
         private GraphicsBuffer nodeBuffer;
