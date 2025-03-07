@@ -68,8 +68,8 @@ namespace Rayman
             ProvideShaderProperties();
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider();
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(
-                activeShapes.Select(s => s.GetBounds<Aabb>()).ToArray(), ref MatInstance);
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(ref MatInstance,
+                activeShapes.Select(s => s.GetBounds<Aabb>()).ToArray());
             
             if (ColorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
@@ -106,7 +106,7 @@ namespace Rayman
         public override bool IsInitialized() => MatInstance &&
             nodeBufferProvider != null && shapeBufferProvider != null;
         
-        public void AddEntity(RaymarchElement entity)
+        public void AddElement(RaymarchElement entity)
         {
             if (shapes.Contains(entity)) return;
 
@@ -116,7 +116,7 @@ namespace Rayman
             shapes.Add(shape);
         }
 
-        public void RemoveEntity(RaymarchElement entity)
+        public void RemoveElement(RaymarchElement entity)
         {
             if (!shapes.Contains(entity)) return;
 

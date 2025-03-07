@@ -63,8 +63,8 @@ namespace Rayman
             ProvideShaderProperties();
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider();
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(
-                activeLines.Select(s => s.GetBounds<Aabb>()).ToArray(), ref MatInstance);
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(ref MatInstance,
+                activeLines.Select(s => s.GetBounds<Aabb>()).ToArray());
             
             if (ColorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);

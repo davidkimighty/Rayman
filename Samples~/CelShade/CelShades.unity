@@ -1095,7 +1095,7 @@ MonoBehaviour:
   mainRenderer: {fileID: 560892393}
   setupOnAwake: 1
   dataProviders: []
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 560892396}
 --- !u!23 &560892393
 MeshRenderer:
@@ -1179,12 +1179,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  shapes:
-  - {fileID: 1419411786}
   dataProviders:
   - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
+  shapes:
+  - {fileID: 1419411786}
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1125343973
 GameObject:
@@ -1361,7 +1361,7 @@ MonoBehaviour:
   mainRenderer: {fileID: 1141850301}
   setupOnAwake: 1
   dataProviders: []
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1141850304}
 --- !u!23 &1141850301
 MeshRenderer:
@@ -1445,12 +1445,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
-  shapes:
-  - {fileID: 293326951}
   dataProviders:
   - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
+  shapes:
+  - {fileID: 293326951}
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1264651308
 GameObject:
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   mainRenderer: {fileID: 1264651313}
   setupOnAwake: 1
   dataProviders: []
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1264651316}
 --- !u!23 &1264651313
 MeshRenderer:
@@ -1571,6 +1571,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
+  dataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   shapes:
   - {fileID: 271632379}
   - {fileID: 271632378}
@@ -1586,10 +1588,8 @@ MonoBehaviour:
   - {fileID: 271632368}
   - {fileID: 271632367}
   - {fileID: 271632365}
-  dataProviders:
-  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1419411783
 GameObject:

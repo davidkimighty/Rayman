@@ -15,6 +15,14 @@ namespace Rayman
             for (int i = 0; i < bounds.Length; i++)
                 AddLeafNode(i, bounds[i]);
         }
+
+        public Bvh(T[] bounds, int[] ids)
+        {
+            if (bounds.Length != ids.Length) return;
+            
+            for (int i = 0; i < bounds.Length; i++)
+                AddLeafNode(ids[i], bounds[i]);
+        }
         
         public void AddLeafNode(int id, T bounds)
         {

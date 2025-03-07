@@ -7,7 +7,7 @@ namespace Rayman
         bool IsInitialized { get; }
         ISpatialStructure<T> SpatialStructure { get; }
         
-        GraphicsBuffer InitializeBuffer(T[] bounds, ref Material material);
+        GraphicsBuffer InitializeBuffer(ref Material material, T[] bounds, int[] ids = null);
         void SyncBounds(int id, T bounds, float threshold = 0f);
         void SetData(ref GraphicsBuffer buffer);
         void ReleaseData();

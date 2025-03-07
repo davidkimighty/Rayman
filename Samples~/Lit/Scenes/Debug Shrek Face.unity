@@ -363,11 +363,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 233407157}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 233407162}
 --- !u!23 &233407157
 MeshRenderer:
@@ -449,7 +446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 233407162}
+  raymarchObject: {fileID: 233407162}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &233407162
@@ -466,11 +463,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 66883422}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &407645952
 GameObject:
@@ -507,11 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 407645954}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 407645959}
 --- !u!23 &407645954
 MeshRenderer:
@@ -535,8 +529,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 1326143552}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -594,7 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 407645959}
+  raymarchObject: {fileID: 407645959}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &407645959
@@ -609,13 +602,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 1326143552}
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1557142680}
-  dataProviders: []
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &434666194 stripped
 MonoBehaviour:
@@ -728,11 +721,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 483120890}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 483120895}
 --- !u!23 &483120890
 MeshRenderer:
@@ -814,7 +804,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 483120895}
+  raymarchObject: {fileID: 483120895}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &483120895
@@ -831,11 +821,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 458453442}
-  dataProviders: []
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &484591983
 GameObject:
@@ -1058,11 +1048,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 896070096}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 896070101}
 --- !u!23 &896070096
 MeshRenderer:
@@ -1144,7 +1131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 896070101}
+  raymarchObject: {fileID: 896070101}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &896070101
@@ -1161,11 +1148,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1090251723}
-  dataProviders: []
   ColorUsage: 2
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &910304344 stripped
 MonoBehaviour:
@@ -1354,11 +1341,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1094907340}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1094907345}
 --- !u!23 &1094907340
 MeshRenderer:
@@ -1440,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 1094907345}
+  raymarchObject: {fileID: 1094907345}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1094907345
@@ -1457,11 +1441,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1092397783}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1154149534 stripped
 MonoBehaviour:
@@ -1726,11 +1710,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1310379940}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1310379947}
 --- !u!114 &1310379944
 MonoBehaviour:
@@ -1796,7 +1777,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 1310379947}
+  raymarchObject: {fileID: 1310379947}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1310379947
@@ -1813,6 +1794,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1168987397}
   - {fileID: 1052749013}
@@ -1830,9 +1812,8 @@ MonoBehaviour:
   - {fileID: 434666194}
   - {fileID: 910304344}
   - {fileID: 1968752412}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1321142377 stripped
 MonoBehaviour:
@@ -1845,51 +1826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!21 &1326143552
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/Lit
-  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - DEBUG_MODE
-  - GRADIENT_COLOR
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DstBlend: 0
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0.5
-    - _GradientScaleY: 1
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _Smoothness: 0.5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1420686996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1925,11 +1861,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1420686998}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1420687003}
 --- !u!23 &1420686998
 MeshRenderer:
@@ -2011,7 +1944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 1420687003}
+  raymarchObject: {fileID: 1420687003}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1420687003
@@ -2028,11 +1961,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1437353819}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1437353816
 GameObject:
@@ -2177,11 +2110,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1581845692}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1581845697}
 --- !u!23 &1581845692
 MeshRenderer:
@@ -2263,7 +2193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 1581845697}
+  raymarchObject: {fileID: 1581845697}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1581845697
@@ -2280,11 +2210,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 44144469}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &1727578322
 PrefabInstance:
@@ -2450,11 +2380,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1772023117}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1772023122}
 --- !u!23 &1772023117
 MeshRenderer:
@@ -2536,7 +2463,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f85ecccfbfc34628b4fcfafa31d89e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchGroup: {fileID: 1772023122}
+  raymarchObject: {fileID: 1772023122}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!114 &1772023122
@@ -2553,11 +2480,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 654574456}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1794883467 stripped
 MonoBehaviour:

@@ -153,11 +153,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1476837635}
   setupOnAwake: 1
-  maxSteps: 128
-  maxRayDistance: 50
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1476837638}
 --- !u!23 &1476837635
 MeshRenderer:
@@ -240,10 +237,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: 8d3f17891b8c24349b6fbcd99f0872c9, type: 3}
-  shapes: []
   dataProviders: []
+  shapes: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1622846065
 GameObject:

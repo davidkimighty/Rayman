@@ -237,7 +237,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 20000886}
 --- !u!23 &20000883
 MeshRenderer:
@@ -321,6 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 816534529}
   - {fileID: 1572378721}
@@ -338,9 +339,8 @@ MonoBehaviour:
   - {fileID: 1799917049}
   - {fileID: 1923844511}
   - {fileID: 1399541620}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &22828805
 GameObject:
@@ -378,7 +378,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 22828810}
 --- !u!23 &22828807
 MeshRenderer:
@@ -462,6 +462,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1780047863}
   - {fileID: 1584325206}
@@ -479,9 +480,8 @@ MonoBehaviour:
   - {fileID: 1558182388}
   - {fileID: 1972033879}
   - {fileID: 112019694}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &25801421 stripped
 Transform:
@@ -751,7 +751,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 72219485}
 --- !u!23 &72219482
 MeshRenderer:
@@ -835,6 +835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1983000368}
   - {fileID: 1514879057}
@@ -852,9 +853,8 @@ MonoBehaviour:
   - {fileID: 1736116683}
   - {fileID: 1685183562}
   - {fileID: 228722826}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &76295236 stripped
 Transform:
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 211336106}
 --- !u!23 &211336103
 MeshRenderer:
@@ -1687,6 +1687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1198634848}
   - {fileID: 311171735}
@@ -1704,9 +1705,8 @@ MonoBehaviour:
   - {fileID: 591280908}
   - {fileID: 1368709921}
   - {fileID: 1471004939}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &214306611 stripped
 MonoBehaviour:
@@ -2116,7 +2116,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 290972871}
 --- !u!23 &290972868
 MeshRenderer:
@@ -2200,6 +2200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1223777028}
   - {fileID: 1064834381}
@@ -2217,9 +2218,8 @@ MonoBehaviour:
   - {fileID: 1170436566}
   - {fileID: 988735889}
   - {fileID: 1428737560}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &291139664 stripped
 MonoBehaviour:
@@ -2345,7 +2345,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 309833720}
 --- !u!23 &309833717
 MeshRenderer:
@@ -2429,6 +2429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 708682893}
   - {fileID: 946648110}
@@ -2446,9 +2447,8 @@ MonoBehaviour:
   - {fileID: 1727361661}
   - {fileID: 1004895489}
   - {fileID: 1086396746}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &311171735 stripped
 MonoBehaviour:
@@ -2640,7 +2640,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 331814431}
 --- !u!23 &331814428
 MeshRenderer:
@@ -2724,6 +2724,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1832538620}
   - {fileID: 1201953585}
@@ -2741,9 +2742,8 @@ MonoBehaviour:
   - {fileID: 1758930159}
   - {fileID: 231697242}
   - {fileID: 468316480}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &332745635 stripped
 MonoBehaviour:
@@ -2819,7 +2819,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 346191818}
 --- !u!23 &346191815
 MeshRenderer:
@@ -2903,6 +2903,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1677780842}
   - {fileID: 607977115}
@@ -2920,9 +2921,8 @@ MonoBehaviour:
   - {fileID: 183980351}
   - {fileID: 1241294511}
   - {fileID: 1468108085}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &349111533 stripped
 MonoBehaviour:
@@ -3224,7 +3224,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 414928526}
 --- !u!23 &414928523
 MeshRenderer:
@@ -3308,6 +3308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1749911873}
   - {fileID: 2019794608}
@@ -3325,9 +3326,8 @@ MonoBehaviour:
   - {fileID: 314260279}
   - {fileID: 1992904110}
   - {fileID: 1974662486}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &415949379 stripped
 Transform:
@@ -3601,7 +3601,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 458852616}
 --- !u!23 &458852613
 MeshRenderer:
@@ -3685,6 +3685,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1175157398}
   - {fileID: 1133281899}
@@ -3702,9 +3703,8 @@ MonoBehaviour:
   - {fileID: 1594727622}
   - {fileID: 2025182835}
   - {fileID: 538302382}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &461032123 stripped
 MonoBehaviour:
@@ -4359,7 +4359,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 550197598}
 --- !u!23 &550197595
 MeshRenderer:
@@ -4443,6 +4443,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 709153003}
   - {fileID: 461032123}
@@ -4460,9 +4461,8 @@ MonoBehaviour:
   - {fileID: 1295520056}
   - {fileID: 5909640}
   - {fileID: 1434317168}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &550204535 stripped
 MonoBehaviour:
@@ -4522,7 +4522,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 557972438}
 --- !u!23 &557972435
 MeshRenderer:
@@ -4606,6 +4606,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1827150501}
   - {fileID: 1309260279}
@@ -4623,9 +4624,8 @@ MonoBehaviour:
   - {fileID: 1482995715}
   - {fileID: 1528919171}
   - {fileID: 904814399}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &561645373 stripped
 MonoBehaviour:
@@ -4773,7 +4773,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 580185888}
 --- !u!23 &580185885
 MeshRenderer:
@@ -4857,6 +4857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1232129828}
   - {fileID: 298040104}
@@ -4874,9 +4875,8 @@ MonoBehaviour:
   - {fileID: 694169009}
   - {fileID: 628533422}
   - {fileID: 650022811}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &581302408 stripped
 MonoBehaviour:
@@ -5062,7 +5062,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 616646371}
 --- !u!23 &616646368
 MeshRenderer:
@@ -5146,6 +5146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 764500036}
   - {fileID: 356911090}
@@ -5163,9 +5164,8 @@ MonoBehaviour:
   - {fileID: 1160939250}
   - {fileID: 1626240156}
   - {fileID: 308167396}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &620816171 stripped
 MonoBehaviour:
@@ -5727,7 +5727,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 673822509}
 --- !u!23 &673822506
 MeshRenderer:
@@ -5811,6 +5811,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 133277942}
   - {fileID: 1244340104}
@@ -5828,9 +5829,8 @@ MonoBehaviour:
   - {fileID: 746943840}
   - {fileID: 1044421185}
   - {fileID: 1748686423}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &683147818 stripped
 MonoBehaviour:
@@ -6247,7 +6247,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 778406857}
 --- !u!23 &778406854
 MeshRenderer:
@@ -6331,6 +6331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1268124553}
   - {fileID: 983084333}
@@ -6348,9 +6349,8 @@ MonoBehaviour:
   - {fileID: 276930775}
   - {fileID: 1871686140}
   - {fileID: 1649892110}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &784173051 stripped
 MonoBehaviour:
@@ -6475,7 +6475,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 809319305}
 --- !u!23 &809319302
 MeshRenderer:
@@ -6559,6 +6559,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1800888083}
   - {fileID: 250786535}
@@ -6576,9 +6577,8 @@ MonoBehaviour:
   - {fileID: 1621859213}
   - {fileID: 2069199776}
   - {fileID: 315410959}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &810677225 stripped
 MonoBehaviour:
@@ -6897,7 +6897,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 829917198}
 --- !u!114 &829917198
 MonoBehaviour:
@@ -6913,6 +6913,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 450391794}
   - {fileID: 165769193}
@@ -6930,9 +6931,8 @@ MonoBehaviour:
   - {fileID: 1653263873}
   - {fileID: 1620445279}
   - {fileID: 1998074284}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &836293720 stripped
 MonoBehaviour:
@@ -7113,7 +7113,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 868972360}
 --- !u!23 &868972357
 MeshRenderer:
@@ -7197,6 +7197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 119700722}
   - {fileID: 1607816508}
@@ -7214,9 +7215,8 @@ MonoBehaviour:
   - {fileID: 985294397}
   - {fileID: 1328776804}
   - {fileID: 843916772}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &869382433 stripped
 MonoBehaviour:
@@ -7276,7 +7276,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 875681832}
 --- !u!23 &875681829
 MeshRenderer:
@@ -7360,6 +7360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1742078193}
   - {fileID: 1715783593}
@@ -7377,9 +7378,8 @@ MonoBehaviour:
   - {fileID: 1480704991}
   - {fileID: 410539660}
   - {fileID: 1023277305}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &876236456 stripped
 Transform:
@@ -7715,7 +7715,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 932787427}
 --- !u!23 &932787424
 MeshRenderer:
@@ -7799,6 +7799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1488811576}
   - {fileID: 1884976978}
@@ -7816,9 +7817,8 @@ MonoBehaviour:
   - {fileID: 549253075}
   - {fileID: 67102731}
   - {fileID: 1096929005}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &932942727
 PrefabInstance:
@@ -8411,7 +8411,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1031074508}
 --- !u!23 &1031074505
 MeshRenderer:
@@ -8495,6 +8495,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1910132946}
   - {fileID: 603457328}
@@ -8512,9 +8513,8 @@ MonoBehaviour:
   - {fileID: 189243202}
   - {fileID: 1751458839}
   - {fileID: 1230767361}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1031628765 stripped
 MonoBehaviour:
@@ -8696,7 +8696,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1064590822}
 --- !u!23 &1064590819
 MeshRenderer:
@@ -8780,6 +8780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1881177261}
   - {fileID: 1966338906}
@@ -8797,9 +8798,8 @@ MonoBehaviour:
   - {fileID: 1672143464}
   - {fileID: 157907234}
   - {fileID: 1631343807}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1064808737 stripped
 MonoBehaviour:
@@ -9224,7 +9224,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1132131695}
 --- !u!23 &1132131692
 MeshRenderer:
@@ -9308,6 +9308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 542919313}
   - {fileID: 1014798733}
@@ -9325,9 +9326,8 @@ MonoBehaviour:
   - {fileID: 662323894}
   - {fileID: 2140290062}
   - {fileID: 761586035}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1132228188 stripped
 MonoBehaviour:
@@ -9957,7 +9957,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1232119002}
 --- !u!23 &1232118999
 MeshRenderer:
@@ -10041,6 +10041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1840678205}
   - {fileID: 990675081}
@@ -10058,9 +10059,8 @@ MonoBehaviour:
   - {fileID: 1752213739}
   - {fileID: 933695012}
   - {fileID: 1444846036}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1232129828 stripped
 MonoBehaviour:
@@ -10109,7 +10109,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1235429038}
 --- !u!23 &1235429035
 MeshRenderer:
@@ -10193,6 +10193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1716993340}
   - {fileID: 757148726}
@@ -10210,9 +10211,8 @@ MonoBehaviour:
   - {fileID: 2105575983}
   - {fileID: 1508134315}
   - {fileID: 798140497}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1238640548 stripped
 MonoBehaviour:
@@ -10609,7 +10609,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1276846660}
 --- !u!114 &1276846660
 MonoBehaviour:
@@ -10625,6 +10625,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1263658944}
   - {fileID: 810677225}
@@ -10642,9 +10643,8 @@ MonoBehaviour:
   - {fileID: 530978151}
   - {fileID: 542573637}
   - {fileID: 1499802512}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1287710665 stripped
 MonoBehaviour:
@@ -10849,7 +10849,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1310379944}
 --- !u!114 &1310379944
 MonoBehaviour:
@@ -10865,6 +10865,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1457742330}
   - {fileID: 659683832}
@@ -10882,9 +10883,8 @@ MonoBehaviour:
   - {fileID: 660669105}
   - {fileID: 257410300}
   - {fileID: 2128674403}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &1315368958
 PrefabInstance:
@@ -11465,7 +11465,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1428563580}
 --- !u!114 &1428563580
 MonoBehaviour:
@@ -11481,6 +11481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1308957973}
   - {fileID: 745876843}
@@ -11498,9 +11499,8 @@ MonoBehaviour:
   - {fileID: 640580957}
   - {fileID: 599069219}
   - {fileID: 1500281285}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1428737560 stripped
 MonoBehaviour:
@@ -11683,7 +11683,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1449392206}
 --- !u!23 &1449392203
 MeshRenderer:
@@ -11767,6 +11767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 754296326}
   - {fileID: 564009655}
@@ -11784,9 +11785,8 @@ MonoBehaviour:
   - {fileID: 125890620}
   - {fileID: 1452934128}
   - {fileID: 749187565}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1450463288 stripped
 MonoBehaviour:
@@ -12075,7 +12075,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1476563017}
 --- !u!23 &1476563014
 MeshRenderer:
@@ -12159,6 +12159,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 251920704}
   - {fileID: 1100778442}
@@ -12176,9 +12177,8 @@ MonoBehaviour:
   - {fileID: 1925910435}
   - {fileID: 1470893145}
   - {fileID: 640951508}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1476861002 stripped
 MonoBehaviour:
@@ -12315,7 +12315,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1492692395}
 --- !u!23 &1492692392
 MeshRenderer:
@@ -12399,6 +12399,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1747922925}
   - {fileID: 1110534265}
@@ -12416,9 +12417,8 @@ MonoBehaviour:
   - {fileID: 1133458439}
   - {fileID: 171218918}
   - {fileID: 1132228188}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1492734910 stripped
 MonoBehaviour:
@@ -12713,7 +12713,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1525038259}
 --- !u!114 &1525038259
 MonoBehaviour:
@@ -12729,6 +12729,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1883029673}
   - {fileID: 2048529526}
@@ -12746,9 +12747,8 @@ MonoBehaviour:
   - {fileID: 9538914}
   - {fileID: 704808418}
   - {fileID: 2016079449}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1526618497 stripped
 MonoBehaviour:
@@ -12930,7 +12930,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1553158071}
 --- !u!114 &1553158071
 MonoBehaviour:
@@ -12946,6 +12946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 955889155}
   - {fileID: 1023445698}
@@ -12963,9 +12964,8 @@ MonoBehaviour:
   - {fileID: 1212258670}
   - {fileID: 1907251989}
   - {fileID: 378853187}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1555355505 stripped
 MonoBehaviour:
@@ -13352,7 +13352,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1627785080}
 --- !u!23 &1627785077
 MeshRenderer:
@@ -13436,6 +13436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 2098713112}
   - {fileID: 876705584}
@@ -13453,9 +13454,8 @@ MonoBehaviour:
   - {fileID: 1490257909}
   - {fileID: 1737778218}
   - {fileID: 2081571254}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1630312276 stripped
 MonoBehaviour:
@@ -13669,7 +13669,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1668664824}
 --- !u!23 &1668664821
 MeshRenderer:
@@ -13753,6 +13753,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1829247142}
   - {fileID: 26830065}
@@ -13770,9 +13771,8 @@ MonoBehaviour:
   - {fileID: 1759886504}
   - {fileID: 579934729}
   - {fileID: 532227877}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1672143464 stripped
 MonoBehaviour:
@@ -14224,7 +14224,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1737723354}
 --- !u!23 &1737723351
 MeshRenderer:
@@ -14308,6 +14308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1810898511}
   - {fileID: 627185915}
@@ -14325,9 +14326,8 @@ MonoBehaviour:
   - {fileID: 1791387854}
   - {fileID: 1599477265}
   - {fileID: 1120212350}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1737778218 stripped
 MonoBehaviour:
@@ -14834,7 +14834,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1812690700}
 --- !u!23 &1812690697
 MeshRenderer:
@@ -14918,6 +14918,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1987645967}
   - {fileID: 1089960020}
@@ -14935,9 +14936,8 @@ MonoBehaviour:
   - {fileID: 1443821297}
   - {fileID: 759185151}
   - {fileID: 26893141}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1815462100 stripped
 MonoBehaviour:
@@ -15054,7 +15054,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1817946589}
 --- !u!114 &1817946589
 MonoBehaviour:
@@ -15070,6 +15070,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1004148139}
   - {fileID: 1496207779}
@@ -15087,9 +15088,8 @@ MonoBehaviour:
   - {fileID: 1288891692}
   - {fileID: 1733954363}
   - {fileID: 1179492960}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &1822332509
 PrefabInstance:
@@ -15652,7 +15652,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1878116092}
 --- !u!114 &1878116092
 MonoBehaviour:
@@ -15668,6 +15668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1431682404}
   - {fileID: 720500461}
@@ -15685,9 +15686,8 @@ MonoBehaviour:
   - {fileID: 2139347045}
   - {fileID: 1516252012}
   - {fileID: 1767254122}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1880365144 stripped
 MonoBehaviour:
@@ -16077,7 +16077,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1923378806}
 --- !u!23 &1923378803
 MeshRenderer:
@@ -16161,6 +16161,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 360345479}
   - {fileID: 639390628}
@@ -16178,9 +16179,8 @@ MonoBehaviour:
   - {fileID: 1729994888}
   - {fileID: 592995854}
   - {fileID: 474274573}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1923844511 stripped
 MonoBehaviour:
@@ -16787,7 +16787,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 2053277495}
 --- !u!23 &2053277492
 MeshRenderer:
@@ -16871,6 +16871,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 579201455}
   - {fileID: 1653604485}
@@ -16888,9 +16889,8 @@ MonoBehaviour:
   - {fileID: 818143572}
   - {fileID: 1379235729}
   - {fileID: 1263688692}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2054331760 stripped
 MonoBehaviour:
@@ -17098,7 +17098,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 2085708318}
 --- !u!23 &2085708315
 MeshRenderer:
@@ -17182,6 +17182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1655196128}
   - {fileID: 2006858303}
@@ -17199,9 +17200,8 @@ MonoBehaviour:
   - {fileID: 328725516}
   - {fileID: 358509392}
   - {fileID: 1112243676}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2089750325 stripped
 MonoBehaviour:
@@ -17261,7 +17261,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 2091829679}
 --- !u!23 &2091829676
 MeshRenderer:
@@ -17345,6 +17345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 2063049490}
   - {fileID: 915117990}
@@ -17362,9 +17363,8 @@ MonoBehaviour:
   - {fileID: 497120031}
   - {fileID: 2004745443}
   - {fileID: 851332421}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2098713112 stripped
 MonoBehaviour:
@@ -17569,7 +17569,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: f71d40953b1bb28488fb735556b31695, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 2120122703}
 --- !u!114 &2120122703
 MonoBehaviour:
@@ -17585,6 +17585,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 1822680552}
   - {fileID: 186481262}
@@ -17602,9 +17603,8 @@ MonoBehaviour:
   - {fileID: 1002140181}
   - {fileID: 1536535833}
   - {fileID: 615389819}
-  dataProviders: []
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2120751858 stripped
 MonoBehaviour:
@@ -17947,7 +17947,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_AnchoredPosition.x

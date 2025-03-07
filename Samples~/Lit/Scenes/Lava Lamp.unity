@@ -447,6 +447,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a003612e23b90934aaa5e2f3eecb4eb1, type: 3}
+--- !u!21 &912138185
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/Lit
+  m_Shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0.5
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _Smoothness: 0.5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &938474307
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,11 +1176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 1872132480}
   setupOnAwake: 1
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 1872132482}
 --- !u!23 &1872132480
 MeshRenderer:
@@ -1155,7 +1201,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 912138185}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1197,8 +1244,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 0}
+  MatInstance: {fileID: 912138185}
   shader: {fileID: 4800000, guid: e5672c99d85998f4e9c35454e538946f, type: 3}
+  dataProviders:
+  - {fileID: 11400000, guid: f1bb96f0e5f769e48b6fda344c16a6aa, type: 2}
   shapes:
   - {fileID: 277458964}
   - {fileID: 969997290}
@@ -1207,10 +1256,8 @@ MonoBehaviour:
   - {fileID: 1284175781}
   - {fileID: 98985113}
   - {fileID: 938474310}
-  dataProviders:
-  - {fileID: 11400000, guid: f1bb96f0e5f769e48b6fda344c16a6aa, type: 2}
   ColorUsage: 1
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &543450653230414587
 Transform:
