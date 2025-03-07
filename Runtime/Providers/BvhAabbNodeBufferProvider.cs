@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BvhAabbNodeBufferProvider : INodeBufferProvider<Aabb>
+    public class BvhAabbNodeBufferProvider
     {
         public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
 
@@ -16,10 +16,14 @@ namespace Rayman
 
         public bool IsInitialized => spatialStructure != null && nodeData != null;
         
-        public GraphicsBuffer InitializeBuffer(ref Material material, Aabb[] bounds, int[] ids = null)
+        public GraphicsBuffer InitializeBuffer(ref Material material, Aabb[] bounds)
         {
             activeBounds = bounds;
-            spatialStructure = ids == null ? new Bvh<Aabb>(bounds) : new Bvh<Aabb>(bounds, ids);
+            spatialStructure = new Bvh<Aabb>();
+            
+            for (int i = 0; i < bounds.Length; i++)
+                spatialStructure.AddLeafNode(i, bounds[i]);
+            
             int count = spatialStructure.Count;
             if (count == 0) return null;
             

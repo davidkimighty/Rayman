@@ -25,7 +25,7 @@ namespace Rayman
 #endif
         
         private ShapeElement[] activeShapes;
-        private INodeBufferProvider<Aabb> nodeBufferProvider;
+        private BvhAabbNodeBufferProvider nodeBufferProvider;
         private IRaymarchElementBufferProvider shapeBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer shapeBuffer;
