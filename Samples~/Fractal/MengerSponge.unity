@@ -174,7 +174,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 1495113719}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -594,7 +595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2a57ab2a68b28498fabf3eea2180ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 0}
+  MatInstance: {fileID: 1495113719}
   shader: {fileID: 4800000, guid: 851f5f1f868bcb64daa127c3ef87d507, type: 3}
   dataProviders: []
   Size: 1
@@ -632,7 +633,7 @@ MonoBehaviour:
   setupOnAwake: 1
   dataProviders:
   - {fileID: 11400000, guid: b67d8f28b1687344a965718948f569b3, type: 2}
-  raymarchGroups:
+  raymarchObjects:
   - {fileID: 1125509065}
 --- !u!114 &1125509072
 MonoBehaviour:
@@ -812,6 +813,57 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!21 &1495113719
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/MengerSponge
+  m_Shader: {fileID: 4800000, guid: 851f5f1f868bcb64daa127c3ef87d507, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _Iterations: 6
+    - _MaxDistance: 100
+    - _MaxSteps: 128
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _Scale: 1
+    - _ScaleMultiplier: 3
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _Size: 1
+    - _Smoothness: 0.5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -7,22 +7,22 @@ namespace Rayman
 {
     public class RaymarchRenderer : MonoBehaviour
     {
-        public event Action<RaymarchRenderer> OnSetup;
+        public event Action<RaymarchRenderer> OnInitialize;
         public event Action<RaymarchRenderer> OnRelease;
 
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
         [SerializeField] private List<DataProvider> dataProviders = new();
-        [SerializeField] private List<RaymarchObject> raymarchGroups = new();
+        [SerializeField] private List<RaymarchObject> raymarchObjects = new();
         
         public bool IsInitialized  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
-        public List<RaymarchObject> Objects => raymarchGroups;
+        public List<RaymarchObject> RaymarchObjects => raymarchObjects;
 
         private void Awake()
         {
             if (setupOnAwake)
-                Setup();
+                Initialize();
         }
 
         private void OnDestroy()
@@ -30,15 +30,15 @@ namespace Rayman
             Release();
         }
 
-        [ContextMenu("Setup")]
-        public void Setup()
+        [ContextMenu("Initialize")]
+        public void Initialize()
         {
-            if (raymarchGroups.Count == 0) return;
+            if (raymarchObjects.Count == 0) return;
 
             List<Material> matInstances = new();
-            foreach (RaymarchObject group in raymarchGroups)
+            foreach (RaymarchObject ro in raymarchObjects)
             {
-                Material mat = group.Initialize();
+                Material mat = ro.Initialize();
                 if (!mat) continue;
                 
                 foreach (DataProvider provider in dataProviders)
@@ -47,14 +47,14 @@ namespace Rayman
             }
             mainRenderer.materials = matInstances.ToArray();
             IsInitialized = true;
-            OnSetup?.Invoke(this);
+            OnInitialize?.Invoke(this);
         }
 
         [ContextMenu("Release")]
         public void Release()
         {
-            foreach (RaymarchObject group in raymarchGroups)
-                group?.Release();
+            foreach (RaymarchObject ro in raymarchObjects)
+                ro?.Release();
 
             if (mainRenderer)
                 mainRenderer.materials = Array.Empty<Material>();
@@ -75,11 +75,11 @@ namespace Rayman
             }
         }
         
-        [ContextMenu("Find all Objects")]
-        public void FindAllObjects()
+        [ContextMenu("Find All Raymarch Objects")]
+        public void FindAllRaymarchObjects()
         {
-            raymarchGroups = GetComponents<RaymarchObject>().ToList();
-            raymarchGroups.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchObject>(transform));
+            raymarchObjects = GetComponents<RaymarchObject>().ToList();
+            raymarchObjects.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchObject>(transform));
         }
 #endif
     }

@@ -6,7 +6,7 @@ namespace Rayman
 {
     public abstract class RaymarchObject : MonoBehaviour
     {
-        public event Action<RaymarchObject> OnSetup;
+        public event Action<RaymarchObject> OnInitialize;
         public event Action<RaymarchObject> OnRelease;
         
         [HideInInspector] public Material MatInstance;
@@ -25,8 +25,14 @@ namespace Rayman
                 provider?.ProvideData(ref MatInstance);
         }
 
-        protected void InvokeOnSetup() => OnSetup?.Invoke(this);
+        protected void InvokeOnSetup() => OnInitialize?.Invoke(this);
         
         protected void InvokeOnRelease() => OnRelease?.Invoke(this);
+    }
+    
+    public interface IRaymarchElementControl
+    {
+        void AddElement(RaymarchElement element);
+        void RemoveElement(RaymarchElement element);
     }
 }

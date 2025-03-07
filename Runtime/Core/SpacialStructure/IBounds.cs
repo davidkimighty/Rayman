@@ -20,10 +20,10 @@ namespace Rayman
         public Vector3 Min;
         public Vector3 Max;
 
-        public Aabb(Vector3 min, Vector3 max)
+        public Aabb(Vector3 a, Vector3 b)
         {
-            Min = min;
-            Max = max;
+            Min = Vector3.Min(a, b);
+            Max = Vector3.Max(a, b);
         }
 
         public Aabb(Transform transform, Vector3 size, Vector3 scale, Vector3 Pivot)

@@ -16,10 +16,10 @@ namespace Rayman
 
         public bool IsInitialized => spatialStructure != null && nodeData != null;
         
-        public GraphicsBuffer InitializeBuffer(Aabb[] bounds, ref Material material)
+        public GraphicsBuffer InitializeBuffer(ref Material material, Aabb[] bounds, int[] ids = null)
         {
             activeBounds = bounds;
-            spatialStructure = new Bvh<Aabb>(bounds);
+            spatialStructure = ids == null ? new Bvh<Aabb>(bounds) : new Bvh<Aabb>(bounds, ids);
             int count = spatialStructure.Count;
             if (count == 0) return null;
             

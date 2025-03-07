@@ -47,7 +47,7 @@ public class RandomSpawner : MonoBehaviour
             randomColor.a = shape.Color.a;
             shape.Color = randomColor;
             
-            ((IRaymarchElementControl)raymarchGroup).AddEntity(shape);
+            ((IRaymarchElementControl)raymarchGroup).AddElement(shape);
             currentCount++;
 
             if (currentCount > spawnPerFrame)
@@ -56,6 +56,6 @@ public class RandomSpawner : MonoBehaviour
                 yield return null;                
             }
         }
-        raymarchRenderer.Setup();
+        raymarchRenderer.Initialize();
     }
 }

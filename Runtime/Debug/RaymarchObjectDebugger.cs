@@ -22,7 +22,7 @@ namespace Rayman
             if (raymarchObject.IsInitialized())
                 Setup(raymarchObject);
             else
-                raymarchObject.OnSetup += Setup;
+                raymarchObject.OnInitialize += Setup;
         }
 
         private void OnDisable()
@@ -31,7 +31,7 @@ namespace Rayman
             
             if (raymarchObject.IsInitialized())
                 raymarchObject.MatInstance.DisableKeyword(DebugModeKeyword);
-            raymarchObject.OnSetup -= Setup;
+            raymarchObject.OnInitialize -= Setup;
         }
 
 #if UNITY_EDITOR

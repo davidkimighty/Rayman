@@ -21,12 +21,6 @@ namespace Rayman
         
         public Vector3 GetScale() => UseLossyScale ? transform.lossyScale : Vector3.one;
     }
-
-    public interface IRaymarchElementControl
-    {
-        void AddEntity(RaymarchElement element);
-        void RemoveEntity(RaymarchElement element);
-    }
     
     public interface IRaymarchElementData
     {

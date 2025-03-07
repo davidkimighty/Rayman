@@ -560,11 +560,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 492288774}
   setupOnAwake: 1
-  maxSteps: 256
-  maxRayDistance: 100
-  shadowMaxSteps: 32
-  shadowMaxRayDistance: 30
-  raymarchGroups:
+  dataProviders: []
+  raymarchObjects:
   - {fileID: 492288777}
 --- !u!23 &492288774
 MeshRenderer:
@@ -588,7 +585,8 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 1030834636}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -645,14 +643,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4e9a7ed75d9ce04384ab55c9ac333a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 0}
+  MatInstance: {fileID: 1030834636}
   shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
+  dataProviders: []
   shapes:
   - {fileID: 207929452}
   - {fileID: 447563327}
-  dataProviders: []
   ColorUsage: 0
-  updateBoundsThreshold: 0
+  syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &623862682
 GameObject:
@@ -808,6 +806,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802004211}
   m_CullTransparentMesh: 1
+--- !u!21 &1030834636
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/TextureUnlit
+  m_Shader: {fileID: 4800000, guid: b1ed9e6b3816f42a8b44622136f463ff, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPow: 0.3
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _FresnelColor: {r: 0.29999998, g: 0.29999998, b: 0.29999998, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1077939006
 GameObject:
   m_ObjectHideFlags: 0
