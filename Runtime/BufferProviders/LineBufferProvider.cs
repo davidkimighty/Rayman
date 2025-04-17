@@ -4,23 +4,23 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class LineBufferProvider<T> : IRaymarchElementBufferProvider where T : struct, ILineData
+    public class LineBufferProvider<T> : IRaymarchBufferProvider where T : struct, ILineProviderData
     {
         public static readonly int LineBufferId = Shader.PropertyToID("_LineBuffer");
         
-        private LineElement[] lines;
+        private LineProvider[] lines;
         private T[] lineData;
         
         public bool IsInitialized => lineData != null;
         
-        public GraphicsBuffer InitializeBuffer(RaymarchElement[] entities, ref Material material)
+        public GraphicsBuffer InitializeBuffer<T1>(T1[] dataProviders, ref Material material)
         {
-            lines = entities.OfType<LineElement>().ToArray();
-            int lineCount = lines.Length;
-            if (lineCount == 0) return null;
+            lines = dataProviders.OfType<LineProvider>().ToArray();
+            int count = lines.Length;
+            if (count == 0) return null;
 
-            lineData = new T[lineCount];
-            GraphicsBuffer lineBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, lineCount, Marshal.SizeOf<T>());
+            lineData = new T[count];
+            GraphicsBuffer lineBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
             material.SetBuffer(LineBufferId, lineBuffer);
             return lineBuffer;
         }

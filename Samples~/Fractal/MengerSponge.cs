@@ -11,7 +11,7 @@ public class MengerSponge : RaymarchObject
     
     private void LateUpdate()
     {
-        if (!IsInitialized()) return;
+        if (!IsReady()) return;
 
         UpdateData();
     }
@@ -19,13 +19,13 @@ public class MengerSponge : RaymarchObject
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (!IsInitialized()) return;
+        if (!IsReady()) return;
 
         ProvideShaderProperties();
     }
 #endif
     
-    public override Material Initialize()
+    public override Material SetupMaterial()
     {
         MatInstance = new Material(shader);
         if (!MatInstance) return null;
@@ -35,13 +35,13 @@ public class MengerSponge : RaymarchObject
         return MatInstance;
     }
 
-    public override void Release()
+    public override void Cleanup()
     {
         if (Application.isEditor)
             DestroyImmediate(MatInstance);
         else
             Destroy(MatInstance);
-        InvokeOnRelease();
+        InvokeOnCleanup();
     }
 
     protected override void ProvideShaderProperties()

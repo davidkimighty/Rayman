@@ -12,14 +12,17 @@ namespace Rayman
         CubicBezier,
     }
     
-    public class LineElement : RaymarchElement
+    public class LineProvider : MonoBehaviour, IBoundsProvider
     {
         [Header("Line")]
         public Lines Line = Lines.Segment;
+        public Vector2 Radius = Vector2.one * 0.1f;
+        public float ExpandBounds;
+        public bool UseLossyScale = true;
+        public List<Transform> Points = new();
+        
         public Operations Operation = Operations.Union;
         [Range(0, 1f)] public float Blend;
-        public Vector2 Radius = Vector2.one * 0.1f;
-        public List<Transform> Points = new();
         public Color Color = Color.white;
         public Color GradientColor = Color.white;
         
@@ -32,7 +35,7 @@ namespace Rayman
         }
 #endif
         
-        public override T GetBounds<T>()
+        public T GetBounds<T>() where T : struct, IBounds<T>
         {
             if (typeof(T) == typeof(Aabb))
             {
@@ -46,18 +49,18 @@ namespace Rayman
         }
     }
     
-    public interface ILineData
+    public interface ILineProviderData
     {
-        void InitializeData(LineElement line, int startIndex);
+        void InitializeData(LineProvider provider, int startIndex);
     }
     
-    public interface IPointData
+    public interface IPointProviderData
     {
         void InitializeData(Transform point);
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct LineData : ILineData
+    public struct LineData : ILineProviderData
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -68,7 +71,7 @@ namespace Rayman
         public int PointsCount;
         public Vector4 Color;
 
-        public void InitializeData(LineElement line, int startIndex)
+        public void InitializeData(LineProvider line, int startIndex)
         {
             Type = (int)line.Line;
             Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
@@ -83,7 +86,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct GradientLineData : ILineData
+    public struct GradientLineData : ILineProviderData
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -95,7 +98,7 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 GradientColor;
         
-        public void InitializeData(LineElement line, int startIndex)
+        public void InitializeData(LineProvider line, int startIndex)
         {
             Type = (int)line.Line;
             Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
@@ -111,7 +114,7 @@ namespace Rayman
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct PointData : IPointData
+    public struct PointData : IPointProviderData
     {
         public Vector3 Position;
 

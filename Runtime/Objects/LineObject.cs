@@ -9,24 +9,24 @@ namespace Rayman
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<LineElement> lines = new();
-        [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
+        [SerializeField] private List<LineProvider> lines = new();
+        [SerializeField] private ColorUsages colorUsage = ColorUsages.Color;
         [SerializeField] private float syncThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private LineElement[] activeLines;
-        private BvhAabbNodeBufferProvider nodeBufferProvider;
-        private IRaymarchElementBufferProvider lineBufferProvider;
-        private IRaymarchElementBufferProvider pointBufferProvider;
+        private LineProvider[] activeLines;
+        private IRaymarchNodeBufferProvider<Aabb> nodeBufferProvider;
+        private IRaymarchBufferProvider lineBufferProvider;
+        private IRaymarchBufferProvider pointBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer lineBuffer;
         private GraphicsBuffer pointBuffer;
         
         private void LateUpdate()
         {
-            if (!IsInitialized()) return;
+            if (!IsReady()) return;
 
             for (int i = 0; i < activeLines.Length; i++)
                 nodeBufferProvider.SyncBounds(i, activeLines[i].GetBounds<Aabb>(), syncThreshold);
@@ -39,20 +39,20 @@ namespace Rayman
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!IsInitialized()) return;
+            if (!IsReady()) return;
         
             ProvideShaderProperties();
         }
 
         private void OnDrawGizmos()
         {
-            if (!drawGizmos || !IsInitialized()) return;
+            if (!drawGizmos || !IsReady()) return;
             
             nodeBufferProvider.DrawGizmos();
         }
 #endif
         
-        public override Material Initialize()
+        public override Material SetupMaterial()
         {
             activeLines = lines.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
             if (activeLines.Length == 0) return null;
@@ -63,12 +63,12 @@ namespace Rayman
             ProvideShaderProperties();
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider();
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(ref MatInstance,
-                activeLines.Select(s => s.GetBounds<Aabb>()).ToArray());
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines.Select(s => s.GetBounds<Aabb>()).ToArray(),
+                ref MatInstance);
             
-            if (ColorUsage == ColorUsages.Gradient)
+            if (colorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
-            lineBufferProvider = ColorUsage switch
+            lineBufferProvider = colorUsage switch
             {
                 ColorUsages.Color => new LineBufferProvider<LineData>(),
                 ColorUsages.Gradient => new LineBufferProvider<GradientLineData>(),
@@ -83,7 +83,7 @@ namespace Rayman
             return MatInstance;
         }
 
-        public override void Release()
+        public override void Cleanup()
         {
             if (Application.isEditor)
                 DestroyImmediate(MatInstance);
@@ -101,17 +101,17 @@ namespace Rayman
             nodeBuffer?.Release();
             lineBuffer?.Release();
             pointBuffer?.Release();
-            InvokeOnRelease();
+            InvokeOnCleanup();
         }
         
-        public override bool IsInitialized() => MatInstance &&
+        public override bool IsReady() => MatInstance &&
             nodeBufferProvider != null && lineBufferProvider != null;
         
 #if UNITY_EDITOR
         [ContextMenu("Find All Lines")]
         public void FindAllLines()
         {
-            lines = RaymarchUtils.GetChildrenByHierarchical<LineElement>(transform);
+            lines = RaymarchUtils.GetChildrenByHierarchical<LineProvider>(transform);
         }
 #endif
     }

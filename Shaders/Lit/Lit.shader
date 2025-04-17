@@ -9,7 +9,7 @@
     	_GradientAngle("Gradient Angle", Float) = 0.0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -173,7 +173,6 @@
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
 			#pragma multi_compile_fragment _ DEBUG_MODE
 			#pragma multi_compile_fragment _ GRADIENT_COLOR
@@ -185,33 +184,6 @@
             ENDHLSL
 		}
 
-//	    Pass
-//		{
-//			Name "Depth Only"
-//		    Tags { "LightMode" = "DepthOnly" }
-//
-//		    ZTest LEqual
-//		    ZWrite On
-//		    Cull [_Cull]
-//
-//		    HLSLPROGRAM
-//		    #pragma target 2.0
-//		    
-//		    #pragma shader_feature_local _ALPHATEST_ON
-//            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
-//
-//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
-//		    
-//		    #pragma multi_compile_instancing
-//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-//
-//		    #pragma vertex Vert
-//		    #pragma fragment Frag
-//		    
-//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthOnlyPass.hlsl"
-//		    ENDHLSL
-//		}
-//
 //       Pass
 //       {
 //       		Name "Depth Normals"

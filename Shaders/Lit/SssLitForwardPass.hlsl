@@ -14,6 +14,10 @@ float _SssScale;
 float _SssAmbient;
 CBUFFER_END
 
+Texture2D _NoiseTex; // Declare the texture
+SamplerState sampler_NoiseTex;
+uniform half4 _NoiseTex_TexelSize;
+
 struct Attributes
 {
 	float4 positionOS : POSITION;
@@ -43,6 +47,47 @@ struct FragOutput
     half4 color : SV_Target;
     float depth : SV_Depth;
 };
+
+float hash( float n )
+{
+	return frac(sin(n)*43758.5453);
+}
+
+float noise( float3 x )
+{
+	float3 p = floor(x);
+	float3 f = frac(x);
+	f = f*f*(3.0-2.0*f);
+
+	// Create a pseudo-random UV based on the integer part of the position
+	float n = p.x + p.y*57.0 + 113.0*p.z;
+	float2 uv = float2(hash(n), hash(n+1.0)); // Sample two different "slices"
+
+	// Sample the texture
+	float2 rg = _NoiseTex.SampleLevel(sampler_NoiseTex, (uv + 0.5) / _NoiseTex_TexelSize.zw, 0.0).xy;
+
+	return lerp( rg.x, rg.y, f.z );
+}
+
+float fbm4( float3 p )
+{
+	float n = 0.0;
+	n += 1.000 * noise( p * 1.0 );
+	n += 0.500 * noise( p * 2.0 );
+	n += 0.250 * noise( p * 4.0 );
+	n += 0.125 * noise( p * 8.0 );
+	return n;
+}
+
+float calculateNoiseGradient(float3 p, float frequency)
+{
+	float2 epsilon = float2(0.001, 0.0);
+	return float3(
+		fbm4((p + epsilon.xyy) * frequency) - fbm4((p - epsilon.xyy) * frequency),
+		fbm4((p + epsilon.yxy) * frequency) - fbm4((p - epsilon.yxy) * frequency),
+		fbm4((p + epsilon.yyx) * frequency) - fbm4((p - epsilon.yyx) * frequency)
+	) / (2.0 * epsilon.x * frequency);
+}
 
 inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDirectionWS, float3 normalWS, out InputData inputData)
 {
@@ -117,14 +162,14 @@ FragOutput Frag (Varyings input)
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
 	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 			GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
-	
+
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 
 	float3 posOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0)).xyz;
-	float2 uv = GetCylinderUV(posOS, 1.0 - acos(normalize(posOS).y));
+	float2 uv = GetSphereUV(posOS);
 	
 	SurfaceData surfaceData;
 	InitializeStandardLitSurfaceData(uv, surfaceData);
@@ -178,8 +223,8 @@ FragOutput Frag (Varyings input)
 #endif
 	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
-	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
-	
+	color.a = baseColor.a;
+
 	FragOutput output;
 	output.color = color;
 	output.depth = depth;

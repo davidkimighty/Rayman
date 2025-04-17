@@ -975,8 +975,7 @@ MeshRenderer:
   m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 1947133481}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1056,7 +1055,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c05fcd693e7973b43bbf9277c06e861d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 1947133481}
+  MatInstance: {fileID: 0}
   shader: {fileID: 4800000, guid: f01ab2ae088839c4b913b1e58d2c4cb6, type: 3}
   dataProviders: []
   lines:
@@ -1065,7 +1064,7 @@ MonoBehaviour:
   - {fileID: 1403596507}
   - {fileID: 1568645011}
   - {fileID: 970912199}
-  ColorUsage: 2
+  colorUsage: 2
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1363703431
@@ -1471,52 +1470,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 970912200}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1947133481
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/LineUnlit
-  m_Shader: {fileID: 4800000, guid: f01ab2ae088839c4b913b1e58d2c4cb6, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - GRADIENT_COLOR
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DstBlend: 10
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _F0: 0.04
-    - _GradientOffsetY: 0.5
-    - _GradientScaleY: 1
-    - _MaxDistance: 100
-    - _MaxSteps: 128
-    - _SrcBlend: 5
-    - _ZWrite: 1
-    m_Colors:
-    - _FresnelColor: {r: 1, g: 0.93, b: 0.93, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &2135317121
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,59 +7,59 @@ namespace Rayman
 {
     public class RaymarchRenderer : MonoBehaviour
     {
-        public event Action<RaymarchRenderer> OnInitialize;
-        public event Action<RaymarchRenderer> OnRelease;
+        public event Action<RaymarchRenderer> OnSetup;
+        public event Action<RaymarchRenderer> OnCleanup;
 
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
         [SerializeField] private List<DataProvider> dataProviders = new();
         [SerializeField] private List<RaymarchObject> raymarchObjects = new();
         
-        public bool IsInitialized  { get; private set; }
+        public bool IsReady  { get; private set; }
         public Material[] Materials => mainRenderer.materials;
         public List<RaymarchObject> RaymarchObjects => raymarchObjects;
 
         private void Awake()
         {
             if (setupOnAwake)
-                Initialize();
+                Setup();
         }
 
         private void OnDestroy()
         {
-            Release();
+            Cleanup();
         }
 
-        [ContextMenu("Initialize")]
-        public void Initialize()
+        [ContextMenu("Setup")]
+        public void Setup()
         {
             if (raymarchObjects.Count == 0) return;
 
             List<Material> matInstances = new();
-            foreach (RaymarchObject ro in raymarchObjects)
+            foreach (RaymarchObject raymarchObject in raymarchObjects)
             {
-                Material mat = ro.Initialize();
+                Material mat = raymarchObject?.SetupMaterial();
                 if (!mat) continue;
                 
                 foreach (DataProvider provider in dataProviders)
-                    provider?.ProvideData(ref mat);
+                    provider.ProvideData(ref mat);
                 matInstances.Add(mat);
             }
             mainRenderer.materials = matInstances.ToArray();
-            IsInitialized = true;
-            OnInitialize?.Invoke(this);
+            IsReady = true;
+            OnSetup?.Invoke(this);
         }
 
-        [ContextMenu("Release")]
-        public void Release()
+        [ContextMenu("Cleanup")]
+        public void Cleanup()
         {
-            foreach (RaymarchObject ro in raymarchObjects)
-                ro?.Release();
+            foreach (RaymarchObject raymarchObject in raymarchObjects)
+                raymarchObject?.Cleanup();
 
             if (mainRenderer)
                 mainRenderer.materials = Array.Empty<Material>();
-            IsInitialized = false;
-            OnRelease?.Invoke(this);
+            IsReady = false;
+            OnCleanup?.Invoke(this);
         }
 
 #if UNITY_EDITOR
@@ -68,10 +68,10 @@ namespace Rayman
             if (mainRenderer == null)
                 mainRenderer = GetComponent<Renderer>();
 
-            if (!IsInitialized)
+            if (!IsReady)
             {
                 if (!Application.isPlaying)
-                    Release();
+                    Cleanup();
             }
         }
         

@@ -118,7 +118,7 @@ FragOutput Frag (Varyings input)
 	half4 color = UniversalFragmentPBR(inputData, surfaceData);
 	
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
-	color.a = OutputAlpha(color.a, IsSurfaceTypeTransparent(_Surface));
+	color.a = baseColor.a;
 
 	FragOutput output;
 	output.color = color;

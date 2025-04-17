@@ -8,7 +8,7 @@ public class ShrekFace : MonoBehaviour
     [SerializeField] private float focusDst = 0.1f;
     [SerializeField] private InputActionReference mouseActionRef;
     
-    [SerializeField] private ShapeElement mouth;
+    [SerializeField] private ShapeProvider mouth;
     [SerializeField] private Vector3 startShape;
     [SerializeField] private Vector3 endShape;
     [SerializeField] private float frequency = 1f;

@@ -12,27 +12,27 @@ namespace Rayman
     }
     
     [ExecuteInEditMode]
-    public class ShapeObject : RaymarchObject, IRaymarchElementControl, IRaymarchDebug, ISpatialStructureDebug
+    public class ShapeObject : RaymarchObject, IRaymarchDebug, ISpatialStructureDebug
     {
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
-        [SerializeField] private List<ShapeElement> shapes = new();
+        [SerializeField] private List<ShapeProvider> shapes = new();
         
-        [SerializeField] private ColorUsages ColorUsage = ColorUsages.Color;
+        [SerializeField] private ColorUsages colorUsage = ColorUsages.Color;
         [SerializeField] private float syncThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
-        private ShapeElement[] activeShapes;
-        private BvhAabbNodeBufferProvider nodeBufferProvider;
-        private IRaymarchElementBufferProvider shapeBufferProvider;
+        private ShapeProvider[] activeShapes;
+        private IRaymarchNodeBufferProvider<Aabb> nodeBufferProvider;
+        private IRaymarchBufferProvider shapeBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer shapeBuffer;
 
         private void LateUpdate()
         {
-            if (!IsInitialized()) return;
+            if (!IsReady()) return;
 
             for (int i = 0; i < activeShapes.Length; i++)
                 nodeBufferProvider.SyncBounds(i, activeShapes[i].GetBounds<Aabb>(), syncThreshold);
@@ -44,20 +44,20 @@ namespace Rayman
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!IsInitialized()) return;
+            if (!IsReady()) return;
 
             ProvideShaderProperties();
         }
 
         private void OnDrawGizmos()
         {
-            if (!drawGizmos || !IsInitialized()) return;
+            if (!drawGizmos || !IsReady()) return;
             
             nodeBufferProvider.DrawGizmos();
         }
 #endif
         
-        public override Material Initialize()
+        public override Material SetupMaterial()
         {
             activeShapes = shapes.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
             if (activeShapes.Length == 0) return null;
@@ -68,12 +68,12 @@ namespace Rayman
             ProvideShaderProperties();
 
             nodeBufferProvider = new BvhAabbNodeBufferProvider();
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(ref MatInstance,
-                activeShapes.Select(s => s.GetBounds<Aabb>()).ToArray());
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeShapes.Select(s => s.GetBounds<Aabb>()).ToArray(),
+                ref MatInstance);
             
-            if (ColorUsage == ColorUsages.Gradient)
+            if (colorUsage == ColorUsages.Gradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
-            shapeBufferProvider = ColorUsage switch
+            shapeBufferProvider = colorUsage switch
             {
                 ColorUsages.Color => new ShapeBufferProvider<ColorShapeData>(),
                 ColorUsages.Gradient => new ShapeBufferProvider<GradientColorShapeData>(),
@@ -85,7 +85,7 @@ namespace Rayman
             return MatInstance;
         }
 
-        public override void Release()
+        public override void Cleanup()
         {
             if (Application.isEditor)
                 DestroyImmediate(MatInstance);
@@ -100,31 +100,11 @@ namespace Rayman
             
             nodeBuffer?.Release();
             shapeBuffer?.Release();
-            InvokeOnRelease();
+            InvokeOnCleanup();
         }
         
-        public override bool IsInitialized() => MatInstance &&
+        public override bool IsReady() => MatInstance &&
             nodeBufferProvider != null && shapeBufferProvider != null;
-        
-        public void AddElement(RaymarchElement entity)
-        {
-            if (shapes.Contains(entity)) return;
-
-            ShapeElement shape = entity as ShapeElement;
-            if (!shape) return;
-            
-            shapes.Add(shape);
-        }
-
-        public void RemoveElement(RaymarchElement entity)
-        {
-            if (!shapes.Contains(entity)) return;
-
-            ShapeElement shape = entity as ShapeElement;
-            if (shape == null) return;
-            
-            shapes.Remove(shape);
-        }
         
         public int GetSdfCount() => activeShapes?.Length ?? 0;
 
@@ -132,11 +112,25 @@ namespace Rayman
         
         public int GetMaxHeight() => nodeBufferProvider?.SpatialStructure.MaxHeight ?? 0;
         
+        public void AddShapeProvider(ShapeProvider provider)
+        {
+            if (!provider || shapes.Contains(provider)) return;
+            
+            shapes.Add(provider);
+        }
+
+        public void RemoveShapeProvider(ShapeProvider provider)
+        {
+            if (!provider || !shapes.Contains(provider)) return;
+            
+            shapes.Remove(provider);
+        }
+        
 #if UNITY_EDITOR
         [ContextMenu("Find All Shapes")]
         public void FindAllShapes()
         {
-            shapes = RaymarchUtils.GetChildrenByHierarchical<ShapeElement>(transform);
+            shapes = RaymarchUtils.GetChildrenByHierarchical<ShapeProvider>(transform);
         }
 #endif
     }

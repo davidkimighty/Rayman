@@ -15,6 +15,7 @@ namespace Rayman
         public BlendMode DstBlend = BlendMode.Zero;
         public CullMode Cull = CullMode.Back;
         public bool ZWrite = true;
+        public int RenderQueue = 2000; 
         
         public override void ProvideData(ref Material material)
         {
@@ -22,6 +23,7 @@ namespace Rayman
             material.SetFloat(DstBlendId, (float)DstBlend);
             material.SetInt(CullId, (int)Cull);
             material.SetFloat(ZWriteId, ZWrite ? 1f : 0f);
+            material.renderQueue = RenderQueue;
         }
     }
 }

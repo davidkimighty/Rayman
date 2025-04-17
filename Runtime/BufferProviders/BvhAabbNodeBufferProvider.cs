@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BvhAabbNodeBufferProvider
+    public class BvhAabbNodeBufferProvider : IRaymarchNodeBufferProvider<Aabb>
     {
         public static readonly int NodeBufferId = Shader.PropertyToID("_NodeBuffer");
 
@@ -12,11 +12,10 @@ namespace Rayman
         private Aabb[] activeBounds;
         private AabbNodeData[] nodeData;
 
-        public ISpatialStructure<Aabb> SpatialStructure => spatialStructure;
-
         public bool IsInitialized => spatialStructure != null && nodeData != null;
+        public ISpatialStructure<Aabb> SpatialStructure => spatialStructure;
         
-        public GraphicsBuffer InitializeBuffer(ref Material material, Aabb[] bounds)
+        public GraphicsBuffer InitializeBuffer(Aabb[] bounds, ref Material material)
         {
             activeBounds = bounds;
             spatialStructure = new Bvh<Aabb>();
@@ -32,10 +31,10 @@ namespace Rayman
             material.SetBuffer(NodeBufferId, nodeBuffer);
             return nodeBuffer;
         }
-
-        public void SyncBounds(int id, Aabb bounds, float threshold = 0f)
+        
+        public void SyncBounds(int id, Aabb bounds, float syncThreshold = 0)
         {
-            Aabb buffBounds = activeBounds[id].Expand(threshold);
+            Aabb buffBounds = activeBounds[id].Expand(syncThreshold);
             if (buffBounds.Contains(bounds)) return;
 
             activeBounds[id] = bounds;

@@ -19,19 +19,19 @@ namespace Rayman
         {
             if (raymarchObject == null) return;
             
-            if (raymarchObject.IsInitialized())
+            if (raymarchObject.IsReady())
                 Setup(raymarchObject);
             else
-                raymarchObject.OnInitialize += Setup;
+                raymarchObject.OnSetup += Setup;
         }
 
         private void OnDisable()
         {
             if (raymarchObject == null) return;
             
-            if (raymarchObject.IsInitialized())
+            if (raymarchObject.IsReady())
                 raymarchObject.MatInstance.DisableKeyword(DebugModeKeyword);
-            raymarchObject.OnInitialize -= Setup;
+            raymarchObject.OnSetup -= Setup;
         }
 
 #if UNITY_EDITOR
@@ -41,7 +41,7 @@ namespace Rayman
                 raymarchObject = GetComponent<RaymarchObject>();
             if (raymarchObject == null) return;
             
-            if (raymarchObject.IsInitialized())
+            if (raymarchObject.IsReady())
                 SetupShaderProperties(ref raymarchObject.MatInstance);
         }
         

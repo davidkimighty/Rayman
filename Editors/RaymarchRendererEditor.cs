@@ -35,10 +35,10 @@ namespace RaymanEditor
 
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Setup"))
-                raymarchRenderer.Initialize();
+                raymarchRenderer.Setup();
 
             if (GUILayout.Button("Release"))
-                raymarchRenderer.Release();
+                raymarchRenderer.Cleanup();
 
             if (GUILayout.Button("Find All Objects"))
             {
