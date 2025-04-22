@@ -1,4 +1,4 @@
-Shader "Rayman/CelLit"
+Shader "Rayman/ShapeLit"
 {
     Properties
     {
@@ -7,20 +7,9 @@ Shader "Rayman/CelLit"
     	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
     	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
     	_GradientAngle("Gradient Angle", Float) = 0.0
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
-    	
-    	[Header(Cel Shade)][Space]
-    	_MainCelCount ("Main Cel Count", Range(1.0, 10.0)) = 1.0
-    	_AdditionalCelCount ("Additional Cel Count", Range(1.0, 10.0)) = 1.0
-    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
-    	_CelSharpness ("Cel Sharpness", Float) = 80.0
-    	_SpecularSharpness ("Specular Sharpness", Float) = 30.0
-    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.75
-    	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
-    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9
-    	_F0 ("Schlick F0", Float) = 0.04
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -53,7 +42,6 @@ Shader "Rayman/CelLit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
@@ -66,8 +54,8 @@ Shader "Rayman/CelLit"
 			half3 size;
         	half3 pivot;
         	int operation;
-        	half blend;
-			half roundness;
+        	float blend;
+			float roundness;
 			half4 color;
 #ifdef GRADIENT_COLOR
 			half4 gradientColor;
@@ -180,25 +168,44 @@ Shader "Rayman/CelLit"
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
-            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
+			#pragma multi_compile_fragment _ DEBUG_MODE
 			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/CelLitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
             ENDHLSL
 		}
+
+//       Pass
+//       {
+//       		Name "Depth Normals"
+//		    Tags { "LightMode" = "DepthNormals" }
+//
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//		    
+//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+//		    #pragma multi_compile_instancing
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+//
+//			#pragma vertex Vert
+//		    #pragma fragment Frag
+//
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthNormalsPass.hlsl"
+//		    ENDHLSL
+//       }
 
 		Pass
 		{
@@ -216,8 +223,12 @@ Shader "Rayman/CelLit"
 			HLSLPROGRAM
 			#pragma target 2.0
 			#pragma multi_compile_instancing
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+			
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag

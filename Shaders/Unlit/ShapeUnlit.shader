@@ -1,4 +1,4 @@
-	Shader "Rayman/Unlit"
+	Shader "Rayman/ShapeUnlit"
 {
     Properties
     {

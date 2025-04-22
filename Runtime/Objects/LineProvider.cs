@@ -49,18 +49,8 @@ namespace Rayman
         }
     }
     
-    public interface ILineProviderData
-    {
-        void InitializeData(LineProvider provider, int startIndex);
-    }
-    
-    public interface IPointProviderData
-    {
-        void InitializeData(Transform point);
-    }
-    
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct LineData : ILineProviderData
+    public struct LineData : ISetupFromIndexed<LineProvider>
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -71,22 +61,28 @@ namespace Rayman
         public int PointsCount;
         public Vector4 Color;
 
-        public void InitializeData(LineProvider line, int startIndex)
+        public int Index
         {
-            Type = (int)line.Line;
-            Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(line.transform.position, line.transform.rotation, Vector3.one).inverse;
-            Operation = (int)line.Operation;
-            Blend = line.Blend;
-            Radius = line.Radius;
-            PointStartIndex = startIndex;
-            PointsCount = line.Points.Count;
-            Color = line.Color;
+            get => PointStartIndex;
+            set => PointStartIndex = value;
+        }
+
+        public void SetupFrom(LineProvider data, int index)
+        {
+            Type = (int)data.Line;
+            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Operation = (int)data.Operation;
+            Blend = data.Blend;
+            Radius = data.Radius;
+            PointStartIndex = index;
+            PointsCount = data.Points.Count;
+            Color = data.Color;
         }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct GradientLineData : ILineProviderData
+    public struct GradientLineData : ISetupFromIndexed<LineProvider>
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -97,30 +93,36 @@ namespace Rayman
         public int PointsCount;
         public Vector4 Color;
         public Vector4 GradientColor;
-        
-        public void InitializeData(LineProvider line, int startIndex)
+
+        public int Index
         {
-            Type = (int)line.Line;
-            Transform = line.UseLossyScale ? line.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(line.transform.position, line.transform.rotation, Vector3.one).inverse;
-            Operation = (int)line.Operation;
-            Blend = line.Blend;
-            Radius = line.Radius;
-            PointStartIndex = startIndex;
-            PointsCount = line.Points.Count;
-            Color = line.Color;
-            GradientColor = line.GradientColor;
+            get => PointStartIndex;
+            set => PointStartIndex = value;
+        }
+
+        public void SetupFrom(LineProvider data, int index)
+        {
+            Type = (int)data.Line;
+            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Operation = (int)data.Operation;
+            Blend = data.Blend;
+            Radius = data.Radius;
+            PointStartIndex = index;
+            PointsCount = data.Points.Count;
+            Color = data.Color;
+            GradientColor = data.GradientColor;
         }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct PointData : IPointProviderData
+    public struct PointData : ISetupFrom<Transform>
     {
         public Vector3 Position;
 
-        public void InitializeData(Transform point)
+        public void SetupFrom(Transform data)
         {
-            Position = point.localPosition;
+            Position = data.localPosition;
         }
     }
 }

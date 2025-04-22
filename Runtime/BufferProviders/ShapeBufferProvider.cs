@@ -1,10 +1,9 @@
-using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeBufferProvider<T> : IRaymarchBufferProvider where T : struct, IShapeProviderData
+    public class ShapeBufferProvider<T> : IBufferProvider<ShapeProvider> where T : struct, ISetupFrom<ShapeProvider>
     {
         public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
         
@@ -13,9 +12,9 @@ namespace Rayman
 
         public bool IsInitialized => shapeData != null;
         
-        public GraphicsBuffer InitializeBuffer<T1>(T1[] dataProviders, ref Material material)
+        public GraphicsBuffer InitializeBuffer(ShapeProvider[] dataProviders, ref Material material)
         {
-            raymarchShapes = dataProviders.OfType<ShapeProvider>().ToArray();
+            raymarchShapes = dataProviders;
             int count = raymarchShapes.Length;
             if (count == 0) return null;
 
@@ -34,7 +33,7 @@ namespace Rayman
                 if (!raymarchShapes[i]) continue;
 
                 shapeData[i] = new T();
-                shapeData[i].InitializeData(raymarchShapes[i]);
+                shapeData[i].SetupFrom(raymarchShapes[i]);
             }
             buffer.SetData(shapeData);
         }

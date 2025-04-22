@@ -10,16 +10,16 @@ namespace Rayman
         public const string GradientColorKeyword = "GRADIENT_COLOR";
         
         [SerializeField] private List<LineProvider> lines = new();
-        [SerializeField] private ColorUsages colorUsage = ColorUsages.Color;
+        [SerializeField] private bool useGradient;
         [SerializeField] private float syncThreshold;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos;
 #endif
         
         private LineProvider[] activeLines;
-        private IRaymarchNodeBufferProvider<Aabb> nodeBufferProvider;
-        private IRaymarchBufferProvider lineBufferProvider;
-        private IRaymarchBufferProvider pointBufferProvider;
+        private INodeBufferProvider nodeBufferProvider;
+        private IBufferProvider<LineProvider> lineBufferProvider;
+        private IBufferProvider<LineProvider> pointBufferProvider;
         private GraphicsBuffer nodeBuffer;
         private GraphicsBuffer lineBuffer;
         private GraphicsBuffer pointBuffer;
@@ -28,9 +28,7 @@ namespace Rayman
         {
             if (!IsReady()) return;
 
-            for (int i = 0; i < activeLines.Length; i++)
-                nodeBufferProvider.SyncBounds(i, activeLines[i].GetBounds<Aabb>(), syncThreshold);
-            
+            nodeBufferProvider.SyncBounds(activeLines, syncThreshold);
             nodeBufferProvider.SetData(ref nodeBuffer);
             lineBufferProvider.SetData(ref lineBuffer);
             pointBufferProvider.SetData(ref pointBuffer);
@@ -54,7 +52,7 @@ namespace Rayman
         
         public override Material SetupMaterial()
         {
-            activeLines = lines.Where(s => s && s.gameObject.activeInHierarchy).ToArray();
+            activeLines = lines.Where(a => a && a.gameObject.activeInHierarchy).ToArray();
             if (activeLines.Length == 0) return null;
 
             MatInstance = new Material(shader);
@@ -62,18 +60,14 @@ namespace Rayman
             
             ProvideShaderProperties();
 
-            nodeBufferProvider = new BvhAabbNodeBufferProvider();
-            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines.Select(s => s.GetBounds<Aabb>()).ToArray(),
-                ref MatInstance);
+            nodeBufferProvider = new BvhNodeBufferProvider<Aabb, AabbNodeData>();
+            nodeBuffer = nodeBufferProvider.InitializeBuffer(activeLines, ref MatInstance);
             
-            if (colorUsage == ColorUsages.Gradient)
+            if (useGradient)
                 MatInstance.EnableKeyword(GradientColorKeyword);
-            lineBufferProvider = colorUsage switch
-            {
-                ColorUsages.Color => new LineBufferProvider<LineData>(),
-                ColorUsages.Gradient => new LineBufferProvider<GradientLineData>(),
-                _ => new LineBufferProvider<LineData>()
-            };
+            lineBufferProvider = useGradient
+                ? new LineBufferProvider<LineData>()
+                : new LineBufferProvider<GradientLineData>();
             lineBuffer = lineBufferProvider.InitializeBuffer(activeLines, ref MatInstance);
             
             pointBufferProvider = new PointBufferProvider<PointData>();

@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public enum Operations
-    {
-        Union,
-        Subtract,
-        Intersect
-    }
-    
     public abstract class RaymarchObject : MonoBehaviour
     {
         public event Action<RaymarchObject> OnSetup;

@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -53,6 +54,29 @@ namespace Rayman
             int heightL = LeftChild?.Height ?? 0;
             int heightR = RightChild?.Height ?? 0;
             return heightR - heightL;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct AabbNodeData : ISetupFromIndexed<SpatialNode<Aabb>>
+    {
+        public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
+
+        public int Id;
+        public int ChildIndex;
+        public Aabb Bounds;
+        
+        public int Index
+        {
+            get => ChildIndex;
+            set => ChildIndex = value;
+        }
+        
+        public void SetupFrom(SpatialNode<Aabb> data, int index)
+        {
+            Id = data.Id;
+            ChildIndex = index;
+            Bounds = data.Bounds;
         }
     }
 }

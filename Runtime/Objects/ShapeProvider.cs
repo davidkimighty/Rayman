@@ -1,9 +1,17 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
 {
+    public enum Operations
+    {
+        Union,
+        Subtract,
+        Intersect
+    }
+    
     public enum Shapes
     {
         Sphere,
@@ -20,6 +28,8 @@ namespace Rayman
     
     public class ShapeProvider : MonoBehaviour, IBoundsProvider
     {
+        public static Dictionary<Type, Delegate> BoundsGenerator = new();
+        
         public Shapes Shape = Shapes.Sphere;
         public Vector3 Size = Vector3.one * 0.5f;
         public float ExpandBounds;
@@ -32,6 +42,11 @@ namespace Rayman
         public Color Color = Color.white;
         public Color GradientColor = Color.white;
 
+        static ShapeProvider()
+        {
+            BoundsGenerator.Add(typeof(Aabb), (Func<Transform, Vector3, Vector3, Vector3, Aabb>)Aabb.Create);
+        }
+        
 #if UNITY_EDITOR
         private void OnValidate()
         {
@@ -82,25 +97,19 @@ namespace Rayman
         
         public T GetBounds<T>() where T : struct, IBounds<T>
         {
-            if (typeof(T) == typeof(Aabb))
-            {
-                Aabb aabb = new Aabb(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
-                aabb = aabb.Expand(Blend + Roundness + ExpandBounds + 0.001f);
-                return (T)(object)aabb;
-            }
-            throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
+            if (!BoundsGenerator.TryGetValue(typeof(T), out Delegate generator))
+                throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
+            
+            var boundsGenerator = generator as Func<Transform, Vector3, Vector3, Vector3, T>;
+            T bounds = boundsGenerator(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
+            return bounds.Expand(Blend + Roundness + ExpandBounds + 0.001f);
         }
         
         public Vector3 GetScale() => UseLossyScale ? transform.lossyScale : Vector3.one;
     }
     
-    public interface IShapeProviderData
-    {
-        void InitializeData(ShapeProvider provider);
-    }
-    
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeData : IShapeProviderData
+    public struct ShapeData : ISetupFrom<ShapeProvider>
     {
         public static readonly int Stride = sizeof(float) * 24 + sizeof(int) * 2;
         
@@ -112,23 +121,23 @@ namespace Rayman
         public float Blend;
         public float Roundness;
 
-        public void InitializeData(ShapeProvider provider)
+        public void SetupFrom(ShapeProvider data)
         {
-            if (!provider) return;
+            if (!data) return;
             
-            Type = (int)provider.Shape;
-            Transform = provider.UseLossyScale ? provider.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(provider.transform.position, provider.transform.rotation, Vector3.one).inverse;
-            Size = provider.Size;
-            Pivot = provider.Pivot;
-            Operation = (int)provider.Operation;
-            Blend = provider.Blend;
-            Roundness = provider.Roundness;
+            Type = (int)data.Shape;
+            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Size = data.Size;
+            Pivot = data.Pivot;
+            Operation = (int)data.Operation;
+            Blend = data.Blend;
+            Roundness = data.Roundness;
         }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ColorShapeData : IShapeProviderData
+    public struct ColorShapeData : ISetupFrom<ShapeProvider>
     {
         public static readonly int Stride = sizeof(float) * 28 + sizeof(int) * 2;
         
@@ -141,24 +150,24 @@ namespace Rayman
         public float Roundness;
         public Vector4 Color;
 
-        public void InitializeData(ShapeProvider provider)
+        public void SetupFrom(ShapeProvider data)
         {
-            if (!provider) return;
+            if (!data) return;
             
-            Type = (int)provider.Shape;
-            Transform = provider.UseLossyScale ? provider.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(provider.transform.position, provider.transform.rotation, Vector3.one).inverse;
-            Size = provider.Size;
-            Pivot = provider.Pivot;
-            Operation = (int)provider.Operation;
-            Blend = provider.Blend;
-            Roundness = provider.Roundness;
-            Color = provider.Color;
+            Type = (int)data.Shape;
+            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Size = data.Size;
+            Pivot = data.Pivot;
+            Operation = (int)data.Operation;
+            Blend = data.Blend;
+            Roundness = data.Roundness;
+            Color = data.Color;
         }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct GradientColorShapeData : IShapeProviderData
+    public struct GradientColorShapeData : ISetupFrom<ShapeProvider>
     {
         public int Type;
         public Matrix4x4 Transform;
@@ -170,20 +179,20 @@ namespace Rayman
         public Vector4 Color;
         public Vector4 GradientColor;
 
-        public void InitializeData(ShapeProvider provider)
+        public void SetupFrom(ShapeProvider data)
         {
-            if (!provider) return;
+            if (!data) return;
             
-            Type = (int)provider.Shape;
-            Transform = provider.UseLossyScale ? provider.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(provider.transform.position, provider.transform.rotation, Vector3.one).inverse;
-            Size = provider.Size;
-            Pivot = provider.Pivot;
-            Operation = (int)provider.Operation;
-            Blend = provider.Blend;
-            Roundness = provider.Roundness;
-            Color = provider.Color;
-            GradientColor = provider.GradientColor;
+            Type = (int)data.Shape;
+            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
+                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Size = data.Size;
+            Pivot = data.Pivot;
+            Operation = (int)data.Operation;
+            Blend = data.Blend;
+            Roundness = data.Roundness;
+            Color = data.Color;
+            GradientColor = data.GradientColor;
         }
     }
 }

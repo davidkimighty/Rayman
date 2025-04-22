@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class PointBufferProvider<T> : IRaymarchBufferProvider where T : struct, IPointProviderData
+    public class PointBufferProvider<T> : IBufferProvider<LineProvider> where T : struct, ISetupFrom<Transform>
     {
         public static readonly int PointBufferId = Shader.PropertyToID("_PointBuffer");
         
@@ -13,9 +13,9 @@ namespace Rayman
         
         public bool IsInitialized => pointData != null;
         
-        public GraphicsBuffer InitializeBuffer<T1>(T1[] dataProviders, ref Material material)
+        public GraphicsBuffer InitializeBuffer(LineProvider[] dataProviders, ref Material material)
         {
-            lines = dataProviders.OfType<LineProvider>().ToArray();
+            lines = dataProviders;
             int lineCount = lines.Length;
             if (lineCount == 0) return null;
 
@@ -38,7 +38,7 @@ namespace Rayman
                 foreach (Transform point in lines[i].Points)
                 {
                     pointData[pointIndex] = new T();
-                    pointData[pointIndex].InitializeData(point);
+                    pointData[pointIndex].SetupFrom(point);
                     pointIndex++;
                 }
             }

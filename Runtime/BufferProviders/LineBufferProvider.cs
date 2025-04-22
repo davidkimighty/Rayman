@@ -1,10 +1,9 @@
-using System.Linq;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class LineBufferProvider<T> : IRaymarchBufferProvider where T : struct, ILineProviderData
+    public class LineBufferProvider<T> : IBufferProvider<LineProvider> where T : struct, ISetupFromIndexed<LineProvider>
     {
         public static readonly int LineBufferId = Shader.PropertyToID("_LineBuffer");
         
@@ -12,10 +11,10 @@ namespace Rayman
         private T[] lineData;
         
         public bool IsInitialized => lineData != null;
-        
-        public GraphicsBuffer InitializeBuffer<T1>(T1[] dataProviders, ref Material material)
+
+        public GraphicsBuffer InitializeBuffer(LineProvider[] dataProviders, ref Material material)
         {
-            lines = dataProviders.OfType<LineProvider>().ToArray();
+            lines = dataProviders;
             int count = lines.Length;
             if (count == 0) return null;
 
@@ -35,7 +34,7 @@ namespace Rayman
                 if (!lines[i]) continue;
 
                 lineData[i] = new T();
-                lineData[i].InitializeData(lines[i], pointIndex);
+                lineData[i].SetupFrom(lines[i], pointIndex);
                 pointIndex += lines[i].Points.Count;
             }
             buffer.SetData(lineData);

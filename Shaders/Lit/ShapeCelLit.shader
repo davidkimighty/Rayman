@@ -1,4 +1,4 @@
-Shader "Rayman/LineLit"
+Shader "Rayman/ShapeCelLit"
 {
     Properties
     {
@@ -6,9 +6,21 @@ Shader "Rayman/LineLit"
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
     	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
+    	
+    	[Header(Cel Shade)][Space]
+    	_MainCelCount ("Main Cel Count", Range(1.0, 10.0)) = 1.0
+    	_AdditionalCelCount ("Additional Cel Count", Range(1.0, 10.0)) = 1.0
+    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_CelSharpness ("Cel Sharpness", Float) = 80.0
+    	_SpecularSharpness ("Specular Sharpness", Float) = 30.0
+    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.75
+    	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
+    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9
+    	_F0 ("Schlick F0", Float) = 0.04
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -41,33 +53,28 @@ Shader "Rayman/LineLit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Shared/Lines.hlsl"
-		
-		struct Line
+		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
+        
+		struct Shape
 		{
         	int type;
 			float4x4 transform;
-			int operation;
+			half3 size;
+        	half3 pivot;
+        	int operation;
         	half blend;
-			half2 radius;
-			half2 padding;
-			int pointStartIndex;
-			int pointsCount;
+			half roundness;
 			half4 color;
 #ifdef GRADIENT_COLOR
 			half4 gradientColor;
 #endif
 		};
 
-		struct Point
-		{
-			float3 position;
-		};
-
-        CBUFFER_START(RaymarchPerGroup)
+		CBUFFER_START(RaymarchPerGroup)
 		float _EpsilonMin;
 		float _EpsilonMax;
         int _MaxSteps;
@@ -76,46 +83,47 @@ Shader "Rayman/LineLit"
         float _ShadowMaxDistance;
 		float _GradientScaleY;
 		float _GradientOffsetY;
+		float _GradientAngle;
 		CBUFFER_END
 		
-		StructuredBuffer<Line> _LineBuffer;
-		StructuredBuffer<Point> _PointBuffer;
+		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
-        int2 hitCount = 0;
+        int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		float3 CombineDistance(float3 posWS, Line entity, float totalDist)
+		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
 		{
-			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;
-			float3 scale = GetScale(entity.transform);
+			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
+			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+			
+			float3 scale = GetScale(shape.transform);
 	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
 
-			float3 points[MAX_POINTS];
-			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
-		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
-
-			float2 lineSdf = GetLineSdf(posOS, entity.type, points);
-			float dist = ThickLine(lineSdf.x / scaleFactor, lineSdf.y, entity.radius.x, entity.radius.y);
-			return float3(SmoothOperation(entity.operation, totalDist, dist, entity.blend), lineSdf.y);
+			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 		
 		float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
-			baseColor = _LineBuffer[hitIds[0]].color;
+			baseColor = _ShapeBuffer[hitIds[0]].color;
 			
 			for (int i = 0; i < hitCount.x; i++)
 			{
-				Line entity = _LineBuffer[hitIds[i]];
-				float3 combined = CombineDistance(ray.hitPoint, entity, totalDist);
+				Shape shape = _ShapeBuffer[hitIds[i]];
+				float2 combined = CombineDistance(ray.hitPoint, shape, totalDist);
 				totalDist = combined.x;
 #ifdef GRADIENT_COLOR
-				float blend = saturate((combined.z + _GradientOffsetY - 1.0) * _GradientScaleY + 0.5);
-				half4 color = lerp(entity.color, entity.gradientColor, blend);
+				float3 posOS = mul(shape.transform, float4(ray.hitPoint, 1.0)).xyz;
+				float2 uv = (posOS.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
+				uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
+				uv.y = 1.0 - uv.y;
+				uv = saturate(uv);
+				half4 color = lerp(shape.color, shape.gradientColor, uv.y);
 #else
-				half4 color = entity.color;
+				half4 color = shape.color;
 #endif
 				baseColor = lerp(baseColor, color, combined.y);
 			}
@@ -126,7 +134,7 @@ Shader "Rayman/LineLit"
 		{
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(positionWS, _LineBuffer[hitIds[i]], totalDist).x;
+				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
 			return totalDist;
 		}
 
@@ -183,13 +191,12 @@ Shader "Rayman/LineLit"
             #pragma instancing_options renderinglayer
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-			#pragma multi_compile_fragment _ DEBUG_MODE
 			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/CelLitForwardPass.hlsl"
             ENDHLSL
 		}
 
@@ -209,8 +216,6 @@ Shader "Rayman/LineLit"
 			HLSLPROGRAM
 			#pragma target 2.0
 			#pragma multi_compile_instancing
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-			
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 			
