@@ -8,15 +8,13 @@
 float _RayShadowBias;
 
 CBUFFER_START(CelParams)
-float _MainCelCount;
-float _AdditionalCelCount;
+float _CelCount;
 float _CelSpread;
 float _CelSharpness;
-float _SpecularSharpness;
 float _RimAmount;
 float _RimSmoothness;
-float _BlendDiffuse;
 float _F0;
+float _BlendDiffuse;
 CBUFFER_END
 
 struct Attributes
@@ -84,23 +82,25 @@ inline float CelShading(float value, float celCount)
 	return lerp(cel, cel + celSize, blend);
 }
 
-inline half3 CelLighting(Light light, float celCount, float diffuse, half3 normalWS, half3 viewDirectionWS, float3 F0)
+inline half3 CelLighting(BRDFData brdfData, Light light, half3 normalWS, half3 viewDirectionWS, float3 F0)
 {
-	diffuse *= light.distanceAttenuation;
-	float cel = CelShading(diffuse, celCount);
-	half3 celShade = light.color * cel * lerp(1.0, 0.0, _Metallic);
+	float lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
+	half NdotL = dot(normalWS, light.direction);
+	half spread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _CelCount));
+	half celDiffuse = CelShading(smoothstep(-spread, _CelSpread, NdotL), _CelCount);
+	celDiffuse = lerp(NdotL, celDiffuse, _BlendDiffuse);
+	half3 radiance = light.color * (saturate(lightAttenuation) * celDiffuse);
 	
-	float roughness = max(1.0 - _Smoothness, 0.01);
-	half specular = GGXSpecular(normalWS, viewDirectionWS, light.direction, F0, roughness);
-	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness) * light.distanceAttenuation;
-	celShade += light.color * specular * cel;
-	
-	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0) * light.distanceAttenuation;
+	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
+	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _CelSharpness);
 	float rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
 	half3 rim = smoothstep(_RimAmount - _RimSmoothness, _RimAmount + _RimSmoothness, rimIntensity);
-	celShade += light.color * rim * fresnel;
+	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
+	half3 rimFresnel = saturate(fresnel + rim) * saturate(1.0 - brdfData.roughness2);
 
-	return celShade * light.shadowAttenuation;
+	half3 brdf = brdfData.diffuse;
+	brdf += brdfData.specular * (specular + rimFresnel);
+	return brdf * radiance;
 }
 
 Varyings Vert (Attributes input)
@@ -153,11 +153,12 @@ FragOutput Frag (Varyings input)
 	
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
+	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 	
-	SurfaceData surfaceData;
+	SurfaceData surfaceData = (SurfaceData)0;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb;
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
@@ -168,9 +169,10 @@ FragOutput Frag (Varyings input)
 	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
 	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
 	
-	inputData.shadowCoord.z += _RayShadowBias;
 	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
-	Light mainLight = GetMainLight(inputData.shadowCoord, ray.hitPoint, shadowMask);
+	Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
+	
+	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
 	
 	float3 F0 = lerp(_F0, brdfData.albedo, _Metallic);
 	half3 celLighting = 0;
@@ -180,12 +182,7 @@ FragOutput Frag (Varyings input)
 	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
 #endif
 	{
-		float nSpread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _MainCelCount));
-		float celDiffuse = smoothstep(-nSpread, _CelSpread, dot(inputData.normalWS, mainLight.direction));
-		celLighting = CelLighting(mainLight, _MainCelCount, celDiffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
-
-		float diffuse = saturate(dot(inputData.normalWS, mainLight.direction)) * mainLight.shadowAttenuation;
-		celLighting = lerp(diffuse, celLighting, _BlendDiffuse);
+		celLighting = CelLighting(brdfData, mainLight, inputData.normalWS, inputData.viewDirectionWS, F0);
 	}
 	
 #if defined(_ADDITIONAL_LIGHTS)
@@ -199,8 +196,7 @@ FragOutput Frag (Varyings input)
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 #endif
 		{
-			float diffuse = saturate(dot(inputData.normalWS, light.direction));
-			celLighting += CelLighting(light, _AdditionalCelCount, diffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
+			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
 		}
 	}
 #endif
@@ -212,26 +208,26 @@ FragOutput Frag (Varyings input)
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 #endif
 		{
-			float diffuse = saturate(dot(inputData.normalWS, light.direction));
-			celLighting += CelLighting(light, _AdditionalCelCount, diffuse, inputData.normalWS, inputData.viewDirectionWS, F0);
+			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
 		}
 	LIGHT_LOOP_END
 #endif
 
 #if defined(_ADDITIONAL_LIGHTS_VERTEX)
-	celLighting += inputData.vertexLighting * brdfData.diffuse;
+	celLighting += inputData.vertexLighting;
 #endif
-
-	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+	
 	half3 giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
 		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
 		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
-	
-	baseColor.rgb *= giColor + celLighting + _EmissionColor;
-	baseColor.rgb = MixFog(baseColor.rgb, input.fogFactorAndVertexLight.x);
+
+	half4 color = half4(giColor + celLighting + _EmissionColor, baseColor.a);
+	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
+
+	//color.rgb = celLighting;
 	
 	FragOutput output;
-	output.color = baseColor;
+	output.color = color;
 	output.depth = depth;
 	return output;
 }

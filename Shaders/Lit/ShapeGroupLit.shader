@@ -58,12 +58,14 @@ Shader "Rayman/ShapeGroupLit"
 		struct Shape
 		{
         	int type;
-			float4x4 transform;
+			float3 position;
+			float4 rotation;
+			float3 scale;
 			half3 size;
         	half3 pivot;
         	int operation;
-        	float blend;
-			float roundness;
+        	half blend;
+			half roundness;
 			half4 color;
 #ifdef GRADIENT_COLOR
 			half4 gradientColor;
@@ -90,23 +92,21 @@ Shader "Rayman/ShapeGroupLit"
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
+		inline float2 CombineDistance(Shape shape, float3 localPos, float totalDist)
 		{
-			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
-			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
-			
-			float3 scale = GetScale(shape.transform);
-	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
+			localPos = RotateWithQuaternion(localPos, shape.rotation);
+			localPos /= shape.scale;
+			localPos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 
-			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			float uniformScale = max(max(shape.scale.x, shape.scale.y), shape.scale.z);
+			float dist = GetShapeSdf(localPos, shape.type, shape.size, shape.roundness) * uniformScale;
 			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 
 #if defined(GRADIENT_COLOR)
-		inline half4 GetShapeGradientColor(Shape shape, float3 posWS)
+		inline half4 GetShapeGradientColor(Shape shape, float3 localPos)
 		{
-			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
-			float2 uv = (posOS.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
+			float2 uv = (localPos.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
 			uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
 			uv.y = 1.0 - uv.y;
 			uv = saturate(uv);
@@ -119,18 +119,19 @@ Shader "Rayman/ShapeGroupLit"
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
 			{
+				float localDist = _MaxDistance;
 				ShapeGroup group = _ShapeGroupBuffer[hitIds[i]];
 				int index = group.startIndex;
-				float localDist = _MaxDistance;
 				half4 localColor = _ShapeBuffer[index].color;
 				
 				for (int j = 0; j < group.count; j++)
 				{
 					Shape shape = _ShapeBuffer[index++];
-					float2 combined = CombineDistance(ray.hitPoint, shape, localDist);
+					float3 localPos = ray.hitPoint - shape.position;
+					float2 combined = CombineDistance(shape, localPos, localDist);
 					localDist = combined.x;
 #ifdef GRADIENT_COLOR
-					half4 color = GetShapeGradientColor(shape, ray.hitPoint);
+					half4 color = GetShapeGradientColor(shape, localPos);
 #else
 					half4 color = shape.color;
 #endif
@@ -148,18 +149,17 @@ Shader "Rayman/ShapeGroupLit"
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
 			{
+				float localDist = _MaxDistance;
 				ShapeGroup group = _ShapeGroupBuffer[hitIds[i]];
 				int index = group.startIndex;
-				float localDist = _MaxDistance;
 				
 				for (int j = 0; j < group.count; j++)
 				{
 					Shape shape = _ShapeBuffer[index++];
-					float2 combined = CombineDistance(positionWS, shape, localDist);
-					localDist = combined.x;
+					float3 localPos = positionWS - shape.position;
+					localDist = CombineDistance(shape, localPos, localDist).x;
 				}
-				float2 combinedTotal = SmoothOperation(group.operation, totalDist, localDist, group.blend);
-				totalDist = combinedTotal.x;
+				totalDist = SmoothOperation(group.operation, totalDist, localDist, group.blend).x;
 			}
 			return totalDist;
 		}

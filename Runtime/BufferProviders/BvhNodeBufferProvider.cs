@@ -40,7 +40,7 @@ namespace Rayman
             for (int i = 0; i < bounds.Length; i++)
             {
                 T buffBounds = activeBounds[i].Expand(syncThreshold);
-                if (buffBounds.Contains(bounds[i])) return;
+                if (buffBounds.Contains(bounds[i])) continue;
 
                 activeBounds[i] = bounds[i];
                 spatialStructure.UpdateBounds(i, bounds[i]);

@@ -111,10 +111,10 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData : ISetupFrom<ShapeProvider>
     {
-        public static readonly int Stride = sizeof(float) * 24 + sizeof(int) * 2;
-        
         public int Type;
-        public Matrix4x4 Transform;
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
         public Vector3 Size;
         public Vector3 Pivot;
         public int Operation;
@@ -126,8 +126,9 @@ namespace Rayman
             if (!data) return;
             
             Type = (int)data.Shape;
-            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Position = data.transform.position;
+            Rotation = Quaternion.Inverse(data.transform.rotation);
+            Scale = data.UseLossyScale ? data.transform.lossyScale : Vector3.one;
             Size = data.Size;
             Pivot = data.Pivot;
             Operation = (int)data.Operation;
@@ -139,10 +140,10 @@ namespace Rayman
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ColorShapeData : ISetupFrom<ShapeProvider>
     {
-        public static readonly int Stride = sizeof(float) * 28 + sizeof(int) * 2;
-        
         public int Type;
-        public Matrix4x4 Transform;
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
         public Vector3 Size;
         public Vector3 Pivot;
         public int Operation;
@@ -155,8 +156,9 @@ namespace Rayman
             if (!data) return;
             
             Type = (int)data.Shape;
-            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Position = data.transform.position;
+            Rotation = Quaternion.Inverse(data.transform.rotation);
+            Scale = data.UseLossyScale ? data.transform.lossyScale : Vector3.one;
             Size = data.Size;
             Pivot = data.Pivot;
             Operation = (int)data.Operation;
@@ -170,7 +172,9 @@ namespace Rayman
     public struct GradientColorShapeData : ISetupFrom<ShapeProvider>
     {
         public int Type;
-        public Matrix4x4 Transform;
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
         public Vector3 Size;
         public Vector3 Pivot;
         public int Operation;
@@ -184,8 +188,9 @@ namespace Rayman
             if (!data) return;
             
             Type = (int)data.Shape;
-            Transform = data.UseLossyScale ? data.transform.worldToLocalMatrix : 
-                Matrix4x4.TRS(data.transform.position, data.transform.rotation, Vector3.one).inverse;
+            Position = data.transform.position;
+            Rotation = Quaternion.Inverse(data.transform.rotation);
+            Scale = data.UseLossyScale ? data.transform.lossyScale : Vector3.one;
             Size = data.Size;
             Pivot = data.Pivot;
             Operation = (int)data.Operation;

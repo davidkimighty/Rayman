@@ -339,7 +339,7 @@ MonoBehaviour:
   - {fileID: 1799917049}
   - {fileID: 1923844511}
   - {fileID: 1399541620}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &22828805
@@ -480,7 +480,7 @@ MonoBehaviour:
   - {fileID: 1558182388}
   - {fileID: 1972033879}
   - {fileID: 112019694}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &25801421 stripped
@@ -853,7 +853,7 @@ MonoBehaviour:
   - {fileID: 1736116683}
   - {fileID: 1685183562}
   - {fileID: 228722826}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &76295236 stripped
@@ -1705,7 +1705,7 @@ MonoBehaviour:
   - {fileID: 591280908}
   - {fileID: 1368709921}
   - {fileID: 1471004939}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &214306611 stripped
@@ -2218,7 +2218,7 @@ MonoBehaviour:
   - {fileID: 1170436566}
   - {fileID: 988735889}
   - {fileID: 1428737560}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &291139664 stripped
@@ -2447,7 +2447,7 @@ MonoBehaviour:
   - {fileID: 1727361661}
   - {fileID: 1004895489}
   - {fileID: 1086396746}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &311171735 stripped
@@ -2742,7 +2742,7 @@ MonoBehaviour:
   - {fileID: 1758930159}
   - {fileID: 231697242}
   - {fileID: 468316480}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &332745635 stripped
@@ -2921,7 +2921,7 @@ MonoBehaviour:
   - {fileID: 183980351}
   - {fileID: 1241294511}
   - {fileID: 1468108085}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &349111533 stripped
@@ -3326,7 +3326,7 @@ MonoBehaviour:
   - {fileID: 314260279}
   - {fileID: 1992904110}
   - {fileID: 1974662486}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &415949379 stripped
@@ -3703,7 +3703,7 @@ MonoBehaviour:
   - {fileID: 1594727622}
   - {fileID: 2025182835}
   - {fileID: 538302382}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &461032123 stripped
@@ -4461,7 +4461,7 @@ MonoBehaviour:
   - {fileID: 1295520056}
   - {fileID: 5909640}
   - {fileID: 1434317168}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &550204535 stripped
@@ -4624,7 +4624,7 @@ MonoBehaviour:
   - {fileID: 1482995715}
   - {fileID: 1528919171}
   - {fileID: 904814399}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &561645373 stripped
@@ -4875,7 +4875,7 @@ MonoBehaviour:
   - {fileID: 694169009}
   - {fileID: 628533422}
   - {fileID: 650022811}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &581302408 stripped
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   - {fileID: 1160939250}
   - {fileID: 1626240156}
   - {fileID: 308167396}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &620816171 stripped
@@ -5829,7 +5829,7 @@ MonoBehaviour:
   - {fileID: 746943840}
   - {fileID: 1044421185}
   - {fileID: 1748686423}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &683147818 stripped
@@ -6349,7 +6349,7 @@ MonoBehaviour:
   - {fileID: 276930775}
   - {fileID: 1871686140}
   - {fileID: 1649892110}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &784173051 stripped
@@ -6577,7 +6577,7 @@ MonoBehaviour:
   - {fileID: 1621859213}
   - {fileID: 2069199776}
   - {fileID: 315410959}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &810677225 stripped
@@ -6931,7 +6931,7 @@ MonoBehaviour:
   - {fileID: 1653263873}
   - {fileID: 1620445279}
   - {fileID: 1998074284}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &836293720 stripped
@@ -7215,7 +7215,7 @@ MonoBehaviour:
   - {fileID: 985294397}
   - {fileID: 1328776804}
   - {fileID: 843916772}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &869382433 stripped
@@ -7378,7 +7378,7 @@ MonoBehaviour:
   - {fileID: 1480704991}
   - {fileID: 410539660}
   - {fileID: 1023277305}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!4 &876236456 stripped
@@ -7817,7 +7817,7 @@ MonoBehaviour:
   - {fileID: 549253075}
   - {fileID: 67102731}
   - {fileID: 1096929005}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &932942727
@@ -8513,7 +8513,7 @@ MonoBehaviour:
   - {fileID: 189243202}
   - {fileID: 1751458839}
   - {fileID: 1230767361}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1031628765 stripped
@@ -8798,7 +8798,7 @@ MonoBehaviour:
   - {fileID: 1672143464}
   - {fileID: 157907234}
   - {fileID: 1631343807}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1064808737 stripped
@@ -9326,7 +9326,7 @@ MonoBehaviour:
   - {fileID: 662323894}
   - {fileID: 2140290062}
   - {fileID: 761586035}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1132228188 stripped
@@ -10059,7 +10059,7 @@ MonoBehaviour:
   - {fileID: 1752213739}
   - {fileID: 933695012}
   - {fileID: 1444846036}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1232129828 stripped
@@ -10211,7 +10211,7 @@ MonoBehaviour:
   - {fileID: 2105575983}
   - {fileID: 1508134315}
   - {fileID: 798140497}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1238640548 stripped
@@ -10643,7 +10643,7 @@ MonoBehaviour:
   - {fileID: 530978151}
   - {fileID: 542573637}
   - {fileID: 1499802512}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1287710665 stripped
@@ -10825,7 +10825,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1310379938}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -10883,9 +10883,9 @@ MonoBehaviour:
   - {fileID: 660669105}
   - {fileID: 257410300}
   - {fileID: 2128674403}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
-  drawGizmos: 0
+  drawGizmos: 1
 --- !u!1001 &1315368958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11499,7 +11499,7 @@ MonoBehaviour:
   - {fileID: 640580957}
   - {fileID: 599069219}
   - {fileID: 1500281285}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1428737560 stripped
@@ -11785,7 +11785,7 @@ MonoBehaviour:
   - {fileID: 125890620}
   - {fileID: 1452934128}
   - {fileID: 749187565}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1450463288 stripped
@@ -12177,7 +12177,7 @@ MonoBehaviour:
   - {fileID: 1925910435}
   - {fileID: 1470893145}
   - {fileID: 640951508}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1476861002 stripped
@@ -12417,7 +12417,7 @@ MonoBehaviour:
   - {fileID: 1133458439}
   - {fileID: 171218918}
   - {fileID: 1132228188}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1492734910 stripped
@@ -12747,7 +12747,7 @@ MonoBehaviour:
   - {fileID: 9538914}
   - {fileID: 704808418}
   - {fileID: 2016079449}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1526618497 stripped
@@ -12964,7 +12964,7 @@ MonoBehaviour:
   - {fileID: 1212258670}
   - {fileID: 1907251989}
   - {fileID: 378853187}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1555355505 stripped
@@ -13454,7 +13454,7 @@ MonoBehaviour:
   - {fileID: 1490257909}
   - {fileID: 1737778218}
   - {fileID: 2081571254}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1630312276 stripped
@@ -13771,7 +13771,7 @@ MonoBehaviour:
   - {fileID: 1759886504}
   - {fileID: 579934729}
   - {fileID: 532227877}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1672143464 stripped
@@ -14326,7 +14326,7 @@ MonoBehaviour:
   - {fileID: 1791387854}
   - {fileID: 1599477265}
   - {fileID: 1120212350}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1737778218 stripped
@@ -14936,7 +14936,7 @@ MonoBehaviour:
   - {fileID: 1443821297}
   - {fileID: 759185151}
   - {fileID: 26893141}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1815462100 stripped
@@ -15088,7 +15088,7 @@ MonoBehaviour:
   - {fileID: 1288891692}
   - {fileID: 1733954363}
   - {fileID: 1179492960}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1001 &1822332509
@@ -15686,7 +15686,7 @@ MonoBehaviour:
   - {fileID: 2139347045}
   - {fileID: 1516252012}
   - {fileID: 1767254122}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1880365144 stripped
@@ -16179,7 +16179,7 @@ MonoBehaviour:
   - {fileID: 1729994888}
   - {fileID: 592995854}
   - {fileID: 474274573}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &1923844511 stripped
@@ -16889,7 +16889,7 @@ MonoBehaviour:
   - {fileID: 818143572}
   - {fileID: 1379235729}
   - {fileID: 1263688692}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2054331760 stripped
@@ -17200,7 +17200,7 @@ MonoBehaviour:
   - {fileID: 328725516}
   - {fileID: 358509392}
   - {fileID: 1112243676}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2089750325 stripped
@@ -17363,7 +17363,7 @@ MonoBehaviour:
   - {fileID: 497120031}
   - {fileID: 2004745443}
   - {fileID: 851332421}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2098713112 stripped
@@ -17603,7 +17603,7 @@ MonoBehaviour:
   - {fileID: 1002140181}
   - {fileID: 1536535833}
   - {fileID: 615389819}
-  colorUsage: 1
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!114 &2120751858 stripped

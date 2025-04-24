@@ -45,12 +45,14 @@ Shader "Rayman/TextureUnlit"
 		struct Shape
 		{
         	int type;
-			float4x4 transform;
-			float3 size;
-        	float3 pivot;
+			float3 position;
+			float4 rotation;
+			float3 scale;
+			half3 size;
+        	half3 pivot;
         	int operation;
-        	float blend;
-			float roundness;
+        	half blend;
+			half roundness;
 		};
 
 		float _EpsilonMin;
@@ -63,15 +65,13 @@ Shader "Rayman/TextureUnlit"
         int2 hitCount; // x is leaf
 		int hitIds[RAY_MAX_HITS];
 
-		inline float2 CombineDistance(float3 posWS, Shape shape, float totalDist)
+		inline float2 CombineDistance(Shape shape, float3 localPos, float totalDist)
 		{
-			float3 posOS = mul(shape.transform, float4(posWS, 1.0)).xyz;
-			posOS -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+			localPos = RotateWithQuaternion(localPos, shape.rotation);
+			localPos /= shape.scale;
+			localPos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 			
-			float3 scale = GetScale(shape.transform);
-	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-			float dist = GetShapeSdf(posOS, shape.type, shape.size, shape.roundness) / scaleFactor;
+			float dist = GetShapeSdf(localPos, shape.type, shape.size, shape.roundness);
 			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
 
@@ -79,7 +79,11 @@ Shader "Rayman/TextureUnlit"
 		{
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(ray.hitPoint, _ShapeBuffer[hitIds[i]], totalDist).x;
+			{
+				Shape shape = _ShapeBuffer[hitIds[i]];
+				float3 localPos = ray.hitPoint - shape.position;
+				totalDist = CombineDistance(shape, localPos, totalDist).x;
+			}
 			return totalDist;
 		}
 
@@ -87,7 +91,11 @@ Shader "Rayman/TextureUnlit"
 		{
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(positionWS, _ShapeBuffer[hitIds[i]], totalDist).x;
+			{
+				Shape shape = _ShapeBuffer[hitIds[i]];
+				float3 localPos = positionWS - shape.position;
+				totalDist = CombineDistance(shape, localPos, totalDist).x;
+			}
 			return totalDist;
 		}
 
