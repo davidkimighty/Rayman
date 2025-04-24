@@ -15,7 +15,8 @@ Shader "Rayman/ShapeCelLit"
     	_CelCount ("Cel Count", Range(1.0, 10.0)) = 1.0
     	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
     	_CelSharpness ("Cel Sharpness", Float) = 80.0
-    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.75
+    	_SpecularSharpness ("Specular Sharpness", Float) = 1.0
+    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.2
     	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
     	_F0 ("Schlick F0", Float) = 0.04
     	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9

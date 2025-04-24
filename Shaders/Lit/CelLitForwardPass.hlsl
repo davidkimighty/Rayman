@@ -11,6 +11,7 @@ CBUFFER_START(CelParams)
 float _CelCount;
 float _CelSpread;
 float _CelSharpness;
+float _SpecularSharpness;
 float _RimAmount;
 float _RimSmoothness;
 float _F0;
@@ -85,22 +86,27 @@ inline float CelShading(float value, float celCount)
 inline half3 CelLighting(BRDFData brdfData, Light light, half3 normalWS, half3 viewDirectionWS, float3 F0)
 {
 	float lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
+	
 	half NdotL = dot(normalWS, light.direction);
 	half spread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _CelCount));
 	half celDiffuse = CelShading(smoothstep(-spread, _CelSpread, NdotL), _CelCount);
-	celDiffuse = lerp(NdotL, celDiffuse, _BlendDiffuse);
+	celDiffuse = lerp(saturate(NdotL), celDiffuse, _BlendDiffuse);
 	half3 radiance = light.color * (saturate(lightAttenuation) * celDiffuse);
 	
 	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
-	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _CelSharpness);
-	float rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
-	half3 rim = smoothstep(_RimAmount - _RimSmoothness, _RimAmount + _RimSmoothness, rimIntensity);
-	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
-	half3 rimFresnel = saturate(fresnel + rim) * saturate(1.0 - brdfData.roughness2);
+	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness);
+	radiance += light.color * saturate(lightAttenuation) * celDiffuse * specular ;
 
-	half3 brdf = brdfData.diffuse;
-	brdf += brdfData.specular * (specular + rimFresnel);
-	return brdf * radiance;
+	half roughness = saturate(1.0 - brdfData.roughness2);
+	half rimAmount = 1.0 - _RimAmount;
+	half rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
+	half3 rim = smoothstep(rimAmount - _RimSmoothness, rimAmount + _RimSmoothness, rimIntensity);
+	radiance += light.color * lightAttenuation * celDiffuse * rim * roughness;
+	
+	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
+	radiance += light.color * lightAttenuation * fresnel * roughness;
+
+	return brdfData.diffuse * radiance;
 }
 
 Varyings Vert (Attributes input)
@@ -223,8 +229,6 @@ FragOutput Frag (Varyings input)
 
 	half4 color = half4(giColor + celLighting + _EmissionColor, baseColor.a);
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
-
-	//color.rgb = celLighting;
 	
 	FragOutput output;
 	output.color = color;

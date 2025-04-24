@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2509ac45d3fab45876f9a399d42a0e, type: 3}
   m_Name: Cel Shade Data Provider
   m_EditorClassIdentifier: 
-  mainCelCount: 1
-  additionalCelCount: 1
+  celCount: 1
   celSpread: 1
-  mainCelSharpness: 100
-  specularCelSharpness: 30
-  rimAmount: 0.75
+  celSharpness: 60
+  specularSharpness: 30
+  rimAmount: 0.2
   rimSmoothness: 0.03
-  blendDiffuse: 0.6
+  blendDiffuse: 0.8
