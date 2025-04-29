@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class RaymarchDebugger : DebugElement
+    public class SdfDebugger : DebugElement
     {
         [SerializeField] private RaymarchManager raymarchManager;
         private int totalSdfCount;

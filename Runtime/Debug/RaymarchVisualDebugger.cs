@@ -5,7 +5,7 @@ namespace Rayman
     public enum DebugModes { None, Normal, Hitmap, BoundingVolume, }
     
     [ExecuteInEditMode]
-    public class RaymarchObjectDebugger : MonoBehaviour
+    public class RaymarchVisualDebugger : MonoBehaviour
     {
         private const string DebugModeKeyword = "DEBUG_MODE";
         private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");

@@ -1,4 +1,4 @@
-Shader "Rayman/LineLit"
+Shader "Rayman/RetroGroupLit"
 {
     Properties
     {
@@ -6,9 +6,16 @@ Shader "Rayman/LineLit"
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
     	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
+    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
+    	
+    	[Header(Cel Shade)][Space]
+    	_CelCount ("Cel Count", Range(1.0, 10.0)) = 1.0
+    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_CelSharpness ("Cel Sharpness", Float) = 80.0
+    	_F0 ("Schlick F0", Float) = 0.04
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -44,24 +51,34 @@ Shader "Rayman/LineLit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
 
-		#define SEGMENT (2)
-		#define QUADRATIC_BEZIER (3)
-		#define CUBIC_BEZIER (4)
-		
-		struct Segment
+		struct ShapeGroup
 		{
-			float2 radius;
+			int operation;
+        	float blend;
 			int startIndex;
+			int count;
 		};
-
-		struct Point
+		
+		struct Shape
 		{
-			half3 position;
+        	int type;
+			float3 position;
+			float4 rotation;
+			float3 scale;
+			half3 size;
+        	half3 pivot;
+        	int operation;
+        	half blend;
+			half roundness;
+			half4 color;
+#ifdef GRADIENT_COLOR
+			half4 gradientColor;
+#endif
 		};
 
-        CBUFFER_START(RaymarchPerGroup)
+		CBUFFER_START(RaymarchPerGroup)
 		float _EpsilonMin;
 		float _EpsilonMax;
         int _MaxSteps;
@@ -70,63 +87,87 @@ Shader "Rayman/LineLit"
         float _ShadowMaxDistance;
 		float _GradientScaleY;
 		float _GradientOffsetY;
+		float _GradientAngle;
 		CBUFFER_END
-
-		int _LineType = 0;
-		half4 _Color;
 		
-		StructuredBuffer<Segment> _SegmentBuffer;
-		StructuredBuffer<Point> _PointBuffer;
+		StructuredBuffer<ShapeGroup> _ShapeGroupBuffer;
+		StructuredBuffer<Shape> _ShapeBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
-        int2 hitCount = 0;
+        int2 hitCount;
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		inline float2 GetLineSdf(float3 posWS, Segment segment)
+		inline float2 CombineDistance(Shape shape, float3 localPos, float totalDist)
 		{
-			switch (_LineType)
-		    {
-		        case SEGMENT:
-		        {
-			        float3 a = _PointBuffer[segment.startIndex].position;
-		        	float3 b = _PointBuffer[segment.startIndex + 1].position;
-		            return SegmentSdf(posWS, a, b);
-		        }
-		        case QUADRATIC_BEZIER:
-		        {
-			        float3 a = _PointBuffer[segment.startIndex].position;
-		        	float3 b = _PointBuffer[segment.startIndex + 1].position;
-		        	float3 c = _PointBuffer[segment.startIndex + 2].position;
-		        	return QuadraticBezierSdf(posWS, a, b, c, posWS);
-		        }
-		        default:
-		            return 0;
-		    }
+			localPos = RotateWithQuaternion(localPos, shape.rotation);
+			localPos /= shape.scale;
+			localPos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
+
+			float uniformScale = max(max(shape.scale.x, shape.scale.y), shape.scale.z);
+			float dist = GetShapeSdf(localPos, shape.type, shape.size, shape.roundness) * uniformScale;
+			return SmoothOperation(shape.operation, totalDist, dist, shape.blend);
 		}
+
+#if defined(GRADIENT_COLOR)
+		inline half4 GetShapeGradientColor(Shape shape, float3 localPos)
+		{
+			float2 uv = (localPos.xy - 0.5 + _GradientOffsetY) * _GradientScaleY + 0.5;
+			uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
+			uv.y = 1.0 - uv.y;
+			uv = saturate(uv);
+			return lerp(shape.color, shape.gradientColor, uv.y);
+		}
+#endif
 		
-		inline float CombineDistance(half3 positionWS)
+		float Map(inout Ray ray)
 		{
 			float totalDist = _MaxDistance;
 			for (int i = 0; i < hitCount.x; i++)
 			{
-				Segment segment = _SegmentBuffer[hitIds[i]];
-				float2 lineSdf = GetLineSdf(positionWS, segment);
-				float dist = ThickLine(lineSdf.x, lineSdf.y, segment.radius.x, segment.radius.y);
-				totalDist = SmoothMin(totalDist, dist, 0);
+				float localDist = _MaxDistance;
+				ShapeGroup group = _ShapeGroupBuffer[hitIds[i]];
+				int index = group.startIndex;
+				half4 localColor = _ShapeBuffer[index].color;
+				
+				for (int j = 0; j < group.count; j++)
+				{
+					Shape shape = _ShapeBuffer[index++];
+					float3 localPos = ray.hitPoint - shape.position;
+					float2 combined = CombineDistance(shape, localPos, localDist);
+					localDist = combined.x;
+#ifdef GRADIENT_COLOR
+					half4 color = GetShapeGradientColor(shape, localPos);
+#else
+					half4 color = shape.color;
+#endif
+					localColor = lerp(localColor, color, combined.y);
+				}
+				float2 combinedTotal = SmoothOperation(group.operation, totalDist, localDist, group.blend);
+				totalDist = combinedTotal.x;
+				baseColor = lerp(baseColor, localColor, combinedTotal.y);
 			}
 			return totalDist;
-		}
-		
-		float Map(inout Ray ray)
-		{
-			baseColor = _Color;
-			return CombineDistance(ray.hitPoint);
 		}
 
 		float NormalMap(const float3 positionWS)
 		{
-			return CombineDistance(positionWS);
+			float totalDist = _MaxDistance;
+			for (int i = 0; i < hitCount.x; i++)
+			{
+				float localDist = _MaxDistance;
+				ShapeGroup group = _ShapeGroupBuffer[hitIds[i]];
+				int index = group.startIndex;
+				
+				for (int j = 0; j < group.count; j++)
+				{
+					Shape shape = _ShapeBuffer[index++];
+					float3 localPos = positionWS - shape.position;
+					localDist = CombineDistance(shape, localPos, localDist).x;
+				}
+				totalDist = SmoothOperation(group.operation, totalDist, localDist, group.blend).x;
+			}
+			return totalDist;
 		}
 
 		inline NodeAabb GetNode(const int index)
@@ -171,26 +212,43 @@ Shader "Rayman/LineLit"
             #pragma multi_compile _ DIRLIGHTMAP_COMBINED
             #pragma multi_compile _ LIGHTMAP_ON
             #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
-            #pragma multi_compile _ DYNAMICLIGHTMAP_ON
-            #pragma multi_compile _ USE_LEGACY_LIGHTMAPS
-            #pragma multi_compile _ LOD_FADE_CROSSFADE
-            #pragma multi_compile_fragment _ DEBUG_DISPLAY
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-			#pragma multi_compile_fragment _ DEBUG_MODE
 			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Samples/Curves/RetroForwardPass.hlsl"
             ENDHLSL
 		}
+
+       Pass
+       {
+       		Name "Depth Normals"
+		    Tags { "LightMode" = "DepthNormals" }
+
+		    ZWrite On
+		    Cull [_Cull]
+
+		    HLSLPROGRAM
+		    #pragma target 2.0
+		    
+		    #pragma multi_compile _ LOD_FADE_CROSSFADE
+		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
+		    #pragma multi_compile_instancing
+		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+
+			#pragma vertex Vert
+		    #pragma fragment Frag
+
+			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitDepthNormalsPass.hlsl"
+		    ENDHLSL
+       }
 
 		Pass
 		{
@@ -208,10 +266,11 @@ Shader "Rayman/LineLit"
 			HLSLPROGRAM
 			#pragma target 2.0
 			#pragma multi_compile_instancing
-			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+			#pragma multi_compile_fragment _ GRADIENT_COLOR
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag

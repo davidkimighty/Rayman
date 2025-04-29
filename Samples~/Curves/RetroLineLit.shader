@@ -1,4 +1,4 @@
-Shader "Rayman/LineLit"
+Shader "Rayman/RetroLineLit"
 {
     Properties
     {
@@ -9,6 +9,12 @@ Shader "Rayman/LineLit"
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
+    	
+    	[Header(Cel Shade)][Space]
+    	_CelCount ("Cel Count", Range(1.0, 10.0)) = 1.0
+    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_CelSharpness ("Cel Sharpness", Float) = 80.0
+    	_F0 ("Schlick F0", Float) = 0.04
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -188,7 +194,7 @@ Shader "Rayman/LineLit"
 			#pragma vertex Vert
             #pragma fragment Frag
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Lit/LitForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Samples/Curves/RetroForwardPass.hlsl"
             ENDHLSL
 		}
 

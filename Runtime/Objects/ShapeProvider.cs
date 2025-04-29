@@ -28,11 +28,11 @@ namespace Rayman
     
     public class ShapeProvider : MonoBehaviour, IBoundsProvider
     {
-        public static Dictionary<Type, Delegate> BoundsGenerator = new();
+        public static Dictionary<Type, Delegate> BoundsCreator = new();
         
         public Shapes Shape = Shapes.Sphere;
         public Vector3 Size = Vector3.one * 0.5f;
-        public float ExpandBounds;
+        public float ExpandBounds = 0.001f;
         public bool UseLossyScale = true;
         public Vector3 Pivot = Vector3.one * 0.5f;
         
@@ -44,21 +44,14 @@ namespace Rayman
 
         static ShapeProvider()
         {
-            BoundsGenerator.Add(typeof(Aabb), (Func<Transform, Vector3, Vector3, Vector3, Aabb>)Aabb.Create);
+            BoundsCreator.Add(typeof(Aabb), (Func<Transform, Vector3, Vector3, Vector3, Aabb>)Aabb.Create);
         }
         
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            Size = new Vector3(
-                Mathf.Max(Size.x, 0),
-                Mathf.Max(Size.y, 0),
-                Mathf.Max(Size.z, 0));
-            
-            Pivot = new Vector3(
-                Mathf.Clamp(Pivot.x, 0, 1),
-                Mathf.Clamp(Pivot.y, 0, 1),
-                Mathf.Clamp(Pivot.z, 0, 1));
+            Size = new Vector3(Mathf.Max(Size.x, 0), Mathf.Max(Size.y, 0), Mathf.Max(Size.z, 0));
+            Pivot = new Vector3(Mathf.Clamp(Pivot.x, 0, 1), Mathf.Clamp(Pivot.y, 0, 1), Mathf.Clamp(Pivot.z, 0, 1));
         }
 #endif
         
@@ -97,12 +90,12 @@ namespace Rayman
         
         public T GetBounds<T>() where T : struct, IBounds<T>
         {
-            if (!BoundsGenerator.TryGetValue(typeof(T), out Delegate generator))
+            if (!BoundsCreator.TryGetValue(typeof(T), out Delegate creator))
                 throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
             
-            var boundsGenerator = generator as Func<Transform, Vector3, Vector3, Vector3, T>;
-            T bounds = boundsGenerator(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
-            return bounds.Expand(Blend + Roundness + ExpandBounds + 0.001f);
+            var boundsCreator = creator as Func<Transform, Vector3, Vector3, Vector3, T>;
+            T bounds = boundsCreator(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
+            return bounds.Expand(Blend + Roundness + ExpandBounds);
         }
         
         public Vector3 GetScale() => UseLossyScale ? transform.lossyScale : Vector3.one;
