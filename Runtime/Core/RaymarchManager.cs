@@ -13,13 +13,19 @@ namespace Rayman
 
         public List<RaymarchRenderer> Renderers => raymarchRenderers;
 
-#if UNITY_EDITOR
-        [ContextMenu("Find all Raymarch Renderers")]
-        public void FindAllRaymarchRenderers()
+        [ContextMenu("Setup Renderers")]
+        public void SetupRenderers()
         {
-            raymarchRenderers = RaymarchUtils.GetChildrenByHierarchical<RaymarchRenderer>(transform);
+            foreach (RaymarchRenderer raymarchRenderer in raymarchRenderers)
+                raymarchRenderer.Setup();
         }
-#endif
+        
+        [ContextMenu("Cleanup Renderers")]
+        public void CleanupRenderers()
+        {
+            foreach (RaymarchRenderer raymarchRenderer in raymarchRenderers)
+                raymarchRenderer.Cleanup();
+        }
         
         public void AddRenderer(RaymarchRenderer raymarchRenderer)
         {
@@ -36,5 +42,13 @@ namespace Rayman
             raymarchRenderers.Remove(raymarchRenderer);
             OnRemoveRenderer?.Invoke(raymarchRenderer);
         }
+        
+#if UNITY_EDITOR
+        [ContextMenu("Find all Raymarch Renderers")]
+        public void FindAllRaymarchRenderers()
+        {
+            raymarchRenderers = RaymarchUtils.GetChildrenByHierarchical<RaymarchRenderer>(null);
+        }
+#endif
     }
 }

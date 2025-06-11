@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93af5a96219994a018d79313d70d983d, type: 3}
   m_Name: Transparent
   m_EditorClassIdentifier: 
-  SrcBlend: 1
+  SrcBlend: 5
   DstBlend: 10
   Cull: 2
   ZWrite: 1
+  RenderQueue: 3000

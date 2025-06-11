@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bc4b343b461a0e4d9df2b73a7b1ca93, type: 3}
   m_Name: Pbr Data Provider
   m_EditorClassIdentifier: 
-  baseMap: {fileID: 2800000, guid: 5739b431199e4c149b867b68aa788825, type: 3}
+  baseMap: {fileID: 0}
   metallic: 0
   smoothness: 0.8
   emissionColor: {r: 0, g: 0, b: 0, a: 0}

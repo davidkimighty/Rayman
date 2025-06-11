@@ -30,7 +30,7 @@ namespace Rayman
                 if (!target.gameObject.activeInHierarchy) return;
                 
                 T component = target.GetComponent<T>();
-                if (component != null)
+                if (component)
                     found.Add(component);
 
                 foreach (Transform child in target)

@@ -22,7 +22,11 @@ inline half4 DebugRaymarch(float3 posWS, float3 cameraPos,
             if (!rayHit) discard;
             depth = ray.distanceTravelled - length(posWS - cameraPos) < ray.epsilon ?
                 GetDepth(posWS) : GetDepth(ray.hitPoint);
-            return half4(GetNormal(ray.hitPoint, ray.epsilon) * 0.5 + 0.5, 1);
+            float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+            half3 normalColor = floor((normal * 0.5 + 0.5) * 2.0) / 2.0;
+            //normalColor = pow(0.5 + 0.5 * normal, 2.2);
+            //normalColor = pow(normal * 0.5 + 0.5, 0.8);
+            return half4(normalColor, 1);
         case 2:
             return half4(GetHitMap(raymarchCount, maxSteps, B, Y), 1);
         case 3:

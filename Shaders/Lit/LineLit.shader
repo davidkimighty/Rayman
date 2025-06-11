@@ -1,4 +1,4 @@
-	Shader "Rayman/LineLit"
+Shader "Rayman/LineLit"
 {
     Properties
     {
@@ -44,27 +44,21 @@
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Shared/Lines.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+
+		#define SEGMENT (2)
+		#define QUADRATIC_BEZIER (3)
+		#define CUBIC_BEZIER (4)
 		
-		struct Line
+		struct Segment
 		{
-        	int type;
-			float4x4 transform;
-			int operation;
-        	half blend;
-			half2 radius;
-			half2 padding;
-			int pointStartIndex;
-			int pointsCount;
-			half4 color;
-#ifdef GRADIENT_COLOR
-			half4 gradientColor;
-#endif
+			float2 radius;
+			int startIndex;
 		};
 
 		struct Point
 		{
-			float3 position;
+			half3 position;
 		};
 
         CBUFFER_START(RaymarchPerGroup)
@@ -77,8 +71,11 @@
 		float _GradientScaleY;
 		float _GradientOffsetY;
 		CBUFFER_END
+
+		int _LineType = 0;
+		half4 _Color;
 		
-		StructuredBuffer<Line> _LineBuffer;
+		StructuredBuffer<Segment> _SegmentBuffer;
 		StructuredBuffer<Point> _PointBuffer;
         StructuredBuffer<NodeAabb> _NodeBuffer;
         
@@ -86,48 +83,50 @@
 		int hitIds[RAY_MAX_HITS];
 		half4 baseColor;
 
-		float3 CombineDistance(float3 posWS, Line entity, float totalDist)
+		inline float2 GetLineSdf(float3 posWS, Segment segment)
 		{
-			float3 posOS = mul(entity.transform, float4(posWS, 1.0)).xyz;
-			float3 scale = GetScale(entity.transform);
-	        float scaleFactor = min(scale.x, min(scale.y, scale.z));
-
-			float3 points[MAX_POINTS];
-			for (int i = entity.pointStartIndex; i < entity.pointStartIndex + entity.pointsCount; i++)
-		       points[i - entity.pointStartIndex] = _PointBuffer[i].position;
-
-			float2 lineSdf = GetLineSdf(posOS, entity.type, points);
-			float dist = ThickLine(lineSdf.x / scaleFactor, lineSdf.y, entity.radius.x, entity.radius.y);
-			return float3(SmoothOperation(entity.operation, totalDist, dist, entity.blend), lineSdf.y);
+			switch (_LineType)
+		    {
+		        case SEGMENT:
+		        {
+			        float3 a = _PointBuffer[segment.startIndex].position;
+		        	float3 b = _PointBuffer[segment.startIndex + 1].position;
+		            return SegmentSdf(posWS, a, b);
+		        }
+		        case QUADRATIC_BEZIER:
+		        {
+			        float3 a = _PointBuffer[segment.startIndex].position;
+		        	float3 b = _PointBuffer[segment.startIndex + 1].position;
+		        	float3 c = _PointBuffer[segment.startIndex + 2].position;
+		        	return QuadraticBezierSdf(posWS, a, b, c, posWS);
+		        }
+		        default:
+		            return 0;
+		    }
+		}
+		
+		inline float CombineDistance(half3 positionWS)
+		{
+			float totalDist = _MaxDistance;
+			for (int i = 0; i < hitCount.x; i++)
+			{
+				Segment segment = _SegmentBuffer[hitIds[i]];
+				float2 lineSdf = GetLineSdf(positionWS, segment);
+				float dist = ThickLine(lineSdf.x, lineSdf.y, segment.radius.x, segment.radius.y);
+				totalDist = SmoothMin(totalDist, dist, 0);
+			}
+			return totalDist;
 		}
 		
 		float Map(inout Ray ray)
 		{
-			float totalDist = _MaxDistance;
-			baseColor = _LineBuffer[hitIds[0]].color;
-			
-			for (int i = 0; i < hitCount.x; i++)
-			{
-				Line entity = _LineBuffer[hitIds[i]];
-				float3 combined = CombineDistance(ray.hitPoint, entity, totalDist);
-				totalDist = combined.x;
-#ifdef GRADIENT_COLOR
-				float blend = saturate((combined.z + _GradientOffsetY - 1.0) * _GradientScaleY + 0.5);
-				half4 color = lerp(entity.color, entity.gradientColor, blend);
-#else
-				half4 color = entity.color;
-#endif
-				baseColor = lerp(baseColor, color, combined.y);
-			}
-			return totalDist;
+			baseColor = _Color;
+			return CombineDistance(ray.hitPoint);
 		}
 
 		float NormalMap(const float3 positionWS)
 		{
-			float totalDist = _MaxDistance;
-			for (int i = 0; i < hitCount.x; i++)
-				totalDist = CombineDistance(positionWS, _LineBuffer[hitIds[i]], totalDist).x;
-			return totalDist;
+			return CombineDistance(positionWS);
 		}
 
 		inline NodeAabb GetNode(const int index)

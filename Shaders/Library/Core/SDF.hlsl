@@ -97,6 +97,11 @@ inline float2 SegmentSdf(float3 p, float3 a, float3 b)
     return float2(length(pa - ba * h), h);
 }
 
+inline float ThickLine(float d, float n, float ra, float rb)
+{
+    return d - lerp(ra, rb, smoothstep(0.0, 1.0, n));
+}
+
 inline float Determinant(float2 a, float2 b)
 {
     return a.x * b.y - a.y * b.x;

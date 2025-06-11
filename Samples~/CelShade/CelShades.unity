@@ -454,13 +454,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91517258}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.39044833, y: -0.34682897, z: 0.161729, w: 0.8373192}
+  m_LocalRotation: {x: 0.2843264, y: -0.67052954, z: 0.3126721, w: 0.60974157}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -45, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -95.437, z: 0}
 --- !u!114 &91517261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91517258}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fae5751773ae1d45a2df2fdbc968969, type: 3}
   m_Name: 
@@ -559,7 +559,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1031,13 +1031,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293326948}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.31093776, y: 0.29947498, z: 0.3155363, w: 0.84502625}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1141850303}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -45.602, y: 26.292, z: 29.737}
 --- !u!114 &293326951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1050,14 +1050,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseLossyScale: 1
+  Shape: 2
+  Size: {x: 0.1, y: 0.1, z: 0.1}
   ExpandBounds: 0
-  Size: {x: 0.15, y: 0.5, z: 0.5}
+  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 0
   Operation: 0
   Blend: 0
-  Roundness: 0
+  Roundness: 0.02
   Color: {r: 0.19215687, g: 0.8666667, b: 0.21176471, a: 0}
   GradientColor: {r: 1, g: 0.64685637, b: 0, a: 1}
 --- !u!1 &560892390
@@ -1181,9 +1181,10 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   dataProviders:
   - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
+  - {fileID: 11400000, guid: 50bf356f8466cea4f91af79c7f2a2a85, type: 2}
   shapes:
   - {fileID: 1419411786}
-  ColorUsage: 2
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1125343973
@@ -1423,14 +1424,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141850298}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.07618818, y: -0.4542105, z: -0.12278382, w: 0.8790975}
   m_LocalPosition: {x: 0.6, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 293326950}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -14.211, y: -53.562, z: -8.702}
 --- !u!114 &1141850304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1447,9 +1448,10 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   dataProviders:
   - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
+  - {fileID: 11400000, guid: 50bf356f8466cea4f91af79c7f2a2a85, type: 2}
   shapes:
   - {fileID: 293326951}
-  ColorUsage: 2
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1264651308
@@ -1573,6 +1575,7 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 8d0942aba60b4ab4bb860620ab24f128, type: 3}
   dataProviders:
   - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
+  - {fileID: 11400000, guid: 50bf356f8466cea4f91af79c7f2a2a85, type: 2}
   shapes:
   - {fileID: 271632379}
   - {fileID: 271632378}
@@ -1588,7 +1591,7 @@ MonoBehaviour:
   - {fileID: 271632368}
   - {fileID: 271632367}
   - {fileID: 271632365}
-  ColorUsage: 2
+  useGradient: 0
   syncThreshold: 0
   drawGizmos: 0
 --- !u!1 &1419411783
@@ -1635,11 +1638,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseLossyScale: 1
-  ExpandBounds: 0
-  Size: {x: 0.15, y: 0.5, z: 0.5}
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Shape: 3
+  Size: {x: 0.15, y: 0.5, z: 0.5}
+  ExpandBounds: 0
+  UseLossyScale: 1
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0.013

@@ -5,13 +5,13 @@ using Random = UnityEngine.Random;
 
 public class RandomSpawner : MonoBehaviour
 {
-    [SerializeField] private ShapeElement shapePrefab;
+    [SerializeField] private ShapeProvider shapePrefab;
     [SerializeField] private Vector3 spawnArea = new(10f, 10f, 10f);
     [SerializeField] private int spawnCount = 1000;
     [SerializeField] private Vector3 minSize = new(0.1f, 0.1f, 0.1f);
     [SerializeField] private Vector3 maxSize = new(0.3f, 0.3f, 0.3f);
     [SerializeField] private RaymarchRenderer raymarchRenderer;
-    [SerializeField] private RaymarchObject raymarchGroup;
+    [SerializeField] private ShapeObject shapeObject;
     [SerializeField] private int spawnPerFrame = 50;
 
     private int currentCount = 0;
@@ -35,7 +35,7 @@ public class RandomSpawner : MonoBehaviour
                 Random.Range(-spawnArea.x / 2f, spawnArea.x / 2f),
                 Random.Range(-spawnArea.y / 2f, spawnArea.y / 2f),
                 Random.Range(-spawnArea.z / 2f, spawnArea.z / 2f));
-            ShapeElement shape = Instantiate(shapePrefab, transform.position + randomPos, Quaternion.identity);
+            ShapeProvider shape = Instantiate(shapePrefab, transform.position + randomPos, Quaternion.identity);
             
             Vector3 randomSize = new Vector3(
                 Random.Range(minSize.x, maxSize.x),
@@ -47,7 +47,7 @@ public class RandomSpawner : MonoBehaviour
             randomColor.a = shape.Color.a;
             shape.Color = randomColor;
             
-            ((IRaymarchElementControl)raymarchGroup).AddElement(shape);
+            ((ShapeObject)shapeObject).AddShapeProvider(shape);
             currentCount++;
 
             if (currentCount > spawnPerFrame)
@@ -56,6 +56,6 @@ public class RandomSpawner : MonoBehaviour
                 yield return null;                
             }
         }
-        raymarchRenderer.Initialize();
+        raymarchRenderer.Setup();
     }
 }

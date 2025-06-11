@@ -68,9 +68,8 @@ inline float2 GetPlaneUV(float3 posOS, float2 size)
 
 inline float2 GetSphereUV(float3 posOS)
 {
-    float u = atan2(posOS.z, posOS.x) / (2.0 * PI) + 0.5;
-    float v = asin(posOS.y) / PI + 0.5;
-    return float2(u, v);
+    float3 dir = normalize(posOS);
+    return float2((atan2(dir.x, dir.z) + PI) / (2 * PI), 1.0 - acos(dir.y) / PI);
 }
 
 float2 GetCylinderUV(float3 posOS, float height)
