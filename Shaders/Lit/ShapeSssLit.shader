@@ -51,7 +51,6 @@ Shader "Rayman/ShapeSssLit"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
         

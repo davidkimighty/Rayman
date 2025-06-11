@@ -81,9 +81,9 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	float3 cameraPos = GetCameraPosition();
-	float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _Epsilon);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
+    Ray ray = CreateRay(input.positionWS, -viewDirWS, _Epsilon);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 
 	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
@@ -98,13 +98,12 @@ FragOutput Frag (Varyings input)
 #endif
 	if (!ConeMarch(ray, _PassCount, _ConeSubdivision, _MaxSteps, _MaxDistance, _Epsilon, _TangentHalfFov)) discard;
 
-	float3 viewDir = normalize(cameraPos - ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
 	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
+    InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 	

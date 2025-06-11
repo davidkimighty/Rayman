@@ -49,9 +49,9 @@ float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
     
-    float3 cameraPos = GetCameraPosition();
-    float3 cameraForward = GetCameraForward();
-    Ray ray = CreateRay(input.positionWS, cameraForward, _EpsilonMin);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
+    Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
     ray.distanceTravelled = length(ray.hitPoint - cameraPos);
     if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
     

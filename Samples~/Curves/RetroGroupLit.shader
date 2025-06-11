@@ -49,7 +49,6 @@ Shader "Rayman/RetroGroupLit"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Shape.hlsl"
 

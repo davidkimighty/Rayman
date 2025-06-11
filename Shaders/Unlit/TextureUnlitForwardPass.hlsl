@@ -1,7 +1,6 @@
 #ifndef RAYMAN_TEXTURE_UNLIT_FORWARD
 #define RAYMAN_TEXTURE_UNLIT_FORWARD
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Camera.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
@@ -50,9 +49,9 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.posWS - cameraPos);
-	Ray ray = CreateRay(input.posWS, rayDir, _EpsilonMin);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
+    Ray ray = CreateRay(input.posWS, -viewDirWS, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
@@ -65,11 +64,10 @@ FragOutput Frag (Varyings input)
 	const float depth = ray.distanceTravelled - lengthToSurface < ray.epsilon ?
 		GetDepth(input.posWS) : GetDepth(ray.hitPoint);
 	
-	const float3 viewDir = normalize(cameraPos - ray.hitPoint);
-	const float2 uv = GetMatCap(viewDir, normal);
+    const float2 uv = GetMatCap(viewDirWS, normal);
 	float4 finalColor = _MainTex.Sample(sampler_MainTex, uv);
 	
-	const float fresnel = GetFresnel(viewDir, normal, _FresnelPow);
+    const float fresnel = GetFresnel(viewDirWS, normal, _FresnelPow);
 	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
 
 	FragOutput output;

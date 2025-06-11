@@ -74,9 +74,9 @@ inline half3 CelLighting(BRDFData brdfData, Light light, half3 normalWS, half3 v
 	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
 	radiance += light.color * saturate(lightAttenuation) * celDiffuse * specular ;
 
-	// half roughness = saturate(1.0 - brdfData.roughness2);
-	// half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
-	// radiance += light.color * lightAttenuation * fresnel * roughness;
+	half roughness = saturate(1.0 - brdfData.roughness2);
+	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
+	radiance += light.color * lightAttenuation * fresnel * roughness;
 
 	return brdfData.diffuse * radiance;
 }
@@ -110,9 +110,9 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
+    Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);
@@ -120,14 +120,13 @@ FragOutput Frag (Varyings input)
 	
 	InsertionSort(hitIds, hitCount.x);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
-
-	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
 	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
+    InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	
 	SurfaceData surfaceData = (SurfaceData)0;

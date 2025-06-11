@@ -41,9 +41,9 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.posWS - cameraPos);
-	Ray ray = CreateRay(input.posWS, rayDir, _EpsilonMin);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
+    Ray ray = CreateRay(input.posWS, -viewDirWS, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds);

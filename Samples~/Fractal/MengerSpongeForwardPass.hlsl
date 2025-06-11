@@ -80,20 +80,19 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-	const float3 cameraPos = GetCameraPosition();
-	const float3 rayDir = normalize(input.positionWS - cameraPos);
-	Ray ray = CreateRay(input.positionWS, rayDir, _EpsilonMin);
+    float3 cameraPos = _WorldSpaceCameraPos;
+    half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
+    Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
-
-	float3 viewDir = normalize(cameraPos - ray.hitPoint);
+	
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
 	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
 		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
 	
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, viewDir, normal, inputData);
+    InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 	
