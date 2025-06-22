@@ -22,6 +22,8 @@ This package provides Ray marching shader in Unity.
 - **Pivot Points**: Customizable pivot point for each shape, enabling precise control over positioning and transformations.
 
 ## Changelog
+- [v0.1.3 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/4?closed=1)
+- [v0.1.2 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/3?closed=1)
 - [v0.1.1 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/2?closed=1)
 - [v0.1.0 GitHub Milestones](https://github.com/davidkimighty/Rayman/milestone/1?closed=1)
 
