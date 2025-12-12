@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Cel Shade")]
-    public class CelShadeDataProvider : DataProvider
+    public class CelShadeDataProvider : MaterialDataProvider
     {
         public static readonly int CelCountId = Shader.PropertyToID("_CelCount");
         public static readonly int CelSpreadId = Shader.PropertyToID("_CelSpread");

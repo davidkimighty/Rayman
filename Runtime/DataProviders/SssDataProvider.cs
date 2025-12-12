@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/SSS")]
-    public class SssDataProvider : DataProvider
+    public class SssDataProvider : MaterialDataProvider
     {
         public static readonly int SssDistortionId = Shader.PropertyToID("_SssDistortion");
         public static readonly int SssPowerId = Shader.PropertyToID("_SssPower");

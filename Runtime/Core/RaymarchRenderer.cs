@@ -1,23 +1,29 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Rayman
 {
     public class RaymarchRenderer : MonoBehaviour
     {
-        public event Action<RaymarchRenderer> OnSetup;
-        public event Action<RaymarchRenderer> OnCleanup;
+        public static readonly int EpsilonMinId = Shader.PropertyToID("_EpsilonMin");
+        public static readonly int EpsilonMaxId = Shader.PropertyToID("_EpsilonMax");
+        public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
+        public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
+        public static readonly int ShadowMaxStepsId = Shader.PropertyToID("_ShadowMaxSteps");
+        public static readonly int ShadowMaxDistanceId = Shader.PropertyToID("_ShadowMaxDistance");
 
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
-        [SerializeField] private List<DataProvider> dataProviders = new();
+        [SerializeField] private float epsilonMin = 0.001f;
+        [SerializeField] private float epsilonMax = 0.01f;
+        [SerializeField] private int maxSteps = 64;
+        [SerializeField] private float maxRayDistance = 100f;
+        [SerializeField] private int shadowMaxSteps = 16;
+        [SerializeField] private float shadowMaxRayDistance = 30f;
         [SerializeField] private List<RaymarchObject> raymarchObjects = new();
-        
-        public bool IsReady  { get; private set; }
-        public Material[] Materials => mainRenderer.materials;
-        public List<RaymarchObject> RaymarchObjects => raymarchObjects;
+
+        private bool isReady;
 
         private void Awake()
         {
@@ -30,24 +36,39 @@ namespace Rayman
             Cleanup();
         }
 
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            if (mainRenderer == null)
+                mainRenderer = GetComponent<Renderer>();
+
+            if (!isReady)
+            {
+                if (!Application.isPlaying)
+                    Cleanup();
+            }
+        }
+#endif
+
         [ContextMenu("Setup")]
         public void Setup()
         {
             if (raymarchObjects.Count == 0) return;
 
+            if (isReady)
+                Cleanup();
+
             List<Material> matInstances = new();
             foreach (RaymarchObject raymarchObject in raymarchObjects)
             {
-                Material mat = raymarchObject?.SetupMaterial();
+                Material mat = raymarchObject?.CreateMaterial();
                 if (!mat) continue;
                 
-                foreach (DataProvider provider in dataProviders)
-                    provider.ProvideData(ref mat);
+                SetRaySettings(ref mat);
                 matInstances.Add(mat);
             }
             mainRenderer.materials = matInstances.ToArray();
-            IsReady = true;
-            OnSetup?.Invoke(this);
+            isReady = true;
         }
 
         [ContextMenu("Cleanup")]
@@ -58,29 +79,17 @@ namespace Rayman
 
             if (mainRenderer)
                 mainRenderer.materials = Array.Empty<Material>();
-            IsReady = false;
-            OnCleanup?.Invoke(this);
+            isReady = false;
         }
 
-#if UNITY_EDITOR
-        private void OnValidate()
+        private void SetRaySettings(ref Material material)
         {
-            if (mainRenderer == null)
-                mainRenderer = GetComponent<Renderer>();
-
-            if (!IsReady)
-            {
-                if (!Application.isPlaying)
-                    Cleanup();
-            }
+            material.SetFloat(EpsilonMinId, epsilonMin);
+            material.SetFloat(EpsilonMaxId, epsilonMax);
+            material.SetInt(MaxStepsId, maxSteps);
+            material.SetFloat(MaxDistanceId, maxRayDistance);
+            material.SetInt(ShadowMaxStepsId, shadowMaxSteps);
+            material.SetFloat(ShadowMaxDistanceId, shadowMaxRayDistance);
         }
-        
-        [ContextMenu("Find All Raymarch Objects")]
-        public void FindAllRaymarchObjects()
-        {
-            raymarchObjects = GetComponents<RaymarchObject>().ToList();
-            raymarchObjects.AddRange(RaymarchUtils.GetChildrenByHierarchical<RaymarchObject>(transform));
-        }
-#endif
     }
 }

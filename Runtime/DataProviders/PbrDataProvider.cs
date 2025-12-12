@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/PBR")]
-    public class PbrDataProvider : DataProvider
+    public class PbrDataProvider : MaterialDataProvider
     {
         public static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
         public static readonly int MetallicId = Shader.PropertyToID("_Metallic");

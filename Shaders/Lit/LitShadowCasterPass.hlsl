@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_LIT_SHADOWCASTER
-#define RAYMAN_LIT_SHADOWCASTER
+﻿#ifndef RAYMAN_SHADOWCASTER
+#define RAYMAN_SHADOWCASTER
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"

@@ -13,11 +13,11 @@ namespace Rayman
             Max = Vector3.Max(a, b);
         }
 
-        public Aabb(Transform transform, Vector3 size, Vector3 scale, Vector3 pivot)
+        public Aabb(BoundsConfig config)
         {
-            Vector3 right = transform.right * (scale.x * size.x);
-            Vector3 up = transform.up * (scale.y * size.y);
-            Vector3 forward = transform.forward * (scale.z * size.z);
+            Vector3 right = config.Transform.right * (config.Scale.x * config.Size.x);
+            Vector3 up = config.Transform.up * (config.Scale.y * config.Size.y);
+            Vector3 forward = config.Transform.forward * (config.Scale.z * config.Size.z);
 
             Vector3 extent = new Vector3(
                 Mathf.Abs(right.x) + Mathf.Abs(up.x) + Mathf.Abs(forward.x),
@@ -25,31 +25,31 @@ namespace Rayman
                 Mathf.Abs(right.z) + Mathf.Abs(up.z) + Mathf.Abs(forward.z)
             );
 
-            Vector3 offset = (pivot - Vector3.one * 0.5f) * 2f;
+            Vector3 offset = (config.Pivot - Vector3.one * 0.5f) * 2f;
             Vector3 rotatedOffset = right * offset.x + up * offset.y + forward * offset.z;
-            Vector3 center = transform.position + rotatedOffset;
+            Vector3 center = config.Transform.position + rotatedOffset;
 
             Min = center - extent;
             Max = center + extent;
         }
 
-        public static Aabb Create(Transform transform, Vector3 size, Vector3 scale, Vector3 pivot)
+        public static Aabb Create(BoundsConfig config)
         {
-            return new Aabb(transform, size, scale, pivot);
+            return new Aabb(config);
         }
 
         public bool Contains(Aabb aabb)
         {
             return Min.x <= aabb.Min.x && Min.y <= aabb.Min.y &&
-                   Min.z <= aabb.Min.z && Max.x >= aabb.Max.x &&
-                   Max.y >= aabb.Max.y && Max.z >= aabb.Max.z;
+                Min.z <= aabb.Min.z && Max.x >= aabb.Max.x &&
+                Max.y >= aabb.Max.y && Max.z >= aabb.Max.z;
         }
 
         public bool Intersects(Aabb aabb)
         {
-            return Min.x <= aabb.Max.x && Max.x >= aabb.Min.x && 
-                   Min.y <= aabb.Max.y && Max.y >= aabb.Min.y &&
-                   Min.z <= aabb.Max.z && Max.z >= aabb.Min.z;
+            return Min.x <= aabb.Max.x && Max.x >= aabb.Min.x &&
+                Min.y <= aabb.Max.y && Max.y >= aabb.Min.y &&
+                Min.z <= aabb.Max.z && Max.z >= aabb.Min.z;
         }
 
         public float HalfArea()

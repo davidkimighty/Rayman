@@ -1,9 +1,9 @@
-﻿#ifndef RAYMAN_LIT_FORWARD
-#define RAYMAN_LIT_FORWARD
+﻿#ifndef RAYMAN_FORWARD_LIT
+#define RAYMAN_FORWARD_LIT
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Shared/Debug.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
 float _RayShadowBias;
 
@@ -91,12 +91,6 @@ FragOutput Frag (Varyings input)
 	if (hitCount.x == 0) discard;
 	
 	InsertionSort(hitIds, hitCount.x);
-#ifdef DEBUG_MODE
-	FragOutput debugOutput;
-	debugOutput.color = DebugRaymarch(input.positionWS, cameraPos,
-		ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax), debugOutput.depth);
-	return debugOutput;
-#endif
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
@@ -115,13 +109,13 @@ FragOutput Frag (Varyings input)
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
 
-	half4 color = UniversalFragmentPBR(inputData, surfaceData);
+	half4 finalColor = UniversalFragmentPBR(inputData, surfaceData);
 	
-	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
-	color.a = baseColor.a;
+	finalColor.rgb = MixFog(finalColor.rgb, input.fogFactorAndVertexLight.x);
+	finalColor.a = baseColor.a;
 
 	FragOutput output;
-	output.color = color;
+	output.color = finalColor;
 	output.depth = depth;
 	return output;
 }

@@ -172,10 +172,11 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 1495113719}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -193,9 +194,11 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &176528896
 MeshFilter:
@@ -231,14 +234,14 @@ Light:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 524249471}
   m_Enabled: 1
-  serializedVersion: 11
+  serializedVersion: 12
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
+  m_CookieSize2D: {x: 10, y: 10}
   m_Shadows:
     m_Type: 2
     m_Resolution: -1
@@ -315,17 +318,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Version: 3
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
-  m_LightLayerMask: 1
-  m_RenderingLayers: 1
   m_CustomShadowLayers: 0
-  m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
+  m_RenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ShadowRenderingLayersMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_Version: 4
+  m_LightLayerMask: 1
+  m_ShadowLayerMask: 1
+  m_RenderingLayers: 1
+  m_ShadowRenderingLayers: 1
 --- !u!1 &951822374
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,9 +604,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2a57ab2a68b28498fabf3eea2180ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MatInstance: {fileID: 1495113719}
   shader: {fileID: 4800000, guid: 851f5f1f868bcb64daa127c3ef87d507, type: 3}
-  dataProviders: []
+  matDataProviders: []
   Size: 1
   Iterations: 6
   Scale: 1
@@ -631,8 +639,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainRenderer: {fileID: 176528895}
   setupOnAwake: 1
-  dataProviders:
-  - {fileID: 11400000, guid: b67d8f28b1687344a965718948f569b3, type: 2}
+  epsilonMin: 0.001
+  epsilonMax: 0.01
+  maxSteps: 64
+  maxRayDistance: 100
+  shadowMaxSteps: 16
+  shadowMaxRayDistance: 30
   raymarchObjects:
   - {fileID: 1125509065}
 --- !u!114 &1125509072
@@ -805,7 +817,6 @@ MonoBehaviour:
   m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
-  m_Version: 2
   m_TaaSettings:
     m_Quality: 3
     m_FrameInfluence: 0.1
@@ -813,57 +824,7 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
---- !u!21 &1495113719
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/MengerSponge
-  m_Shader: {fileID: 4800000, guid: 851f5f1f868bcb64daa127c3ef87d507, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DstBlend: 0
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _Iterations: 6
-    - _MaxDistance: 100
-    - _MaxSteps: 128
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _Scale: 1
-    - _ScaleMultiplier: 3
-    - _ShadowMaxDistance: 30
-    - _ShadowMaxSteps: 16
-    - _Size: 1
-    - _Smoothness: 0.5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
+  m_Version: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

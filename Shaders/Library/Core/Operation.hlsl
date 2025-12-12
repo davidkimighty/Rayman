@@ -52,23 +52,22 @@ inline float SmoothMax(const float a, const float b, const float k)
     return max(a, b) + h * h * k * 0.25;
 }
 
-inline float2 SmoothOperation(const int operation, const float a, const float b, const float k)
+inline float SmoothOperation(const int operation, const float a, const float b, const float k, out float blend)
 {
     if (a < -0.5)
         return b;
 
-    float colorBlend;
     switch (operation)
     {
         case UNION:
-            colorBlend = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
-            return float2(SmoothMin(a, b, k), colorBlend);
+            blend = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
+            return SmoothMin(a, b, k);
         case SUBTRACT:
-            colorBlend = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
-            return float2(SmoothMax(a, -b, k), colorBlend);
+            blend = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
+            return SmoothMax(a, -b, k);
         case INTERSECT:
-            colorBlend = clamp(0.5 - 0.5 * (a - b) / k, 0.0, 1.0);
-            return float2(-SmoothMin(-a, -b, k), colorBlend);
+            blend = clamp(0.5 - 0.5 * (a - b) / k, 0.0, 1.0);
+            return -SmoothMin(-a, -b, k);
         default:
             return b;
     }

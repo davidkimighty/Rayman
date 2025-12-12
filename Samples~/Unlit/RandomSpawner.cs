@@ -5,14 +5,14 @@ using Random = UnityEngine.Random;
 
 public class RandomSpawner : MonoBehaviour
 {
+    [SerializeField] private RaymarchRenderer raymarchRenderer;
+    [SerializeField] private ShapeGroupObject shapeObject;
     [SerializeField] private ShapeProvider shapePrefab;
     [SerializeField] private Vector3 spawnArea = new(10f, 10f, 10f);
     [SerializeField] private int spawnCount = 1000;
+    [SerializeField] private int spawnPerFrame = 50;
     [SerializeField] private Vector3 minSize = new(0.1f, 0.1f, 0.1f);
     [SerializeField] private Vector3 maxSize = new(0.3f, 0.3f, 0.3f);
-    [SerializeField] private RaymarchRenderer raymarchRenderer;
-    [SerializeField] private ShapeObject shapeObject;
-    [SerializeField] private int spawnPerFrame = 50;
 
     private int currentCount = 0;
     
@@ -44,10 +44,10 @@ public class RandomSpawner : MonoBehaviour
             shape.Size = randomSize;
             
             Color randomColor = Random.ColorHSV();
-            randomColor.a = shape.Color.a;
-            shape.Color = randomColor;
+            //randomColor.a = shape.Color.a;
+            //shape.Color = randomColor;
             
-            ((ShapeObject)shapeObject).AddShapeProvider(shape);
+            //((ShapeObject)shapeObject).AddShapeProvider(shape);
             currentCount++;
 
             if (currentCount > spawnPerFrame)

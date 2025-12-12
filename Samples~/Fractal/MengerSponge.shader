@@ -47,6 +47,7 @@
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 

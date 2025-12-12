@@ -86,6 +86,6 @@ public class InteractiveShapes : MonoBehaviour
         if (!click) return;
         
         matcapIndex = ++matcapIndex % matcaps.Count;
-        raymarchRenderer.Materials[0].SetTexture(MainTexId, matcaps[matcapIndex]);
+        //raymarchRenderer.Materials[0].SetTexture(MainTexId, matcaps[matcapIndex]);
     }
 }

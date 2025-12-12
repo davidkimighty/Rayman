@@ -3,49 +3,57 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeBufferProvider<T> : IBufferProvider<ShapeProvider> where T : struct, ISetupFrom<ShapeProvider>
+    public class ShapeBufferProvider : BufferProvider<ShapeProvider>
     {
-        public static readonly int ShapeBufferId = Shader.PropertyToID("_ShapeBuffer");
-        
-        private ShapeProvider[] raymarchShapes;
-        private T[] shapeData;
+        public static readonly int BufferId = Shader.PropertyToID("_ShapeBuffer");
 
-        public bool IsInitialized => shapeData != null;
-        
-        public GraphicsBuffer InitializeBuffer(ShapeProvider[] dataProviders, ref Material material)
+        private ShapeProvider[] providers;
+        private ShapeData[] shapeData;
+
+        public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
         {
-            raymarchShapes = dataProviders;
-            int count = raymarchShapes.Length;
-            if (count == 0) return null;
+            if (dataProviders == null) return;
 
-            shapeData = new T[count];
-            GraphicsBuffer shapeBuffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
-            material.SetBuffer(ShapeBufferId, shapeBuffer);
-            return shapeBuffer;
+            int count = dataProviders.Length;
+            if (count == 0) return;
+
+            if (IsInitialized)
+                ReleaseBuffer();
+            providers = dataProviders;
+
+            Buffer = new(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<ShapeData>());
+            material.SetBuffer(BufferId, Buffer);
+
+            shapeData = new ShapeData[count];
+            for (int i = 0; i < count; i++)
+                shapeData[i] = new ShapeData(providers[i]);
+            Buffer.SetData(shapeData);
         }
 
-        public void SetData(ref GraphicsBuffer buffer)
+        public override void SetData()
         {
             if (!IsInitialized) return;
-            
-            for (int i = 0; i < raymarchShapes.Length; i++)
+
+            bool setData = false;
+            for (int i = 0; i < providers.Length; i++)
             {
-                if (!raymarchShapes[i]) continue;
+                ShapeProvider provider = providers[i];
+                if (!provider) continue;
 
-                shapeData[i] = new T();
-                shapeData[i].SetupFrom(raymarchShapes[i]);
+                shapeData[i] = new ShapeData(provider);
+                if (provider.gameObject.isStatic) continue;
+
+                setData = true;
             }
-            buffer.SetData(shapeData);
+            if (setData)
+                Buffer.SetData(shapeData);
         }
 
-        public void ReleaseData()
+        public override void ReleaseBuffer()
         {
+            Buffer?.Release();
+            Buffer = null;
             shapeData = null;
-            raymarchShapes = null;
         }
-
-#if UNITY_EDITOR
-        public void DrawGizmos() { }
-#endif
     }
 }

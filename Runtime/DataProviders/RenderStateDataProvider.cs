@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Render State")]
-    public class RenderStateDataProvider : DataProvider
+    public class RenderStateDataProvider : MaterialDataProvider
     {
         public static readonly int SrcBlendId = Shader.PropertyToID("_SrcBlend");
         public static readonly int DstBlendId = Shader.PropertyToID("_DstBlend");

@@ -8,10 +8,10 @@ public class MengerSponge : RaymarchObject
     [Range(1, 10)] public int Iterations = 4;
     public float Scale = 3.0f;
     public float ScaleMultiplier = 4.0f;
-    
+
     private void LateUpdate()
     {
-        if (!IsReady()) return;
+        if (!material) return;
 
         UpdateData();
     }
@@ -19,43 +19,35 @@ public class MengerSponge : RaymarchObject
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (!IsReady()) return;
+        if (!material) return;
 
-        ProvideShaderProperties();
+        UpdateData();
     }
 #endif
     
-    public override Material SetupMaterial()
+    public override Material CreateMaterial()
     {
-        MatInstance = new Material(shader);
-        if (!MatInstance) return null;
-            
-        ProvideShaderProperties();
-        InvokeOnSetup();
-        return MatInstance;
+        material = new Material(shader);
+        if (!material) return null;
+
+        UpdateData();
+        return material;
     }
 
     public override void Cleanup()
     {
         if (Application.isEditor)
-            DestroyImmediate(MatInstance);
+            DestroyImmediate(material);
         else
-            Destroy(MatInstance);
-        InvokeOnCleanup();
-    }
-
-    protected override void ProvideShaderProperties()
-    {
-        base.ProvideShaderProperties();
-        UpdateData();
+            Destroy(material);
     }
 
     private void UpdateData()
     {
-        MatInstance.SetMatrix("_Transform", transform.worldToLocalMatrix);
-        MatInstance.SetFloat("_Size", Size);
-        MatInstance.SetInt("_Iterations", Iterations);
-        MatInstance.SetFloat("_Scale", Scale);
-        MatInstance.SetFloat("_ScaleMultiplier", ScaleMultiplier);
+        material.SetMatrix("_Transform", transform.worldToLocalMatrix);
+        material.SetFloat("_Size", Size);
+        material.SetInt("_Iterations", Iterations);
+        material.SetFloat("_Scale", Scale);
+        material.SetFloat("_ScaleMultiplier", ScaleMultiplier);
     }
 }

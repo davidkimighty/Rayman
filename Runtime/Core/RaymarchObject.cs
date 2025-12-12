@@ -1,32 +1,40 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class RaymarchObject : MonoBehaviour
+    public class RaymarchObject : MonoBehaviour, IMaterialProvider
     {
-        public event Action<RaymarchObject> OnSetup;
-        public event Action<RaymarchObject> OnCleanup;
-        
-        [HideInInspector] public Material MatInstance;
-        
         [SerializeField] protected Shader shader;
-        [SerializeField] protected List<DataProvider> dataProviders = new();
-        
-        public abstract Material SetupMaterial();
-        public abstract void Cleanup();
-        
-        public virtual bool IsReady() => MatInstance;
+        [SerializeField] protected List<MaterialDataProvider> matDataProviders = new();
 
-        protected virtual void ProvideShaderProperties()
+        protected Material material;
+
+        public Material Material => material;
+
+        protected virtual void OnDestroy()
         {
-            foreach (DataProvider provider in dataProviders)
-                provider.ProvideData(ref MatInstance);
+            Cleanup();
         }
 
-        protected void InvokeOnSetup() => OnSetup?.Invoke(this);
-        
-        protected void InvokeOnCleanup() => OnCleanup?.Invoke(this);
+        public virtual Material CreateMaterial()
+        {
+            if (material)
+                Cleanup();
+            material = new Material(shader);
+            SetMaterialData();
+            return material;
+        }
+
+        public virtual void Cleanup()
+        {
+            Destroy(material);
+        }
+
+        protected void SetMaterialData()
+        {
+            foreach (MaterialDataProvider provider in matDataProviders)
+                provider?.ProvideData(ref material);
+        }
     }
 }
