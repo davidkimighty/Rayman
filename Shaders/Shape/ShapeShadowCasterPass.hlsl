@@ -8,6 +8,11 @@
 #endif
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
+float _EpsilonMin;
+float _EpsilonMax;
+int _ShadowMaxSteps;
+float _ShadowMaxDistance;
+
 float3 _LightDirection;
 float3 _LightPosition;
 
@@ -53,22 +58,23 @@ float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
     
-    float3 cameraPos = _WorldSpaceCameraPos;
-    half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
-    Ray ray = CreateRay(input.positionWS, -viewDirWS, _EpsilonMin);
-    ray.distanceTravelled = length(ray.hitPoint - cameraPos);
+    float3 cameraPosWS = _WorldSpaceCameraPos;
+    float3 lightDirWS = -_LightDirection.xyz;
+
+    Ray ray = CreateRay(input.positionWS, lightDirWS, _EpsilonMin);
+    ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
     
-    hitCount = TraverseBvh(0, ray.origin, ray.dir, hitIds).x;
-    if (hitCount == 0) discard;
+    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds).x;
+    if (shapeHitCount == 0) discard;
     
-    InsertionSort(hitIds, hitCount);
-    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+    InsertionSort(shapeHitIds, shapeHitCount);
+    if (!Raymarch(ray, _ShadowMaxSteps, _ShadowMaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
 #if defined(LOD_FADE_CROSSFADE)
     LODFadeCrossFade(input.positionCS);
 #endif
 
-    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
+    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPosWS) < ray.epsilon ?
         GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
     return depth;
 }

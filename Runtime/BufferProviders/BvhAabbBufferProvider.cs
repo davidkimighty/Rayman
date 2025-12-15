@@ -6,8 +6,8 @@ namespace Rayman
 {
     public class BvhAabbBufferProvider : BufferProvider<IBoundsProvider>
     {
-        public static readonly int BufferId = Shader.PropertyToID("_NodeBuffer");
-
+        public static readonly int BufferId = Shader.PropertyToID("_ShapeNodeBuffer");
+        
         [SerializeField] private float syncMargin = 0.01f;
 #if UNITY_EDITOR
         [SerializeField] private bool drawGizmos = false;
@@ -18,7 +18,7 @@ namespace Rayman
         private AabbNodeData[] nodeData;
 
 #if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
+        private void OnDrawGizmos()
         {
             if (!IsInitialized || !drawGizmos) return;
 
@@ -84,15 +84,6 @@ namespace Rayman
             bounds = null;
             nodeData = null;
         }
-
-#if UNITY_EDITOR
-        public void DrawGizmos()
-        {
-            if (!IsInitialized) return;
-
-            bvh.DrawStructure();
-        }
-#endif
 
         private void UpdateNodeData()
         {

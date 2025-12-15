@@ -8,6 +8,9 @@ namespace Rayman
     {
         [SerializeField] private OperationType operation;
         [SerializeField] private float blend;
+#if UNITY_EDITOR
+        [SerializeField] private List<GameObject> EditorTargetGameObejcts = new();
+#endif
         [SerializeField] private List<ShapeVisual> items = new();
 
         public OperationType Operation
@@ -20,19 +23,23 @@ namespace Rayman
             get => blend;
             set { blend = value; IsGroupDirty = true; }
         }
-        public int Count => items?.Count ?? 0;
         public bool IsGroupDirty { get; set; } = true;
         public List<ShapeVisual> Items => items;
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            foreach (ShapeVisual sv in items)
+            items.Clear();
+            foreach (GameObject target in EditorTargetGameObejcts)
             {
-                if (sv.EditorTargetSource == null) continue;
+                if (target == null) continue;
 
-                sv.ShapeProvider = sv.EditorTargetSource.GetComponent<ShapeProvider>();
-                sv.VisualProvider = sv.EditorTargetSource.GetComponent<VisualProvider>();
+                ShapeVisual sv = new()
+                {
+                    ShapeProvider = target.GetComponent<ShapeProvider>(),
+                    VisualProvider = target.GetComponent<VisualProvider>()
+                };
+                items.Add(sv);
             }
             IsGroupDirty = true;
         }
@@ -50,9 +57,6 @@ namespace Rayman
     [Serializable]
     public class ShapeVisual
     {
-#if UNITY_EDITOR
-        public GameObject EditorTargetSource;
-#endif
         public ShapeProvider ShapeProvider;
         public VisualProvider VisualProvider;
     }

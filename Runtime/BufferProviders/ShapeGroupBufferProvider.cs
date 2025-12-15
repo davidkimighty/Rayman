@@ -3,12 +3,12 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeBufferProvider : BufferProvider<ShapeProvider>
+    public class ShapeGroupBufferProvider : BufferProvider<ShapeProvider>
     {
-        public static readonly int BufferId = Shader.PropertyToID("_ShapeBuffer");
+        public static readonly int BufferId = Shader.PropertyToID("_ShapeGroupBuffer");
         
         private ShapeProvider[] providers;
-        private ShapeData[] shapeData;
+        private ShapeGroupData[] shapeData;
 
         public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
         {
@@ -21,12 +21,12 @@ namespace Rayman
                 ReleaseBuffer();
             providers = dataProviders;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<ShapeData>());
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<ShapeGroupData>());
             material.SetBuffer(BufferId, Buffer);
 
-            shapeData = new ShapeData[count];
+            shapeData = new ShapeGroupData[count];
             for (int i = 0; i < count; i++)
-                shapeData[i] = new ShapeData(providers[i]);
+                shapeData[i] = new ShapeGroupData(providers[i]);
             Buffer.SetData(shapeData);
         }
 
@@ -40,7 +40,7 @@ namespace Rayman
                 ShapeProvider provider = providers[i];
                 if (!provider) continue;
 
-                shapeData[i] = new ShapeData(provider);
+                shapeData[i] = new ShapeGroupData(provider);
                 if (provider.gameObject.isStatic) continue;
 
                 setData = true;

@@ -1,5 +1,5 @@
-﻿#ifndef RAYMAN_SHAPE_SURFACE
-#define RAYMAN_SHAPE_SURFACE
+﻿#ifndef RAYMAN_SHAPE_GROUP_SURFACE
+#define RAYMAN_SHAPE_GROUP_SURFACE
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
@@ -7,6 +7,12 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Shape/Shape.hlsl"
+
+struct Group
+{
+    int operation;
+    float blend;
+};
 
 struct Shape
 {
@@ -19,9 +25,11 @@ struct Shape
     half blend;
     half roundness;
     int type;
+    int groupIndex;
 };
 
-StructuredBuffer<Shape> _ShapeBuffer;
+StructuredBuffer<Group> _GroupBuffer;
+StructuredBuffer<Shape> _ShapeGroupBuffer;
 StructuredBuffer<NodeAabb> _ShapeNodeBuffer;
 
 int shapeHitCount;
@@ -43,30 +51,50 @@ float GetShapeDistance(Shape shape, float3 localPos)
     return GetShapeSdf(localPos, shape.type, shape.size, shape.roundness) * uniformScale;
 }
 
+inline float GroupBlending(Group group, float totalDist, float localDist, bool doBlend)
+{
+    float groupBlend = 0;
+    float total = SmoothOperation(group.operation, totalDist, localDist, group.blend, groupBlend);
+#ifdef SHAPE_BLENDING
+    if (doBlend) GroupBlend(groupBlend);
+#endif
+    return total;
+}
+
 inline float GetSceneDistance(const float3 positionWS, const bool doBlend)
 {
     if (shapeHitCount == 0) return RAY_MAX_DISTANCE;
     
     float totalDist = RAY_MAX_DISTANCE;
+    float localDist = RAY_MAX_DISTANCE;
+    int groupIndex = _ShapeGroupBuffer[shapeHitIds[0]].groupIndex;
 #ifdef SHAPE_BLENDING
     if (doBlend) PreBlend(shapeHitIds[0]);
 #endif
-			
+    
     for (int i = 0; i < shapeHitCount; i++)
     {
         int shapeIndex = shapeHitIds[i];
-        Shape shape = _ShapeBuffer[shapeIndex];
+        Shape shape = _ShapeGroupBuffer[shapeIndex];
+
+        if (groupIndex != shape.groupIndex)
+        {
+            totalDist = GroupBlending(_GroupBuffer[groupIndex], totalDist, localDist, doBlend);
+            localDist = RAY_MAX_DISTANCE;
+            groupIndex = shape.groupIndex;
+#ifdef SHAPE_BLENDING
+            if (doBlend) PreBlend(shapeIndex);
+#endif
+        }
         float3 localPos = positionWS - shape.position;
         float shapeDist = GetShapeDistance(shape, localPos);
         float blend = 0;
-        totalDist = SmoothOperation(shape.operation, totalDist, shapeDist, shape.blend, blend);
+        localDist = SmoothOperation(shape.operation, localDist, shapeDist, shape.blend, blend);
 #ifdef SHAPE_BLENDING
         if (doBlend) ShapeBlend(shapeIndex, localPos, blend);
 #endif
     }
-#ifdef SHAPE_BLENDING
-    if (doBlend) GroupBlend(1);
-#endif
+    totalDist = GroupBlending(_GroupBuffer[groupIndex], totalDist, localDist, doBlend);
     return totalDist;
 }
 

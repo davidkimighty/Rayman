@@ -1,7 +1,7 @@
 ﻿#ifndef RAYMAN_RAYMARCH_LIGHTING
 #define RAYMAN_RAYMARCH_LIGHTING
 
-float NormalMap(const float3 positionWS);
+inline float NormalMap(const float3 positionWS);
 
 float3 GetNormal(const float3 positionWS, const float epsilon)
 {

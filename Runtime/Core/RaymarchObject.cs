@@ -6,7 +6,7 @@ namespace Rayman
     public class RaymarchObject : MonoBehaviour, IMaterialProvider
     {
         [SerializeField] protected Shader shader;
-        [SerializeField] protected List<MaterialDataProvider> matDataProviders = new();
+        [SerializeField] protected List<MaterialDataProvider> materialDataProviders = new();
 
         protected Material material;
 
@@ -31,9 +31,16 @@ namespace Rayman
             Destroy(material);
         }
 
+        public virtual void Refresh()
+        {
+            if (!material) return;
+            
+            SetMaterialData();
+        }
+
         protected void SetMaterialData()
         {
-            foreach (MaterialDataProvider provider in matDataProviders)
+            foreach (MaterialDataProvider provider in materialDataProviders)
                 provider?.ProvideData(ref material);
         }
     }

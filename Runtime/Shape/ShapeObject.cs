@@ -5,15 +5,13 @@ using UnityEngine;
 namespace Rayman
 {
     [ExecuteInEditMode]
-    public class ShapeGroupObject : RaymarchObject
+    public class ShapeObject : RaymarchObject
     {
         [SerializeField] private BufferProvider<ShapeProvider> shapeBufferProvider;
-        [SerializeField] private BufferProvider<IRaymarchGroup> groupBufferProvider;
         [SerializeField] private BufferProvider<IBoundsProvider> shapeNodeBufferProvider;
         [SerializeField] private BufferProvider<VisualProvider> visualBufferProvider;
-        [SerializeField] private List<ShapeGroup> shapeGroups;
+        [SerializeField] private List<GameObject> shapes;
 
-        private ShapeGroup[] groupProviders;
         private ShapeProvider[] shapeProviders;
         private VisualProvider[] visualProviders;
 
@@ -22,7 +20,6 @@ namespace Rayman
             if (!material) return;
 
             shapeBufferProvider?.SetData();
-            groupBufferProvider?.SetData();
             shapeNodeBufferProvider?.SetData();
             visualBufferProvider?.SetData();
         }
@@ -46,7 +43,6 @@ namespace Rayman
             SetupDataProviders();
 
             shapeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
-            groupBufferProvider?.InitializeBuffer(ref material, groupProviders);
             shapeNodeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
             visualBufferProvider?.InitializeBuffer(ref material, visualProviders);
 
@@ -56,7 +52,6 @@ namespace Rayman
         public override void Cleanup()
         {
             shapeBufferProvider?.ReleaseBuffer();
-            groupBufferProvider?.ReleaseBuffer();
             shapeNodeBufferProvider?.ReleaseBuffer();
             visualBufferProvider?.ReleaseBuffer();
 
@@ -65,13 +60,37 @@ namespace Rayman
             else
                 Destroy(material);
         }
+
+        public override void Refresh()
+        {
+            if (!material) return;
+            
+            shapeBufferProvider?.ReleaseBuffer();
+            shapeNodeBufferProvider?.ReleaseBuffer();
+            visualBufferProvider?.ReleaseBuffer();
+            
+            SetMaterialData();
+            SetupDataProviders();
+            
+            shapeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
+            shapeNodeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
+            visualBufferProvider?.InitializeBuffer(ref material, visualProviders);
+            
+            shapeBufferProvider?.SetData();
+            shapeNodeBufferProvider?.SetData();
+            visualBufferProvider?.SetData();
+        }
+
+        public void AddShape(GameObject shape)
+        {
+            shapes.Add(shape);
+        }
         
 #if UNITY_EDITOR
         [ContextMenu("Find All BufferProviders")]
         public void FindAllBufferProviders()
         {
             shapeBufferProvider = GetComponent<BufferProvider<ShapeProvider>>();
-            groupBufferProvider = GetComponent<BufferProvider<IRaymarchGroup>>();
             shapeNodeBufferProvider = GetComponent<BufferProvider<IBoundsProvider>>();
             visualBufferProvider = GetComponent<BufferProvider<VisualProvider>>();
         }
@@ -79,35 +98,23 @@ namespace Rayman
 
         private void SetupDataProviders()
         {
-            List<ShapeGroup> groupList = new();
             List<ShapeProvider> shapeList = new();
             List<VisualProvider> visualList = new();
 
-            for (int i = 0; i < shapeGroups.Count; i++)
+            foreach (GameObject shape in shapes)
             {
-                ShapeGroup group = shapeGroups[i];
-                if (!group) continue;
-
-                groupList.Add(group);
-                foreach (ShapeVisual item in group.Items)
-                {
-                    if (item.ShapeProvider)
-                    {
-                        item.ShapeProvider.GroupIndex = i;
-                        shapeList.Add(item.ShapeProvider);
-                    }
-                    if (item.VisualProvider)
-                        visualList.Add(item.VisualProvider);
-                }
+                if (shape.TryGetComponent(out ShapeProvider shapeProvider))
+                    shapeList.Add(shapeProvider);
+                if (shape.TryGetComponent(out VisualProvider visualProvider))
+                    visualList.Add(visualProvider);
             }
-            groupProviders = groupList.ToArray();
             shapeProviders = shapeList.ToArray();
             visualProviders = visualList.ToArray();
         }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeGroupData
+    public struct ShapeData
     {
         public Vector3 Position;
         public Quaternion Rotation;
@@ -118,9 +125,8 @@ namespace Rayman
         public float Blend;
         public float Roundness;
         public int ShapeType;
-        public int GroupIndex;
 
-        public ShapeGroupData(ShapeProvider provider)
+        public ShapeData(ShapeProvider provider)
         {
             Position = provider.transform.position;
             Rotation = Quaternion.Inverse(provider.transform.rotation);
@@ -131,7 +137,6 @@ namespace Rayman
             Blend = provider.Blend;
             Roundness = provider.Roundness;
             ShapeType = (int)provider.Shape;
-            GroupIndex = provider.GroupIndex;
         }
     }
 }

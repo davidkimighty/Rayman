@@ -12,10 +12,8 @@ struct NodeAabb
     Aabb bounds;
 };
 
-// Must be implemented by the including shader.
-inline NodeAabb GetNode(const int index);
-
-int2 TraverseBvh(const int startIndex, const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
+inline int2 TraverseBvh(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
+    const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
     int2 count = 0; // count.x is leaf
@@ -25,7 +23,7 @@ int2 TraverseBvh(const int startIndex, const float3 rayOrigin, const float3 rayD
 
     while (ptr > 0)
     {
-        NodeAabb node = GetNode(nodeStack[--ptr]);
+        NodeAabb node = nodeBuffer[nodeStack[--ptr]];
         if (!RayIntersect(rayOrigin, invDir, node.bounds)) continue;
         
         if (node.childIndex < 0) // leaf
@@ -37,8 +35,8 @@ int2 TraverseBvh(const int startIndex, const float3 rayOrigin, const float3 rayD
         {
             int childL = node.childIndex;
             int childR = childL + 1;
-            float dstL = RayIntersectNearDst(rayOrigin, invDir, GetNode(childL).bounds);
-            float dstR = RayIntersectNearDst(rayOrigin, invDir, GetNode(childR).bounds);
+            float dstL = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childL].bounds);
+            float dstR = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childR].bounds);
 
             bool rightNear = dstL > dstR; 
             nodeStack[ptr++] = rightNear ? childL : childR;
@@ -49,7 +47,7 @@ int2 TraverseBvh(const int startIndex, const float3 rayOrigin, const float3 rayD
     return count;
 }
 
-void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
+inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
 {
     for (int i = 1; i < numHits; i++)
     {

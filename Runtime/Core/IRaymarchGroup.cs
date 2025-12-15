@@ -13,7 +13,6 @@ namespace Rayman
     {
         OperationType Operation { get; }
         float Blend { get; }
-        int Count { get; }
         bool IsGroupDirty { get; set; }
     }
 
@@ -22,23 +21,11 @@ namespace Rayman
     {
         public int Operation;
         public float Blend;
-        public int StartIndex;
-        public int Count;
 
-        public GroupData(IRaymarchGroup group, int startIndex)
+        public GroupData(IRaymarchGroup group)
         {
             Operation = (int)group.Operation;
             Blend = group.Blend;
-            StartIndex = startIndex;
-            Count = group.Count;
-        }
-
-        public GroupData(OperationType type, float blend, int startIndex, int count)
-        {
-            Operation = (int)type;
-            Blend = blend;
-            StartIndex = startIndex;
-            Count = count;
         }
     }
 }

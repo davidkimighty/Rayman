@@ -3,10 +3,11 @@
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
-float Map(inout Ray ray);
+inline float Map(inout Ray ray);
 
-bool Raymarch(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon)
+inline bool Raymarch(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon)
 {
+    [loop]
     for (int i = 0; i < maxSteps; i++)
     {
         ray.hitDistance = Map(ray);

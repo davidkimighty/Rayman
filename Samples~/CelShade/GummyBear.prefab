@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4114482442820065023}
-  - component: {fileID: 528648131408908155}
+  - component: {fileID: 5249683662678795805}
+  - component: {fileID: 7028428011688503159}
   m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: -27.458, y: 0, z: 0}
---- !u!114 &528648131408908155
+--- !u!114 &5249683662678795805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,19 +42,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 520287204509999100}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.02, y: 0.01, z: 0.016}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 1
   Operation: 0
-  Blend: 0.01
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &7028428011688503159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 520287204509999100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &894077245345161496
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,7 +77,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3748297513021178273}
-  - component: {fileID: 4761768447012640783}
+  - component: {fileID: 5378515669622489094}
+  - component: {fileID: 7849571765001058203}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -90,7 +105,7 @@ Transform:
   - {fileID: 1303249653041714617}
   m_Father: {fileID: 3224620771394106619}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &4761768447012640783
+--- !u!114 &5378515669622489094
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,19 +114,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 894077245345161496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.1, y: 0.1, z: 0.1}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.05
-  Size: {x: 0.1, y: 0.05, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 5
   Operation: 0
-  Blend: 0.1
-  Roundness: 0.06
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Blend: 0.05
+  Roundness: 0.1
+  Shape: 5
+  GroupIndex: 0
+--- !u!114 &7849571765001058203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 894077245345161496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &1853097342808196395
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +149,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1862397472322709870}
-  - component: {fileID: 2587511890577500911}
+  - component: {fileID: 2943891642247637977}
+  - component: {fileID: 2154507562630421804}
   m_Layer: 0
   m_Name: Eye
   m_TagString: Untagged
@@ -144,7 +173,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: 61.732, y: -35.347, z: -42.181}
---- !u!114 &2587511890577500911
+--- !u!114 &2943891642247637977
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -153,19 +182,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853097342808196395}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0
-  Size: {x: 0.013, y: 0.003, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 6
-  Operation: 1
-  Blend: 0.003
+  Operation: 0
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &2154507562630421804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853097342808196395}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &1874698036384808371
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +217,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6523289131353766432}
-  - component: {fileID: 7760283196939846215}
+  - component: {fileID: 7779523194218475864}
+  - component: {fileID: 2750230964204794107}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -204,7 +247,7 @@ Transform:
   - {fileID: 4114482442820065023}
   m_Father: {fileID: 3224620771394106619}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &7760283196939846215
+--- !u!114 &7779523194218475864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -213,19 +256,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1874698036384808371}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.1, y: 0.1, z: 0.1}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.05
-  Size: {x: 0.1, y: 0.03, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 5
   Operation: 0
   Blend: 0
-  Roundness: 0.06
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Roundness: 0.1
+  Shape: 5
+  GroupIndex: 0
+--- !u!114 &2750230964204794107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874698036384808371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &2505597793125234487
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +291,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8211887351790582192}
-  - component: {fileID: 6579789424088215753}
+  - component: {fileID: 1727124069417229816}
+  - component: {fileID: 3251400228193988971}
   m_Layer: 0
   m_Name: Ear Hole
   m_TagString: Untagged
@@ -258,7 +315,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 851074628789648888}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 32}
---- !u!114 &6579789424088215753
+--- !u!114 &1727124069417229816
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -267,19 +324,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2505597793125234487}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0
-  Size: {x: 0.02, y: 0.01, z: 0.01}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 1
   Operation: 1
-  Blend: 0.03
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &3251400228193988971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2505597793125234487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &2552046036730609288
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,7 +359,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6653328760429163566}
-  - component: {fileID: 8550068520138802879}
+  - component: {fileID: 6965988693104815966}
+  - component: {fileID: 4749264664357822476}
   m_Layer: 0
   m_Name: Arm (1)
   m_TagString: Untagged
@@ -312,7 +383,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3748297513021178273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3}
---- !u!114 &8550068520138802879
+--- !u!114 &6965988693104815966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -321,19 +392,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2552046036730609288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.05, y: 0.16, z: 0}
-  Pivot: {x: 0.5, y: 1, z: 0.5}
-  Shape: 4
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0.043
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &4749264664357822476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2552046036730609288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &3078785096033285430
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,7 +427,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 851074628789648888}
-  - component: {fileID: 1939032725857678966}
+  - component: {fileID: 5711450834547165639}
+  - component: {fileID: 8166012056736142666}
   m_Layer: 0
   m_Name: Ear
   m_TagString: Untagged
@@ -367,7 +452,7 @@ Transform:
   - {fileID: 8211887351790582192}
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1939032725857678966
+--- !u!114 &5711450834547165639
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,19 +461,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 3078785096033285430}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.05
-  Size: {x: 0.03, y: 0.01, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 5
   Operation: 0
-  Blend: 0.03
-  Roundness: 0.03
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Blend: 0
+  Roundness: 0
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &8166012056736142666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3078785096033285430}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &3786172772376268049
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +496,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1071521696249875114}
-  - component: {fileID: 5009810751064538132}
+  - component: {fileID: 3263319959529411084}
+  - component: {fileID: 7713738926824579671}
   m_Layer: 0
   m_Name: Ear Hole (1)
   m_TagString: Untagged
@@ -421,7 +520,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6986043530525092330}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: -32}
---- !u!114 &5009810751064538132
+--- !u!114 &3263319959529411084
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,19 +529,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 3786172772376268049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0
-  Size: {x: 0.02, y: 0.01, z: 0.01}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 1
   Operation: 1
-  Blend: 0.03
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &7713738926824579671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3786172772376268049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &4097921326302857680
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,7 +564,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 53329945720818747}
-  - component: {fileID: 6949664925918311613}
+  - component: {fileID: 7975944206288271187}
+  - component: {fileID: 7144248360318409405}
   m_Layer: 0
   m_Name: Eye (1)
   m_TagString: Untagged
@@ -475,7 +588,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: 63.681, y: 29.393, z: 28.811}
---- !u!114 &6949664925918311613
+--- !u!114 &7975944206288271187
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -484,19 +597,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4097921326302857680}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0
-  Size: {x: 0.013, y: 0.003, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 6
-  Operation: 1
-  Blend: 0.003
+  Operation: 0
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &7144248360318409405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4097921326302857680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &4281587602994354552
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +632,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7847836223141585831}
-  - component: {fileID: 4949200605781442243}
+  - component: {fileID: 1982316366836568573}
+  - component: {fileID: 827085165488518472}
   m_Layer: 0
   m_Name: Arm
   m_TagString: Untagged
@@ -529,7 +656,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3748297513021178273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3}
---- !u!114 &4949200605781442243
+--- !u!114 &1982316366836568573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -538,19 +665,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4281587602994354552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.05, y: 0.16, z: 0}
-  Pivot: {x: 0.5, y: 1, z: 0.5}
-  Shape: 4
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0.043
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &827085165488518472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4281587602994354552}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &4931765202690919125
 GameObject:
   m_ObjectHideFlags: 0
@@ -560,7 +700,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6986043530525092330}
-  - component: {fileID: 7749897793964153082}
+  - component: {fileID: 4624686803373637125}
+  - component: {fileID: 8581481688815046785}
   m_Layer: 0
   m_Name: Ear (1)
   m_TagString: Untagged
@@ -584,7 +725,7 @@ Transform:
   - {fileID: 1071521696249875114}
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &7749897793964153082
+--- !u!114 &4624686803373637125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -593,19 +734,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 4931765202690919125}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.05
-  Size: {x: 0.03, y: 0.01, z: 0}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 5
   Operation: 0
-  Blend: 0.03
-  Roundness: 0.03
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Blend: 0
+  Roundness: 0
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &8581481688815046785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4931765202690919125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &5603966743370523613
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,7 +769,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5756501680934512804}
-  - component: {fileID: 7507862599281362082}
+  - component: {fileID: 3368488534016610415}
+  - component: {fileID: 278720999854898098}
   m_Layer: 0
   m_Name: Leg
   m_TagString: Untagged
@@ -638,7 +793,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3748297513021178273}
   m_LocalEulerAnglesHint: {x: -3, y: 0, z: 0}
---- !u!114 &7507862599281362082
+--- !u!114 &3368488534016610415
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -647,19 +802,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 5603966743370523613}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.05, y: 0.16, z: 0}
-  Pivot: {x: 0.5, y: 1, z: 0.5}
-  Shape: 4
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0.06
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &278720999854898098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5603966743370523613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &5662337828670580067
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +837,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1624974328796614477}
-  - component: {fileID: 4862282556830816868}
+  - component: {fileID: 3455131291554976090}
+  - component: {fileID: 819624992779163248}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -692,7 +861,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6523289131353766432}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &4862282556830816868
+--- !u!114 &3455131291554976090
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -701,19 +870,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 5662337828670580067}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.05, y: 0.03, z: 0.04}
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Shape: 1
   Operation: 0
-  Blend: 0.15
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &819624992779163248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662337828670580067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &6971015593834253892
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +905,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1303249653041714617}
-  - component: {fileID: 4460164413020175514}
+  - component: {fileID: 2239098514423828889}
+  - component: {fileID: 2540066378154203224}
   m_Layer: 0
   m_Name: Leg (1)
   m_TagString: Untagged
@@ -746,7 +929,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3748297513021178273}
   m_LocalEulerAnglesHint: {x: -3, y: 0, z: 0}
---- !u!114 &4460164413020175514
+--- !u!114 &2239098514423828889
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -755,19 +938,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 6971015593834253892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acf1eb5ed180a674386465d41acdbdb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
+  Size: {x: 0.5, y: 0.5, z: 0.5}
+  ExpandBounds: 0.001
   UseLossyScale: 1
-  ExpandBounds: 0.01
-  Size: {x: 0.05, y: 0.16, z: 0}
-  Pivot: {x: 0.5, y: 1, z: 0.5}
-  Shape: 4
+  Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0.06
+  Blend: 0
   Roundness: 0
-  ColorUsage: 1
-  Color: {r: 0.8616352, g: 0.81259096, b: 0.12734853, a: 1}
+  Shape: 0
+  GroupIndex: 0
+--- !u!114 &2540066378154203224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6971015593834253892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
+  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
+  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
 --- !u!1 &7329672537278360271
 GameObject:
   m_ObjectHideFlags: 0
@@ -777,6 +973,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3224620771394106619}
+  - component: {fileID: 702302531130228711}
+  - component: {fileID: 3215587732833986423}
+  - component: {fileID: 9133597498127087216}
+  - component: {fileID: 8200709404706050896}
   m_Layer: 0
   m_Name: GummyBear
   m_TagString: Untagged
@@ -801,3 +1001,61 @@ Transform:
   - {fileID: 3748297513021178273}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &702302531130228711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329672537278360271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  shader: {fileID: 0}
+  materialDataProviders: []
+  shapeBufferProvider: {fileID: 3215587732833986423}
+  shapeNodeBufferProvider: {fileID: 9133597498127087216}
+  visualBufferProvider: {fileID: 8200709404706050896}
+  shapes:
+  - {fileID: 1874698036384808371}
+  - {fileID: 894077245345161496}
+--- !u!114 &3215587732833986423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329672537278360271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b665f8d1565454787b5af1fad2cdcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
+--- !u!114 &9133597498127087216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329672537278360271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
+  syncMargin: 0.01
+  drawGizmos: 0
+--- !u!114 &8200709404706050896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7329672537278360271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider

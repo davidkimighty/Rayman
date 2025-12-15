@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -32,6 +31,8 @@ namespace Rayman
         [Range(0, 1f)] public float Blend;
         [Range(0, 1f)] public float Roundness;
         public ShapeType Shape = ShapeType.Sphere;
+
+        [HideInInspector] public int GroupIndex;
 
         static ShapeProvider()
         {
@@ -92,33 +93,6 @@ namespace Rayman
                 default:
                     return size;
             }
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeData
-    {
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public Vector3 Scale;
-        public Vector3 Size;
-        public Vector3 Pivot;
-        public int Operation;
-        public float Blend;
-        public float Roundness;
-        public int ShapeType;
-
-        public ShapeData(ShapeProvider provider)
-        {
-            Position = provider.transform.position;
-            Rotation = Quaternion.Inverse(provider.transform.rotation);
-            Scale = provider.GetScale();
-            Size = provider.Size;
-            Pivot = provider.Pivot;
-            Operation = (int)provider.Operation;
-            Blend = provider.Blend;
-            Roundness = provider.Roundness;
-            ShapeType = (int)provider.Shape;
         }
     }
 }
