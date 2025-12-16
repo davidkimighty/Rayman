@@ -4,7 +4,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-float ShadowMap(const float3 positionWS);
+inline float ShadowMap(const float3 positionWS);
 
 inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance)
 {

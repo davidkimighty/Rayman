@@ -1,12 +1,25 @@
-Shader "Rayman/ShapeGroupPBR"
+Shader "Rayman/ShapeCel"
 {
     Properties
     {
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
+    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_GradientAngle("Gradient Angle", Float) = 0.0
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
+    	
+    	[Header(Cel Shade)][Space]
+    	_CelCount ("Cel Count", Range(1.0, 10.0)) = 1.0
+    	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_CelSharpness ("Cel Sharpness", Float) = 80.0
+    	_SpecularSharpness ("Specular Sharpness", Float) = 1.0
+    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.2
+    	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
+    	_F0 ("Schlick F0", Float) = 0.04
+    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -75,12 +88,18 @@ Shader "Rayman/ShapeGroupPBR"
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
 
+			#pragma multi_compile_fragment _ _SHAPE_GROUP
+			
 			#define SHAPE_BLENDING
+			#ifdef _SHAPE_GROUP
 			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
+			#else
+			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
+			#endif
 			
 			#pragma vertex Vert
             #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapePBRForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeCelForwardPass.hlsl"
             ENDHLSL
 		}
 
@@ -100,7 +119,7 @@ Shader "Rayman/ShapeGroupPBR"
 		    #pragma multi_compile_instancing
 		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-		    #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
+		    #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
 		    
 			#pragma vertex Vert
 		    #pragma fragment Frag
@@ -130,7 +149,7 @@ Shader "Rayman/ShapeGroupPBR"
 
 			#pragma multi_compile_fragment _ GRADIENT_COLOR
 
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag

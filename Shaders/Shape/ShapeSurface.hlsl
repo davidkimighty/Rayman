@@ -5,6 +5,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Shape/Shape.hlsl"
 
@@ -30,7 +31,6 @@ int shapeHitIds[RAY_MAX_HITS];
 #ifdef SHAPE_BLENDING
 inline void PreBlend(int index);
 inline void ShapeBlend(int index, float3 position, float blend);
-inline void GroupBlend(float blend);
 #endif
 
 float GetShapeDistance(Shape shape, float3 localPos)
@@ -64,9 +64,6 @@ inline float GetSceneDistance(const float3 positionWS, const bool doBlend)
         if (doBlend) ShapeBlend(shapeIndex, localPos, blend);
 #endif
     }
-#ifdef SHAPE_BLENDING
-    if (doBlend) GroupBlend(1);
-#endif
     return totalDist;
 }
 
@@ -76,6 +73,11 @@ inline float Map(inout Ray ray)
 }
 
 inline float NormalMap(const float3 positionWS)
+{
+    return GetSceneDistance(positionWS, false);
+}
+
+inline float ShadowMap(const float3 positionWS)
 {
     return GetSceneDistance(positionWS, false);
 }

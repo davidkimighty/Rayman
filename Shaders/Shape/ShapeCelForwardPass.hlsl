@@ -1,11 +1,12 @@
-﻿#ifndef RAYMAN_SHAPE_PBR_FORWARD
-#define RAYMAN_SHAPE_PBR_FORWARD
+﻿#ifndef RAYMAN_SHAPE_CEL_FORWARD
+#define RAYMAN_SHAPE_CEL_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct Attributes
 {
@@ -63,6 +64,17 @@ int _MaxSteps;
 float _MaxDistance;
 CBUFFER_END
 
+CBUFFER_START(CelParams)
+float _CelCount;
+float _CelSpread;
+float _CelSharpness;
+float _SpecularSharpness;
+float _RimAmount;
+float _RimSmoothness;
+float _F0;
+float _BlendDiffuse;
+CBUFFER_END
+
 float _RayShadowBias;
 half4 baseColor;
 
@@ -96,6 +108,40 @@ inline void ShapeBlend(int index, float3 position, float blend)
 	baseColor = lerp(baseColor, _ColorBuffer[index].color, blend);
 }
 #endif
+
+inline float CelShading(float value, float celCount)
+{
+	float celSize = 1.0 / celCount;
+	float scaled = saturate(value) / celSize;
+	float cel = floor(scaled) * celSize;
+	float blend = Sigmoid(frac(scaled), _CelSharpness);
+	return lerp(cel, cel + celSize, blend);
+}
+
+inline half3 CelLighting(BRDFData brdfData, Light light, half3 normalWS, half3 viewDirectionWS, float3 F0)
+{
+	float lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
+	
+	half NdotL = dot(normalWS, light.direction);
+	half spread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _CelCount));
+	half celDiffuse = CelShading(smoothstep(-spread, _CelSpread, NdotL), _CelCount);
+	celDiffuse = lerp(saturate(NdotL), celDiffuse, _BlendDiffuse);
+	half3 radiance = light.color * (saturate(lightAttenuation) * celDiffuse);
+	
+	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
+	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness);
+	radiance += light.color * saturate(lightAttenuation) * celDiffuse * specular ;
+
+	half roughness = saturate(1.0 - brdfData.roughness2);
+	half rimAmount = 1.0 - _RimAmount;
+	half rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
+	half3 rim = smoothstep(rimAmount - _RimSmoothness, rimAmount + _RimSmoothness, rimIntensity);
+	radiance += light.color * lightAttenuation * celDiffuse * rim * roughness;
+	
+	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
+	radiance += light.color * lightAttenuation * fresnel * roughness;
+	return brdfData.diffuse * radiance;
+}
 
 inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDirectionWS, float3 normalWS, out InputData inputData)
 {
@@ -219,12 +265,69 @@ FragOutput Frag (Varyings input)
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
 
-	half4 finalColor = UniversalFragmentPBR(inputData, surfaceData);
-	finalColor.rgb = MixFog(finalColor.rgb, inputData.fogCoord);
-	finalColor.a = baseColor.a;
+	BRDFData brdfData;
+	InitializeBRDFData(surfaceData, brdfData);
+
+	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
+	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
+	
+	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+	Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
+	
+	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+	
+	float3 F0 = lerp(_F0, brdfData.albedo, _Metallic);
+	half3 celLighting = 0;
+	
+#ifdef _LIGHT_LAYERS
+	uint meshRenderingLayers = GetMeshRenderingLayer();
+	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+#endif
+	{
+		celLighting = CelLighting(brdfData, mainLight, inputData.normalWS, inputData.viewDirectionWS, F0);
+	}
+	
+#if defined(_ADDITIONAL_LIGHTS)
+	uint pixelLightCount = GetAdditionalLightsCount();
+#if USE_CLUSTER_LIGHT_LOOP
+	[loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+	{
+		CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
+		Light light = GetAdditionalLight(lightIndex, ray.hitPoint);
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
+		}
+	}
+#endif
+
+	LIGHT_LOOP_BEGIN(pixelLightCount)
+		Light light = GetAdditionalLight(lightIndex, ray.hitPoint);
+
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
+		}
+	LIGHT_LOOP_END
+#endif
+
+#if defined(_ADDITIONAL_LIGHTS_VERTEX)
+	celLighting += inputData.vertexLighting;
+#endif
+	
+	half3 giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
+		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
+		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
+
+	half4 color = half4(giColor + celLighting + _EmissionColor, baseColor.a);
+	color.rgb = MixFog(color.rgb, input.fogFactor);
 	
 	FragOutput output;
-	output.color = finalColor;
+	output.color = color;
 	output.depth = depth;
 	return output;
 }

@@ -1,12 +1,21 @@
-Shader "Rayman/ShapePBR"
+Shader "Rayman/ShapeSSS"
 {
     Properties
     {
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
+    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
+    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_GradientAngle("Gradient Angle", Float) = 0.0
+    	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
+    	
+    	[Header(SSS)][Space]
+    	_SssDistortion ("SSS Distortion", Float) = 0.1
+    	_SssPower ("SSS Power", Float) = 1.0
+    	_SssScale ("SSS Scale", Float) = 0.5
+    	_SssAmbient ("SSS Ambient", Float) = 0.1
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -26,9 +35,9 @@ Shader "Rayman/ShapePBR"
     {
         Tags
         {
-        	"RenderType" = "Opaque"
+        	"RenderType" = "Transparent"
             "RenderPipeline" = "UniversalPipeline"
-        	"UniversalMaterialType" = "Lit"
+        	"UniversalMaterialType" = "Unlit"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }
@@ -86,33 +95,9 @@ Shader "Rayman/ShapePBR"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapePBRForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSSSForwardPass.hlsl"
             ENDHLSL
 		}
-
-        Pass
-        {
-       		Name "Depth Normals"
-		    Tags { "LightMode" = "DepthNormals" }
-
-		    ZWrite On
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 2.0
-		    
-		    #pragma multi_compile _ LOD_FADE_CROSSFADE
-		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-		    #pragma multi_compile_instancing
-		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-
-		    #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
-		    
-			#pragma vertex Vert
-		    #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeDepthNormalPass.hlsl"
-		    ENDHLSL
-        }
 
 		Pass
 		{

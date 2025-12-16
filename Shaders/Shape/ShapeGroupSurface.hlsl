@@ -5,6 +5,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Shape/Shape.hlsl"
 
@@ -104,6 +105,11 @@ inline float Map(inout Ray ray)
 }
 
 inline float NormalMap(const float3 positionWS)
+{
+    return GetSceneDistance(positionWS, false);
+}
+
+float ShadowMap(const float3 positionWS)
 {
     return GetSceneDistance(positionWS, false);
 }

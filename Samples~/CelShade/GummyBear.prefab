@@ -45,14 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.02, y: 0.01, z: 0.016}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.01
   Roundness: 0
-  Shape: 0
+  Shape: 1
   GroupIndex: 0
 --- !u!114 &7028428011688503159
 MonoBehaviour:
@@ -66,8 +66,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &894077245345161496
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,13 +117,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.1, y: 0.1, z: 0.1}
+  Size: {x: 0.1, y: 0.03, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0.05
-  Roundness: 0.1
+  Blend: 0.1
+  Roundness: 0.065
   Shape: 5
   GroupIndex: 0
 --- !u!114 &7849571765001058203
@@ -138,8 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &1853097342808196395
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,14 +185,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.013, y: 0.003, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Operation: 0
-  Blend: 0
+  Operation: 1
+  Blend: 0.003
   Roundness: 0
-  Shape: 0
+  Shape: 6
   GroupIndex: 0
 --- !u!114 &2154507562630421804
 MonoBehaviour:
@@ -206,8 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &1874698036384808371
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,13 +259,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.1, y: 0.1, z: 0.1}
-  ExpandBounds: 0.001
+  Size: {x: 0.1, y: 0.03, z: 0}
+  ExpandBounds: 0.05
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
-  Roundness: 0.1
+  Roundness: 0.065
   Shape: 5
   GroupIndex: 0
 --- !u!114 &2750230964204794107
@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &2505597793125234487
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,14 +327,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.02, y: 0.01, z: 0.01}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
-  Blend: 0
+  Blend: 0.03
   Roundness: 0
-  Shape: 0
+  Shape: 1
   GroupIndex: 0
 --- !u!114 &3251400228193988971
 MonoBehaviour:
@@ -348,8 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &2552046036730609288
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,14 +395,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.05, y: 0.16, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  Pivot: {x: 0.5, y: 1, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.043
   Roundness: 0
-  Shape: 0
+  Shape: 4
   GroupIndex: 0
 --- !u!114 &4749264664357822476
 MonoBehaviour:
@@ -416,8 +416,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &3078785096033285430
 GameObject:
   m_ObjectHideFlags: 0
@@ -464,14 +464,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.03, y: 0.01, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0
-  Roundness: 0
-  Shape: 0
+  Blend: 0.03
+  Roundness: 0.03
+  Shape: 5
   GroupIndex: 0
 --- !u!114 &8166012056736142666
 MonoBehaviour:
@@ -485,8 +485,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &3786172772376268049
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,14 +532,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.02, y: 0.01, z: 0.01}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
-  Blend: 0
+  Blend: 0.03
   Roundness: 0
-  Shape: 0
+  Shape: 1
   GroupIndex: 0
 --- !u!114 &7713738926824579671
 MonoBehaviour:
@@ -553,8 +553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &4097921326302857680
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,14 +600,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.013, y: 0.003, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
-  Operation: 0
-  Blend: 0
+  Operation: 1
+  Blend: 0.003
   Roundness: 0
-  Shape: 0
+  Shape: 6
   GroupIndex: 0
 --- !u!114 &7144248360318409405
 MonoBehaviour:
@@ -621,8 +621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &4281587602994354552
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,14 +668,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.05, y: 0.16, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  Pivot: {x: 0.5, y: 1, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.043
   Roundness: 0
-  Shape: 0
+  Shape: 4
   GroupIndex: 0
 --- !u!114 &827085165488518472
 MonoBehaviour:
@@ -689,8 +689,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &4931765202690919125
 GameObject:
   m_ObjectHideFlags: 0
@@ -737,14 +737,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.03, y: 0.01, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0
-  Roundness: 0
-  Shape: 0
+  Blend: 0.03
+  Roundness: 0.03
+  Shape: 5
   GroupIndex: 0
 --- !u!114 &8581481688815046785
 MonoBehaviour:
@@ -758,8 +758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &5603966743370523613
 GameObject:
   m_ObjectHideFlags: 0
@@ -805,14 +805,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.05, y: 0.16, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  Pivot: {x: 0.5, y: 1, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.06
   Roundness: 0
-  Shape: 0
+  Shape: 4
   GroupIndex: 0
 --- !u!114 &278720999854898098
 MonoBehaviour:
@@ -826,8 +826,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &5662337828670580067
 GameObject:
   m_ObjectHideFlags: 0
@@ -873,14 +873,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.05, y: 0.03, z: 0.04}
   ExpandBounds: 0.001
   UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.15
   Roundness: 0
-  Shape: 0
+  Shape: 1
   GroupIndex: 0
 --- !u!114 &819624992779163248
 MonoBehaviour:
@@ -894,8 +894,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &6971015593834253892
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,14 +941,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61456ac1e972563478417a4a25e520ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
-  Size: {x: 0.5, y: 0.5, z: 0.5}
+  Size: {x: 0.05, y: 0.16, z: 0}
   ExpandBounds: 0.001
   UseLossyScale: 1
-  Pivot: {x: 0.5, y: 0.5, z: 0.5}
+  Pivot: {x: 0.5, y: 1, z: 0.5}
   Operation: 0
-  Blend: 0
+  Blend: 0.06
   Roundness: 0
-  Shape: 0
+  Shape: 4
   GroupIndex: 0
 --- !u!114 &2540066378154203224
 MonoBehaviour:
@@ -962,8 +962,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.9245283, g: 0.7708664, b: 0.100302614, a: 1}
-  GradientColor: {r: 0.9254902, g: 0.77254903, b: 0.101960786, a: 1}
+  Color: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
+  GradientColor: {r: 0.8627451, g: 0.8117647, b: 0.1254902, a: 1}
 --- !u!1 &7329672537278360271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1013,14 +1013,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
-  shader: {fileID: 0}
-  materialDataProviders: []
+  shader: {fileID: 4800000, guid: 100b9db2322daf7468e0803820797074, type: 3}
+  materialDataProviders:
+  - {fileID: 11400000, guid: 50bf356f8466cea4f91af79c7f2a2a85, type: 2}
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   shapeBufferProvider: {fileID: 3215587732833986423}
   shapeNodeBufferProvider: {fileID: 9133597498127087216}
   visualBufferProvider: {fileID: 8200709404706050896}
   shapes:
   - {fileID: 1874698036384808371}
+  - {fileID: 5662337828670580067}
+  - {fileID: 3078785096033285430}
+  - {fileID: 4931765202690919125}
+  - {fileID: 2505597793125234487}
+  - {fileID: 3786172772376268049}
+  - {fileID: 1853097342808196395}
+  - {fileID: 4097921326302857680}
+  - {fileID: 520287204509999100}
   - {fileID: 894077245345161496}
+  - {fileID: 4281587602994354552}
+  - {fileID: 2552046036730609288}
+  - {fileID: 5603966743370523613}
+  - {fileID: 6971015593834253892}
 --- !u!114 &3215587732833986423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
-  drawGizmos: 0
+  drawGizmos: 1
 --- !u!114 &8200709404706050896
 MonoBehaviour:
   m_ObjectHideFlags: 0

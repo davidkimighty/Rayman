@@ -77,6 +77,12 @@ namespace Rayman
         }
 #endif
 
+        protected override void SetMaterialData()
+        {
+            base.SetMaterialData();
+            material.EnableKeyword("_SHAPE_GROUP");
+        }
+
         private void SetupDataProviders()
         {
             List<ShapeGroup> groupList = new();

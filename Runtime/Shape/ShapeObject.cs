@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 namespace Rayman
@@ -93,6 +96,15 @@ namespace Rayman
             shapeBufferProvider = GetComponent<BufferProvider<ShapeProvider>>();
             shapeNodeBufferProvider = GetComponent<BufferProvider<IBoundsProvider>>();
             visualBufferProvider = GetComponent<BufferProvider<VisualProvider>>();
+        }
+        
+        [ContextMenu("Add Default BufferProviders")]
+        public void AddDefaultBufferProviders()
+        {
+            shapeBufferProvider = gameObject.AddComponent<ShapeBufferProvider>();
+            shapeNodeBufferProvider = gameObject.AddComponent<BvhAabbBufferProvider>();
+            visualBufferProvider = gameObject.AddComponent<ColorBufferProvider>();
+            EditorUtility.SetDirty(this);
         }
 #endif
 

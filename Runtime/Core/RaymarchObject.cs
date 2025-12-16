@@ -38,7 +38,7 @@ namespace Rayman
             SetMaterialData();
         }
 
-        protected void SetMaterialData()
+        protected virtual void SetMaterialData()
         {
             foreach (MaterialDataProvider provider in materialDataProviders)
                 provider?.ProvideData(ref material);

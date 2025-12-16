@@ -564,7 +564,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
-  shader: {fileID: 4800000, guid: 1bda46cb080c0774fb9835fc87a6a997, type: 3}
+  shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
   shapeBufferProvider: {fileID: 246280355}
   groupBufferProvider: {fileID: 246280354}
@@ -2648,7 +2648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
-  shader: {fileID: 4800000, guid: 1bda46cb080c0774fb9835fc87a6a997, type: 3}
+  shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
   shapeBufferProvider: {fileID: 1544387839}
   groupBufferProvider: {fileID: 1544387838}
@@ -3285,7 +3285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
-  shader: {fileID: 4800000, guid: 1bda46cb080c0774fb9835fc87a6a997, type: 3}
+  shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
   shapeBufferProvider: {fileID: 2080271399}
   groupBufferProvider: {fileID: 2080271398}
