@@ -4,11 +4,11 @@ Shader "Rayman/ShapeCel"
     {
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
-    	_GradientScaleY("Gradient Scale Y", Range(0.5, 5.0)) = 1.0
-    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
-    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
+    	_GradientScaleY("Gradient Scale Y", Range(0.01, 5.0)) = 1.0
+    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
+    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
     	[Header(Cel Shade)][Space]
@@ -89,6 +89,7 @@ Shader "Rayman/ShapeCel"
             #pragma instancing_options renderinglayer
 
 			#pragma multi_compile_fragment _ _SHAPE_GROUP
+			#pragma multi_compile_fragment _ _GRADIENT_COLOR
 			
 			#define SHAPE_BLENDING
 			#ifdef _SHAPE_GROUP

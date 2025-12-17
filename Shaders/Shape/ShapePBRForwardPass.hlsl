@@ -53,7 +53,10 @@ struct FragOutput
 struct Color
 {
 	half4 color;
+#ifdef _GRADIENT_COLOR
 	half4 gradientColor;
+	int useGradient;
+#endif
 };
 
 CBUFFER_START(Raymarch)
@@ -63,37 +66,62 @@ int _MaxSteps;
 float _MaxDistance;
 CBUFFER_END
 
+float _GradientScaleY;
+float _GradientOffsetY;
+float _GradientAngle;
 float _RayShadowBias;
+
 half4 baseColor;
+#ifdef _SHAPE_GROUP
+half4 localColor;
+#endif
 
 StructuredBuffer<Color> _ColorBuffer;
 
+#ifdef _GRADIENT_COLOR
+inline half4 GetGradientColor(Color colorData, float3 pos)
+{
+	float2 uv = (pos.xy - 0.5 + _GradientOffsetY) / (_GradientScaleY / 2.0) + 0.5;
+	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
+	uv.y = 1.0 - uv.y;
+	uv = saturate(uv);
+	return lerp(colorData.color, colorData.gradientColor, uv.y);
+}
+#endif
+
+inline void InitBlend(const int passType, int index)
+{
+	if (passType != PASS_MAP) return;
 #ifdef _SHAPE_GROUP
-half4 localColor;
-
-inline void PreBlend(int index)
-{
 	localColor = _ColorBuffer[index].color;
-}
-
-inline void ShapeBlend(int index, float3 position, float blend)
-{
-	localColor = lerp(localColor, _ColorBuffer[index].color, blend);
-}
-
-inline void GroupBlend(float blend)
-{
-	baseColor = lerp(baseColor, localColor, blend);
-}
 #else
-inline void PreBlend(int index)
-{
 	baseColor = _ColorBuffer[index].color;
+#endif
 }
 
-inline void ShapeBlend(int index, float3 position, float blend)
+inline void PreShapeBlend(const int passType, int index, float3 position, inout float distance) { }
+
+inline void PostShapeBlend(const int passType, int index, float3 position, float blend)
 {
-	baseColor = lerp(baseColor, _ColorBuffer[index].color, blend);
+	if (passType != PASS_MAP) return;
+#ifdef _GRADIENT_COLOR
+	Color colorData = _ColorBuffer[index];
+	half4 color = colorData.useGradient ? GetGradientColor(colorData, position) : colorData.color;
+#else
+	half4 color = _ColorBuffer[index].color;
+#endif
+#ifdef _SHAPE_GROUP
+	localColor = lerp(localColor, color, blend);
+#else
+	baseColor = lerp(baseColor, color, blend);
+#endif
+}
+
+#ifdef _SHAPE_GROUP
+inline void PostGroupBlend(const int passType, float blend)
+{
+	if (passType != PASS_MAP) return;
+	baseColor = lerp(baseColor, localColor, blend);
 }
 #endif
 
@@ -201,10 +229,10 @@ FragOutput Frag (Varyings input)
 	if (shapeHitCount == 0) discard;
 
 	InsertionSort(shapeHitIds, shapeHitCount);
+	
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPosWS) < ray.epsilon ?
-		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	float depth = GetDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
     
 	InputData inputData;

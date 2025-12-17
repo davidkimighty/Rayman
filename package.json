@@ -3,27 +3,23 @@
   "version": "0.1.4",
   "displayName": "Rayman",
   "description": "Ray marching shader in Unity",
-  "unity": "6000.1",
+  "unity": "6000.3",
   "author": {
     "name": "Hyunwoo Kim",
     "email": "davidkimighty@gmail.com"
   },
   "samples": [
     {
-      "displayName": "Raymarch Lit Shaders",
-      "path": "Samples~/Lit"
+      "displayName": "Shading Models",
+      "path": "Samples~/ShadingModels"
     },
     {
-      "displayName": "Raymarch Cel Shader",
-      "path": "Samples~/CelShade"
+      "displayName": "Raymarch Debug",
+      "path": "Samples~/Debug"
     },
     {
-      "displayName": "Raymarch Subscurface Scattering Shader",
-      "path": "Samples~/SSS"
-    },
-    {
-      "displayName": "Raymarch Compute Shader",
-      "path": "Samples~/Compute"
+      "displayName": "Raymarch Fractals",
+      "path": "Samples~/Fractals"
     }
   ]
 }

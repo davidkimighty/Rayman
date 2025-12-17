@@ -7,33 +7,33 @@
 
 // Inigo Quilez - smooth min functions
 
-inline float NormalizeBlend(float a, float b, float k)
+inline float NormalizeBlend(const float a, const float b, const float k)
 {
     return max(k - abs(a - b), 0.0) / max(k, 1e-8f);
 }
 
-inline float SmoothMinQuadraticPolynomial(float a, float b, float k)
+inline float SmoothMinQuadraticPolynomial(const float a, const float b, float k)
 {
     k *= 4.0;
     float h = NormalizeBlend(a, b, k);
     return min(a, b) - h * h * k * (1.0 / 4.0);
 }
 
-inline float SmoothMinCubicPolynomial(float a, float b, float k)
+inline float SmoothMinCubicPolynomial(const float a, const float b, float k)
 {
     k *= 6.0;
     float h = NormalizeBlend(a, b, k);
     return min(a, b) - h * h * h * k * (1.0 / 6.0);
 }
 
-inline float SmoothMinQuarticPolynomial(float a, float b, float k)
+inline float SmoothMinQuarticPolynomial(const float a, const float b, float k)
 {
     k *= 16.0 / 3.0;
     float h = NormalizeBlend(a, b, k);
     return min(a, b) - h * h * h * (4.0 - h) * k * (1.0 / 16.0);
 }
 
-inline float SmoothMinCircular(float a, float b, float k)
+inline float SmoothMinCircular(const float a, const float b, float k)
 {
     k *= 1.0 / (1.0 - sqrt(0.5));
     float h = NormalizeBlend(a, b, k);
@@ -52,25 +52,30 @@ inline float SmoothMax(const float a, const float b, const float k)
     return max(a, b) + h * h * k * 0.25;
 }
 
-inline float SmoothOperation(const int operation, const float a, const float b, const float k, out float blend)
+inline float SmoothOperation(const int operation, const float a, const float b, const float k, inout float blend)
 {
     if (a < -0.5)
         return b;
 
-    switch (operation)
+    float res;
+
+    [branch]
+    if (operation == UNION)
     {
-        case UNION:
-            blend = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
-            return SmoothMin(a, b, k);
-        case SUBTRACT:
-            blend = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
-            return SmoothMax(a, -b, k);
-        case INTERSECT:
-            blend = clamp(0.5 - 0.5 * (a - b) / k, 0.0, 1.0);
-            return -SmoothMin(-a, -b, k);
-        default:
-            return b;
+        blend = clamp(0.5 + 0.5 * (a - b) / k, 0.0, 1.0);
+        res = SmoothMin(a, b, k);
     }
+    else if (operation == SUBTRACT)
+    {
+        blend = clamp(0.5 - 0.5 * (a + b) / k, 0.0, 1.0);
+        res = SmoothMax(a, -b, k);
+    }
+    else // INTERSECT
+    {
+        blend = clamp(0.5 - 0.5 * (a - b) / k, 0.0, 1.0);
+        res = -SmoothMin(-a, -b, k);
+    }
+    return res;
 }
 
 #endif

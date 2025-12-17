@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ColorBufferProvider : BufferProvider<VisualProvider>
+    public abstract class ColorBufferProvider<T> : BufferProvider<VisualProvider>
+        where T : struct, IPopulateData<ColorProvider>
     {
-        public static readonly int BufferId = Shader.PropertyToID("_ColorBuffer");
+        public static int BufferId = Shader.PropertyToID("_ColorBuffer");
         
         private ColorProvider[] providers;
-        private ColorData[] colorData;
+        private T[] colorData;
 
         public override void InitializeBuffer(ref Material material, VisualProvider[] dataProviders)
         {
@@ -22,12 +23,15 @@ namespace Rayman
             if (providers.Length == 0) return;
 
             int count = providers.Length;
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<ColorData>());
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
             material.SetBuffer(BufferId, Buffer);
 
-            colorData = new ColorData[count];
+            colorData = new T[count];
             for (int i = 0; i < providers.Length; i++)
-                colorData[i] = new ColorData(providers[i]);
+            {
+                colorData[i] = new T();
+                colorData[i].Populate(providers[i]);
+            }
             Buffer.SetData(colorData);
         }
 
@@ -41,7 +45,8 @@ namespace Rayman
                 ColorProvider provider = providers[i];
                 if (!provider) continue;
 
-                colorData[i] = new ColorData(provider);
+                colorData[i] = new T();
+                colorData[i].Populate(providers[i]);
                 if (!provider.IsVisualDirty) continue;
 
                 provider.IsVisualDirty = false;
@@ -56,7 +61,7 @@ namespace Rayman
             Buffer?.Release();
             colorData = null;
         }
-
+        
         private ColorProvider[] GetColorProviders(VisualProvider[] dataProviders)
         {
             List<ColorProvider> valids = new();
@@ -66,6 +71,26 @@ namespace Rayman
                     valids.Add(colorProvider);
             }
             return valids.ToArray();
+        }
+    }
+    
+    public class ColorBufferProvider : ColorBufferProvider<ColorData>
+    {
+        public override void InitializeBuffer(ref Material material, VisualProvider[] dataProviders)
+        {
+            material.DisableKeyword("_GRADIENT_COLOR");
+            base.InitializeBuffer(ref material, dataProviders);
+        }
+    }
+    
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct ColorData : IPopulateData<ColorProvider>
+    {
+        public Vector4 Color;
+
+        public void Populate(ColorProvider provider)
+        {
+            Color = provider.Color;
         }
     }
 }

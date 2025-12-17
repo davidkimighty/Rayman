@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeBufferProvider : BufferProvider<ShapeProvider>
+    public abstract class ShapeBufferProvider<T> : BufferProvider<ShapeProvider>
+        where T : struct, IPopulateData<ShapeProvider>
     {
-        public static readonly int BufferId = Shader.PropertyToID("_ShapeBuffer");
+        public static int BufferId = Shader.PropertyToID("_ShapeBuffer");
         
         private ShapeProvider[] providers;
-        private ShapeData[] shapeData;
+        private T[] shapeData;
 
         public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
         {
@@ -21,12 +22,15 @@ namespace Rayman
                 ReleaseBuffer();
             providers = dataProviders;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<ShapeData>());
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
             material.SetBuffer(BufferId, Buffer);
 
-            shapeData = new ShapeData[count];
+            shapeData = new T[count];
             for (int i = 0; i < count; i++)
-                shapeData[i] = new ShapeData(providers[i]);
+            {
+                shapeData[i] = new T();
+                shapeData[i].Populate(providers[i]);
+            }
             Buffer.SetData(shapeData);
         }
 
@@ -40,7 +44,8 @@ namespace Rayman
                 ShapeProvider provider = providers[i];
                 if (!provider) continue;
 
-                shapeData[i] = new ShapeData(provider);
+                shapeData[i] = new T();
+                shapeData[i].Populate(provider);
                 if (provider.gameObject.isStatic) continue;
 
                 setData = true;
@@ -54,6 +59,35 @@ namespace Rayman
             Buffer?.Release();
             Buffer = null;
             shapeData = null;
+        }
+    }
+
+    public class ShapeBufferProvider : ShapeBufferProvider<ShapeData> { }
+    
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct ShapeData : IPopulateData<ShapeProvider>
+    {
+        public Vector3 Position;
+        public Quaternion Rotation;
+        public Vector3 Scale;
+        public Vector3 Size;
+        public Vector3 Pivot;
+        public int Operation;
+        public float Blend;
+        public float Roundness;
+        public int ShapeType;
+
+        public void Populate(ShapeProvider provider)
+        {
+            Position = provider.transform.position;
+            Rotation = Quaternion.Inverse(provider.transform.rotation);
+            Scale = provider.GetScale();
+            Size = provider.Size;
+            Pivot = provider.Pivot;
+            Operation = (int)provider.Operation;
+            Blend = provider.Blend;
+            Roundness = provider.Roundness;
+            ShapeType = (int)provider.Shape;
         }
     }
 }

@@ -20,4 +20,21 @@ inline bool Raymarch(inout Ray ray, const int maxSteps, const int maxDistance, c
     return ray.hitDistance < ray.epsilon;
 }
 
+inline bool RaymarchHitCount(inout Ray ray, const int maxSteps, const int maxDistance, const float2 epsilon, out int hitCount)
+{
+    hitCount = 0;
+    [loop]
+    for (int i = 0; i < maxSteps; i++)
+    {
+        ray.hitDistance = Map(ray);
+        ray.epsilon = lerp(epsilon.x, epsilon.y, ray.distanceTravelled / maxDistance);
+        if (ray.hitDistance < ray.epsilon || ray.distanceTravelled > maxDistance) break;
+        
+        ray.distanceTravelled += ray.hitDistance;
+        ray.hitPoint += ray.dir * ray.hitDistance;
+        hitCount++;
+    }
+    return ray.hitDistance < ray.epsilon;
+}
+
 #endif

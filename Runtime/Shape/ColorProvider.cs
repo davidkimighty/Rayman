@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 namespace Rayman
@@ -7,18 +6,6 @@ namespace Rayman
     {
         public Color Color;
         public Color GradientColor;
-    }
-
-    [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ColorData
-    {
-        public Vector4 Color;
-        public Vector4 GradientColor;
-
-        public ColorData(ColorProvider provider)
-        {
-            Color = provider.Color;
-            GradientColor = provider.GradientColor;
-        }
+        public bool UseGradient;
     }
 }

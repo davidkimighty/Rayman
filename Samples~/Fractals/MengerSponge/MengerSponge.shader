@@ -1,15 +1,19 @@
-Shader "Rayman/ShapePBR"
+	Shader "Rayman/MengerSponge"
 {
     Properties
     {
+    	[Header(Menger Sponge)][Space]
+    	[MainColor] _BaseColor("Color", Color) = (1,1,1,1)
+    	_Size("Size", Float) = 0.5
+    	_Iterations("Iterations", Int) = 3
+    	_Scale("Scale", Float) = 3.0
+    	_ScaleMultiplier("Scale Multiplier", Float) = 4.0
+    	
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0.0
-    	_GradientScaleY("Gradient Scale Y", Range(0.01, 5.0)) = 1.0
-    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
-    	_GradientAngle("Gradient Angle", Float) = 0.0
-    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
+    	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.01)) = 0.006
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
@@ -37,6 +41,94 @@ Shader "Rayman/ShapePBR"
         }
         LOD 100
         
+        HLSLINCLUDE
+		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
+		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
+
+		CBUFFER_START(RaymarchPerGroup)
+		float _EpsilonMin;
+		float _EpsilonMax;
+        int _MaxSteps;
+		float _MaxDistance;
+        int _ShadowMaxSteps;
+        float _ShadowMaxDistance;
+		CBUFFER_END
+
+		float4x4 _Transform;
+		float _Size;
+		int _Iterations;
+		float _Scale;
+		float _ScaleMultiplier;
+		half4 color;
+
+		inline float SpongeDistance(float3 positionWS)
+		{
+			float3 posOS = mul(_Transform, float4(positionWS, 1.0)).xyz;
+			float box = BoxSdf(posOS, _Size);
+			float scale = _Scale;
+			
+			for (int i = 0; i < _Iterations; i++)
+			{
+				float3 a = abs(fmod(posOS * scale + scale * 2.0, 2.0) - 1.0);
+				scale *= _ScaleMultiplier;
+				float3 r = abs(1.0 - 3.0 * abs(a));
+				
+				float da = max(r.x, r.y);
+				float db = max(r.y, r.z);
+				float dc = max(r.z, r.x);
+				float c = (min(da, min(db, dc)) - 1.0) / scale;
+				if (c > box)
+					box = c;
+			}
+			return box;
+		}
+		
+		float Map(inout Ray ray)
+		{
+			float3 posOS = mul(_Transform, float4(ray.hitPoint, 1.0)).xyz;
+			float box = BoxSdf(posOS, _Size);
+			float scale = _Scale;
+			color = _BaseColor;
+			ray.data = float4(1.0, 0, 0, 0);
+			
+			for (int i = 0; i < _Iterations; i++)
+			{
+				float3 a = abs(fmod(posOS * scale + scale * 2.0, 2.0) - 1.0);
+				scale *= _ScaleMultiplier;
+				float3 r = abs(1.0 - 3.0 * abs(a));
+				
+				float da = max(r.x, r.y);
+				float db = max(r.y, r.z);
+				float dc = max(r.z, r.x);
+				float c = (min(da, min(db, dc)) - 1.0) / scale;
+				if (c > box)
+				{
+					box = c;
+					ray.data.x = min(ray.data.x, 0.2 * da * db * dc);
+					ray.data.y = (1.0 + float(i)) / _Iterations;
+				}
+			}
+			return box;
+		}
+
+		float NormalMap(const float3 positionWS)
+		{
+			return SpongeDistance(positionWS);
+		}
+
+		float ShadowMap(const float3 positionWS)
+		{
+			return SpongeDistance(positionWS);
+		}
+        
+        ENDHLSL
+
         Pass
 		{
 			Name "Forward"
@@ -77,46 +169,14 @@ Shader "Rayman/ShapePBR"
 		    
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 
-			#pragma multi_compile_fragment _ _SHAPE_GROUP
-			#pragma multi_compile_fragment _ _GRADIENT_COLOR
-			
-			#define SHAPE_BLENDING
-			#ifdef _SHAPE_GROUP
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
-			#else
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
-			#endif
-			
 			#pragma vertex Vert
             #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapePBRForwardPass.hlsl"
+
+			#include "Packages/com.davidkimighty.rayman/Samples/Fractals/MengerSponge/MengerSpongeForwardPass.hlsl"
             ENDHLSL
 		}
-
-        Pass
-        {
-       		Name "Depth Normals"
-		    Tags { "LightMode" = "DepthNormals" }
-
-		    ZWrite On
-		    Cull [_Cull]
-
-		    HLSLPROGRAM
-		    #pragma target 2.0
-		    
-		    #pragma multi_compile _ LOD_FADE_CROSSFADE
-		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
-		    #pragma multi_compile_instancing
-		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
-
-		    #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
-		    
-			#pragma vertex Vert
-		    #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeDepthNormalPass.hlsl"
-		    ENDHLSL
-        }
 
 		Pass
 		{
@@ -134,17 +194,14 @@ Shader "Rayman/ShapePBR"
 			HLSLPROGRAM
 			#pragma target 2.0
 			#pragma multi_compile_instancing
+			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
 			
-			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-
-			#pragma multi_compile_fragment _ GRADIENT_COLOR
-
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
 			
 			#pragma vertex Vert
 		    #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeShadowCasterPass.hlsl"
+
+			#include "Packages/com.davidkimighty.rayman/Samples/Fractals/MengerSponge/MengerSpongeShadowCasterPass.hlsl"
 			ENDHLSL
 		}
     }
