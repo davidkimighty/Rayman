@@ -49,15 +49,14 @@ float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
     
-    float3 cameraPos = _WorldSpaceCameraPos;
+    float3 cameraPosWS = _WorldSpaceCameraPos;
     half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
-    ray.distanceTravelled = length(ray.hitPoint - cameraPos);
+    ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
+    
     if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
     
-    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
-        GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
-    return depth;
+    return GetNonLinearDepth(ray.hitPoint);
 }
 
 #endif

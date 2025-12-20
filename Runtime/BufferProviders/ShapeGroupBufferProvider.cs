@@ -3,13 +3,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeGroupBufferProvider : ShapeBufferProvider<ShapeGroupData>
-    {
-        static ShapeGroupBufferProvider()
-        {
-            BufferId = Shader.PropertyToID("_ShapeGroupBuffer");
-        }
-    }
+    public class ShapeGroupBufferProvider : ShapeBufferProvider<ShapeGroupData> { }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeGroupData : IPopulateData<ShapeProvider>

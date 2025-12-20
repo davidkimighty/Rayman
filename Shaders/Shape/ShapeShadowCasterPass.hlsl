@@ -74,8 +74,7 @@ float Frag(Varyings input) : SV_Depth
     LODFadeCrossFade(input.positionCS);
 #endif
 
-    const float depth = ray.distanceTravelled - length(input.positionWS - cameraPosWS) < ray.epsilon ?
-        GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+    const float depth = GetNonLinearDepth(ray.hitPoint);
     return depth;
 }
 

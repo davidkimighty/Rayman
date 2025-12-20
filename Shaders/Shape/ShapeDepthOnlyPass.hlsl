@@ -1,7 +1,9 @@
 ﻿#ifndef RAYMAN_SHAPE_DEPTHONLY
 #define RAYMAN_SHAPE_DEPTHONLY
 
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
 struct Attributes
 {
@@ -19,6 +21,11 @@ struct FragOut
     float4 color : SV_Target;
     float depth : SV_Depth;
 };
+
+float _EpsilonMin;
+float _EpsilonMax;
+int _MaxSteps;
+float _MaxDistance;
 
 Varyings Vert(Attributes input)
 {
@@ -41,12 +48,8 @@ FragOut Frag(Varyings input)
     InsertionSort(shapeHitIds, shapeHitCount);
     if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
     
-    float lengthToSurface = length(input.posWS - cameraPos);
-    const float depth = ray.distanceTravelled - lengthToSurface < ray.epsilon ?
-        GetDepth(input.posWS) : GetDepth(ray.hitPoint);
-
     FragOut output;
-    output.color = output.depth = depth;
+    output.color = output.depth = GetNonLinearDepth(ray.hitPoint);
     return output;
 }
 

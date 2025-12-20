@@ -17,6 +17,8 @@ namespace Rayman
         private Aabb[] bounds;
         private AabbNodeData[] nodeData;
 
+        public override int DataCount => nodeData?.Length ?? 0;
+
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {

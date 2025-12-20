@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &546671557711746959
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &935731666881967999
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.27690014, g: 0.3962264, b: 0.072890714, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &1057045909138786191
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,6 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &1689958482481471478
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,6 +346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &2126076267621674284
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.34509805, g: 0.47058824, b: 0.14117648, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &3205302936871007959
 GameObject:
   m_ObjectHideFlags: 0
@@ -478,6 +484,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &3947492394204024988
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +554,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &5108480026871741860
 GameObject:
   m_ObjectHideFlags: 0
@@ -615,6 +623,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.34509805, g: 0.47058824, b: 0.14117648, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &5149330296701390332
 GameObject:
   m_ObjectHideFlags: 0
@@ -683,6 +692,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.122641504, g: 0.07409757, b: 0.031817373, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &5849472829781437794
 GameObject:
   m_ObjectHideFlags: 0
@@ -786,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
-  drawGizmos: 1
+  drawGizmos: 0
 --- !u!114 &5534420368931555946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,6 +941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.122641504, g: 0.07409757, b: 0.031817373, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &6502897702228670282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,6 +1014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.3018868, g: 0.046991818, b: 0.08169355, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &8011013171693633989
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1083,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &8423836395134069784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,6 +1152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &8709710343657490091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1207,6 +1221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!1 &8898296327347569124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1275,3 +1290,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0

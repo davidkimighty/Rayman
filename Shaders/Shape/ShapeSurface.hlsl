@@ -13,6 +13,9 @@
 #define PASS_NORMAL 1
 #define PASS_SHADOW 2
 
+//#define SHAPE_BLENDING
+//#define _SHAPE_GROUP
+
 struct Shape
 {
     float3 position;
@@ -24,18 +27,42 @@ struct Shape
     half blend;
     half roundness;
     int type;
+#ifdef _SHAPE_GROUP
+    int groupIndex;
+#endif
 };
+
+#ifdef _SHAPE_GROUP
+struct Group
+{
+    int operation;
+    float blend;
+};
+#endif
 
 StructuredBuffer<Shape> _ShapeBuffer;
 StructuredBuffer<NodeAabb> _ShapeNodeBuffer;
+#ifdef _SHAPE_GROUP
+StructuredBuffer<Group> _GroupBuffer;
+#endif
 
 int shapeHitCount;
 int shapeHitIds[RAY_MAX_HITS];
 
 #ifdef SHAPE_BLENDING
-inline void InitBlend(const int passType, int index);
-inline void PreShapeBlend(const int passType, int index, float3 position, inout float distance);
-inline void PostShapeBlend(const int passType, int index, float3 position, float blend);
+struct BlendParams
+{
+    int index;
+    float3 pos;
+    half3 size;
+    float blend;
+};
+
+inline void PreShapeBlend(const int passType, BlendParams params, inout float shapeDistance);
+inline void PostShapeBlend(const int passType, BlendParams params, inout float combinedDistance);
+#ifdef _SHAPE_GROUP
+inline void PostGroupBlend(const int passType, float blend);
+#endif
 #endif
 
 inline float GetShapeDistance(const Shape shape, inout float3 localPos)
@@ -48,14 +75,12 @@ inline float GetShapeDistance(const Shape shape, inout float3 localPos)
     return GetShapeSdf(localPos, shape.type, shape.size, shape.roundness) * uniformScale;
 }
 
+#ifndef _SHAPE_GROUP
 inline float GetSceneDistance(const int passType, const float3 positionWS)
 {
     if (shapeHitCount == 0) return RAY_MAX_DISTANCE;
     
     float totalDist = RAY_MAX_DISTANCE;
-#ifdef SHAPE_BLENDING
-    InitBlend(passType, shapeHitIds[0]);
-#endif
 
     for (int i = 0; i < shapeHitCount; i++)
     {
@@ -64,16 +89,65 @@ inline float GetSceneDistance(const int passType, const float3 positionWS)
         float3 localPos = positionWS - shape.position;
         float shapeDist = GetShapeDistance(shape, localPos);
 #ifdef SHAPE_BLENDING
-        PreShapeBlend(passType, shapeIndex, localPos, shapeDist);
-#endif
+        BlendParams params = { shapeIndex, localPos, shape.size, 0};
+        PreShapeBlend(passType, params, shapeDist);
+        totalDist = SmoothOperation(shape.operation, totalDist, shapeDist, shape.blend, params.blend);
+        PostShapeBlend(passType, params, totalDist);
+#else
         float blend = 0;
         totalDist = SmoothOperation(shape.operation, totalDist, shapeDist, shape.blend, blend);
-#ifdef SHAPE_BLENDING
-        PostShapeBlend(passType, shapeIndex, localPos, blend);
 #endif
     }
     return totalDist;
 }
+#else
+inline float GetSceneDistance(const int passType, const float3 positionWS)
+{
+    if (shapeHitCount == 0) return RAY_MAX_DISTANCE;
+    
+    float totalDist = RAY_MAX_DISTANCE;
+    float localDist = RAY_MAX_DISTANCE;
+    int prevGroupIndex = _ShapeBuffer[shapeHitIds[0]].groupIndex;
+    
+    for (int i = 0; i < shapeHitCount; i++)
+    {
+        int shapeIndex = shapeHitIds[i];
+        Shape shape = _ShapeBuffer[shapeIndex];
+        
+        if (prevGroupIndex != shape.groupIndex)
+        {
+            Group group = _GroupBuffer[prevGroupIndex];
+            float groupBlend = 0;
+            totalDist = SmoothOperation(group.operation, totalDist, localDist, group.blend, groupBlend);
+#ifdef SHAPE_BLENDING
+            PostGroupBlend(passType, groupBlend);
+#endif
+            localDist = RAY_MAX_DISTANCE;
+            prevGroupIndex = shape.groupIndex;
+        }
+        
+        float3 localPos = positionWS - shape.position;
+        float shapeDist = GetShapeDistance(shape, localPos);
+#ifdef SHAPE_BLENDING
+        BlendParams params = { shapeIndex, localPos, shape.size, 0};
+        PreShapeBlend(passType, params, shapeDist);
+        localDist = SmoothOperation(shape.operation, localDist, shapeDist, shape.blend, params.blend);
+        PostShapeBlend(passType, params, totalDist);
+#else
+        float blend = 0;
+        localDist = SmoothOperation(shape.operation, localDist, shapeDist, shape.blend, blend);
+#endif
+    }
+    
+    Group group = _GroupBuffer[prevGroupIndex];
+    float groupBlend = 0;
+    totalDist = SmoothOperation(group.operation, totalDist, localDist, group.blend, groupBlend);
+#ifdef SHAPE_BLENDING
+    PostGroupBlend(passType, groupBlend);
+#endif
+    return totalDist;
+}
+#endif
 
 inline float Map(inout Ray ray)
 {

@@ -79,9 +79,10 @@ half4 localColor;
 StructuredBuffer<Color> _ColorBuffer;
 
 #ifdef _GRADIENT_COLOR
-inline half4 GetGradientColor(Color colorData, float3 pos)
+inline half4 GetGradientColor(Color colorData, float3 localPos, float2 halfExtents)
 {
-	float2 uv = (pos.xy - 0.5 + _GradientOffsetY) / (_GradientScaleY / 2.0) + 0.5;
+	float2 uv = localPos.xy / (halfExtents.xy * 2.0) + 0.5;
+	uv.y = (uv.y - 0.5 + _GradientOffsetY) / _GradientScaleY + 0.5;
 	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
 	uv.y = 1.0 - uv.y;
 	uv = saturate(uv);
@@ -89,31 +90,21 @@ inline half4 GetGradientColor(Color colorData, float3 pos)
 }
 #endif
 
-inline void InitBlend(const int passType, int index)
-{
-	if (passType != PASS_MAP) return;
-#ifdef _SHAPE_GROUP
-	localColor = _ColorBuffer[index].color;
-#else
-	baseColor = _ColorBuffer[index].color;
-#endif
-}
+inline void PreShapeBlend(const int passType, BlendParams params, inout float shapeDistance) { }
 
-inline void PreShapeBlend(const int passType, int index, float3 position, inout float distance) { }
-
-inline void PostShapeBlend(const int passType, int index, float3 position, float blend)
+inline void PostShapeBlend(const int passType, BlendParams params, inout float combinedDistance)
 {
 	if (passType != PASS_MAP) return;
 #ifdef _GRADIENT_COLOR
-	Color colorData = _ColorBuffer[index];
-	half4 color = colorData.useGradient ? GetGradientColor(colorData, position) : colorData.color;
+	Color colorData = _ColorBuffer[params.index];
+	half4 color = colorData.useGradient ? GetGradientColor(colorData, params.pos, params.size) : colorData.color;
 #else
-	half4 color = _ColorBuffer[index].color;
+	half4 color = _ColorBuffer[params.index].color;
 #endif
 #ifdef _SHAPE_GROUP
-	localColor = lerp(localColor, color, blend);
+	localColor = lerp(localColor, color, params.blend);
 #else
-	baseColor = lerp(baseColor, color, blend);
+	baseColor = lerp(baseColor, color, params.blend);
 #endif
 }
 
@@ -232,7 +223,7 @@ FragOutput Frag (Varyings input)
 	
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
-	float depth = GetDepth(ray.hitPoint);
+	float depth = GetNonLinearDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
     
 	InputData inputData;

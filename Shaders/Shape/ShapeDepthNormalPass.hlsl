@@ -62,9 +62,7 @@ FragOut Frag(Varyings input)
     if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
     
     const float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
-    float lengthToSurface = length(input.posWS - cameraPosWS);
-    const float depth = ray.distanceTravelled - lengthToSurface < ray.epsilon ?
-        GetDepth(input.posWS) : GetDepth(ray.hitPoint);
+    const float depth = GetNonLinearDepth(ray.hitPoint);
 
     FragOut output;
     output.normal = float4(normal, 0);

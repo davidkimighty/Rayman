@@ -88,7 +88,7 @@ FragOutput Frag (Varyings input)
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 	
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
-	float depth = GetDepth(ray.hitPoint);
+	float depth = GetNonLinearDepth(ray.hitPoint);
 	
 	InputData inputData;
     InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);

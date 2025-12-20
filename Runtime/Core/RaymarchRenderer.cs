@@ -67,7 +67,7 @@ namespace Rayman
                 SetRaySettings(ref mat);
                 matInstances.Add(mat);
             }
-            mainRenderer.materials = matInstances.ToArray();
+            mainRenderer.materials = matInstances.ToArray(); // has sort issue
             isReady = true;
         }
 

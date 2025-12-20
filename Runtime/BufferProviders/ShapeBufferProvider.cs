@@ -11,6 +11,8 @@ namespace Rayman
         private ShapeProvider[] providers;
         private T[] shapeData;
 
+        public override int DataCount => shapeData?.Length ?? 0;
+
         public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
         {
             if (dataProviders == null) return;

@@ -6,9 +6,6 @@ Shader "Rayman/ShapeSSS"
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
     	_Metallic("Metallic", Range(0.0, 1.0)) = 0
     	_Smoothness("Smoothness", Range(0.0, 1.0)) = 0.5
-    	_GradientScaleY("Gradient Scale Y", Range(0.01, 5.0)) = 1.0
-    	_GradientOffsetY("Gradient Offset Y", Range(0.0, 1.0)) = 0.5
-    	_GradientAngle("Gradient Angle", Float) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
     	[Header(SSS)][Space]
@@ -85,14 +82,9 @@ Shader "Rayman/ShapeSSS"
             #pragma instancing_options renderinglayer
 
 			#pragma multi_compile_fragment _ _SHAPE_GROUP
-			#pragma multi_compile_fragment _ _GRADIENT_COLOR
 			
 			#define SHAPE_BLENDING
-			#ifdef _SHAPE_GROUP
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
-			#else
 			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
-			#endif
 			
 			#pragma vertex Vert
             #pragma fragment Frag
@@ -120,8 +112,7 @@ Shader "Rayman/ShapeSSS"
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-			#pragma multi_compile_fragment _ GRADIENT_COLOR
-
+			#pragma multi_compile_fragment _ _SHAPE_GROUP
 			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
 			
 			#pragma vertex Vert

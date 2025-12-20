@@ -93,7 +93,7 @@ FragOutput Frag (Varyings input)
 	bool rayHit = RaymarchHitCount(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax), rayHitCount);
 
 	half4 color = half4(0, 0, 0, 1);
-	float depth = GetDepth(lerp(input.positionWS, ray.hitPoint, (float)rayHit));
+	float depth = GetNonLinearDepth(lerp(input.positionWS, ray.hitPoint, (float)rayHit));
 
 	[branch]
 	if (_DebugMode == 0)

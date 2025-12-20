@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DebugDashboard : MonoBehaviour
 {
-    private const string Space = "      ";
+    private const string Space = "   ";
 
     [SerializeField] private TMP_Text _debugMessageText;
     [SerializeField] private Transform _textHolder;

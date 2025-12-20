@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 503724502861751914}
   - component: {fileID: 7810850993907234641}
   - component: {fileID: 1150958362426273387}
+  - component: {fileID: 8839725821764147518}
+  - component: {fileID: -978603303031378221}
   m_Layer: 5
   m_Name: DebugDashboard
   m_TagString: Untagged
@@ -105,6 +107,8 @@ MonoBehaviour:
   elements:
   - {fileID: 7810850993907234641}
   - {fileID: 1150958362426273387}
+  - {fileID: 8839725821764147518}
+  - {fileID: -978603303031378221}
 --- !u!114 &7810850993907234641
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +133,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 506e336a2c1204bd3ae9035c1330d887, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8839725821764147518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6287924503627070363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c1d61c70656386418959d6d60a9ae73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Sample.Debugger::SdfCountDebugger
+--- !u!114 &-978603303031378221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6287924503627070363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae73f96548906141a8f3be8eda68cc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Sample.Debugger::SpatialNodeDebugger
 --- !u!1 &7112863507741784345
 GameObject:
   m_ObjectHideFlags: 0

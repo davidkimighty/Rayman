@@ -69,8 +69,7 @@ FragOutput Frag (Varyings input)
 	InsertionSort(shapeHitIds, shapeHitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
-	float depth = ray.distanceTravelled - length(input.positionWS - cameraPos) < ray.epsilon ?
-		GetDepth(input.positionWS) : GetDepth(ray.hitPoint);
+	float depth = GetNonLinearDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
 
 	const float2 uv = GetMatCap(viewDirWS, normal);

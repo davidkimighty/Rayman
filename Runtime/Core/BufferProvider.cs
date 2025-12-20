@@ -6,6 +6,7 @@ namespace Rayman
     {
         public virtual GraphicsBuffer Buffer { get; protected set; }
         public virtual bool IsInitialized => Buffer != null;
+        public virtual int DataCount { get; protected set; }
 
         public abstract void InitializeBuffer(ref Material material, T[] dataProviders);
 

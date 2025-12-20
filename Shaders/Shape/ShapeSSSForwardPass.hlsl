@@ -55,10 +55,6 @@ struct FragOutput
 struct Color
 {
 	half4 color;
-#ifdef _GRADIENT_COLOR
-	half4 gradientColor;
-	bool useGradient;
-#endif
 };
 
 CBUFFER_START(Raymarch)
@@ -75,11 +71,7 @@ float _SssScale;
 float _SssAmbient;
 CBUFFER_END
 
-float _GradientScaleY;
-float _GradientOffsetY;
-float _GradientAngle;
 float _RayShadowBias;
-
 half4 baseColor;
 #ifdef _SHAPE_GROUP
 half4 localColor;
@@ -91,17 +83,6 @@ uniform half4 _NoiseTex_TexelSize;
 
 StructuredBuffer<Color> _ColorBuffer;
 
-#ifdef _GRADIENT_COLOR
-inline half4 GetGradientColor(Color colorData, float3 pos)
-{
-	float2 uv = (pos.xy - 0.5 + _GradientOffsetY) / (_GradientScaleY / 2.0) + 0.5;
-	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
-	uv.y = 1.0 - uv.y;
-	uv = saturate(uv);
-	return lerp(colorData.color, colorData.gradientColor, uv.y);
-}
-#endif
-
 inline void InitBlend(const int passType, int index)
 {
 	if (passType != PASS_MAP) return;
@@ -112,29 +93,23 @@ inline void InitBlend(const int passType, int index)
 #endif
 }
 
-inline void PreShapeBlend(const int passType, int index, float3 position, inout float distance)
+inline void PreShapeBlend(const int passType, BlendParams params, inout float shapeDistance)
 {
 	if (passType == PASS_NORMAL)
 	{
 		float frequency = 200.0;
 		float amplitude = 0.0001;
-		distance += snoise(position * frequency) * amplitude; // testing noise
+		shapeDistance += snoise(params.pos * frequency) * amplitude; // testing noise
 	}
 }
 
-inline void PostShapeBlend(const int passType, int index, float3 position, float blend)
+inline void PostShapeBlend(const int passType, BlendParams params, inout float combinedDistance)
 {
 	if (passType != PASS_MAP) return;
-#ifdef _GRADIENT_COLOR
-	Color colorData = _ColorBuffer[index];
-	half4 color = colorData.useGradient ? GetGradientColor(colorData, position) : colorData.color;
-#else
-	half4 color = _ColorBuffer[index].color;
-#endif
 #ifdef _SHAPE_GROUP
-	localColor = lerp(localColor, color, blend);
+	localColor = lerp(localColor, _ColorBuffer[params.index].color, params.blend);
 #else
-	baseColor = lerp(baseColor, color, blend);
+	baseColor = lerp(baseColor, _ColorBuffer[params.index].color, params.blend);
 #endif
 }
 
@@ -252,7 +227,7 @@ FragOutput Frag (Varyings input)
 	InsertionSort(shapeHitIds, shapeHitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
 
-	float depth = GetDepth(ray.hitPoint);
+	float depth = GetNonLinearDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
     
 	InputData inputData;

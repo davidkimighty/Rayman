@@ -52,12 +52,7 @@ Shader "Rayman/ShapeDebug"
             #pragma instancing_options renderinglayer
 
 			#pragma multi_compile_fragment _ _SHAPE_GROUP
-			
-			#ifdef _SHAPE_GROUP
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeGroupSurface.hlsl"
-			#else
 			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
-			#endif
 			
 			#pragma vertex Vert
             #pragma fragment Frag
