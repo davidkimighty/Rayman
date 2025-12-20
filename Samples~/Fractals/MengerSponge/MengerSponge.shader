@@ -89,13 +89,13 @@
 			return box;
 		}
 		
-		float Map(inout Ray ray)
+		float Map(const float3 positionWS)
 		{
-			float3 posOS = mul(_Transform, float4(ray.hitPoint, 1.0)).xyz;
+			float3 posOS = mul(_Transform, float4(positionWS, 1.0)).xyz;
 			float box = BoxSdf(posOS, _Size);
 			float scale = _Scale;
 			color = _BaseColor;
-			ray.data = float4(1.0, 0, 0, 0);
+			// ray.data = float4(1.0, 0, 0, 0);
 			
 			for (int i = 0; i < _Iterations; i++)
 			{
@@ -110,8 +110,8 @@
 				if (c > box)
 				{
 					box = c;
-					ray.data.x = min(ray.data.x, 0.2 * da * db * dc);
-					ray.data.y = (1.0 + float(i)) / _Iterations;
+					// ray.data.x = min(ray.data.x, 0.2 * da * db * dc);
+					// ray.data.y = (1.0 + float(i)) / _Iterations;
 				}
 			}
 			return box;

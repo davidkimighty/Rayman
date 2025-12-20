@@ -198,6 +198,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &340340765
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1310379942}
+    m_Modifications:
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Name
+      value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: shader
+      value: 
+      objectReference: {fileID: 4800000, guid: 4933f155fab2eaa46a245c3073f9af33, type: 3}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: visualBufferProvider
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5534420368931555946, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
 --- !u!1 &484591983
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,22 +409,6 @@ MonoBehaviour:
   _maxRotSpeed: 100
   _minRotSpeed: 10
   _randomRot: 0
---- !u!4 &510779317 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-  m_PrefabInstance: {fileID: 1294850681}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &510779323 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8099920747417265488, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-  m_PrefabInstance: {fileID: 1294850681}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
 --- !u!1001 &542259750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -457,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 20.26
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -476,6 +526,22 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
+--- !u!4 &666708258 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 623054652300250353, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+  m_PrefabInstance: {fileID: 340340765}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &666708261 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+  m_PrefabInstance: {fileID: 340340765}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
 --- !u!1 &1269901865
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +603,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 33.3
-  orthographic: 1
+  orthographic: 0
   orthographic size: 0.5
   m_Depth: -1
   m_CullingMask:
@@ -563,7 +629,7 @@ Transform:
   m_GameObject: {fileID: 1269901865}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3}
+  m_LocalPosition: {x: 0, y: 0, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -613,72 +679,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1001 &1294850681
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1310379942}
-    m_Modifications:
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 623054652300250353, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5849472829781437794, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: m_Name
-      value: Shrek
-      objectReference: {fileID: 0}
-    - target: {fileID: 8099920747417265488, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: shader
-      value: 
-      objectReference: {fileID: 4800000, guid: 4933f155fab2eaa46a245c3073f9af33, type: 3}
-    - target: {fileID: 8099920747417265488, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-      propertyPath: visualBufferProvider
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5534420368931555946, guid: a0dd128c33906d845b10678fa8065664, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a0dd128c33906d845b10678fa8065664, type: 3}
 --- !u!1 &1310379938
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,7 +769,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 510779317}
+  - {fileID: 666708258}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1310379943
@@ -788,12 +788,12 @@ MonoBehaviour:
   setupOnAwake: 1
   epsilonMin: 0.001
   epsilonMax: 0.01
-  maxSteps: 64
+  maxSteps: 128
   maxRayDistance: 100
   shadowMaxSteps: 16
   shadowMaxRayDistance: 30
   raymarchObjects:
-  - {fileID: 510779323}
+  - {fileID: 666708261}
 --- !u!114 &1310379944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -823,7 +823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 622f91c8f049f4145a22a87829639222, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeDebug
-  raymarchObject: {fileID: 510779323}
+  raymarchObject: {fileID: 666708261}
   debugMode: 1
   boundsDisplayThreshold: 300
 --- !u!1 &1875870780

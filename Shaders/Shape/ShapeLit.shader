@@ -1,4 +1,4 @@
-Shader "Rayman/ShapePBR"
+Shader "Rayman/ShapeLit"
 {
     Properties
     {
@@ -16,6 +16,8 @@ Shader "Rayman/ShapePBR"
     	_EpsilonMax("Epsilon Max", Float) = 0.01
     	_MaxSteps("Max Steps", Int) = 64
     	_MaxDistance("Max Distance", Float) = 100.0
+    	_DepthNormalMaxSteps("DepthNormal Max Steps", Int) = 16
+    	_DepthNormalMaxDistance("DepthNormal Max Distance", Float) = 100.0
     	_ShadowMaxSteps("Shadow Max Steps", Int) = 16
     	_ShadowMaxDistance("Shadow Max Distance", Float) = 30.0
     	
@@ -86,7 +88,7 @@ Shader "Rayman/ShapePBR"
 			
 			#pragma vertex Vert
             #pragma fragment Frag
-			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapePBRForwardPass.hlsl"
+			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeLitForwardPass.hlsl"
             ENDHLSL
 		}
 

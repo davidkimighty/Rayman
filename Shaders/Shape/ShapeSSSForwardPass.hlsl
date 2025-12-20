@@ -215,20 +215,17 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 	
-    float3 cameraPosWS = _WorldSpaceCameraPos;
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
-	
-    Ray ray = CreateRay(input.positionWS, -viewDirWS, _EpsilonMin);
-	ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
-	
-	shapeHitCount = TraverseBvh(_ShapeNodeBuffer, 0, ray.origin, ray.dir, shapeHitIds).x;
+    Ray ray = CreateRay(input.positionWS, -viewDirWS);
+
+	shapeHitCount = TraverseBvh(_ShapeNodeBuffer, 0, ray.origin, ray.dir, shapeHitIds);
 	if (shapeHitCount == 0) discard;
 
 	InsertionSort(shapeHitIds, shapeHitCount);
-	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 	float depth = GetNonLinearDepth(ray.hitPoint);
-	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
     
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);

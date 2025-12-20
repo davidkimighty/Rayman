@@ -37,16 +37,14 @@ Varyings Vert(Attributes input)
 
 FragOut Frag(Varyings input)
 {
-    float3 cameraPos = _WorldSpaceCameraPos;
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
-    Ray ray = CreateRay(input.posWS, -viewDirWS, _EpsilonMin);
-    ray.distanceTravelled = length(ray.hitPoint - cameraPos);
-	
-    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds).x;
+    Ray ray = CreateRay(input.posWS, -viewDirWS);
+
+    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds);
     if (shapeHitCount == 0) discard;
     
     InsertionSort(shapeHitIds, shapeHitCount);
-    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+    if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
     
     FragOut output;
     output.color = output.depth = GetNonLinearDepth(ray.hitPoint);

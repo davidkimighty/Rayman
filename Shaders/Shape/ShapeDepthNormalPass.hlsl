@@ -28,8 +28,8 @@ struct FragOut
 
 float _EpsilonMin;
 float _EpsilonMax;
-int _MaxSteps;
-float _MaxDistance;
+int _DepthNormalMaxSteps;
+float _DepthNormalMaxDistance;
 
 Varyings Vert(Attributes input)
 {
@@ -49,19 +49,16 @@ FragOut Frag(Varyings input)
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
     
-    float3 cameraPosWS = _WorldSpaceCameraPos;
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
-    
-    Ray ray = CreateRay(input.posWS, -viewDirWS, _EpsilonMin);
-    ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
-	
-    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds).x;
+    Ray ray = CreateRay(input.posWS, -viewDirWS);
+
+    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds);
     if (shapeHitCount == 0) discard;
     
     InsertionSort(shapeHitIds, shapeHitCount);
-    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+    if (!Raymarch(ray, _DepthNormalMaxSteps, _DepthNormalMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
     
-    const float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+    const float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
     const float depth = GetNonLinearDepth(ray.hitPoint);
 
     FragOut output;

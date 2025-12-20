@@ -12,11 +12,45 @@ struct NodeAabb
     Aabb bounds;
 };
 
-inline int2 TraverseBvh(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
+inline int TraverseBvh(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
     const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
-    int2 count = 0; // count.x is leaf
+    int count = 0;
+    int ptr = 0;
+    nodeStack[ptr++] = startIndex;
+    float3 invDir = rcp(rayDir);
+
+    while (ptr > 0)
+    {
+        NodeAabb node = nodeBuffer[nodeStack[--ptr]];
+        if (!RayIntersect(rayOrigin, invDir, node.bounds)) continue;
+        
+        if (node.childIndex < 0) // leaf
+        {
+            hitIds[count++] = node.id;
+            if (count >= RAY_MAX_HITS) break;
+        }
+        else
+        {
+            int childL = node.childIndex;
+            int childR = childL + 1;
+            float dstL = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childL].bounds);
+            float dstR = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childR].bounds);
+            
+            bool rightNear = dstL > dstR; 
+            nodeStack[ptr++] = rightNear ? childL : childR;
+            nodeStack[ptr++] = rightNear ? childR : childL;
+        }
+    }
+    return count;
+}
+
+inline int2 TraverseBvhCount(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
+    const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
+{
+    int nodeStack[STACK_SIZE];
+    int2 count = 0;
     int ptr = 0;
     nodeStack[ptr++] = startIndex;
     float3 invDir = rcp(rayDir);

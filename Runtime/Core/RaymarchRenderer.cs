@@ -10,8 +10,6 @@ namespace Rayman
         public static readonly int EpsilonMaxId = Shader.PropertyToID("_EpsilonMax");
         public static readonly int MaxStepsId = Shader.PropertyToID("_MaxSteps");
         public static readonly int MaxDistanceId = Shader.PropertyToID("_MaxDistance");
-        public static readonly int ShadowMaxStepsId = Shader.PropertyToID("_ShadowMaxSteps");
-        public static readonly int ShadowMaxDistanceId = Shader.PropertyToID("_ShadowMaxDistance");
 
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private bool setupOnAwake = true;
@@ -19,8 +17,7 @@ namespace Rayman
         [SerializeField] private float epsilonMax = 0.01f;
         [SerializeField] private int maxSteps = 64;
         [SerializeField] private float maxRayDistance = 100f;
-        [SerializeField] private int shadowMaxSteps = 16;
-        [SerializeField] private float shadowMaxRayDistance = 30f;
+        [SerializeField] private List<MaterialDataProvider> materialDataProviders = new();
         [SerializeField] private List<RaymarchObject> raymarchObjects = new();
 
         private bool isReady;
@@ -88,8 +85,9 @@ namespace Rayman
             material.SetFloat(EpsilonMaxId, epsilonMax);
             material.SetInt(MaxStepsId, maxSteps);
             material.SetFloat(MaxDistanceId, maxRayDistance);
-            material.SetInt(ShadowMaxStepsId, shadowMaxSteps);
-            material.SetFloat(ShadowMaxDistanceId, shadowMaxRayDistance);
+            
+            foreach (MaterialDataProvider provider in materialDataProviders)
+                provider?.ProvideData(ref material);
         }
     }
 }

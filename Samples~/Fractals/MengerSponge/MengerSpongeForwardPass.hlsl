@@ -82,12 +82,12 @@ FragOutput Frag (Varyings input)
 
     float3 cameraPos = _WorldSpaceCameraPos;
     half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
-    Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
+    Ray ray = CreateRay(input.positionWS, viewDirWS);
 	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
 	
-	if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 	
-	float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
 	float depth = GetNonLinearDepth(ray.hitPoint);
 	
 	InputData inputData;
@@ -119,8 +119,8 @@ FragOutput Frag (Varyings input)
 #endif
 	{
 		float diffuse = saturate(dot(inputData.normalWS, mainLight.direction)) * mainLight.shadowAttenuation;
-		Ray mainLightRay = CreateRay(inputData.positionWS, mainLight.direction, _EpsilonMin);
-		float softShadow = GetSoftShadow(mainLightRay, _ShadowMaxSteps, _ShadowMaxDistance, 0.1);
+		Ray mainLightRay = CreateRay(inputData.positionWS, mainLight.direction);
+		float softShadow = GetSoftShadow(mainLightRay, _ShadowMaxSteps, _ShadowMaxDistance, _EpsilonMin, _EpsilonMax, 0.1);
 		lighting = diffuse * softShadow * mainLight.color;
 	}
 	
@@ -159,8 +159,6 @@ FragOutput Frag (Varyings input)
 		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
 		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
 
-	color.rgb *= cos(float3(0.0, 1.0, 2.0) + 2.0 * ray.data.y);
-	color.rgb *= giColor * ray.data.x + lighting + _EmissionColor ;
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
 
 	FragOutput output;

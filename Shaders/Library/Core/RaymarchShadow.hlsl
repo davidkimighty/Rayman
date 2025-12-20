@@ -6,13 +6,15 @@
 // Must be implemented by the including shader.
 inline float ShadowMap(const float3 positionWS);
 
-inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance)
+inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance,
+    const float epsilonMin, const float epsilonMax)
 {
     ray.distanceTravelled = 0.6;
     for (int i = 0; i < maxSteps; i++)
     {
         float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
-        if(dist < ray.epsilon)
+        float e = lerp(epsilonMin, epsilonMax, saturate(ray.distanceTravelled / maxDistance));
+        if(dist < e)
             return 0;
         if (ray.distanceTravelled > maxDistance) break;
         ray.distanceTravelled += dist;
@@ -20,10 +22,11 @@ inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDista
     return 1;
 }
 
-inline float GetSoftShadow(in Ray ray, const int maxSteps, const int maxDistance, const float w)
+inline float GetSoftShadow(in Ray ray, const int maxSteps, const int maxDistance,
+    const float epsilonMin, const float epsilonMax, const float w)
 {
     float res = 1;
-    ray.distanceTravelled = ray.epsilon;
+    ray.distanceTravelled = epsilonMin;
     for (int i = 0; i < maxSteps; i++)
     {
         const float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);

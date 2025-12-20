@@ -702,12 +702,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 623054652300250353}
-  - component: {fileID: 8099920747417265488}
-  - component: {fileID: 353063418612406022}
-  - component: {fileID: 3771373875513969329}
+  - component: {fileID: 8055343700996435345}
+  - component: {fileID: 9051388734041570431}
   - component: {fileID: 6001248217901851133}
   - component: {fileID: 5534420368931555946}
-  - component: {fileID: 3008389138708926136}
   m_Layer: 0
   m_Name: Shrek
   m_TagString: Untagged
@@ -739,7 +737,7 @@ Transform:
   - {fileID: 554842634410135526}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8099920747417265488
+--- !u!114 &8055343700996435345
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -748,82 +746,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 5849472829781437794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
+  m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
-  shapeBufferProvider: {fileID: 353063418612406022}
-  groupBufferProvider: {fileID: 3771373875513969329}
+  shapeBufferProvider: {fileID: 9051388734041570431}
   shapeNodeBufferProvider: {fileID: 6001248217901851133}
   visualBufferProvider: {fileID: 5534420368931555946}
-  shapeGroups:
-  - {fileID: 3008389138708926136}
---- !u!114 &353063418612406022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
---- !u!114 &3771373875513969329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &6001248217901851133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 0
---- !u!114 &5534420368931555946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &3008389138708926136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
+  shapes:
   - {fileID: 546671557711746959}
   - {fileID: 1057045909138786191}
   - {fileID: 3947492394204024988}
@@ -840,39 +771,44 @@ MonoBehaviour:
   - {fileID: 8898296327347569124}
   - {fileID: 8011013171693633989}
   - {fileID: 8423836395134069784}
-  items:
-  - ShapeProvider: {fileID: 4260640896590414342}
-    VisualProvider: {fileID: 153141405851376126}
-  - ShapeProvider: {fileID: 2703020622106193515}
-    VisualProvider: {fileID: 4834963229384175556}
-  - ShapeProvider: {fileID: 21808732853870137}
-    VisualProvider: {fileID: 4916198155472201120}
-  - ShapeProvider: {fileID: 3830441863108236894}
-    VisualProvider: {fileID: 9018555156531107521}
-  - ShapeProvider: {fileID: 1920645647085116646}
-    VisualProvider: {fileID: 197632997447898978}
-  - ShapeProvider: {fileID: 2796288562607742514}
-    VisualProvider: {fileID: 3198708700413982324}
-  - ShapeProvider: {fileID: 4717105201912645986}
-    VisualProvider: {fileID: 6055883594764553512}
-  - ShapeProvider: {fileID: 3944243427079431763}
-    VisualProvider: {fileID: 6387561697627180148}
-  - ShapeProvider: {fileID: 4555992219932562627}
-    VisualProvider: {fileID: 9024890206753090604}
-  - ShapeProvider: {fileID: 5812244149599280024}
-    VisualProvider: {fileID: 7480100319601474885}
-  - ShapeProvider: {fileID: 1980408934314697282}
-    VisualProvider: {fileID: 5599887913370426117}
-  - ShapeProvider: {fileID: 529120759142905436}
-    VisualProvider: {fileID: 1211866961960333624}
-  - ShapeProvider: {fileID: 9171398723221757609}
-    VisualProvider: {fileID: 8360031198227814173}
-  - ShapeProvider: {fileID: 2079499354356311873}
-    VisualProvider: {fileID: 8447041892389973981}
-  - ShapeProvider: {fileID: 309539299591089789}
-    VisualProvider: {fileID: 7420569937624134543}
-  - ShapeProvider: {fileID: 195877798610282108}
-    VisualProvider: {fileID: 5909269985279769466}
+--- !u!114 &9051388734041570431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849472829781437794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57b665f8d1565454787b5af1fad2cdcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
+--- !u!114 &6001248217901851133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849472829781437794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
+  syncMargin: 0.01
+  drawGizmos: 1
+--- !u!114 &5534420368931555946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5849472829781437794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
 --- !u!1 &6206598447517181208
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,6 +40,14 @@ struct Group
 };
 #endif
 
+struct BlendParams
+{
+    int index;
+    float3 pos;
+    half3 size;
+    float blend;
+};
+
 StructuredBuffer<Shape> _ShapeBuffer;
 StructuredBuffer<NodeAabb> _ShapeNodeBuffer;
 #ifdef _SHAPE_GROUP
@@ -50,14 +58,6 @@ int shapeHitCount;
 int shapeHitIds[RAY_MAX_HITS];
 
 #ifdef SHAPE_BLENDING
-struct BlendParams
-{
-    int index;
-    float3 pos;
-    half3 size;
-    float blend;
-};
-
 inline void PreShapeBlend(const int passType, BlendParams params, inout float shapeDistance);
 inline void PostShapeBlend(const int passType, BlendParams params, inout float combinedDistance);
 #ifdef _SHAPE_GROUP
@@ -149,9 +149,9 @@ inline float GetSceneDistance(const int passType, const float3 positionWS)
 }
 #endif
 
-inline float Map(inout Ray ray)
+inline float Map(const float3 positionWS)
 {
-    return GetSceneDistance(PASS_MAP, ray.hitPoint);
+    return GetSceneDistance(PASS_MAP, positionWS);
 }
 
 inline float NormalMap(const float3 positionWS)

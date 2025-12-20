@@ -51,10 +51,10 @@ float Frag(Varyings input) : SV_Depth
     
     float3 cameraPosWS = _WorldSpaceCameraPos;
     half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
-    Ray ray = CreateRay(input.positionWS, viewDirWS, _EpsilonMin);
+    Ray ray = CreateRay(input.positionWS, viewDirWS);
     ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
     
-    if (!Raymarch(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+    if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
     
     return GetNonLinearDepth(ray.hitPoint);
 }

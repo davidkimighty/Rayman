@@ -58,17 +58,14 @@ float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
     
-    float3 cameraPosWS = _WorldSpaceCameraPos;
     float3 lightDirWS = -_LightDirection.xyz;
+    Ray ray = CreateRay(input.positionWS, lightDirWS);
 
-    Ray ray = CreateRay(input.positionWS, lightDirWS, _EpsilonMin);
-    ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
-    
-    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds).x;
+    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds);
     if (shapeHitCount == 0) discard;
     
     InsertionSort(shapeHitIds, shapeHitCount);
-    if (!Raymarch(ray, _ShadowMaxSteps, _ShadowMaxDistance, float2(_EpsilonMin, _EpsilonMax))) discard;
+    if (!Raymarch(ray, _ShadowMaxSteps, _ShadowMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 #if defined(LOD_FADE_CROSSFADE)
     LODFadeCrossFade(input.positionCS);

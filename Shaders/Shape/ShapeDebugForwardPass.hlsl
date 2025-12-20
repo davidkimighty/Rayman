@@ -44,10 +44,21 @@ CBUFFER_END
 int _DebugMode;
 int _BoundsDisplayThreshold;
 
-inline float3 GetHitMap(const int hit, const int maxSteps, const float3 col1, const float3 col2)
+inline float3 GetHitMapNormalized(const int hit, const int maxSteps, const float3 col1, const float3 col2)
 {
 	float n = clamp(float(hit) / float(maxSteps), 0.0, 1.0);
 	return float3(lerp(col1, col2, smoothstep(0.0, 1.0, n)));
+}
+
+inline float3 GetHitMap(const int hit, const int maxSteps)
+{
+	float n = float(hit) / maxSteps;
+	float3 cold = float3(0, 0, 1);
+	float3 mid = float3(0, 1, 0);
+	float3 hot = float3(1, 0, 0);
+
+	if (n < 0.5) return lerp(cold, mid, n * 2.0);
+	return lerp(mid, hot, (n - 0.5) * 2.0);
 }
 
 Varyings Vert (Attributes input)
@@ -79,18 +90,15 @@ FragOutput Frag (Varyings input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 	
-    float3 cameraPosWS = _WorldSpaceCameraPos;
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
-	
-    Ray ray = CreateRay(input.positionWS, -viewDirWS, _EpsilonMin);
-	ray.distanceTravelled = length(ray.hitPoint - cameraPosWS);
+    Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
-	int2 bvhCount = TraverseBvh(_ShapeNodeBuffer, 0, ray.origin, ray.dir, shapeHitIds);
+	int2 bvhCount = TraverseBvhCount(_ShapeNodeBuffer, 0, ray.origin, ray.dir, shapeHitIds);
 	shapeHitCount = bvhCount.x;
 	InsertionSort(shapeHitIds, shapeHitCount);
-	
+
 	int rayHitCount;
-	bool rayHit = RaymarchHitCount(ray, _MaxSteps, _MaxDistance, float2(_EpsilonMin, _EpsilonMax), rayHitCount);
+	bool rayHit = RaymarchHitCount(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax, rayHitCount);
 
 	half4 color = half4(0, 0, 0, 1);
 	float depth = GetNonLinearDepth(lerp(input.positionWS, ray.hitPoint, (float)rayHit));
@@ -100,7 +108,7 @@ FragOutput Frag (Varyings input)
 	{
 		if (!rayHit) discard;
 
-		float3 normal = GetNormal(ray.hitPoint, ray.epsilon);
+		float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
 		half3 normalColor = floor((normal * 0.5 + 0.5) * 2.0) / 2.0;
 		normalColor = pow(0.5 + 0.5 * normal, 2.2);
 		normalColor = pow(normal * 0.5 + 0.5, 0.8);
@@ -108,11 +116,11 @@ FragOutput Frag (Varyings input)
 	}
 	else if (_DebugMode == 1)
 	{
-		color = half4(GetHitMap(rayHitCount, _MaxSteps, B, Y), 1);
+		color = half4(GetHitMap(rayHitCount, _MaxSteps), 1);
 	}
 	else if (_DebugMode == 2)
 	{
-		int total = bvhCount.x + bvhCount.y;
+		int total = shapeHitCount + bvhCount.y;
 		color = 1 * saturate((float)total / (total + _BoundsDisplayThreshold));
 	}
 	
