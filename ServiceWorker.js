@@ -1,9 +1,9 @@
-const cacheName = "davidkimighty-Rayman-0.1.0";
+const cacheName = "davidkimighty-Rayman-0.1.4";
 const contentToCache = [
     "Build/InteractiveShapes_Web.loader.js",
-    "Build/InteractiveShapes_Web.framework.js",
-    "Build/InteractiveShapes_Web.data",
-    "Build/InteractiveShapes_Web.wasm",
+    "Build/InteractiveShapes_Web.framework.js.unityweb",
+    "Build/InteractiveShapes_Web.data.unityweb",
+    "Build/InteractiveShapes_Web.wasm.unityweb",
     "TemplateData/style.css"
 
 ];
