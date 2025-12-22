@@ -19,6 +19,7 @@ struct Varyings
 {
 	float4 positionCS : SV_POSITION;
 	float3 positionWS : TEXCOORD0;
+	half  fogFactor : TEXCOORD1;
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -45,11 +46,12 @@ int _MaxSteps;
 float _MaxDistance;
 CBUFFER_END
 
+float _OutlineThickness;
+float4 _OutlineColor;
+float _FresnelPow;
 float _GradientScaleY;
 float _GradientOffsetY;
 float _GradientAngle;
-float4 _FresnelColor;
-float _FresnelPow;
 
 half4 baseColor;
 #ifdef _SHAPE_GROUP
@@ -96,63 +98,6 @@ inline void PostGroupBlend(const int passType, float blend)
 }
 #endif
 
-
-float DetectEdge(float3 worldPos, float3 viewDirWS)
-{
-	float offset = 0.01;
-
-	half3 normViewDir = normalize(viewDirWS);
-	half3 viewDirTowardsScene = -normViewDir;
-
-	half3 arbitrary = abs(normViewDir.y) > 0.99 ? half3(1, 0, 0) : half3(0, 1, 0);
-	half3 viewRight = normalize(cross(viewDirTowardsScene, arbitrary));
-	half3 viewUp = normalize(cross(viewRight, viewDirTowardsScene));
-
-	float c = NormalMap(worldPos);
-	float dR = NormalMap(worldPos + viewRight * offset);
-	float dL = NormalMap(worldPos - viewRight * offset);
-	float dU = NormalMap(worldPos + viewUp * offset);
-	float dD = NormalMap(worldPos - viewUp * offset);
-	float sum = dR + dL + dU + dD; 
-	return dU;
-}
-
-float DetectEdge2(float3 worldPos, half3 viewDirWS)
-{
-    half3 normViewDir = normalize(viewDirWS);
-    half3 viewDirTowardsScene = -normViewDir;
-
-    half3 arbitrary = abs(normViewDir.y) > 0.99 ? half3(1, 0, 0) : half3(0, 1, 0);
-    half3 viewRight = normalize(cross(viewDirTowardsScene, arbitrary));
-    half3 viewUp = normalize(cross(viewRight, viewDirTowardsScene));
-
-	float scale = 0.5;
-    float3 cameraPosWS = _WorldSpaceCameraPos;
-    float dist = length(worldPos - cameraPosWS);
-    float fovY = 2.0 * atan(1.0 / UNITY_MATRIX_P[1][1]);
-    float anglePerPixel = fovY / _ScreenParams.y;
-    float pixelWorldSize = 2.0 * dist * tan(anglePerPixel * 0.5);
-    float offset = pixelWorldSize * scale;
-	offset = 0.0001;
-
-    float diagScale = offset * sqrt(2.0) * 1;
-    float3 offsetBL = -viewRight * diagScale - viewUp * diagScale;
-    float3 offsetTR = viewRight * diagScale + viewUp * diagScale;
-    float3 offsetBR = viewRight * diagScale - viewUp * diagScale;
-    float3 offsetTL = -viewRight * diagScale + viewUp * diagScale;
-
-    float dBL = NormalMap(worldPos + offsetBL);
-    float dTR = NormalMap(worldPos + offsetTR);
-    float dBR = NormalMap(worldPos + offsetBR);
-    float dTL = NormalMap(worldPos + offsetTL);
-
-    float g1 = abs(dBL - dTR);
-    float g2 = abs(dTL - dBR);
-    float edgeStrength = sqrt(g1 * g1 + g2 * g2);
-
-    return edgeStrength;
-}
-
 Varyings Vert (Attributes input)
 {
 	Varyings output = (Varyings)0;
@@ -163,6 +108,11 @@ Varyings Vert (Attributes input)
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	output.positionCS = vertexInput.positionCS;
 	output.positionWS = vertexInput.positionWS;
+	half fogFactor = 0;
+#if !defined(_FOG_FRAGMENT)
+	fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
+#endif
+	output.fogFactor = fogFactor;
 	return output;
 }
 
@@ -173,35 +123,39 @@ FragOutput Frag (Varyings input)
 	
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
-
+	
 	shapeHitCount = TraverseBvh(_ShapeNodeBuffer, 0, ray.origin, ray.dir, shapeHitIds);
 	if (shapeHitCount == 0) discard;
 
 	InsertionSort(shapeHitIds, shapeHitCount);
 	bool isHit = Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax);
-	//if (!isHit) discard;
+
+	float outlineMax = _EpsilonMin + _OutlineThickness;
+	if (ray.minDist > outlineMax) discard;
+
+	float3 depthPos = isHit ? ray.hitPoint : (ray.origin + ray.dir * ray.minDistTravelDist);
+	float depth = GetNonLinearDepth(depthPos);
+
+	if (!isHit)
+	{
+		float delta = fwidth(ray.minDist);
+		float outlineAA = saturate(0.5 - (ray.minDist - outlineMax) / delta);
+		
+		baseColor.rgb = _OutlineColor.rgb;
+		//baseColor.a = outlineAA;
+	} 
+	else
+	{
+		float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
+		float fresnel = GetFresnel(viewDirWS, normal, _FresnelPow);
+
+		half3 ambient = SampleSH(normal) * fresnel;
+		baseColor.rgb += ambient;
+		
+		half fog = InitializeInputDataFog(float4(input.positionWS, 1.0), input.fogFactor);
+		baseColor.rgb = MixFog(baseColor.rgb, fog);
+	}
 	
-	float depth = GetNonLinearDepth(ray.hitPoint);
-	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
-
-	float3 viewNormal = mul((float3x3)UNITY_MATRIX_V, normal) * 0.5 + 0.5;
-
-
-
-	 // float3 head = float3(0, 1, 0);
-	 // float3 tangent = normalize(cross(normal, abs(normal.y) > 0.99 ? float3(1, 0, 0) : head));
-	 // float3 bitangent = cross(normal, tangent);
-	 //
-	 // float offset = 0.01;
-	 // float d1 = NormalMap(ray.hitPoint + tangent * offset);
-	 // float d2 = NormalMap(ray.hitPoint - tangent * offset);
-	 // float d3 = NormalMap(ray.hitPoint + bitangent * offset);
-	 // float d4 = NormalMap(ray.hitPoint - bitangent * offset);
-	 //
-	 // float edge = (d1 + d2 + d3 + d4) * 0.1;
-	 // float outline = smoothstep(0.0, 0.01, edge);
-	 // baseColor.rgb = edge.xxx;
-
 	FragOutput output;
 	output.color = baseColor;
 	output.depth = depth;

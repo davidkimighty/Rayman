@@ -24,7 +24,6 @@ namespace Rayman
 
         public Vector3 Size = Vector3.one * 0.5f;
         public float ExpandBounds = 0.001f;
-        public bool UseLossyScale = true;
         public Vector3 Pivot = Vector3.one * 0.5f;
 
         public OperationType Operation = OperationType.Union;
@@ -58,7 +57,7 @@ namespace Rayman
             return bounds.Expand(Blend + Roundness + ExpandBounds);
         }
 
-        public Vector3 GetScale() => UseLossyScale ? transform.lossyScale : Vector3.one;
+        public Vector3 GetScale() => transform.lossyScale;
 
         public Vector3 GetSize() => GetShapeSize(Shape, Size);
 

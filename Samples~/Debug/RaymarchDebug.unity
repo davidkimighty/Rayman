@@ -507,7 +507,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 20.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -658,8 +658,8 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 3
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 1
@@ -790,8 +790,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 128
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 666708261}
 --- !u!114 &1310379944

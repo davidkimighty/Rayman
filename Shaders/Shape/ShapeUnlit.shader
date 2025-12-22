@@ -4,8 +4,9 @@ Shader "Rayman/ShapeUnlit"
     {
         [Header(PBR)][Space]
     	[MainTexture] _BaseMap("Albedo", 2D) = "white" {}
-    	_FresnelColor ("Fresnel Color", Color) = (0.2, 0.2, 0.2, 1)
-    	_FresnelPow ("Fresnel Power", Float) = 0.3
+    	_OutlineThickness ("Outline Thickness", Float) = 0.01
+    	_OutlineColor ("Outline Color", Color) = (1, 0.83, 0.0, 1)
+    	_FresnelPow ("Fresnel Power", Float) = 6.3
     	_GradientScaleY("Gradient Scale Y", Range(0.01, 3.0)) = 1.0
     	_GradientOffsetY("Gradient Offset Y", Range(-1.0, 1.0)) = 0.0
     	_GradientAngle("Gradient Angle", Float) = 0.0
@@ -15,6 +16,8 @@ Shader "Rayman/ShapeUnlit"
     	_EpsilonMax("Epsilon Max", Float) = 0.01
     	_MaxSteps("Max Steps", Int) = 64
     	_MaxDistance("Max Distance", Float) = 100.0
+    	_DepthOnlyMaxSteps("DepthOnly Max Steps", Int) = 32
+    	_DepthOnlyMaxDistance("DepthOnly Max Distance", Float) = 100.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -26,10 +29,9 @@ Shader "Rayman/ShapeUnlit"
     {
         Tags
         {
-        	"RenderType" = "Transparent"
-        	"Queue" = "Transparent"
+        	"RenderType" = "Opaque"
             "RenderPipeline" = "UniversalPipeline"
-        	"UniversalMaterialType" = "Lit"
+        	"UniversalMaterialType" = "Unlit"
         	"IgnoreProjector" = "True"
         	"DisableBatching" = "True"
         }

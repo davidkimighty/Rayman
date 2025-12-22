@@ -52,7 +52,7 @@ void CSMain (uint3 id : SV_DispatchThreadID)
     float4 posWS = mul(_CameraToWorld, posVS);
     float3 rayDirWS = normalize(posWS.xyz - _CameraPosition.xyz);
     Ray ray = CreateRay(posWS.xyz, rayDirWS);
-    ray.distanceTravelled = length(ray.hitPoint - _CameraPosition.xyz);
+    ray.travelDist = length(ray.hitPoint - _CameraPosition.xyz);
 
     _ResultTexture[id.xy] = color;
 }

@@ -108,7 +108,7 @@ inline void PostShapeBlend(const int passType, BlendParams params, inout float c
 	if (passType != PASS_MAP) return;
 #ifdef _GRADIENT_COLOR
 	Color colorData = _ColorBuffer[params.index];
-	half4 color = colorData.useGradient ? GetGradientColor(colorData, params.pos, params.size) : colorData.color;
+	half4 color = colorData.useGradient ? GetGradientColor(colorData, params.pos) : colorData.color;
 #else
 	half4 color = _ColorBuffer[params.index].color;
 #endif

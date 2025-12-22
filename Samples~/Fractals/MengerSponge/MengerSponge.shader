@@ -51,7 +51,7 @@
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
 		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
-		CBUFFER_START(RaymarchPerGroup)
+		CBUFFER_START(Raymarch)
 		float _EpsilonMin;
 		float _EpsilonMax;
         int _MaxSteps;
@@ -65,37 +65,13 @@
 		int _Iterations;
 		float _Scale;
 		float _ScaleMultiplier;
-		half4 color;
+		float4 spongeData = float4(1.0, 0, 0, 0);
 
-		inline float SpongeDistance(float3 positionWS)
+		inline float SpongeDistance(const int mapType, const float3 positionWS)
 		{
 			float3 posOS = mul(_Transform, float4(positionWS, 1.0)).xyz;
 			float box = BoxSdf(posOS, _Size);
 			float scale = _Scale;
-			
-			for (int i = 0; i < _Iterations; i++)
-			{
-				float3 a = abs(fmod(posOS * scale + scale * 2.0, 2.0) - 1.0);
-				scale *= _ScaleMultiplier;
-				float3 r = abs(1.0 - 3.0 * abs(a));
-				
-				float da = max(r.x, r.y);
-				float db = max(r.y, r.z);
-				float dc = max(r.z, r.x);
-				float c = (min(da, min(db, dc)) - 1.0) / scale;
-				if (c > box)
-					box = c;
-			}
-			return box;
-		}
-		
-		float Map(const float3 positionWS)
-		{
-			float3 posOS = mul(_Transform, float4(positionWS, 1.0)).xyz;
-			float box = BoxSdf(posOS, _Size);
-			float scale = _Scale;
-			color = _BaseColor;
-			// ray.data = float4(1.0, 0, 0, 0);
 			
 			for (int i = 0; i < _Iterations; i++)
 			{
@@ -110,21 +86,28 @@
 				if (c > box)
 				{
 					box = c;
-					// ray.data.x = min(ray.data.x, 0.2 * da * db * dc);
-					// ray.data.y = (1.0 + float(i)) / _Iterations;
+					if (mapType != 1) continue;
+					
+					spongeData.x = min(spongeData.x, 0.2 * da * db * dc);
+					spongeData.y = (1.0 + float(i)) / _Iterations;
 				}
 			}
 			return box;
 		}
 
-		float NormalMap(const float3 positionWS)
+		inline float Map(const float3 positionWS)
 		{
-			return SpongeDistance(positionWS);
+			return SpongeDistance(1, positionWS);
 		}
 
-		float ShadowMap(const float3 positionWS)
+		inline float NormalMap(const float3 positionWS)
 		{
-			return SpongeDistance(positionWS);
+			return SpongeDistance(2, positionWS);
+		}
+
+		inline float ShadowMap(const float3 positionWS)
+		{
+			return SpongeDistance(3, positionWS);
 		}
         
         ENDHLSL

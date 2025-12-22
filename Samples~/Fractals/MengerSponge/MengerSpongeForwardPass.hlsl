@@ -83,7 +83,7 @@ FragOutput Frag (Varyings input)
     float3 cameraPos = _WorldSpaceCameraPos;
     half3 viewDirWS = -GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, viewDirWS);
-	ray.distanceTravelled = length(ray.hitPoint - cameraPos);
+	ray.travelDist = length(ray.hitPoint - cameraPos);
 	
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 	
@@ -97,7 +97,7 @@ FragOutput Frag (Varyings input)
 	
 	SurfaceData surfaceData = (SurfaceData)0;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = color.rgb;
+	surfaceData.albedo = _BaseColor.rgb;
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
@@ -159,6 +159,9 @@ FragOutput Frag (Varyings input)
 		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
 		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
 
+	half4 color = half4(giColor + _EmissionColor, _BaseColor.a);
+	color.rgb *= cos(float3(0.0, 1.0, 2.0) + 2.0 * spongeData.y);
+	color.rgb *= giColor * spongeData.x + lighting + _EmissionColor ;
 	color.rgb = MixFog(color.rgb, input.fogFactorAndVertexLight.x);
 
 	FragOutput output;

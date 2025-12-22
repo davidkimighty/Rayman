@@ -11,6 +11,10 @@ Shader "Rayman/ShapeMatcap"
     	_EpsilonMax("Epsilon Max", Float) = 0.01
     	_MaxSteps("Max Steps", Int) = 64
     	_MaxDistance("Max Distance", Float) = 100.0
+    	_DepthOnlyMaxSteps("DepthOnly Max Steps", Int) = 32
+    	_DepthOnlyMaxDistance("DepthOnly Max Distance", Float) = 100.0
+    	_MotionVectorsMaxSteps("MotionVectors Max Steps", Int) = 32
+    	_MotionVectorsMaxDistance("MotionVectors Max Distance", Float) = 100.0
     	
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
@@ -55,6 +59,51 @@ Shader "Rayman/ShapeMatcap"
 			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeMatcapForwardPass.hlsl"
             ENDHLSL
 		}
+
+//		Pass
+//        {
+//       		Name "Depth Only"
+//       		Tags { "LightMode" = "DepthOnly" }
+//
+//		    ZTest LEqual
+//		    ZWrite On
+//		    Cull [_Cull]
+//
+//		    HLSLPROGRAM
+//		    #pragma target 2.0
+//
+//		    #pragma shader_feature_local _ALPHATEST_ON
+//            #pragma shader_feature_local_fragment _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
+//		    
+//		    #pragma multi_compile _ LOD_FADE_CROSSFADE
+//		    #pragma multi_compile_instancing
+//		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DOTS.hlsl"
+//
+//		    #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
+//		    
+//			#pragma vertex Vert
+//		    #pragma fragment Frag
+//			#include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeDepthOnlyPass.hlsl"
+//		    ENDHLSL
+//        }
+//
+//		Pass
+//        {
+//            Name "MotionVectors"
+//            Tags { "LightMode" = "MotionVectors" }
+//            ColorMask RG
+//
+//            HLSLPROGRAM
+//            #pragma shader_feature_local _ALPHATEST_ON
+//            #pragma shader_feature_local_vertex _ADD_PRECOMPUTED_VELOCITY
+//
+//            #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeSurface.hlsl"
+//
+//            #pragma vertex Vert
+//		    #pragma fragment Frag
+//            #include "Packages/com.davidkimighty.rayman/Shaders/Shape/ShapeMotionVectorsPass.hlsl"
+//            ENDHLSL
+//        }
     }
     FallBack "Diffuse"
 }

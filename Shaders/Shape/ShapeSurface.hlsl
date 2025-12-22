@@ -71,7 +71,7 @@ inline float GetShapeDistance(const Shape shape, inout float3 localPos)
     localPos /= shape.scale;
     localPos -= GetPivotOffset(shape.type, shape.pivot, shape.size);
 
-    float uniformScale = max(max(shape.scale.x, shape.scale.y), shape.scale.z);
+    float uniformScale = min(shape.scale.x, min(shape.scale.y, shape.scale.z));
     return GetShapeSdf(localPos, shape.type, shape.size, shape.roundness) * uniformScale;
 }
 
