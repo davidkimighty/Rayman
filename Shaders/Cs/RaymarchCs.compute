@@ -6,7 +6,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 // #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Shape/Shape.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/Shape.hlsl"
 
 struct Shape
 {

@@ -13,31 +13,6 @@ namespace Rayman
             Max = Vector3.Max(a, b);
         }
 
-        public Aabb(BoundsConfig config)
-        {
-            Vector3 right = config.Transform.right * (config.Scale.x * config.Size.x);
-            Vector3 up = config.Transform.up * (config.Scale.y * config.Size.y);
-            Vector3 forward = config.Transform.forward * (config.Scale.z * config.Size.z);
-
-            Vector3 extent = new Vector3(
-                Mathf.Abs(right.x) + Mathf.Abs(up.x) + Mathf.Abs(forward.x),
-                Mathf.Abs(right.y) + Mathf.Abs(up.y) + Mathf.Abs(forward.y),
-                Mathf.Abs(right.z) + Mathf.Abs(up.z) + Mathf.Abs(forward.z)
-            );
-
-            Vector3 offset = (config.Pivot - Vector3.one * 0.5f) * 2f;
-            Vector3 rotatedOffset = right * offset.x + up * offset.y + forward * offset.z;
-            Vector3 center = config.Transform.position + rotatedOffset;
-
-            Min = center - extent;
-            Max = center + extent;
-        }
-
-        public static Aabb Create(BoundsConfig config)
-        {
-            return new Aabb(config);
-        }
-
         public bool Contains(Aabb aabb)
         {
             return Min.x <= aabb.Min.x && Min.y <= aabb.Min.y &&

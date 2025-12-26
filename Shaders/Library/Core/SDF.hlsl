@@ -143,4 +143,27 @@ inline float2 QuadraticBezierSdf(float3 p, float3 a, float3 b, float3 c, out flo
     return float2(sqrt(dot(cp.xy, cp.xy) + p3.z * p3.z), cp.z);
 }
 
+// float iBezier(float3 ro, float3 rd, float3 p0, float3 p1, float3 p2, float3 p3, in float width)
+// {
+//     const int kNum = 50;
+//     
+//     float hit = -1.0;
+//     float res = 1e10;
+//     float3 a = p0;
+//     for( int i=1; i<kNum; i++ )
+//     {
+//         float t = float(i)/float(kNum-1);
+//         float s = 1.0-t;
+//         float3 b = p0*s*s*s + p1*3.0*s*s*t + p2*3.0*s*t*t + p3*t*t*t;
+//         float3 r = SegmentSdf( ro, rd, a, b);
+//         if( r.z<width*width )
+//         {
+//             res = min( res, r.x );
+//             hit = 1.0;
+//         }
+//         a = b;
+//     }
+//     return res*hit;
+// }
+
 #endif

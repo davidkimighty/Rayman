@@ -37,13 +37,6 @@ namespace Rayman
             OnCleanupMaterial?.Invoke(this);
         }
 
-        public virtual void Refresh()
-        {
-            if (!material) return;
-            
-            SetMaterialData();
-        }
-
         protected virtual void SetMaterialData()
         {
             foreach (MaterialDataProvider provider in materialDataProviders)
