@@ -1,7 +1,7 @@
 ﻿#ifndef RAYMAN_SHAPE
 #define RAYMAN_SHAPE
 
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/PrimitiveSdf.hlsl"
 
 #define SPHERE (0)
 #define ELLIPSOID (1)

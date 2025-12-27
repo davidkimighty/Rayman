@@ -70,10 +70,16 @@ namespace Rayman
             {
                 Spline spline = splines[i];
                 spline.KnotStartIndex = knotIndex;
+                int knotCount = spline.Knots.Count;
                 
-                for (int j = 0; j < spline.Knots.Count; j++)
-                    spline[j].SplineIndex = i;
-                knotIndex += spline.Knots.Count;
+                for (int j = 0; j < knotCount; j++)
+                {
+                    KnotProvider knot = spline[j];
+                    knot.SplineIndex = i;
+                    knot.PreviousKnot = j > 0 ? spline[j - 1] : knot;
+                    knot.NextKnot = j < knotCount - 1 ? spline[j + 1] : knot;
+                }
+                knotIndex += knotCount;
 
                 allSegments.AddRange(spline.GetSegments());
                 allKnots.AddRange(spline.Knots);

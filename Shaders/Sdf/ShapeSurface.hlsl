@@ -6,7 +6,7 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Sdf/Shape.hlsl"
 
 #define PASS_MAP 0

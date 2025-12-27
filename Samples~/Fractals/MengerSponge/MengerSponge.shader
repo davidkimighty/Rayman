@@ -44,8 +44,8 @@
         HLSLINCLUDE
 		#include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Math.hlsl"
-        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/SDF.hlsl"
-		#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/PrimitiveSdf.hlsl"
+        #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Operation.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Raymarch.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchLighting.hlsl"
         #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/RaymarchShadow.hlsl"

@@ -69,9 +69,15 @@ half4 baseColor;
 #ifdef SPLINE_BLENDING
 inline void SplineBlend(const int passType, float blend)
 {
-	if (passType != 0) return;
+	if (passType != PASS_MAP) return;
+
+	float2 uv = float2(0.5, blend);
+	uv.y = (uv.y - 0.5 + _GradientOffsetY) / _GradientScaleY + 0.5;
+	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
+	uv.y = 1.0 - uv.y;
+	uv = saturate(uv);
 	
-	half4 color = lerp(_Color, _GradientColor, blend);
+	half4 color = lerp(_Color, _GradientColor, uv.y);
 	baseColor = color;
 }
 #endif

@@ -7,7 +7,7 @@
 #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/UnityInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/MotionVectorsCommon.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
 
 struct Attributes
 {

@@ -13,6 +13,9 @@
     	_GradientAngle("Gradient Angle", Float) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
+    	[Header(Spline)][Space]
+    	_BezierSubdiv("Bezier Subdivison", Int) = 8
+    	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
     	_EpsilonMax("Epsilon Max", Float) = 0.01

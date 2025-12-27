@@ -2,7 +2,7 @@
 #define RAYMAN_SHAPE_DEPTHONLY
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/BVH.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Bvh.hlsl"
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
 
 struct Attributes

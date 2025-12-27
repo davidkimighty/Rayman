@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 
 namespace Rayman
 {
@@ -30,9 +31,26 @@ namespace Rayman
         public override void SetData()
         {
             if (!IsInitialized) return;
-            
+
             for (int i = 0; i < knotData.Length; i++)
-                knotData[i] = new KnotData(providers[i]);
+            {
+                KnotProvider knot = providers[i];
+                if (knot.TangentMode == TangentMode.Auto)
+                {
+                    Vector3 prevPos = knot.PreviousKnot.transform.position;
+                    Vector3 nextPos = knot.NextKnot.transform.position;
+                    Vector3 currentPos = knot.transform.position;
+                    Vector3 autoTangent = SplineUtility.GetAutoSmoothTangent(prevPos, currentPos, nextPos);
+                    knot.TangentOut = autoTangent;
+                    knot.TangentIn = -autoTangent;
+                }
+                else if (knot.TangentMode == TangentMode.Linear)
+                {
+                    knot.TangentOut = Vector3.zero;
+                    knot.TangentIn = Vector3.zero;
+                }
+                knotData[i] = new KnotData(knot);
+            }
             Buffer.SetData(knotData);
         }
 
@@ -51,7 +69,6 @@ namespace Rayman
         public float3 TangentIn;
         public float3 TangentOut;
         public float Radius;
-        public float Blend;
         public int SplineIndex;
 
         public KnotData(KnotProvider provider)
@@ -60,7 +77,6 @@ namespace Rayman
             TangentIn = provider.TangentIn;
             TangentOut = provider.TangentOut;
             Radius = provider.Radius;
-            Blend = provider.Blend;
             SplineIndex = provider.SplineIndex;
         }
     }

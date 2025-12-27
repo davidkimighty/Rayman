@@ -11,7 +11,8 @@ namespace Rayman
         public event Action<Spline, int> OnChange;
         
         public int KnotStartIndex;
-        
+
+        [SerializeField] private float ExtendedBounds = 0.01f;
         [SerializeField] private List<KnotProvider> knots;
 
         private bool isDirty = true;
@@ -35,7 +36,7 @@ namespace Rayman
         {
             List<Segment> segments = new();
             for (int i = 0; i < knots.Count - 1; i++)
-                segments.Add(new Segment(knots[i], knots[i + 1]));
+                segments.Add(new Segment(knots[i], knots[i + 1], ExtendedBounds));
             return segments;
         }
     }
@@ -50,11 +51,13 @@ namespace Rayman
         
         private KnotProvider k1;
         private KnotProvider k2;
+        private float extendedBounds;
         
-        public Segment(KnotProvider k1, KnotProvider k2)
+        public Segment(KnotProvider k1, KnotProvider k2, float extendedBounds)
         {
             this.k1 = k1;
             this.k2 = k2;
+            this.extendedBounds = extendedBounds;
         }
         
         public T GetBounds<T>() where T : struct, IBounds<T>
@@ -70,7 +73,7 @@ namespace Rayman
             T bounds = factory(p0, p1, p2, p3);
 
             float radius = Mathf.Max(k1.Radius, k2.Radius);
-            bounds = bounds.Expand(radius);
+            bounds = bounds.Expand(radius + extendedBounds);
             return bounds;
         }
         
