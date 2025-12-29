@@ -90,4 +90,35 @@ inline float CappedConeSdf(const float3 pos, const float3 size)
     return s * sqrt(min(dot(ca, ca), dot(cb, cb)));
 }
 
+inline float PyramidSdf(float3 pos, const float3 size)
+{
+    float width = size.x;
+    float height = size.y;
+    float halfH = height * 0.5;
+
+    pos.y += halfH;
+    if (pos.y <= 0)
+    {
+        float3 q = abs(pos) - float3(width, 0, width);
+        return length(max(q, 0));
+    }
+
+    float m2 = height * height + width * width;
+    pos.xz = abs(pos.xz);
+    if (pos.z > pos.x)
+        pos.xz = pos.zx;
+    pos.xz -= width;
+
+    float3 q = float3(pos.z, height * pos.y - width * pos.x, height * pos.x + width * pos.y);
+
+    float s = max(-q.x, 0);
+    float t = clamp((q.y - width * q.x) / (m2 + width * width), 0, 1);
+
+    float a = m2 * (q.x + s) * (q.x + s) + q.y * q.y;
+    float b = m2 * (q.x + width * t) * (q.x + width * t) + (q.y - m2 * t) * (q.y - m2 * t);
+    float d2 = max(-q.y, q.x * m2 + q.y * width) < 0 ? 0 : min(a, b);
+
+    return sqrt((d2 + q.z * q.z) / m2) * sign(max(q.z, -pos.y));
+}
+
 #endif

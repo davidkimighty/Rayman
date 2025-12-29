@@ -1,11 +1,12 @@
-﻿#ifndef RAYMAN_SHAPE_LIT_FORWARD
-#define RAYMAN_SHAPE_LIT_FORWARD
+﻿#ifndef RAYMAN_SPLINE_CHROME_FORWARD
+#define RAYMAN_SPLINE_CHROME_FORWARD
 
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"
 #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Geometry.hlsl"
+#include "Packages/com.davidkimighty.rayman/Shaders/Library/Lighting.hlsl"
 
 struct Attributes
 {
@@ -50,15 +51,6 @@ struct FragOutput
     float depth : SV_Depth;
 };
 
-struct Color
-{
-	half4 color;
-#ifdef _GRADIENT_COLOR
-	half4 gradientColor;
-	int useGradient;
-#endif
-};
-
 CBUFFER_START(Raymarch)
 float _EpsilonMin;
 float _EpsilonMax;
@@ -66,55 +58,86 @@ int _MaxSteps;
 float _MaxDistance;
 CBUFFER_END
 
+float _SpecularPower;
+float _SpecularIntensity;
+float _FresnelPower;
+float _GISharpness;
+float _GIIntensity;
+float _EnvPower;
+float _EnvIntensity;
+
+float4 _Color;
+float4 _GradientColor;
 float _GradientScaleY;
 float _GradientOffsetY;
 float _GradientAngle;
 float _RayShadowBias;
 
 half4 baseColor;
-#ifdef _SHAPE_GROUP
-half4 localColor;
-#endif
 
-StructuredBuffer<Color> _ColorBuffer;
-
-#ifdef _GRADIENT_COLOR
-inline half4 GetGradientColor(Color colorData, float3 localPos, float2 halfExtents)
+#ifdef SPLINE_BLENDING
+inline void SplineBlend(const int passType, float blend)
 {
-	float2 uv = localPos.xy / (halfExtents.xy * 2.0) + 0.5;
+	if (passType != PASS_MAP) return;
+
+	float2 uv = float2(0.5, blend);
 	uv.y = (uv.y - 0.5 + _GradientOffsetY) / _GradientScaleY + 0.5;
 	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
 	uv.y = 1.0 - uv.y;
 	uv = saturate(uv);
-	return lerp(colorData.color, colorData.gradientColor, uv.y);
+	
+	half4 color = lerp(_Color, _GradientColor, uv.y);
+	baseColor = color;
 }
 #endif
 
-inline void PreShapeBlend(const int passType, BlendParams params, inout float shapeDistance) { }
-
-inline void PostShapeBlend(const int passType, BlendParams params, inout float combinedDistance)
+inline half3 ChromeLighting(BRDFData brdfData, Light light, half3 normalWS, half3 viewDirWS, float3 F0)
 {
-	if (passType != PASS_MAP) return;
-#ifdef _GRADIENT_COLOR
-	Color colorData = _ColorBuffer[params.index];
-	half4 color = colorData.useGradient ? GetGradientColor(colorData, params.pos, params.size) : colorData.color;
-#else
-	half4 color = _ColorBuffer[params.index].color;
-#endif
-#ifdef _SHAPE_GROUP
-	localColor = lerp(localColor, color, params.blend);
-#else
-	baseColor = lerp(baseColor, color, params.blend);
-#endif
+	float lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
+	half NdotL = dot(normalWS, light.direction);
+	half3 radiance = light.color * (lightAttenuation * NdotL);
+	half3 brdf = brdfData.diffuse;
+
+	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirWS);
+	specular = pow(specular, _SpecularPower) * _SpecularIntensity;
+
+	half fresnel = GetFresnel(viewDirWS, normalWS, _FresnelPower);
+	half3 iridescence = float3(
+		sin(fresnel * 6.28 + 0.0), 
+		sin(fresnel * 6.28 + 2.1), 
+		sin(fresnel * 6.28 + 4.2)
+	) * 0.5 + 0.5;
+	iridescence *= fresnel;
+
+	brdf += brdfData.specular * (specular + iridescence);
+	return brdf * radiance;
 }
 
-#ifdef _SHAPE_GROUP
-inline void PostGroupBlend(const int passType, float blend)
+inline half3 ChromeGlobalIllumination(BRDFData brdfData, half3 bakedGI, half occlusion,
+	float3 positionWS, half3 normalWS, half3 viewDirectionWS, float2 normalizedScreenSpaceUV)
 {
-	if (passType != PASS_MAP) return;
-	baseColor = lerp(baseColor, localColor, blend);
+	half3 reflectVector = reflect(-viewDirectionWS, normalWS);
+	half horizonTransition = smoothstep(-0.05, 0.05, reflectVector.y);
+	half equatorTransition = 1.0 - abs(reflectVector.y);
+
+	half3 chromeBase = lerp(unity_AmbientGround.rgb, unity_AmbientSky.rgb, horizonTransition);
+	chromeBase = lerp(chromeBase, unity_AmbientEquator.rgb, pow(saturate(equatorTransition), _GISharpness));
+	//=chromeBase = SampleSH(normalWS);
+
+	half3 indirectSpecular = GlossyEnvironmentReflection(reflectVector, positionWS, brdfData.perceptualRoughness, 1.0h, normalizedScreenSpaceUV);
+	indirectSpecular *= chromeBase * _GIIntensity;
+
+	half3 chromeRefl = indirectSpecular * chromeBase;
+	half reflLuminance = Luminance(chromeRefl);
+	half expansion = pow(reflLuminance, _EnvPower) * _EnvIntensity;
+	indirectSpecular += expansion;
+	
+	half NoV = saturate(dot(normalWS, viewDirectionWS));
+	half fresnelTerm = Pow4(1.0 - NoV);
+	
+	half3 color = EnvironmentBRDF(brdfData, bakedGI, indirectSpecular, fresnelTerm);
+	return color * occlusion;
 }
-#endif
 
 inline void InitializeInputData(Varyings input, float3 positionWS, half3 viewDirectionWS, float3 normalWS, out InputData inputData)
 {
@@ -219,11 +242,12 @@ FragOutput Frag (Varyings input)
 	InsertionSort(hitIds, hitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
-	float depth = GetNonLinearDepth(ray.hitPoint);
-	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
+	float3 posWS = ray.hitPoint;
+	float depth = GetNonLinearDepth(posWS);
+	float3 normal = GetNormal(posWS, _EpsilonMin);
     
 	InputData inputData;
-	InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
+	InitializeInputData(input, posWS, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 
 	SurfaceData surfaceData = (SurfaceData)0;
@@ -237,13 +261,69 @@ FragOutput Frag (Varyings input)
 	ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
 #endif
 	InitializeBakedGIData(input, inputData);
-
-	half4 finalColor = UniversalFragmentPBR(inputData, surfaceData);
-	finalColor.rgb = MixFog(finalColor.rgb, inputData.fogCoord);
-	finalColor.a = baseColor.a;
 	
+	BRDFData brdfData;
+	InitializeBRDFData(surfaceData, brdfData);
+
+	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
+	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
+	
+	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
+	Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
+	
+	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
+	
+	float3 F0 = lerp(_FresnelPower, brdfData.albedo, _Metallic);
+	half3 lightColor = 0;
+	
+#ifdef _LIGHT_LAYERS
+	uint meshRenderingLayers = GetMeshRenderingLayer();
+	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
+#endif
+	{
+		lightColor = ChromeLighting(brdfData, mainLight, normal, viewDirWS, F0);
+	}
+	
+#if defined(_ADDITIONAL_LIGHTS)
+	uint pixelLightCount = GetAdditionalLightsCount();
+#if USE_CLUSTER_LIGHT_LOOP
+	[loop] for (uint lightIndex = 0; lightIndex < min(URP_FP_DIRECTIONAL_LIGHTS_COUNT, MAX_VISIBLE_LIGHTS); lightIndex++)
+	{
+		CLUSTER_LIGHT_LOOP_SUBTRACTIVE_LIGHT_CHECK
+		Light light = GetAdditionalLight(lightIndex, posWS);
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			lightColor += ChromeLighting(brdfData, light, normal, viewDirWS, F0);
+		}
+	}
+#endif
+
+	LIGHT_LOOP_BEGIN(pixelLightCount)
+		Light light = GetAdditionalLight(lightIndex, posWS);
+
+#ifdef _LIGHT_LAYERS
+		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+#endif
+		{
+			lightColor += ChromeLighting(brdfData, light, normal, viewDirWS, F0);
+		}
+	LIGHT_LOOP_END
+#endif
+
+#if defined(_ADDITIONAL_LIGHTS_VERTEX)
+	lightColor += inputData.vertexLighting;
+#endif
+	
+	half3 giColor = ChromeGlobalIllumination(brdfData, inputData.bakedGI, aoFactor.indirectAmbientOcclusion,
+		posWS, normal, viewDirWS, inputData.normalizedScreenSpaceUV);
+
+	half4 color = half4(giColor + lightColor + _EmissionColor, baseColor.a);
+	color.rgb = MixFog(color.rgb, input.fogFactor);
+
 	FragOutput output;
-	output.color = finalColor;
+	output.color = color;
 	output.depth = depth;
 	return output;
 }

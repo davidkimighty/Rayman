@@ -10,7 +10,7 @@ namespace Rayman
     {
         public event Action<Spline, int> OnChange;
         
-        public int KnotStartIndex;
+        [HideInInspector] public int KnotStartIndex;
 
         [SerializeField] private float ExtendedBounds = 0.01f;
         [SerializeField] private List<KnotProvider> knots;

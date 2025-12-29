@@ -13,6 +13,7 @@
 #define CAPPED_TORUS (7)
 #define LINK (8)
 #define CAPPED_CONE (9)
+#define PYRAMID (10)
 
 float GetShapeSdf(const float3 pos, const int type, const float3 size, const float roundness)
 {
@@ -39,6 +40,8 @@ float GetShapeSdf(const float3 pos, const int type, const float3 size, const flo
             return LinkSdf(pos, size);
         case CAPPED_CONE:
             return CappedConeSdf(pos, size) - roundness;
+        case PYRAMID:
+            return PyramidSdf(pos, size) - roundness;
         default:
             return SphereSdf(pos, size.x);
     }

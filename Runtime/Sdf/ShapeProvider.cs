@@ -16,6 +16,7 @@ namespace Rayman
         CappedTorus,
         Link,
         CappedCone,
+        Pyramid
     }
 
     public class ShapeProvider : MonoBehaviour, IBoundsProvider
@@ -105,6 +106,9 @@ namespace Rayman
                 case ShapeType.CappedCone:
                     float max = Mathf.Max(size.x, size.z);
                     return new Vector3(max, size.y, max);
+                
+                case ShapeType.Pyramid:
+                    return new Vector3(size.x, size.y * 0.5f, size.x);
 
                 default:
                     return size;
