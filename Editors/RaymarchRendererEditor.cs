@@ -39,16 +39,6 @@ namespace RaymanEditor
 
             if (GUILayout.Button("Release"))
                 raymarchRenderer.Cleanup();
-
-            if (GUILayout.Button("Find All Objects"))
-            {
-                foreach (Object t in targets)
-                {
-                    RaymarchRenderer renderer = (RaymarchRenderer)t;
-                    renderer.FindAllRaymarchObjects();
-                    EditorUtility.SetDirty(renderer);
-                }
-            }
             EditorGUILayout.EndHorizontal();
         }
     }

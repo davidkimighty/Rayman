@@ -20,7 +20,7 @@ float G1V(float dnv, float k)
     return 1.0 / (dnv * (1.0 - k) + k);
 }
 
-float GGXSpecular(float3 normal, float3 viewDirection, float3 lightDirection, float f0, float roughness)
+float GGXSpecular(const float3 normal, const float3 viewDirection, const float3 lightDirection, const float f0, const float roughness)
 {
     float alpha = roughness * roughness;
     float3 h = normalize(viewDirection + lightDirection);

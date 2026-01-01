@@ -10,6 +10,14 @@ namespace Rayman
         public int Count => SpatialNode<T>.GetNodesCount(Root);
         public int MaxHeight { get; private set; }
 
+        public Bvh() { }
+
+        public Bvh(IBoundsProvider[] boundsProviders)
+        {
+            for (int i = 0; i < boundsProviders.Length; i++)
+                AddLeafNode(i, boundsProviders[i].GetBounds<T>());
+        }
+
         public void AddLeafNode(int id, T bounds)
         {
             SpatialNode<T> nodeToInsert = new(id, 0, bounds);

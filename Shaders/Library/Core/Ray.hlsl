@@ -1,28 +1,27 @@
 ﻿#ifndef RAYMAN_RAY
 #define RAYMAN_RAY
 
+#define RAY_MAX_DISTANCE 100.0
 #define RAY_MAX_HITS 16
 
 struct Ray
 {
     float3 origin;
     float3 dir;
-    float epsilon;
     float3 hitPoint;
-    float distanceTravelled;
-    float hitDistance;
-    float4 data;
+    float travelDist;
+    float minDist;
+    float minDistTravelDist;
 };
 
-inline Ray CreateRay(const float3 origin, const float3 dir, const float epsilon)
+inline Ray CreateRay(const float3 origin, const float3 dir)
 {
     Ray ray = (Ray)0;
     ray.origin = origin;
     ray.dir = dir;
-    ray.epsilon = epsilon;
     ray.hitPoint = ray.origin;
-    ray.distanceTravelled = 0;
-    ray.hitDistance = 0;
+    ray.travelDist = 0;
+    ray.minDist = RAY_MAX_DISTANCE;
     return ray;
 }
 

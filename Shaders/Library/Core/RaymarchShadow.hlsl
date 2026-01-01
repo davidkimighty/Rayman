@@ -4,32 +4,35 @@
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Ray.hlsl"
 
 // Must be implemented by the including shader.
-float ShadowMap(const float3 positionWS);
+inline float ShadowMap(const float3 positionWS);
 
-inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance)
+inline float GetHardShadow(inout Ray ray, const int maxSteps, const int maxDistance,
+    const float epsilonMin, const float epsilonMax)
 {
-    ray.distanceTravelled = 0.6;
+    ray.travelDist = 0.6;
     for (int i = 0; i < maxSteps; i++)
     {
-        float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
-        if(dist < ray.epsilon)
+        float dist = ShadowMap(ray.origin + ray.dir * ray.travelDist);
+        float e = lerp(epsilonMin, epsilonMax, saturate(ray.travelDist / maxDistance));
+        if(dist < e)
             return 0;
-        if (ray.distanceTravelled > maxDistance) break;
-        ray.distanceTravelled += dist;
+        if (ray.travelDist > maxDistance) break;
+        ray.travelDist += dist;
     }
     return 1;
 }
 
-inline float GetSoftShadow(in Ray ray, const int maxSteps, const int maxDistance, const float w)
+inline float GetSoftShadow(in Ray ray, const int maxSteps, const int maxDistance,
+    const float epsilonMin, const float epsilonMax, const float w)
 {
     float res = 1;
-    ray.distanceTravelled = ray.epsilon;
+    ray.travelDist = epsilonMin;
     for (int i = 0; i < maxSteps; i++)
     {
-        const float dist = ShadowMap(ray.origin + ray.dir * ray.distanceTravelled);
-        res = min(res, dist / (w * ray.distanceTravelled));
-        ray.distanceTravelled += clamp(dist, 0.005, 0.5);
-        if (res < -1 || ray.distanceTravelled > maxDistance) break;
+        const float dist = ShadowMap(ray.origin + ray.dir * ray.travelDist);
+        res = min(res, dist / (w * ray.travelDist));
+        ray.travelDist += clamp(dist, 0.005, 0.5);
+        if (res < -1 || ray.travelDist > maxDistance) break;
     }
     res = max(res, -1);
     return 0.25 * (1 + res) * (1 + res) * (2 - res);

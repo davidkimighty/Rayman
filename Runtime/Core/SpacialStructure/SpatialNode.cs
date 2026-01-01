@@ -58,7 +58,7 @@ namespace Rayman
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct AabbNodeData : ISetupFromIndexed<SpatialNode<Aabb>>
+    public struct AabbNodeData
     {
         public const int Stride = sizeof(float) * 6 + sizeof(int) * 2;
 
@@ -66,13 +66,7 @@ namespace Rayman
         public int ChildIndex;
         public Aabb Bounds;
         
-        public int Index
-        {
-            get => ChildIndex;
-            set => ChildIndex = value;
-        }
-        
-        public void SetupFrom(SpatialNode<Aabb> data, int index)
+        public AabbNodeData(SpatialNode<Aabb> data, int index)
         {
             Id = data.Id;
             ChildIndex = index;
