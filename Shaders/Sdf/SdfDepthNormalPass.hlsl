@@ -22,8 +22,11 @@ struct Varyings
 
 struct FragOut
 {
-    float4 normal : SV_Target;
+    float4 normal : SV_Target0;
     float depth : SV_Depth;
+#ifdef _WRITE_RENDERING_LAYERS
+    uint outRenderingLayers : SV_Target1
+#endif
 };
 
 float _EpsilonMin;
@@ -64,6 +67,9 @@ FragOut Frag(Varyings input)
     FragOut output;
     output.normal = float4(normal, 0);
     output.depth = depth;
+#ifdef _WRITE_RENDERING_LAYERS
+    output.outRenderingLayers = EncodeMeshRenderingLayer();
+#endif
     return output;
 }
 

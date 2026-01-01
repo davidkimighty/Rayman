@@ -10,7 +10,7 @@ namespace Rayman
         
         [SerializeField] private float syncMargin = 0.01f;
 #if UNITY_EDITOR
-        [SerializeField] private bool drawGizmos = false;
+        [SerializeField] private bool drawGizmos;
 #endif
         private IBoundsProvider[] providers;
         private Bvh<Aabb> bvh;
@@ -30,8 +30,6 @@ namespace Rayman
 
         public override void InitializeBuffer(ref Material material, IBoundsProvider[] dataProviders)
         {
-            if (dataProviders == null || dataProviders.Length == 0) return;
-
             if (IsInitialized)
                 ReleaseBuffer();
             providers = dataProviders;

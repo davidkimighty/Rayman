@@ -16,14 +16,10 @@ namespace Rayman
 
         public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
         {
-            if (dataProviders == null) return;
-
-            int count = dataProviders.Length;
-            if (count == 0) return;
-
             if (IsInitialized)
                 ReleaseBuffer();
             providers = dataProviders;
+            int count = providers.Length;
 
             Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
             material.SetBuffer(BufferId, Buffer);
@@ -45,12 +41,10 @@ namespace Rayman
             for (int i = 0; i < providers.Length; i++)
             {
                 ShapeProvider provider = providers[i];
-                if (!provider) continue;
+                if (!provider || provider.gameObject.isStatic) continue;
 
                 shapeData[i] = new T();
                 shapeData[i].Populate(provider);
-                if (provider.gameObject.isStatic) continue;
-
                 setData = true;
             }
             if (setData)

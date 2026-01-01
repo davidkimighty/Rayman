@@ -15,14 +15,10 @@ namespace Rayman
 
         public override void InitializeBuffer(ref Material material, VisualProvider[] dataProviders)
         {
-            if (dataProviders == null || dataProviders.Length == 0) return;
-
             if (IsInitialized)
                 ReleaseBuffer();
 
             providers = GetColorProviders(dataProviders);
-            if (providers.Length == 0) return;
-
             int count = providers.Length;
             Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
             material.SetBuffer(BufferId, Buffer);
@@ -44,13 +40,12 @@ namespace Rayman
             for (int i = 0; i < providers.Length; i++)
             {
                 ColorProvider provider = providers[i];
-                if (!provider) continue;
+                if (!provider || !provider.IsDirty) continue;
 
                 colorData[i] = new T();
                 colorData[i].Populate(providers[i]);
-                if (!provider.IsVisualDirty) continue;
 
-                provider.IsVisualDirty = false;
+                provider.IsDirty = false;
                 setData = true;
             }
             if (setData)

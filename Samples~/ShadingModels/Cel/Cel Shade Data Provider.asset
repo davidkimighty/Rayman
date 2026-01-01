@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e2509ac45d3fab45876f9a399d42a0e, type: 3}
   m_Name: Cel Shade Data Provider
   m_EditorClassIdentifier: 
-  celCount: 1
-  celSpread: 1
-  celSharpness: 60
-  specularSharpness: 10
-  rimAmount: 0.2
-  rimSmoothness: 0.03
-  blendDiffuse: 0.8
+  celTexture: {fileID: 2800000, guid: b7bda8f495d64344a8dd2048eb341d82, type: 3}
+  celTextureScale: 3
+  celTextureRange: 0.777
+  celCount: 1.3
+  celSpread: 0.3
+  celSmooth: 1
+  blendDiffuse: 0.7
+  specIntensity: 1
+  specTextureRange: 0.53
+  specCelSpread: 0.1
+  specSmooth: 1
+  rimIntensity: 1
+  rimTexRange: 0.3
+  rimCelSpread: 0.3
+  rimSmoothness: 0.2

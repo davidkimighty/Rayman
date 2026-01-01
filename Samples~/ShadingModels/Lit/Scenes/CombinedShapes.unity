@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.32400048, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &49797635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,7 +181,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.073, y: 0.05, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.001
@@ -361,6 +361,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.50675905, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &211514742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +376,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.22, y: 0.5, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -424,8 +424,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 246280356}
 --- !u!23 &246280349
@@ -621,6 +620,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.2709508, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &261075536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -635,7 +635,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.33, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.005
@@ -689,6 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.2686702, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &261094815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -703,7 +703,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.0721, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -757,6 +756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.2709508, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &267684241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,7 +771,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.33, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.005
@@ -825,6 +824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.66279554, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &271798149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -839,7 +839,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.068, y: 0.08, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.003
@@ -957,6 +956,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.6055647, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &452310594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -971,7 +971,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.12, y: 0.01, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1090,6 +1089,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.6055647, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &557070851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,7 +1104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.095, y: 0.02, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.002
@@ -1237,6 +1236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.66279554, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &648396552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1251,7 +1251,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.075, y: 0.055, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1305,6 +1304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.2686702, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &783164006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1319,7 +1319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.0721, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1443,7 +1442,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 2
+  m_Antialiasing: 3
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 1
@@ -1510,6 +1509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.2709508, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &841314370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1524,7 +1524,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.29, y: 0.29, z: 0.2}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1578,6 +1577,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.26801538, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &890309544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1592,7 +1592,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.065, y: 0.06, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1714,6 +1713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.2709508, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &956082640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1728,7 +1728,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.13, y: 0.4, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.003
@@ -1857,6 +1856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.32400048, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1037404614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1871,7 +1871,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.073, y: 0.05, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.001
@@ -1981,6 +1980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0.26801538, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1070863517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1995,7 +1995,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.079, y: 0.1, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.006
@@ -2049,6 +2048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1076111339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2063,7 +2063,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.072, y: 0.055, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -2293,6 +2292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1209994148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2307,7 +2307,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.18, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -2361,6 +2360,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.32400048, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1301549127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2375,7 +2375,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.073, y: 0.05, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.001
@@ -2508,8 +2507,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 1544387840}
 --- !u!23 &1544387833
@@ -2706,6 +2704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1598783560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2720,7 +2719,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.065, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0
@@ -2774,6 +2772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.32400048, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1809447850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2788,7 +2787,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.066, y: 0.01, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -2842,6 +2840,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.32400048, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1812483115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2856,7 +2855,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.073, y: 0.05, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.001
@@ -3015,6 +3013,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.2686702, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1990663525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3029,7 +3028,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.0721, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -3083,6 +3081,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.2686702, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &2034891307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3097,7 +3096,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.0721, y: 0.1, z: 0.1}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -3146,8 +3144,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 2080271400}
 --- !u!23 &2080271393
@@ -3341,6 +3338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &2108574509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3355,7 +3353,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.072, y: 0.055, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -3409,6 +3406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &2111127661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3423,7 +3421,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.072, y: 0.055, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -3533,6 +3530,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.50675905, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &2127876282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3547,7 +3545,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.095, y: 0.5, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0
@@ -3601,6 +3598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 0.19596562, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &2128919934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3615,7 +3613,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.072, y: 0.055, z: 0.05}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0

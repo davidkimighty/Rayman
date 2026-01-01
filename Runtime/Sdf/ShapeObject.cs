@@ -94,6 +94,8 @@ namespace Rayman
 
             foreach (GameObject shape in shapes)
             {
+                if (!shape.activeSelf) continue;
+                
                 if (shape.TryGetComponent(out ShapeProvider shapeProvider))
                     shapeList.Add(shapeProvider);
                 if (shape.TryGetComponent(out VisualProvider visualProvider))

@@ -77,10 +77,6 @@ half4 baseColor;
 half4 localColor;
 #endif
 
-Texture2D _NoiseTex;
-SamplerState sampler_NoiseTex;
-uniform half4 _NoiseTex_TexelSize;
-
 StructuredBuffer<Color> _ColorBuffer;
 
 inline void InitBlend(const int passType, int index)

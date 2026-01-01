@@ -12,14 +12,24 @@ Shader "Rayman/ShapeCel"
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
     	
     	[Header(Cel Shade)][Space]
+    	_CelTex("Cel Texture", 2D) = "white" {}
+    	_CelTexScale ("Cel Texture Scale", Range(1.0, 10.0)) = 1.0
+    	_CelTexRange ("Cel Texture Range", Range(0.0, 1.0)) = 0.5
     	_CelCount ("Cel Count", Range(1.0, 10.0)) = 1.0
     	_CelSpread ("Cel Spread", Range(0.0, 1.0)) = 1.0
-    	_CelSharpness ("Cel Sharpness", Float) = 80.0
-    	_SpecularSharpness ("Specular Sharpness", Float) = 1.0
-    	_RimAmount ("Rim Amount", Range(0.0, 1.0)) = 0.2
-    	_RimSmoothness ("Rim Smoothness", Range(0.0, 1.0)) = 0.03
+    	_CelSmooth ("Cel Smooth", Range(0.0, 1.0)) = 0.1
+    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.7
+    	
+    	_SpecIntensity ("Spec Intensity", Range(0.0, 10.0)) = 1.0
+    	_SpecTexRange ("Specular Texture Range", Range(0.0, 1.0)) = 0.2
+    	_SpecCelSpread ("Specular Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_SpecSmooth ("Specular Smooth", Range(0.0, 1.0)) = 1.0
+    	
+    	_RimIntensity ("Rim Intensity", Range(0.0, 10.0)) = 1.0
+    	_RimTexRange ("Rim Texture Range", Range(0.0, 1.0)) = 0.3
+    	_RimCelSpread ("Rim Cel Spread", Range(0.0, 1.0)) = 1.0
+    	_RimSmooth ("Rim Smooth", Range(0.0, 1.0)) = 1.0
     	_F0 ("Schlick F0", Float) = 0.04
-    	_BlendDiffuse ("Blend Diffuse", Range(0.0, 1.0)) = 0.9
     	
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001

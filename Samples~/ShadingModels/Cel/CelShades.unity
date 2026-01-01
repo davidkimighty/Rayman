@@ -119,6 +119,83 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &10169147
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1264651315}
+    m_Modifications:
+    - target: {fileID: 608913529385579229, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_Name
+      value: Ditto
+      objectReference: {fileID: 0}
+    - target: {fileID: 608913529385579229, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0666574
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.4531786
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.06898177
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.097738564
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.08187867
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.9849929
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.1163277
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+--- !u!114 &10169148 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4576300491037615675, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+  m_PrefabInstance: {fileID: 10169147}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+--- !u!4 &10169149 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1193940792389806400, guid: 2b5afd999ed80104ea7ef48c6e15e49b, type: 3}
+  m_PrefabInstance: {fileID: 10169147}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &29522636
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -309,7 +386,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 3
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 1
@@ -421,13 +498,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 91517258}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.3782156, y: -0.4043925, z: 0.1885713, w: 0.81108606}
+  m_LocalRotation: {x: 0.35355338, y: -0.35355338, z: 0.1464466, w: 0.8535535}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 50, y: -53, z: 0}
+  m_LocalEulerAnglesHint: {x: 45, y: -45, z: 0}
 --- !u!114 &91517261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,7 +672,7 @@ Transform:
   m_GameObject: {fileID: 201042425}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.2, y: 0.654, z: -0.538}
+  m_LocalPosition: {x: -0.297, y: 0.654, z: -0.538}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -653,6 +730,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: GummyBear
       objectReference: {fileID: 0}
+    - target: {fileID: 7329672537278360271, guid: 262a4ebe8f0398a47877787dc9fd94e1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9133597498127087216, guid: 262a4ebe8f0398a47877787dc9fd94e1, type: 3}
+      propertyPath: drawGizmos
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -693,13 +778,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 293326948}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.31093776, y: 0.29947498, z: 0.3155363, w: 0.84502625}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1141850303}
-  m_LocalEulerAnglesHint: {x: -45.602, y: 26.292, z: 29.737}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &293326951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -713,7 +798,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   shader: {fileID: 4800000, guid: 100b9db2322daf7468e0803820797074, type: 3}
-  materialDataProviders: []
+  materialDataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   shapeBufferProvider: {fileID: 293326954}
   shapeNodeBufferProvider: {fileID: 293326953}
   visualBufferProvider: {fileID: 293326952}
@@ -744,7 +830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
-  drawGizmos: 0
+  drawGizmos: 1
 --- !u!114 &293326954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.13163051, g: 0.9622642, b: 0.22018836, a: 1}
   GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  UseGradient: 0
 --- !u!114 &293326956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,11 +872,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.15, y: 0.15, z: 0.15}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
-  Roundness: 0.03
+  Roundness: 0
   Shape: 0
   GroupIndex: 0
 --- !u!1 &560892390
@@ -829,8 +915,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 1419411786}
 --- !u!23 &560892393
@@ -898,7 +983,7 @@ Transform:
   m_GameObject: {fileID: 560892390}
   serializedVersion: 2
   m_LocalRotation: {x: -0.25283828, y: 0.21004078, z: 0.025050728, w: 0.9441018}
-  m_LocalPosition: {x: -0.6, y: 0.5, z: 0}
+  m_LocalPosition: {x: -0.7, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -991,8 +1076,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 293326951}
 --- !u!23 &1141850301
@@ -1059,14 +1143,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141850298}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.07618818, y: -0.4542105, z: -0.12278382, w: 0.8790975}
-  m_LocalPosition: {x: 0.6, y: 0.5, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.7, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 293326950}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: -14.211, y: -53.562, z: -8.702}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1264651308
 GameObject:
   m_ObjectHideFlags: 0
@@ -1104,10 +1188,10 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 1306824312}
+  - {fileID: 10169148}
 --- !u!23 &1264651313
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1172,14 +1256,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264651308}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.1057078, y: 0.98127276, z: 0.06640208, w: 0.14669827}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalRotation: {x: -0.07977461, y: 0.9876046, z: 0.048016734, w: 0.1263629}
+  m_LocalPosition: {x: 6.8879874e-11, y: 0.5, z: 1.0464597e-10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 271632366}
+  - {fileID: 10169149}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0.097, y: -207.004, z: -13.311}
+  m_LocalEulerAnglesHint: {x: -6.604, y: -194.096, z: -8.419}
 --- !u!114 &1306824312 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 702302531130228711, guid: 262a4ebe8f0398a47877787dc9fd94e1, type: 3}
@@ -1241,7 +1326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   shader: {fileID: 4800000, guid: 100b9db2322daf7468e0803820797074, type: 3}
-  materialDataProviders: []
+  materialDataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   shapeBufferProvider: {fileID: 1419411789}
   shapeNodeBufferProvider: {fileID: 1419411788}
   visualBufferProvider: {fileID: 1419411787}
@@ -1272,7 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
-  drawGizmos: 0
+  drawGizmos: 1
 --- !u!114 &1419411789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1299,6 +1385,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.8773585, g: 0.21933962, b: 0.21933962, a: 1}
   GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  UseGradient: 0
 --- !u!114 &1419411791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1313,7 +1400,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.15, y: 0.15, z: 0.15}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0

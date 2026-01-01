@@ -47,8 +47,11 @@ struct Varyings
 
 struct FragOutput
 {
-    half4 color : SV_Target;
+    half4 color : SV_Target0;
     float depth : SV_Depth;
+#ifdef _WRITE_RENDERING_LAYERS
+	uint outRenderingLayers : SV_Target1
+#endif
 };
 
 struct Color
@@ -60,23 +63,33 @@ struct Color
 #endif
 };
 
-CBUFFER_START(Raymarch)
+TEXTURE2D(_CelTex);
+SAMPLER(sampler_CelTex);
+
+CBUFFER_START(MatParams)
 float _EpsilonMin;
 float _EpsilonMax;
 int _MaxSteps;
 float _MaxDistance;
-CBUFFER_END
 
-CBUFFER_START(CelParams)
+float4 _CelTex_ST;
+float _CelTexScale;
+float _CelTexRange;
 float _CelCount;
 float _CelSpread;
-float _CelSharpness;
-float _SpecularSharpness;
-float _RimAmount;
-float _RimSmoothness;
-float _F0;
+float _CelSmooth;
 float _BlendDiffuse;
-CBUFFER_END
+
+float _SpecIntensity;
+float _SpecTexRange;
+float _SpecCelSpread;
+float _SpecSmooth;
+
+float _RimIntensity;
+float _RimTexRange;
+float _RimCelSpread;
+float _RimSmooth;
+float _F0;
 
 float _GradientScaleY;
 float _GradientOffsetY;
@@ -87,6 +100,7 @@ half4 baseColor;
 #ifdef _SHAPE_GROUP
 half4 localColor;
 #endif
+CBUFFER_END
 
 StructuredBuffer<Color> _ColorBuffer;
 
@@ -127,37 +141,37 @@ inline void PostGroupBlend(const int passType, float blend)
 }
 #endif
 
-inline float CelShading(float value, float celCount)
+inline float CelShade(float lightVal, float mask, float spread, float count, float softness)
 {
-	float celSize = 1.0 / celCount;
-	float scaled = saturate(value) / celSize;
-	float cel = floor(scaled) * celSize;
-	float blend = Sigmoid(frac(scaled), _CelSharpness);
-	return lerp(cel, cel + celSize, blend);
+	float scaled = (lightVal + (mask - 1.0)) / spread + 1.0;
+	float smoothFrac = smoothstep(1.0 - softness, 1.0, frac(scaled));
+	float cel = floor(scaled) + smoothFrac;
+	cel /= count;
+	return saturate(cel);
 }
 
-inline half3 CelLighting(BRDFData brdfData, Light light, half3 normalWS, half3 viewDirectionWS, float3 F0)
+inline half3 CelLighting(BRDFData brdfData, Light light, float2 uv, half3 normalWS, half3 viewDirectionWS, float3 F0)
 {
-	float lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
-	
+	half lightAttenuation = light.distanceAttenuation * light.shadowAttenuation;
 	half NdotL = dot(normalWS, light.direction);
-	half spread = lerp(_CelSpread, _CelSpread * 0.5, step(1.1, _CelCount));
-	half celDiffuse = CelShading(smoothstep(-spread, _CelSpread, NdotL), _CelCount);
-	celDiffuse = lerp(saturate(NdotL), celDiffuse, _BlendDiffuse);
-	half3 radiance = light.color * (saturate(lightAttenuation) * celDiffuse);
-	
-	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
-	specular = Sigmoid(specular, (_Smoothness + _Metallic) * _SpecularSharpness);
-	radiance += light.color * saturate(lightAttenuation) * celDiffuse * specular ;
+	half mask = SAMPLE_TEXTURE2D(_CelTex, sampler_CelTex, uv * _CelTexScale).r;
 
-	half roughness = saturate(1.0 - brdfData.roughness2);
-	half rimAmount = 1.0 - _RimAmount;
-	half rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
-	half3 rim = smoothstep(rimAmount - _RimSmoothness, rimAmount + _RimSmoothness, rimIntensity);
-	radiance += light.color * lightAttenuation * celDiffuse * rim * roughness;
+	half celMask = lerp(1.0 - _CelTexRange, 1.0, mask);
+	half celDiffuse = CelShade(NdotL, celMask, _CelSpread, _CelCount, _CelSmooth);
+	celDiffuse = lerp(saturate(NdotL), celDiffuse, _BlendDiffuse);
+	half3 radiance = light.color * lightAttenuation * celDiffuse;
+
+	half specular = DirectBRDFSpecular(brdfData, normalWS, light.direction, viewDirectionWS);
+	specular = Sigmoid(specular, _Smoothness + _Metallic);
+	half specCelMask = lerp(0, _SpecTexRange, 1.0 - mask);
+	specular = CelShade(specular, specCelMask, _SpecCelSpread, 1.0, _SpecSmooth) * _SpecIntensity;
+	radiance += light.color * lightAttenuation * (celDiffuse * specular);
 	
-	half3 fresnel = GetFresnelSchlick(viewDirectionWS, normalWS, F0);
-	radiance += light.color * lightAttenuation * fresnel * roughness;
+	half roughness = saturate(1.0 - brdfData.roughness);
+	half rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
+	half rimCelMask = lerp(0, _RimTexRange, mask);
+	half rim = CelShade(rimIntensity, rimCelMask, _RimCelSpread, 1.0, _RimSmooth) * _RimIntensity;
+	radiance += light.color * lightAttenuation * roughness * rim;
 	return brdfData.diffuse * radiance;
 }
 
@@ -272,9 +286,12 @@ FragOutput Frag (Varyings input)
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
 
+	float3 posOS = mul(unity_WorldToObject, float4(ray.hitPoint, 1.0)).xyz;
+	float2 uv = GetSphereUV(posOS);
+
 	SurfaceData surfaceData = (SurfaceData)0;
-	InitializeStandardLitSurfaceData(input.uv, surfaceData);
-	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
+	InitializeStandardLitSurfaceData(uv, surfaceData);
+	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
@@ -298,7 +315,7 @@ FragOutput Frag (Varyings input)
 	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
 #endif
 	{
-		celLighting = CelLighting(brdfData, mainLight, inputData.normalWS, inputData.viewDirectionWS, F0);
+		celLighting = CelLighting(brdfData, mainLight, uv, inputData.normalWS, inputData.viewDirectionWS, F0);
 	}
 	
 #if defined(_ADDITIONAL_LIGHTS)
@@ -312,7 +329,7 @@ FragOutput Frag (Varyings input)
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 #endif
 		{
-			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
+			celLighting += CelLighting(brdfData, light, uv, inputData.normalWS, inputData.viewDirectionWS, F0);
 		}
 	}
 #endif
@@ -324,7 +341,7 @@ FragOutput Frag (Varyings input)
 		if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
 #endif
 		{
-			celLighting += CelLighting(brdfData, light, inputData.normalWS, inputData.viewDirectionWS, F0);
+			celLighting += CelLighting(brdfData, light, uv, inputData.normalWS, inputData.viewDirectionWS, F0);
 		}
 	LIGHT_LOOP_END
 #endif
@@ -343,6 +360,9 @@ FragOutput Frag (Varyings input)
 	FragOutput output;
 	output.color = color;
 	output.depth = depth;
+#ifdef _WRITE_RENDERING_LAYERS
+	output.outRenderingLayers = EncodeMeshRenderingLayer();
+#endif
 	return output;
 }
 

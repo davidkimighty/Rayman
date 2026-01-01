@@ -58,7 +58,9 @@ namespace Rayman
             List<Material> matInstances = new();
             foreach (RaymarchObject raymarchObject in raymarchObjects)
             {
-                Material mat = raymarchObject?.CreateMaterial();
+                if (!raymarchObject.gameObject.activeSelf) continue;
+                
+                Material mat = raymarchObject.CreateMaterial();
                 if (!mat) continue;
                 
                 SetRaySettings(ref mat);

@@ -12,14 +12,10 @@ namespace Rayman
 
         public override void InitializeBuffer(ref Material material, IRaymarchGroup[] dataProviders)
         {
-            if (dataProviders == null) return;
-
-            int count = dataProviders.Length;
-            if (count == 0) return;
-
             if (IsInitialized)
                 ReleaseBuffer();
             groupProviders = dataProviders;
+            int count = groupProviders.Length;
 
             Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<GroupData>());
             material.SetBuffer(BufferId, Buffer);
@@ -38,11 +34,9 @@ namespace Rayman
             for (int i = 0; i < groupProviders.Length; i++)
             {
                 IRaymarchGroup group = groupProviders[i];
-                if (group == null) continue;
+                if (group == null || !group.IsGroupDirty) continue;
 
                 groupData[i] = new GroupData(group);
-                if (!group.IsGroupDirty) continue;
-
                 group.IsGroupDirty = false;
                 setData = true;
             }

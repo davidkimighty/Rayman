@@ -65,9 +65,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &608913529385579229
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 4576300491037615675}
   - component: {fileID: 8999423496166317320}
   - component: {fileID: 949127181663246916}
-  - component: {fileID: 4859706945173836931}
+  - component: {fileID: 4671460818921354532}
   m_Layer: 0
   m_Name: Ditto
   m_TagString: Untagged
@@ -117,10 +117,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   shader: {fileID: 4800000, guid: 100b9db2322daf7468e0803820797074, type: 3}
-  materialDataProviders: []
+  materialDataProviders:
+  - {fileID: 11400000, guid: 7078bad766c6d6e46b00ae4c90dfafd4, type: 2}
   shapeBufferProvider: {fileID: 8999423496166317320}
   shapeNodeBufferProvider: {fileID: 949127181663246916}
-  visualBufferProvider: {fileID: 4859706945173836931}
+  visualBufferProvider: {fileID: 4671460818921354532}
   shapes:
   - {fileID: 5890132236839301830}
   - {fileID: 7782960821331568003}
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
   drawGizmos: 0
---- !u!114 &4859706945173836931
+--- !u!114 &4671460818921354532
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,9 +173,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 608913529385579229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
+  m_Script: {fileID: 11500000, guid: 036dd3d509fe43ae9a360ac5b4443606, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
+  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GradientColorBufferProvider
 --- !u!1 &1538185396638443325
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,9 +241,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &2131839509113807805
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,9 +378,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &2503611113849814955
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,9 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &2560545869774129343
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,9 +582,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &4477906459883364228
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,9 +650,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &5852082457998258706
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,9 +718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &5890132236839301830
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,9 +798,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &6126189395739380078
 GameObject:
   m_ObjectHideFlags: 0
@@ -866,9 +867,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &7782960821331568003
 GameObject:
   m_ObjectHideFlags: 0
@@ -934,9 +935,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &8796943840722456369
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,9 +1071,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
 --- !u!1 &8972233768605272466
 GameObject:
   m_ObjectHideFlags: 0
@@ -1138,6 +1139,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.76470596, g: 0.4784314, b: 0.6627451, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
+  Color: {r: 0.5736249, g: 0.3529281, b: 0.7264151, a: 1}
+  GradientColor: {r: 0.56496984, g: 0.29169634, b: 0.6509434, a: 1}
+  UseGradient: 1
