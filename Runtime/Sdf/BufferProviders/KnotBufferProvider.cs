@@ -1,12 +1,12 @@
 using System.Runtime.InteropServices;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Splines;
 
 namespace Rayman
 {
     public class KnotBufferProvider : BufferProvider<KnotProvider>
     {
+        public const float DefaultTension = 1 / 3f;
         public static int BufferId = Shader.PropertyToID("_KnotBuffer");
 
         private KnotProvider[] providers;
@@ -40,7 +40,7 @@ namespace Rayman
                     Vector3 prevPos = knot.PreviousKnot.transform.position;
                     Vector3 nextPos = knot.NextKnot.transform.position;
                     Vector3 currentPos = knot.transform.position;
-                    Vector3 autoTangent = SplineUtility.GetAutoSmoothTangent(prevPos, currentPos, nextPos);
+                    Vector3 autoTangent = GetAutoSmoothTangent(prevPos, currentPos, nextPos);
                     knot.TangentOut = autoTangent;
                     knot.TangentIn = -autoTangent;
                 }
@@ -59,6 +59,27 @@ namespace Rayman
             Buffer?.Release();
             Buffer = null;
             knotData = null;
+        }
+
+        private float3 GetAutoSmoothTangent(float3 previous, float3 current, float3 next, float tension = DefaultTension)
+        {
+            var d1 = math.length(current - previous);
+            var d2 = math.length(next - current);
+
+            if (d1 == 0f)
+                return (next - current) * 0.1f;
+            else if (d2 == 0f)
+                return (current - previous) * 0.1f;
+
+            var a = tension;
+            var twoA = 2f * tension;
+
+            var d1PowA = math.pow(d1, a);
+            var d1Pow2A = math.pow(d1, twoA);
+            var d2PowA = math.pow(d2, a);
+            var d2Pow2A = math.pow(d2, twoA);
+
+            return (d1Pow2A * next - d2Pow2A * previous + (d2Pow2A - d1Pow2A) * current) / (3f * d1PowA * (d1PowA + d2PowA));
         }
     }
     
