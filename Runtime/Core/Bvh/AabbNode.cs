@@ -4,7 +4,7 @@ using Unity.Mathematics;
 namespace Rayman
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct BvhNode
+    public struct AabbNode
     {
         public Aabb Bounds;
         public int Parent;
@@ -15,7 +15,7 @@ namespace Rayman
 
         public bool IsLeaf => LeafId != -1;
 
-        public BvhNode(Aabb bounds, int leafId)
+        public AabbNode(Aabb bounds, int leafId)
         {
             Bounds = bounds;
             Parent = -1;
@@ -34,7 +34,7 @@ namespace Rayman
         public int LeftChild;
         public int LeafId;
 
-        public AabbNodeData(BvhNode node, int leftChild)
+        public AabbNodeData(AabbNode node, int leftChild)
         {
             Min = node.Bounds.Min;
             Max = node.Bounds.Max;

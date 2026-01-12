@@ -1,39 +1,41 @@
 using System;
+using Unity.Burst;
 using Unity.Collections;
 using Unity.Mathematics;
 
 namespace Rayman
 {
+    [BurstCompile]
     public struct Bvh
     {
-        public NativeArray<BvhNode> Nodes;
-        private int rootIndex;
-        private int nodeCount;
-        private int nextFreeNode;
+        public NativeArray<AabbNode> Nodes;
+        public NativeReference<int> RootIndex;
+        public NativeReference<int> NodeCount;
+        public NativeReference<int> NextFreeNode;
 
-        public void InsertNode(Aabb bounds, int leafId)
+        public int InsertNode(Aabb bounds, int leafId)
         {
-            Span<BvhNode> nodesSpan = Nodes.AsSpan();
+            Span<AabbNode> nodesSpan = Nodes.AsSpan();
 
-            int leafIndex = nextFreeNode++;
-            nodeCount++;
-            ref BvhNode leafNode = ref nodesSpan[leafIndex];
-            leafNode = new BvhNode(bounds, leafId);
+            int leafIndex = NextFreeNode.Value++;
+            NodeCount.Value++;
+            ref AabbNode leafNode = ref nodesSpan[leafIndex];
+            leafNode = new AabbNode(bounds, leafId);
 
-            if (rootIndex == -1)
+            if (RootIndex.Value == -1)
             {
-                rootIndex = leafIndex;
-                return;
+                RootIndex.Value = leafIndex;
+                return leafIndex;
             }
 
             int siblingIndex = FindBestSibling(nodesSpan, bounds);
-            ref BvhNode sibling = ref nodesSpan[siblingIndex];
+            ref AabbNode sibling = ref nodesSpan[siblingIndex];
             int oldParentIndex = sibling.Parent;
 
-            int newParentIndex = nextFreeNode++;
-            nodeCount++;
-            ref BvhNode newParentNode = ref nodesSpan[newParentIndex];
-            newParentNode = new BvhNode()
+            int newParentIndex = NextFreeNode.Value++;
+            NodeCount.Value++;
+            ref AabbNode newParentNode = ref nodesSpan[newParentIndex];
+            newParentNode = new AabbNode()
             {
                 Bounds = Aabb.Union(Nodes[siblingIndex].Bounds, bounds),
                 Parent = oldParentIndex,
@@ -48,24 +50,68 @@ namespace Rayman
 
             if (oldParentIndex != -1)
             {
-                ref BvhNode oldParent = ref nodesSpan[oldParentIndex];
+                ref AabbNode oldParent = ref nodesSpan[oldParentIndex];
                 if (oldParent.LeftChild == siblingIndex)
                     oldParent.LeftChild = newParentIndex;
                 else
                     oldParent.RightChild = newParentIndex;
             }
             else
-                rootIndex = newParentIndex;
+                RootIndex.Value = newParentIndex;
 
             BalanceAndRefit(nodesSpan, newParentIndex);
+            return leafIndex;
         }
 
-        private int FindBestSibling(Span<BvhNode> span, Aabb newBounds)
+        public void RemoveNode(int nodeIndex)
         {
-            int index = rootIndex;
+            Span<AabbNode> span = Nodes.AsSpan();
+
+            ref AabbNode toRemove = ref span[nodeIndex];
+            toRemove.LeafId = -1;
+            toRemove.Parent = -1;
+
+            int parentIdx = toRemove.Parent;
+            if (parentIdx == -1)
+            {
+                RootIndex.Value = -1;
+                return;
+            }
+
+            ref AabbNode parent = ref span[parentIdx];
+            int grandparentIndex = parent.Parent;
+            int siblingIndex = (parent.LeftChild == nodeIndex) ? parent.RightChild : parent.LeftChild;
+
+            parent.LeftChild = -1;
+            parent.RightChild = -1;
+            parent.Parent = -1;
+
+            ref AabbNode sibling = ref span[siblingIndex];
+
+            if (grandparentIndex == -1)
+            {
+                RootIndex.Value = siblingIndex;
+                sibling.Parent = -1;
+            }
+            else
+            {
+                ref AabbNode grandparent = ref span[grandparentIndex];
+                if (grandparent.LeftChild == parentIdx)
+                    grandparent.LeftChild = siblingIndex;
+                else
+                    grandparent.RightChild = siblingIndex;
+                sibling.Parent = grandparentIndex;
+
+                BalanceAndRefit(span, grandparentIndex);
+            }
+        }
+
+        private int FindBestSibling(Span<AabbNode> span, Aabb newBounds)
+        {
+            int index = RootIndex.Value;
             while (true)
             {
-                ref BvhNode node = ref span[index];
+                ref AabbNode node = ref span[index];
                 if (node.IsLeaf) break;
 
                 float area = node.Bounds.HalfArea();
@@ -75,13 +121,13 @@ namespace Rayman
                 float cost = combinedArea * 2f;
                 float inheritedCost = (combinedArea - area) * 2f;
 
-                ref BvhNode leftNode = ref span[node.LeftChild];
+                ref AabbNode leftNode = ref span[node.LeftChild];
                 float combinedLeftArea = Aabb.Union(leftNode.Bounds, newBounds).HalfArea();
                 if (!leftNode.IsLeaf)
                     combinedLeftArea -= leftNode.Bounds.HalfArea();
                 float costLeft = combinedLeftArea + inheritedCost;
 
-                ref BvhNode rightNode = ref span[node.RightChild];
+                ref AabbNode rightNode = ref span[node.RightChild];
                 float combinedRightArea = Aabb.Union(rightNode.Bounds, newBounds).HalfArea();
                 if (!rightNode.IsLeaf)
                     combinedRightArea -= rightNode.Bounds.HalfArea();
@@ -94,7 +140,7 @@ namespace Rayman
             return index;
         }
 
-        private void BalanceAndRefit(Span<BvhNode> span, int index)
+        private void BalanceAndRefit(Span<AabbNode> span, int index)
         {
             while (index != -1)
             {
@@ -102,14 +148,14 @@ namespace Rayman
                 SyncNode(span, index);
                 SyncNode(span, index);
 
-                ref BvhNode node = ref span[index];
+                ref AabbNode node = ref span[index];
                 index = node.Parent;
             }
         }
 
-        private int Balance(Span<BvhNode> span, int index)
+        private int Balance(Span<AabbNode> span, int index)
         {
-            ref BvhNode node = ref span[index];
+            ref AabbNode node = ref span[index];
             if (node.IsLeaf || node.Height < 2) return index;
 
             int leftIndex = node.LeftChild;
@@ -118,7 +164,7 @@ namespace Rayman
 
             if (balanceFactor > 1)
             {
-                ref BvhNode nodeRight = ref span[rightIndex];
+                ref AabbNode nodeRight = ref span[rightIndex];
                 if (span[nodeRight.RightChild].Height < span[nodeRight.LeftChild].Height)
                 {
                     rightIndex = RotateRight(span, rightIndex);
@@ -128,7 +174,7 @@ namespace Rayman
             }
             else if (balanceFactor < -1)
             {
-                ref BvhNode nodeLeft = ref span[leftIndex];
+                ref AabbNode nodeLeft = ref span[leftIndex];
                 if (span[nodeLeft.LeftChild].Height < span[nodeLeft.RightChild].Height)
                 {
                     leftIndex = RotateLeft(span, leftIndex);
@@ -139,11 +185,11 @@ namespace Rayman
             return index;
         }
 
-        private int RotateLeft(Span<BvhNode> span, int aIndex)
+        private int RotateLeft(Span<AabbNode> span, int aIndex)
         {
-            ref BvhNode a = ref span[aIndex];
+            ref AabbNode a = ref span[aIndex];
             int bIndex = a.RightChild;
-            ref BvhNode b = ref span[bIndex];
+            ref AabbNode b = ref span[bIndex];
 
             a.RightChild = b.LeftChild;
             if (b.LeftChild != -1)
@@ -152,12 +198,12 @@ namespace Rayman
             b.Parent = a.Parent;
             if (a.Parent != -1)
             {
-                ref BvhNode ap = ref span[a.Parent];
+                ref AabbNode ap = ref span[a.Parent];
                 if (ap.LeftChild == aIndex) ap.LeftChild = bIndex;
                 else ap.RightChild = bIndex;
             }
             else
-                rootIndex = bIndex;
+                RootIndex.Value = bIndex;
 
             b.LeftChild = aIndex;
             a.Parent = bIndex;
@@ -167,11 +213,11 @@ namespace Rayman
             return bIndex;
         }
 
-        private int RotateRight(Span<BvhNode> span, int aIndex)
+        private int RotateRight(Span<AabbNode> span, int aIndex)
         {
-            ref BvhNode a = ref span[aIndex];
+            ref AabbNode a = ref span[aIndex];
             int bIndex = a.LeftChild;
-            ref BvhNode b = ref span[bIndex];
+            ref AabbNode b = ref span[bIndex];
 
             a.LeftChild = b.RightChild;
             if (b.RightChild != -1)
@@ -180,12 +226,12 @@ namespace Rayman
             b.Parent = a.Parent;
             if (a.Parent != -1)
             {
-                ref BvhNode ap = ref span[a.Parent];
+                ref AabbNode ap = ref span[a.Parent];
                 if (ap.LeftChild == aIndex) ap.LeftChild = bIndex;
                 else ap.RightChild = bIndex;
             }
             else
-                rootIndex = bIndex;
+                RootIndex.Value = bIndex;
 
             b.RightChild = aIndex;
             a.Parent = bIndex;
@@ -195,11 +241,11 @@ namespace Rayman
             return bIndex;
         }
 
-        private void SyncNode(Span<BvhNode> span, int index)
+        private void SyncNode(Span<AabbNode> span, int index)
         {
-            ref BvhNode node = ref span[index];
-            ref readonly BvhNode left = ref span[node.LeftChild];
-            ref readonly BvhNode right = ref span[node.RightChild];
+            ref AabbNode node = ref span[index];
+            ref readonly AabbNode left = ref span[node.LeftChild];
+            ref readonly AabbNode right = ref span[node.RightChild];
 
             node.Height = 1 + math.max(left.Height, right.Height);
             node.Bounds = Aabb.Union(left.Bounds, right.Bounds);

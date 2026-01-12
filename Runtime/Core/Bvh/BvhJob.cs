@@ -9,7 +9,7 @@ namespace Rayman
     [BurstCompile]
     public struct BvhBulkBuildJob : IJob
     {
-        public NativeArray<BvhNode> Nodes;
+        public NativeArray<AabbNode> Nodes;
         public NativeArray<int> Indices;
         [ReadOnly] public NativeArray<Aabb> LeafBounds;
         public NativeReference<int> RootIndexRef;
@@ -32,7 +32,7 @@ namespace Rayman
             int rootIndex = nextFreeNode++;
             stack[stackPtr++] = (0, n, rootIndex);
 
-            Span<BvhNode> nodesSpan = Nodes.AsSpan();
+            Span<AabbNode> nodesSpan = Nodes.AsSpan();
             Span<int> indexSpan = Indices.AsSpan();
 
             while (stackPtr > 0)
@@ -45,7 +45,7 @@ namespace Rayman
 
                 if (count == 1)
                 {
-                    nodesSpan[nodeIdx] = new BvhNode(totalBounds, indexSpan[start]);
+                    nodesSpan[nodeIdx] = new AabbNode(totalBounds, indexSpan[start]);
                     continue;
                 }
 
@@ -62,7 +62,7 @@ namespace Rayman
                 int leftIdx = nextFreeNode++;
                 int rightIdx = nextFreeNode++;
 
-                ref BvhNode node = ref nodesSpan[nodeIdx];
+                ref AabbNode node = ref nodesSpan[nodeIdx];
                 node.Bounds = totalBounds;
                 node.LeftChild = leftIdx;
                 node.RightChild = rightIdx;
@@ -74,7 +74,7 @@ namespace Rayman
 
             for (int i = nextFreeNode - 1; i >= 0; i--)
             {
-                ref BvhNode node = ref nodesSpan[i];
+                ref AabbNode node = ref nodesSpan[i];
                 if (!node.IsLeaf)
                 {
                     int l = node.LeftChild;
@@ -108,21 +108,28 @@ namespace Rayman
     [BurstCompile]
     public struct BvhRefitJob : IJob
     {
-        public NativeArray<BvhNode> Nodes;
+        public NativeArray<AabbNode> Nodes;
         [ReadOnly] public NativeArray<Aabb> LeafBounds;
         public int NodeCount;
 
         public void Execute()
         {
-            Span<BvhNode> span = Nodes.AsSpan();
-            for (int i = NodeCount - 1; i >= 0; i--)
-            {
-                ref BvhNode node = ref span[i];
-                if (node.IsLeaf)
-                    node.Bounds = LeafBounds[node.LeafId];
-                else
-                    node.Bounds = Aabb.Union(span[node.LeftChild].Bounds, span[node.RightChild].Bounds);
-            }
+            BvhUtils.Refit(Nodes, LeafBounds, NodeCount);
+        }
+    }
+
+    [BurstCompile]
+    public struct BvhFlattenJob : IJob
+    {
+        [ReadOnly] public NativeArray<AabbNode> Nodes;
+        [ReadOnly] public int NodeCount;
+        [ReadOnly] public int RootIndex;
+
+        public NativeArray<AabbNodeData> FlatResult;
+
+        public void Execute()
+        {
+            BvhUtils.Flatten(Nodes, RootIndex, NodeCount, FlatResult);
         }
     }
 }
