@@ -1,5 +1,7 @@
-using System.Collections.Generic;
+using System;
 using System.Runtime.InteropServices;
+using Unity.Collections;
+using Unity.Jobs;
 using UnityEngine;
 
 namespace Rayman
@@ -13,18 +15,46 @@ namespace Rayman
         [SerializeField] private bool drawGizmos;
 #endif
         private IBoundsProvider[] providers;
-        private Bvh<Aabb> bvh;
-        private Aabb[] bounds;
-        private AabbNodeData[] nodeData;
 
-        public override int DataCount => nodeData?.Length ?? 0;
+        private NativeArray<BvhNode> nodes;
+        private NativeArray<int> indices;
+        private NativeReference<int> rootIndexRef;
+        private NativeReference<int> nodeCountRef;
+
+        private NativeArray<Aabb> boundsArray;
+        private NativeArray<AabbNodeData> nodeDataArray;
+
+        public override int DataCount => 0;
 
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            if (!IsInitialized || !drawGizmos) return;
+            if (!drawGizmos || !nodes.IsCreated) return;
 
-            bvh.DrawStructure();
+            ReadOnlySpan<BvhNode> span = nodes.AsReadOnlySpan();
+            int nodeCount = nodeCountRef.Value;
+            int rootHeight = span[rootIndexRef.Value].Height;
+
+            for (int i = 0; i < nodeCount; i++)
+            {
+                ref readonly BvhNode node = ref span[i];
+                if (node.IsLeaf)
+                {
+                    Gizmos.color = Color.white;
+                    Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Size());
+                    Color leafCol = Color.white;
+                    leafCol.a *= 0.01f;
+                    Gizmos.color = leafCol;
+                    Gizmos.DrawCube(node.Bounds.Center(), node.Bounds.Size());
+                }
+                else
+                {
+                    float colorIntensity = 1f - (node.Height - 1f) / rootHeight;
+                    Color color = Color.HSVToRGB(node.Height / 10f % 1, 1, 1);
+                    Gizmos.color = color * colorIntensity;
+                    Gizmos.DrawWireCube(node.Bounds.Center(), node.Bounds.Size());
+                }
+            }
         }
 #endif
 
@@ -32,81 +62,139 @@ namespace Rayman
         {
             if (IsInitialized)
                 ReleaseBuffer();
+
             providers = dataProviders;
+            int dataCount = providers.Length;
+            int nodeCount = 2 * dataCount - 1;
 
-            bvh = new Bvh<Aabb>(providers);
-            int count = bvh.Count;
+            nodes = new NativeArray<BvhNode>(nodeCount, Allocator.Persistent);
+            indices = new NativeArray<int>(dataCount, Allocator.Persistent);
+            for (int i = 0; i < dataCount; i++)
+                indices[i] = i;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<AabbNodeData>());
+            rootIndexRef = new NativeReference<int>(Allocator.Persistent);
+            nodeCountRef = new NativeReference<int>(Allocator.Persistent);
+
+            boundsArray = new NativeArray<Aabb>(dataCount, Allocator.Persistent);
+            nodeDataArray = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
+
+            var job = new BvhBulkBuildJob
+            {
+                Nodes = nodes,
+                Indices = indices,
+                LeafBounds = boundsArray,
+                RootIndexRef = rootIndexRef,
+                NodeCountRef = nodeCountRef
+            };
+            job.Execute();
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, Marshal.SizeOf<AabbNodeData>());
             material.SetBuffer(BufferId, Buffer);
-
-            bounds = new Aabb[count];
-            nodeData = new AabbNodeData[count];
-
-            for (int i = 0; i < providers.Length; i++)
-                bounds[i] = providers[i].GetBounds<Aabb>();
-            UpdateNodeData();
-            Buffer.SetData(nodeData);
         }
 
         public override void SetData()
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
             for (int i = 0; i < providers.Length; i++)
+                boundsArray[i] = providers[i].GetBounds();
+
+            int nodeCount = nodeCountRef.Value;
+            int rootIndex = rootIndexRef.Value;
+
+            if (!nodeDataArray.IsCreated || nodeDataArray.Length != nodeCount)
             {
-                IBoundsProvider provider = providers[i];
-                if (provider == null) continue;
-
-                Aabb current = provider.GetBounds<Aabb>();
-                Aabb expanded = bounds[i].Expand(syncMargin);
-                if (expanded.Contains(current)) continue;
-
-                bounds[i] = current;
-                bvh.UpdateBounds(i, current);
-                setData = true;
+                if (nodeDataArray.IsCreated)
+                    nodeDataArray.Dispose();
+                nodeDataArray = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
             }
 
-            if (setData)
+            var refitJob = new BvhRefitJob
             {
-                UpdateNodeData();
-                Buffer.SetData(nodeData);
-            }
+                Nodes = nodes,
+                LeafBounds = boundsArray,
+                NodeCount = nodeCount
+            };
+            JobHandle jobHandle = refitJob.Schedule();
+
+            var flattenJob = new BvhFlattenJob
+            {
+                Nodes = nodes,
+                RootIndex = rootIndex,
+                NodeCount = nodeCount,
+                FlatResult = nodeDataArray
+            };
+            jobHandle = flattenJob.Schedule(jobHandle);
+            jobHandle.Complete();
+
+            Buffer.SetData(nodeDataArray);
         }
 
         public override void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
             providers = null;
-            bvh = null;
-            bounds = null;
-            nodeData = null;
+
+            if (nodes.IsCreated) nodes.Dispose();
+            if (indices.IsCreated) indices.Dispose();
+            if (nodeCountRef.IsCreated) nodeCountRef.Dispose();
+            if (rootIndexRef.IsCreated) rootIndexRef.Dispose();
+
+            if (boundsArray.IsCreated) boundsArray.Dispose();
+            if (nodeDataArray.IsCreated) nodeDataArray.Dispose();
         }
+    }
 
-        private void UpdateNodeData()
+    public struct BvhFlattenJob : IJob
+    {
+        [ReadOnly] public NativeArray<BvhNode> Nodes;
+        [ReadOnly] public int NodeCount;
+        [ReadOnly] public int RootIndex;
+
+        public NativeArray<AabbNodeData> FlatResult;
+
+        public void Execute()
         {
-            int index = 0;
-            Queue<(SpatialNode<Aabb> node, int parentIndex)> queue = new();
-            queue.Enqueue((bvh.Root, -1));
+            if (RootIndex == -1 || NodeCount == 0) return;
 
-            while (queue.Count > 0)
+            var flatPos = new NativeArray<int>(Nodes.Length, Allocator.Temp);
+            var stack = new NativeArray<int>(NodeCount, Allocator.Temp);
+            var traversalOrder = new NativeArray<int>(NodeCount, Allocator.Temp);
+
+            int stackPtr = 0;
+            int flatCount = 0;
+            stack[stackPtr++] = RootIndex;
+
+            while (stackPtr > 0)
             {
-                (SpatialNode<Aabb> current, int parentIndex) = queue.Dequeue();
-                AabbNodeData data = new(current, -1);
+                int index = stack[--stackPtr];
+                traversalOrder[flatCount] = index;
+                flatPos[index] = flatCount;
+                flatCount++;
 
-                if (current.LeftChild != null)
+                ref readonly BvhNode node = ref Nodes.AsReadOnlySpan()[index];
+                if (!node.IsLeaf)
                 {
-                    data.ChildIndex = index + queue.Count + 1; // setting child index
-                    queue.Enqueue((current.LeftChild, index));
+                    stack[stackPtr++] = node.RightChild;
+                    stack[stackPtr++] = node.LeftChild;
                 }
-                if (current.RightChild != null)
-                    queue.Enqueue((current.RightChild, index));
-
-                nodeData[index] = data;
-                index++;
             }
+
+            for (int i = 0; i < NodeCount; i++)
+            {
+                int originalIdx = traversalOrder[i];
+                ref readonly BvhNode node = ref Nodes.AsReadOnlySpan()[originalIdx];
+
+                int skipIndex = -1;
+                if (!node.IsLeaf)
+                    skipIndex = flatPos[node.RightChild] - i;
+
+                FlatResult[i] = new AabbNodeData(node, skipIndex);
+            }
+
+            flatPos.Dispose();
+            stack.Dispose();
+            traversalOrder.Dispose();
         }
     }
 }

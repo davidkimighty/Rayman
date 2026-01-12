@@ -44,11 +44,6 @@ namespace Rayman
     [Serializable]
     public class Segment : IBoundsProvider
     {
-        public static readonly Dictionary<Type, Delegate> BoundsFactory = new()
-        {
-            { typeof(Aabb), (Func<float3, float3, float3, float3, Aabb>)CreateAabb }
-        };
-        
         private KnotProvider k1;
         private KnotProvider k2;
         private float extendedBounds;
@@ -59,25 +54,21 @@ namespace Rayman
             this.k2 = k2;
             this.extendedBounds = extendedBounds;
         }
-        
-        public T GetBounds<T>() where T : struct, IBounds<T>
+
+        public Aabb GetBounds()
         {
-            if (!BoundsFactory.TryGetValue(typeof(T), out Delegate del))
-                throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
-            var factory = del as Func<float3, float3, float3, float3, T>;
-        
             float3 p0 = k1.transform.position;
             float3 p1 = p0 + (float3)k1.TangentOut;
             float3 p3 = k2.transform.position;
             float3 p2 = p3 + (float3)k2.TangentIn;
-            T bounds = factory(p0, p1, p2, p3);
+            Aabb bounds = CreateAabb(p0, p1, p2, p3);
 
             float radius = Mathf.Max(k1.Radius, k2.Radius);
-            bounds = bounds.Expand(radius + extendedBounds);
+            bounds.Expand(radius + extendedBounds);
             return bounds;
         }
-        
-        private static Aabb CreateAabb(float3 p0, float3 p1, float3 p2, float3 p3)
+
+        private Aabb CreateAabb(float3 p0, float3 p1, float3 p2, float3 p3)
         {
             float3 c = -p0 + p1;
             float3 b = p0 - 2f * p1 + p2;

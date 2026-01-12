@@ -45,11 +45,11 @@ namespace Rayman
         }
 #endif
 
-        public T GetBounds<T>() where T : struct, IBounds<T>
+        public Aabb GetBounds()
         {
-            T bounds = items[0].ShapeProvider.GetBounds<T>();
+            Aabb bounds = items[0].ShapeProvider.GetBounds();
             for (int i = 1; i < items.Count; i++)
-                bounds = bounds.Union(items[i].ShapeProvider.GetBounds<T>());
+                bounds = Aabb.Union(bounds, items[i].ShapeProvider.GetBounds());
             return bounds;
         }
     }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Rayman
@@ -21,11 +20,6 @@ namespace Rayman
 
     public class ShapeProvider : MonoBehaviour, IBoundsProvider
     {
-        public static Dictionary<Type, Delegate> BoundsFactory = new()
-        {
-            { typeof(Aabb), (Func<Transform, Vector3, Vector3, Vector3, Aabb>)CreateAabb }
-        };
-        
         public Vector3 Size = Vector3.one * 0.5f;
         public float ExpandBounds = 0.001f;
         public Vector3 Pivot = Vector3.one * 0.5f;
@@ -44,21 +38,17 @@ namespace Rayman
             Pivot = Pivot.Clamp(0f, 1f);
         }
 #endif
-        
-        public T GetBounds<T>() where T : struct, IBounds<T>
+
+        public Aabb GetBounds()
         {
-            if (!BoundsFactory.TryGetValue(typeof(T), out Delegate del))
-                throw new InvalidOperationException($"Unsupported bounds type: {typeof(T)}");
-            var factory = del as Func<Transform, Vector3, Vector3, Vector3, T>;
-            T bounds = factory(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
-            return bounds.Expand(Blend + Roundness + ExpandBounds);
+            Aabb aabb = CreateAabb(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
+            aabb.Expand(ExpandBounds);
+            return aabb;
         }
 
         public Vector3 GetScale() => transform.lossyScale;
-
-        public Vector3 GetSize() => GetShapeSize(Shape, Size);
         
-        private static Aabb CreateAabb(Transform transform, Vector3 scale, Vector3 size, Vector3 pivot)
+        private Aabb CreateAabb(Transform transform, Vector3 scale, Vector3 size, Vector3 pivot)
         {
             Vector3 right = transform.right * (scale.x * size.x);
             Vector3 up = transform.up * (scale.y * size.y);
@@ -114,5 +104,7 @@ namespace Rayman
                     return size;
             }
         }
+
+        
     }
 }

@@ -55,7 +55,7 @@ FragOut Frag(Varyings input)
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
     Ray ray = CreateRay(input.posWS, -viewDirWS);
 
-    hitCount = TraverseBvh(_NodeBuffer,0, ray.origin, ray.dir, hitIds);
+    hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (hitCount == 0) discard;
     
     InsertionSort(hitIds, hitCount);

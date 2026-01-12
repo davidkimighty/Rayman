@@ -61,7 +61,7 @@ float Frag(Varyings input) : SV_Depth
     float3 lightDirWS = -_LightDirection.xyz;
     Ray ray = CreateRay(input.positionWS, lightDirWS);
 
-    hitCount = TraverseBvh(_NodeBuffer,0, ray.origin, ray.dir, hitIds);
+    hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (hitCount == 0) discard;
     
     InsertionSort(hitIds, hitCount);

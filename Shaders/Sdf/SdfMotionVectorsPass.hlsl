@@ -77,7 +77,7 @@ float4 Frag(Varyings input) : SV_Target
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
-    shapeHitCount = TraverseBvh(_ShapeNodeBuffer,0, ray.origin, ray.dir, shapeHitIds);
+    shapeHitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (shapeHitCount == 0) discard;
     
     InsertionSort(shapeHitIds, shapeHitCount);

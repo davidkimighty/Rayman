@@ -7,81 +7,90 @@
 
 struct NodeAabb
 {
+    float3 min;
+    float3 max;
+    int left;
     int id;
-    int childIndex;
-    Aabb bounds;
 };
 
-inline int TraverseBvh(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
-    const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
+int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayInvDir, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
     int count = 0;
     int ptr = 0;
-    nodeStack[ptr++] = startIndex;
-    float3 invDir = rcp(rayDir);
+    nodeStack[ptr++] = 0;
 
     while (ptr > 0)
     {
-        NodeAabb node = nodeBuffer[nodeStack[--ptr]];
-        if (!RayIntersect(rayOrigin, invDir, node.bounds)) continue;
-        
-        if (node.childIndex < 0) // leaf
+        int currentIndex = nodeStack[--ptr];
+        NodeAabb node = buffer[currentIndex];
+        if (!RayIntersect(rayOrigin, rayInvDir, node.min, node.max)) continue;
+       
+        if (node.left < 0) // leaf
         {
             hitIds[count++] = node.id;
             if (count >= RAY_MAX_HITS) break;
         }
         else
         {
-            int childL = node.childIndex;
-            int childR = childL + 1;
-            float dstL = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childL].bounds);
-            float dstR = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childR].bounds);
+            int leftIndex = currentIndex + 1;
+            NodeAabb leftNode = buffer[leftIndex];
+            float dstLeft;
+            RayIntersect(rayOrigin, rayInvDir, leftNode.min, leftNode.max, dstLeft);
             
-            bool rightNear = dstL > dstR; 
-            nodeStack[ptr++] = rightNear ? childL : childR;
-            nodeStack[ptr++] = rightNear ? childR : childL;
+            int rightIndex = currentIndex + node.left;
+            NodeAabb rightNode = buffer[rightIndex];
+            float dstRight;
+            RayIntersect(rayOrigin, rayInvDir, rightNode.min, rightNode.max, dstRight);
+           
+            bool rightNear = dstLeft > dstRight;
+            nodeStack[ptr++] = rightNear ? leftIndex : rightIndex;
+            nodeStack[ptr++] = rightNear ? rightIndex : leftIndex;
         }
     }
     return count;
 }
 
-inline int2 TraverseBvhCount(StructuredBuffer<NodeAabb> nodeBuffer, const int startIndex,
-    const float3 rayOrigin, const float3 rayDir, inout int hitIds[RAY_MAX_HITS])
+int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayInvDir, inout int hitIds[RAY_MAX_HITS])
 {
     int nodeStack[STACK_SIZE];
     int2 count = 0;
     int ptr = 0;
-    nodeStack[ptr++] = startIndex;
-    float3 invDir = rcp(rayDir);
+    nodeStack[ptr++] = 0;
 
     while (ptr > 0)
     {
-        NodeAabb node = nodeBuffer[nodeStack[--ptr]];
-        if (!RayIntersect(rayOrigin, invDir, node.bounds)) continue;
+        int currentIndex = nodeStack[--ptr];
+        NodeAabb node = buffer[currentIndex];
+        if (!RayIntersect(rayOrigin, rayInvDir, node.min, node.max)) continue;
         
-        if (node.childIndex < 0) // leaf
+        if (node.left < 0) // leaf
         {
             hitIds[count.x++] = node.id;
             if (count.x >= RAY_MAX_HITS) break;
         }
         else
         {
-            int childL = node.childIndex;
-            int childR = childL + 1;
-            float dstL = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childL].bounds);
-            float dstR = RayIntersectNearDst(rayOrigin, invDir, nodeBuffer[childR].bounds);
+            int leftIndex = currentIndex + 1;
+            NodeAabb leftNode = buffer[leftIndex];
+            float dstLeft;
+            RayIntersect(rayOrigin, rayInvDir, leftNode.min, leftNode.max, dstLeft);
+            
+            int rightIndex = currentIndex + node.left;
+            NodeAabb rightNode = buffer[rightIndex];
+            float dstRight;
+            RayIntersect(rayOrigin, rayInvDir, rightNode.min, rightNode.max, dstRight);
 
-            bool rightNear = dstL > dstR; 
-            nodeStack[ptr++] = rightNear ? childL : childR;
-            nodeStack[ptr++] = rightNear ? childR : childL;
+            bool rightNear = dstLeft > dstRight;
+            nodeStack[ptr++] = rightNear ? leftIndex : rightIndex;
+            nodeStack[ptr++] = rightNear ? rightIndex : leftIndex;
             count.y += 2;
         }
     }
     return count;
 }
 
-inline void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
+void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
 {
     for (int i = 1; i < numHits; i++)
     {
