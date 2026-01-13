@@ -48,7 +48,7 @@ public class RandomSpawner : MonoBehaviour
             Color randomColor = Random.ColorHSV();
             colorProvider.Color = randomColor;
             
-            shapeObject.AddShape(shape);
+            shapeObject.AddShape(shapeProvider);
             currentCount++;
 
             if (currentCount > spawnPerFrame)

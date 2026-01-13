@@ -1,68 +1,44 @@
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class ShapeBufferProvider<T> : BufferProvider<ShapeProvider>
-        where T : struct, IPopulateData<ShapeProvider>
+    public class ShapeBufferProvider : IBufferProvider<ShapeData>
     {
         public static int BufferId = Shader.PropertyToID("_ShapeBuffer");
-        
-        private ShapeProvider[] providers;
-        private T[] shapeData;
+        public static readonly int Stride = UnsafeUtility.SizeOf<ShapeData>();
 
-        public override int DataCount => shapeData?.Length ?? 0;
+        public GraphicsBuffer Buffer { get; private set; }
 
-        public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, ShapeData[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            providers = dataProviders;
-            int count = providers.Length;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
+            int count = data.Length;
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
             material.SetBuffer(BufferId, Buffer);
-
-            shapeData = new T[count];
-            for (int i = 0; i < count; i++)
-            {
-                shapeData[i] = new T();
-                shapeData[i].Populate(providers[i]);
-            }
-            Buffer.SetData(shapeData);
         }
 
-        public override void SetData()
+        public void SetData(ShapeData[] data)
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
-            for (int i = 0; i < providers.Length; i++)
-            {
-                ShapeProvider provider = providers[i];
-                if (!provider || provider.gameObject.isStatic) continue;
-
-                shapeData[i] = new T();
-                shapeData[i].Populate(provider);
-                setData = true;
-            }
-            if (setData)
-                Buffer.SetData(shapeData);
+            Buffer.SetData(data);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
-            shapeData = null;
         }
     }
-
-    public class ShapeBufferProvider : ShapeBufferProvider<ShapeData> { }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ShapeData : IPopulateData<ShapeProvider>
+    public struct ShapeData
     {
         public float3 Position;
         public Quaternion Rotation;
@@ -73,8 +49,8 @@ namespace Rayman
         public float Blend;
         public float Roundness;
         public int ShapeType;
-
-        public void Populate(ShapeProvider provider)
+        
+        public ShapeData(ShapeProvider provider)
         {
             Position = provider.transform.position;
             Rotation = Quaternion.Inverse(provider.transform.rotation);

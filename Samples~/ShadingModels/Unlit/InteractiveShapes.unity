@@ -315,8 +315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.3, y: 0.3, z: 0.3}
-  ExpandBounds: 0.15
-  UseLossyScale: 1
+  ExpandBounds: 0.3
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.001
@@ -384,8 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.1, y: 0.1, z: 0.1}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.2
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.3

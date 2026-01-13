@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Rayman
 {
     [CreateAssetMenu(menuName = "Rayman/Data Providers/Ray")]
-    public class RayDataProvider : MaterialDataProvider
+    public class RayDataProvider : ScriptableObject, IMaterialDataProvider
     {
         public static readonly int EpsilonMinId = Shader.PropertyToID("_EpsilonMin");
         public static readonly int EpsilonMaxId = Shader.PropertyToID("_EpsilonMax");
@@ -23,7 +23,7 @@ namespace Rayman
         public int ShadowMaxSteps = 16;
         public float ShadowMaxRayDistance = 30f;
         
-        public override void ProvideData(ref Material material)
+        public void ProvideData(ref Material material)
         {
             material.SetFloat(EpsilonMinId, EpsilonMin);
             material.SetFloat(EpsilonMaxId, EpsilonMax);

@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.235, y: 0, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 0, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -480,7 +480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.35, y: 0.24, z: 0.05}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -1803,7 +1803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.4, y: 0.3, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -2697,7 +2697,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.35, y: 0.35, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -3081,7 +3081,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.2, y: 0.01, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0
@@ -3708,6 +3708,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1771307175}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1226249279
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/ShapeUnlit
+  m_Shader: {fileID: 4800000, guid: 3181bff9ca21d354ba30fefa13cd8948, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _GRADIENT_COLOR
+  - _SHAPE_GROUP
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DepthOnlyMaxDistance: 100
+    - _DepthOnlyMaxSteps: 32
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPow: 6.3
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 128
+    - _OutlineThickness: 0.01
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 0.83, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1237163367
 GameObject:
   m_ObjectHideFlags: 0
@@ -4037,7 +4088,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.235, y: 0, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 0, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -4177,7 +4228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.35, y: 0.24, z: 0.05}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -4203,6 +4254,57 @@ MonoBehaviour:
   items:
   - ShapeProvider: {fileID: 1343737579}
     VisualProvider: {fileID: 1343737578}
+--- !u!21 &1356739997
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/ShapeUnlit
+  m_Shader: {fileID: 4800000, guid: 3181bff9ca21d354ba30fefa13cd8948, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _GRADIENT_COLOR
+  - _SHAPE_GROUP
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DepthOnlyMaxDistance: 100
+    - _DepthOnlyMaxSteps: 32
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPow: 6.3
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 128
+    - _OutlineThickness: 0.01
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 0.83, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1363132533
 GameObject:
   m_ObjectHideFlags: 0
@@ -4587,6 +4689,57 @@ Transform:
   m_Children: []
   m_Father: {fileID: 788609847}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1475495436
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/ShapeUnlit
+  m_Shader: {fileID: 4800000, guid: 3181bff9ca21d354ba30fefa13cd8948, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _GRADIENT_COLOR
+  - _SHAPE_GROUP
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DepthOnlyMaxDistance: 100
+    - _DepthOnlyMaxSteps: 32
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPow: 6.3
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 128
+    - _OutlineThickness: 0.01
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 0.83, b: 0, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1524565437
 GameObject:
   m_ObjectHideFlags: 0
@@ -4889,7 +5042,10 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 1226249279}
+  - {fileID: 1356739997}
+  - {fileID: 1475495436}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5415,7 +5571,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.4, y: 0.3, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -6516,7 +6672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.2, y: 0.01, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 1, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0
@@ -6994,7 +7150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.35, y: 0.35, z: 0.1}
-  ExpandBounds: 0.03
+  ExpandBounds: 0.1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -7430,7 +7586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
   syncMargin: 0.01
-  drawGizmos: 0
+  drawGizmos: 1
 --- !u!114 &2118940936
 MonoBehaviour:
   m_ObjectHideFlags: 0

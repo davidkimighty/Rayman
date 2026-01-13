@@ -2,13 +2,13 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public interface IBufferProvider<T> where T : class
+    public interface IBufferProvider<T>
     {
         GraphicsBuffer Buffer { get; }
         bool IsInitialized { get; }
 
-        void InitializeBuffer(ref Material material, T[] dataProviders);
-        void SetData();
+        void InitializeBuffer(ref Material material, T[] data);
+        void SetData(T[] data);
         void ReleaseBuffer();
     }
 }

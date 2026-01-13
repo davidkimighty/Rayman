@@ -1,45 +1,38 @@
 ﻿using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class SplineBufferProvider : BufferProvider<Spline>
+    public class SplineBufferProvider : IBufferProvider<SplineData>
     {
         public static int BufferId = Shader.PropertyToID("_SplineBuffer");
-        
-        private Spline[] providers;
-        private SplineData[] splineData;
-        
-        public override void InitializeBuffer(ref Material material, Spline[] dataProviders)
+        public static readonly int Stride = UnsafeUtility.SizeOf<SplineData>();
+
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, SplineData[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            providers = dataProviders;
-            
-            int count = providers.Length;
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<SplineData>());
+
+            int count = data.Length;
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
             material.SetBuffer(BufferId, Buffer);
-            
-            splineData = new SplineData[count];
-            for (int i = 0; i < splineData.Length; i++)
-                splineData[i] = new SplineData(providers[i]);
-            Buffer.SetData(splineData);
         }
 
-        public override void SetData()
+        public void SetData(SplineData[] data)
         {
             if (!IsInitialized) return;
-            
-            for (int i = 0; i < splineData.Length; i++)
-                splineData[i] = new SplineData(providers[i]);
-            Buffer.SetData(splineData);
+
+            Buffer.SetData(data);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
-            splineData = null;
         }
     }
     

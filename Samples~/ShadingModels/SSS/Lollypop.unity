@@ -840,8 +840,7 @@ MonoBehaviour:
   epsilonMax: 0.01
   maxSteps: 64
   maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
+  materialDataProviders: []
   raymarchObjects:
   - {fileID: 1013907457217906880}
   - {fileID: 1013907457217906879}
@@ -1015,6 +1014,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 1, g: 1, b: 1, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
 --- !u!114 &1740791416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1028,8 +1028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.01, y: 0.01, z: 0.01}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.16

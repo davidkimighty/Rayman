@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class ShapeGroup : MonoBehaviour, IRaymarchGroup, IBoundsProvider
+    public class ShapeGroupOld : MonoBehaviour, IRaymarchGroup, IBoundsProvider
     {
         [SerializeField] private OperationType operation;
         [SerializeField] private float blend;

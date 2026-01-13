@@ -1,53 +1,51 @@
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class GroupBufferProvider : BufferProvider<IRaymarchGroup>
+    public class GroupBufferProvider : IBufferProvider<GroupData>
     {
         public static readonly int BufferId = Shader.PropertyToID("_GroupBuffer");
-        
-        private IRaymarchGroup[] groupProviders;
-        private GroupData[] groupData;
+        public static readonly int Stride = UnsafeUtility.SizeOf<GroupData>();
 
-        public override void InitializeBuffer(ref Material material, IRaymarchGroup[] dataProviders)
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, GroupData[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            groupProviders = dataProviders;
-            int count = groupProviders.Length;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<GroupData>());
+            int count = data.Length;
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
             material.SetBuffer(BufferId, Buffer);
-
-            groupData = new GroupData[count];
-            for (int i = 0; i < groupProviders.Length; i++)
-                groupData[i] = new GroupData(groupProviders[i]);
-            Buffer.SetData(groupData);
         }
 
-        public override void SetData()
+        public void SetData(GroupData[] data)
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
-            for (int i = 0; i < groupProviders.Length; i++)
-            {
-                IRaymarchGroup group = groupProviders[i];
-                if (group == null || !group.IsGroupDirty) continue;
-
-                groupData[i] = new GroupData(group);
-                group.IsGroupDirty = false;
-                setData = true;
-            }
-            if (setData)
-                Buffer.SetData(groupData);
+            Buffer.SetData(data);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct GroupData
+    {
+        public int Operation;
+        public float Blend;
+
+        public GroupData(IRaymarchGroup group)
+        {
+            Operation = (int)group.Operation;
+            Blend = group.Blend;
         }
     }
 }

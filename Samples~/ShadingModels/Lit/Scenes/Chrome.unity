@@ -399,64 +399,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!21 &169334504
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/ShapeChrome
-  m_Shader: {fileID: 4800000, guid: 0199af74cfdfcbb4a95b5f8b7d01d80c, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DepthNormalMaxDistance: 100
-    - _DepthNormalMaxSteps: 16
-    - _DstBlend: 0
-    - _EnvIntensity: 2
-    - _EnvPower: 1
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _FresnelPower: 2
-    - _GIIntensity: 1
-    - _GISharpness: 2
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0
-    - _GradientScaleY: 1
-    - _MaxDistance: 100
-    - _MaxSteps: 64
-    - _Metallic: 1
-    - _RayShadowBias: 0.006
-    - _ShadowMaxDistance: 30
-    - _ShadowMaxSteps: 16
-    - _Smoothness: 0.95
-    - _SpecularIntensity: 1
-    - _SpecularPower: 5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!114 &298975096 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5557154334753630040, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
@@ -537,8 +479,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 169334504}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -802,67 +743,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &669407447
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/SplineChrome
-  m_Shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BezierSubdiv: 16
-    - _Cull: 2
-    - _DepthNormalMaxDistance: 100
-    - _DepthNormalMaxSteps: 16
-    - _DstBlend: 0
-    - _EnvIntensity: 2
-    - _EnvPower: 1
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _FresnelPower: 2
-    - _GIIntensity: 1
-    - _GISharpness: 2
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0
-    - _GradientScaleY: 1
-    - _MaxDistance: 100
-    - _MaxSteps: 64
-    - _Metallic: 1
-    - _RayShadowBias: 0.006
-    - _ShadowMaxDistance: 30
-    - _ShadowMaxSteps: 16
-    - _Smoothness: 0.95
-    - _SpecularIntensity: 1
-    - _SpecularPower: 5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _GradientColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &994599425
 GameObject:
   m_ObjectHideFlags: 0
@@ -1299,8 +1179,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 669407447}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1608,6 +1487,10 @@ PrefabInstance:
     - target: {fileID: 4970239111023012147, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: Color.r
       value: 0.7830189
+      objectReference: {fileID: 0}
+    - target: {fileID: 5719683026055963195, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+      propertyPath: drawGizmos
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6194813086192931254, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_Name
