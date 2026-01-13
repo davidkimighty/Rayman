@@ -25,6 +25,8 @@ namespace Rayman
         
         public void ProvideData(ref Material material)
         {
+            if (material == null) return;
+            
             material.SetFloat(EpsilonMinId, EpsilonMin);
             material.SetFloat(EpsilonMaxId, EpsilonMax);
             material.SetInt(MaxStepsId, MaxSteps);

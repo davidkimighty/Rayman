@@ -399,134 +399,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_RenderingLayers: 1
   m_ShadowRenderingLayers: 1
---- !u!114 &298975096 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5557154334753630040, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-  m_PrefabInstance: {fileID: 1539601152011124247}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
---- !u!4 &298975097 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-  m_PrefabInstance: {fileID: 1539601152011124247}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &429438361
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 429438365}
-  - component: {fileID: 429438364}
-  - component: {fileID: 429438363}
-  - component: {fileID: 429438362}
-  m_Layer: 0
-  m_Name: RayamrchRenderer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &429438362
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429438361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.RaymarchRenderer
-  mainRenderer: {fileID: 429438363}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 298975096}
---- !u!23 &429438363
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429438361}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials: []
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &429438364
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429438361}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &429438365
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 429438361}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.11990128, y: 0.18159182, z: -0.078658104, w: 0.9728623}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 298975097}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 15.181, y: 20.277, z: -6.515}
 --- !u!1 &567782900
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +690,67 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994599425}
   m_CullTransparentMesh: 1
+--- !u!21 &1223444974
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/SplineChrome
+  m_Shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BezierSubdiv: 8
+    - _Cull: 2
+    - _DepthNormalMaxDistance: 100
+    - _DepthNormalMaxSteps: 16
+    - _DstBlend: 0
+    - _EnvIntensity: 2
+    - _EnvPower: 1
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPower: 2
+    - _GIIntensity: 1
+    - _GISharpness: 2
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _Smoothness: 0.5
+    - _SpecularIntensity: 1
+    - _SpecularPower: 5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _GradientColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1319927317
 GameObject:
   m_ObjectHideFlags: 0
@@ -879,9 +812,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1321416619}
   - component: {fileID: 1321416618}
-  - component: {fileID: 1321416617}
-  - component: {fileID: 1321416616}
-  - component: {fileID: 1321416615}
   m_Layer: 0
   m_Name: Spline
   m_TagString: Untagged
@@ -889,44 +819,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1321416615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1321416614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &1321416616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1321416614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7efcab5bf0ff31408fd9c8440a31187, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.KnotBufferProvider
---- !u!114 &1321416617
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1321416614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b727b68536fd4350983f22346a32fbca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.SplineBufferProvider
 --- !u!114 &1321416618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,9 +831,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e328c2af89e478fbb369f84f19dfe02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.SplineObject
+  setupOnAwake: 1
+  drawGizmos: 1
+  mainRenderer: {fileID: 1420960109}
+  rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
-  materialDataProviders:
-  - {fileID: 11400000, guid: 60c96d644a10cbb4b9a2b5920cb592e7, type: 2}
+  materialDataProvider: {fileID: 0}
   splines:
   - KnotStartIndex: 0
     ExtendedBounds: 0.1
@@ -954,9 +849,6 @@ MonoBehaviour:
     - {fileID: 72849532}
     - {fileID: 1724034780}
     - {fileID: 83509927}
-  splineBufferProvider: {fileID: 1321416617}
-  knotBufferProvider: {fileID: 1321416616}
-  nodeBufferProvider: {fileID: 1321416615}
 --- !u!4 &1321416619
 Transform:
   m_ObjectHideFlags: 0
@@ -978,6 +870,7 @@ Transform:
   - {fileID: 72849533}
   - {fileID: 1724034781}
   - {fileID: 83509928}
+  - {fileID: 1420960111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1400828240
@@ -1126,35 +1019,13 @@ GameObject:
   - component: {fileID: 1420960111}
   - component: {fileID: 1420960110}
   - component: {fileID: 1420960109}
-  - component: {fileID: 1420960108}
   m_Layer: 0
-  m_Name: RaymarchRenderer
+  m_Name: Renderer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1420960108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1420960107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.RaymarchRenderer
-  mainRenderer: {fileID: 1420960109}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 1321416618}
 --- !u!23 &1420960109
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1179,7 +1050,8 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials: []
+  m_Materials:
+  - {fileID: 1223444974}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1219,12 +1091,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1420960107}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.42, y: 0.004, z: 0.711}
   m_LocalScale: {x: 2.1137, y: 2.1137, z: 2.1137}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1321416619}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1724034779
 GameObject:
@@ -1377,6 +1249,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!21 &1890640793
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/ShapeChrome
+  m_Shader: {fileID: 4800000, guid: 0199af74cfdfcbb4a95b5f8b7d01d80c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _Cull: 2
+    - _DepthNormalMaxDistance: 100
+    - _DepthNormalMaxSteps: 16
+    - _DstBlend: 0
+    - _EnvIntensity: 2
+    - _EnvPower: 1
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _FresnelPower: 2
+    - _GIIntensity: 1
+    - _GISharpness: 2
+    - _GradientAngle: 0
+    - _GradientOffsetY: 0
+    - _GradientScaleY: 1
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _Metallic: 0
+    - _RayShadowBias: 0.006
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _Smoothness: 0.5
+    - _SpecularIntensity: 1
+    - _SpecularPower: 5
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1979757806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1364,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 429438365}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 297288028495310014, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: Roundness
@@ -1488,6 +1418,10 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.7830189
       objectReference: {fileID: 0}
+    - target: {fileID: 5557154334753630040, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+      propertyPath: drawGizmos
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5719683026055963195, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: drawGizmos
       value: 1
@@ -1510,19 +1444,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9728623
       objectReference: {fileID: 0}
     - target: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.11990128
       objectReference: {fileID: 0}
     - target: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.18159182
       objectReference: {fileID: 0}
     - target: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.078658104
       objectReference: {fileID: 0}
     - target: {fileID: 6324930012417696188, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1552,7 +1486,14 @@ PrefabInstance:
       propertyPath: Roundness
       value: 0.003
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 9176791255342323076, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5149203921970347068, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+    - {fileID: 5719683026055963195, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+    - {fileID: 1825973482965242111, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -1566,6 +1507,5 @@ SceneRoots:
   - {fileID: 1885618903}
   - {fileID: 1406361796}
   - {fileID: 567782903}
-  - {fileID: 429438365}
-  - {fileID: 1420960111}
+  - {fileID: 1539601152011124247}
   - {fileID: 1321416619}

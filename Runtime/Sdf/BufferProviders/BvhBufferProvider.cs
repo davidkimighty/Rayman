@@ -21,6 +21,8 @@ namespace Rayman
 
         public bool IsInitialized => Buffer != null && nodes.IsCreated;
 
+        public int DataLength => nodeCountRef != null ? nodeCountRef.Value : 0;
+
         public void InitializeBuffer(ref Material material, NativeArray<Aabb> data)
         {
             if (IsInitialized)

@@ -7,7 +7,7 @@ namespace Rayman
     {
         GraphicsBuffer Buffer { get; }
         bool IsInitialized { get; }
-        int DataCount { get; }
+        int DataLength { get; }
 
         void InitializeBuffer(ref Material material, NativeArray<T> data);
         void SetData(NativeArray<T> data);

@@ -186,6 +186,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &106072562
 GameObject:
@@ -381,6 +384,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &246280346
 GameObject:
@@ -393,12 +399,7 @@ GameObject:
   - component: {fileID: 246280351}
   - component: {fileID: 246280350}
   - component: {fileID: 246280349}
-  - component: {fileID: 246280348}
   - component: {fileID: 246280356}
-  - component: {fileID: 246280355}
-  - component: {fileID: 246280354}
-  - component: {fileID: 246280353}
-  - component: {fileID: 246280352}
   m_Layer: 0
   m_Name: ShapeGroupObject (2)
   m_TagString: Untagged
@@ -406,27 +407,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &246280348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 246280349}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 246280356}
 --- !u!23 &246280349
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -501,56 +481,6 @@ Transform:
   - {fileID: 1849466354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &246280352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &246280353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &246280354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &246280355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &246280356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,16 +493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  mainRenderer: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
-  materialDataProviders: []
-  shapeBufferProvider: {fileID: 246280355}
-  groupBufferProvider: {fileID: 246280354}
-  shapeNodeBufferProvider: {fileID: 246280353}
-  visualBufferProvider: {fileID: 246280352}
-  shapeGroups:
-  - {fileID: 909546964}
-  - {fileID: 1849466355}
-  - {fileID: 422985498}
+  materialProviders: []
 --- !u!1 &261075533
 GameObject:
   m_ObjectHideFlags: 0
@@ -640,6 +563,9 @@ MonoBehaviour:
   Blend: 0.005
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &261094812
 GameObject:
@@ -708,6 +634,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &267684237
 GameObject:
@@ -776,6 +705,9 @@ MonoBehaviour:
   Blend: 0.005
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &271798145
 GameObject:
@@ -844,6 +776,9 @@ MonoBehaviour:
   Blend: 0.003
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &422985495
 GameObject:
@@ -976,6 +911,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &530505256
 GameObject:
@@ -1109,6 +1047,9 @@ MonoBehaviour:
   Blend: 0.002
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &567782900
 GameObject:
@@ -1256,6 +1197,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0.002
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &783164003
 GameObject:
@@ -1324,6 +1268,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &800339455
 GameObject:
@@ -1529,6 +1476,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 1
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &890309541
 GameObject:
@@ -1597,6 +1547,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 6
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 3
 --- !u!1 &909546961
 GameObject:
@@ -1733,6 +1686,9 @@ MonoBehaviour:
   Blend: 0.003
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &994599425
 GameObject:
@@ -1876,6 +1832,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1044891541
 GameObject:
@@ -2000,6 +1959,9 @@ MonoBehaviour:
   Blend: 0.006
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 3
 --- !u!1 &1076111336
 GameObject:
@@ -2068,6 +2030,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1099805977
 GameObject:
@@ -2312,6 +2277,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &1301549123
 GameObject:
@@ -2380,6 +2348,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1406361793
 GameObject:
@@ -2476,12 +2447,7 @@ GameObject:
   - component: {fileID: 1544387835}
   - component: {fileID: 1544387834}
   - component: {fileID: 1544387833}
-  - component: {fileID: 1544387832}
   - component: {fileID: 1544387840}
-  - component: {fileID: 1544387839}
-  - component: {fileID: 1544387838}
-  - component: {fileID: 1544387837}
-  - component: {fileID: 1544387836}
   m_Layer: 0
   m_Name: ShapeGroupObject
   m_TagString: Untagged
@@ -2489,27 +2455,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1544387832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 1544387833}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 1544387840}
 --- !u!23 &1544387833
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2584,56 +2529,6 @@ Transform:
   - {fileID: 1157926198}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1544387836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &1544387837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &1544387838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &1544387839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &1544387840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2646,17 +2541,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  mainRenderer: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
-  materialDataProviders: []
-  shapeBufferProvider: {fileID: 1544387839}
-  groupBufferProvider: {fileID: 1544387838}
-  shapeNodeBufferProvider: {fileID: 1544387837}
-  visualBufferProvider: {fileID: 1544387836}
-  shapeGroups:
-  - {fileID: 530505258}
-  - {fileID: 1197997718}
-  - {fileID: 1157926199}
-  - {fileID: 1044891544}
+  materialProviders: []
 --- !u!1 &1598783556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2724,6 +2611,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &1809447846
 GameObject:
@@ -2792,6 +2682,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1812483112
 GameObject:
@@ -2860,6 +2753,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1849466352
 GameObject:
@@ -3033,6 +2929,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2034891304
 GameObject:
@@ -3101,6 +3000,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2080271390
 GameObject:
@@ -3113,12 +3015,7 @@ GameObject:
   - component: {fileID: 2080271395}
   - component: {fileID: 2080271394}
   - component: {fileID: 2080271393}
-  - component: {fileID: 2080271392}
   - component: {fileID: 2080271400}
-  - component: {fileID: 2080271399}
-  - component: {fileID: 2080271398}
-  - component: {fileID: 2080271397}
-  - component: {fileID: 2080271396}
   m_Layer: 0
   m_Name: ShapeGroupObject (1)
   m_TagString: Untagged
@@ -3126,27 +3023,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2080271392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 2080271393}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 2080271400}
 --- !u!23 &2080271393
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3220,56 +3096,6 @@ Transform:
   - {fileID: 2125529143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &2080271396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &2080271397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &2080271398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &2080271399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &2080271400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3282,15 +3108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  mainRenderer: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
-  materialDataProviders: []
-  shapeBufferProvider: {fileID: 2080271399}
-  groupBufferProvider: {fileID: 2080271398}
-  shapeNodeBufferProvider: {fileID: 2080271397}
-  visualBufferProvider: {fileID: 2080271396}
-  shapeGroups:
-  - {fileID: 1099805980}
-  - {fileID: 2125529144}
+  materialProviders: []
 --- !u!1 &2108574506
 GameObject:
   m_ObjectHideFlags: 0
@@ -3358,6 +3178,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2111127658
 GameObject:
@@ -3426,6 +3249,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2125529141
 GameObject:
@@ -3550,6 +3376,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &2128919931
 GameObject:
@@ -3618,6 +3447,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

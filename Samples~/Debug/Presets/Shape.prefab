@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8082665584089135840}
   - component: {fileID: 4762993375693887320}
-  - component: {fileID: 2404557527123828613}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -47,23 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.5, y: 0.5, z: 0.5}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 0
---- !u!114 &2404557527123828613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3875985776586045355}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  GradientColor: {r: 1, g: 0.70388687, b: 0, a: 1}
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
+  GroupIndex: 0

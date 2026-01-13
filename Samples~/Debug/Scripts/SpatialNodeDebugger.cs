@@ -14,7 +14,10 @@ public class SpatialNodeDebugger : DebugElement
     {
         int nodeCount = 0;
         for (int i = 0; i < shapes.Length; i++)
-            nodeCount += shapes[i].DataCount;
+        {
+            if (shapes[i].IsInitialized)
+                nodeCount += shapes[i].NodeCount;
+        }
         return $"Node {nodeCount, 4}";
     }
 }

@@ -17,6 +17,8 @@ namespace Rayman
         
         public override void ProvideData(ref Material material)
         {
+            if (material == null) return;
+            
             material.SetTexture(BaseMapId, baseMap);
             material.SetFloat(MetallicId, metallic);
             material.SetFloat(SmoothnessId, smoothness);

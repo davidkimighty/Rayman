@@ -14,7 +14,7 @@ public class ShapeCountDebugger : DebugElement
     {
         int sdfCount = 0;
         for (int i = 0; i < shapes.Length; i++)
-            sdfCount += shapes[i].ShapeProviders.Count;
+            sdfCount += shapes[i].ShapeCount;
         return $"SDF {sdfCount,4}";
     }
 }

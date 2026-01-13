@@ -326,39 +326,14 @@ GameObject:
   - component: {fileID: 1476837637}
   - component: {fileID: 1476837636}
   - component: {fileID: 1476837635}
-  - component: {fileID: 1476837634}
   - component: {fileID: 1476837643}
-  - component: {fileID: 1476837642}
-  - component: {fileID: 1476837640}
-  - component: {fileID: 1476837639}
   m_Layer: 0
-  m_Name: Renderer
+  m_Name: ShapeObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1476837634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476837632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 1476837635}
-  setupOnAwake: 0
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 1476837643}
 --- !u!23 &1476837635
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -430,44 +405,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1476837639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476837632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &1476837640
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476837632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &1476837642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1476837632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57b665f8d1565454787b5af1fad2cdcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &1476837643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,12 +417,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  mainRenderer: {fileID: 1476837635}
+  rayDataProvider: {fileID: 11400000, guid: e8cbbdcffaaef448fbbe687a870f9865, type: 2}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
-  materialDataProviders: []
-  shapeBufferProvider: {fileID: 1476837642}
-  shapeNodeBufferProvider: {fileID: 1476837640}
-  visualBufferProvider: {fileID: 1476837639}
-  shapes: []
+  materialDataProvider: {fileID: 0}
+  shapeProviders: []
 --- !u!1 &1622846065
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,9 +452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 830f4a93447a76d4a9449f5d4a37b767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchRenderer: {fileID: 1476837634}
   shapeObject: {fileID: 1476837643}
-  shapePrefab: {fileID: 3875985776586045355, guid: cff4e235ce10c7a4ea99cc65ca6aa083, type: 3}
+  shapePrefab: {fileID: 4762993375693887320, guid: cff4e235ce10c7a4ea99cc65ca6aa083, type: 3}
   spawnArea: {x: 13, y: 7.3, z: 10}
   spawnCount: 2000
   spawnPerFrame: 100

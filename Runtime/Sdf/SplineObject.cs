@@ -12,23 +12,27 @@ namespace Rayman
         public const float DefaultTension = 1 / 3f;
 
         [SerializeField] private bool setupOnAwake = true;
+        [SerializeField] private bool drawGizmos;
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private RayDataProvider rayDataProvider;
         [SerializeField] private Shader shader;
-        [SerializeField] private MaterialDataProvider materialDataProvider;
+        [SerializeField] private List<MaterialDataProvider> materialDataProviders = new();
         [SerializeField] private List<Spline> splines = new();
 
         private Material material;
         private Segment[] segments;
         private KnotProvider[] knots;
 
-        private INativeBufferProvider<Aabb> nodeBufferProvider;
-        private IBufferProvider<SplineData> splineBufferProvider;
-        private IBufferProvider<KnotData> knotBufferProvider;
+        private BvhBufferProvider nodeBufferProvider;
+        private SplineBufferProvider splineBufferProvider;
+        private KnotBufferProvider knotBufferProvider;
 
         private NativeArray<Aabb> leafBounds;
         private SplineData[] splineData;
         private KnotData[] knotData;
+
+        public bool IsInitialized => material && nodeBufferProvider != null;
+        public Material Material => material;
 
         private void Awake()
         {
@@ -38,7 +42,7 @@ namespace Rayman
 
         private void LateUpdate()
         {
-            if (!material) return;
+            if (!IsInitialized) return;
 
             UpdateNodeBufferData();
             UpdateSplineBufferData();
@@ -49,29 +53,38 @@ namespace Rayman
             splineBufferProvider.SetData(splineData);
             knotBufferProvider.SetData(knotData);
         }
+
+        private void OnDestroy()
+        {
+            CleanupMaterial();
+        }
         
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!material)
-            {
-                if (!Application.isPlaying)
-                    CleanupMaterial();
-                return;
-            }
+            rayDataProvider?.ProvideData(ref material);
+            foreach (MaterialDataProvider provider in materialDataProviders)
+                provider?.ProvideData(ref material);
+        }
 
-            rayDataProvider.ProvideData(ref material);
-            materialDataProvider.ProvideData(ref material);
+        void OnDrawGizmos()
+        {
+            if (!drawGizmos || !IsInitialized) return;
+
+            nodeBufferProvider.DrawGizmos();
         }
 #endif
         public void SetupMaterial()
         {
+            if (splines == null || splines.Count == 0) return;
+
             if (material)
                 CleanupMaterial();
 
             material = new Material(shader);
-            rayDataProvider.ProvideData(ref material);
-            materialDataProvider.ProvideData(ref material);
+            rayDataProvider?.ProvideData(ref material);
+            foreach (MaterialDataProvider provider in materialDataProviders)
+                provider?.ProvideData(ref material);
 
             SetupBufferData();
 

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Rayman;
 using UnityEngine;
@@ -8,7 +7,7 @@ public class InteractiveShapes : MonoBehaviour
 {
     private static readonly int BaseMapId = Shader.PropertyToID("_BaseMap");
     
-    [SerializeField] private RaymarchObject raymarchObject;
+    [SerializeField] private ShapeObject shapeObject;
     [SerializeField] private InputActionReference clickActionReference;
     [SerializeField] private List<Texture> matcaps;
     
@@ -22,13 +21,12 @@ public class InteractiveShapes : MonoBehaviour
     [SerializeField] private float pulseFrequency;
 
     private int matcapIndex;
-    private IEnumerator pulseImpact;
 
     private void OnEnable()
     {
         clickActionReference.action.performed += ChangeMatCap;
 
-        raymarchObject.Material.SetTexture(BaseMapId, matcaps[0]);
+        shapeObject.Material.SetTexture(BaseMapId, matcaps[0]);
     }
     
     private void OnDisable()
@@ -54,6 +52,6 @@ public class InteractiveShapes : MonoBehaviour
         if (!click) return;
         
         matcapIndex = ++matcapIndex % matcaps.Count;
-        raymarchObject.Material.SetTexture(BaseMapId, matcaps[matcapIndex]);
+        shapeObject.Material.SetTexture(BaseMapId, matcaps[matcapIndex]);
     }
 }
