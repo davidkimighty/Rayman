@@ -1,113 +1,159 @@
+using System;
 using System.Collections.Generic;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Rayman
 {
     [ExecuteInEditMode]
-    public class ShapeGroupObject : RaymarchObject
+    public class ShapeGroupObject : MonoBehaviour
     {
-        [SerializeField] private BufferProvider<ShapeProvider> shapeBufferProvider;
-        [SerializeField] private BufferProvider<IRaymarchGroup> groupBufferProvider;
-        [SerializeField] private BufferProvider<IBoundsProvider> shapeNodeBufferProvider;
-        [SerializeField] private BufferProvider<VisualProvider> visualBufferProvider;
+        [SerializeField] private bool setupOnStart = true;
+        [SerializeField] private Renderer mainRenderer;
+        [SerializeField] private RayDataProvider rayDataProvider;
+        [SerializeField] private Shader shader;
+        [SerializeField] private List<MaterialDataProvider> materialDataProviders = new();
         [SerializeField] private List<ShapeGroup> shapeGroups;
+#if UNITY_EDITOR
+        [SerializeField] private bool drawGizmos;
+#endif
 
-        private ShapeGroup[] groupProviders;
-        private ShapeProvider[] shapeProviders;
-        private VisualProvider[] visualProviders;
+        private Material material;
+        private ShapeGroup[] groups;
+        private ShapeProvider[] shapes;
+
+        private BvhBufferProvider nodeBufferProvider;
+        private GroupBufferProvider groupBufferProvider;
+        private ShapeBufferProvider<ShapeGroupData> shapeBufferProvider;
+        private ColorBufferProvider<ColorData> colorBufferProvider;
+
+        private NativeArray<Aabb> leafBounds;
+        
+        public bool IsInitialized => material && nodeBufferProvider != null;
+        public Material Material => material;
+
+        private void Start()
+        {
+            if (Application.isPlaying && setupOnStart)
+                SetupMaterial();
+        }
 
         private void LateUpdate()
         {
-            if (!material) return;
+            if (!IsInitialized) return;
 
-            shapeBufferProvider?.SetData();
-            groupBufferProvider?.SetData();
-            shapeNodeBufferProvider?.SetData();
-            visualBufferProvider?.SetData();
+            UpdateBufferData();
+
+            // isDirty checks?
+            nodeBufferProvider.SetData(leafBounds);
+            shapeBufferProvider.SetData(shapes);
+            colorBufferProvider.SetData(shapes);
+            groupBufferProvider.SetData(groups);
+        }
+
+        private void OnDestroy()
+        {
+            CleanupMaterial();
         }
 
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            if (!material) return;
+            if (!IsInitialized) return;
 
-            SetMaterialData();
+            rayDataProvider?.ProvideData(ref material);
+            foreach (MaterialDataProvider provider in materialDataProviders)
+                provider?.ProvideData(ref material);
+        }
+
+        void OnDrawGizmos()
+        {
+            if (!drawGizmos || !IsInitialized) return;
+
+            nodeBufferProvider.DrawGizmos();
         }
 #endif
 
-        public override Material CreateMaterial()
+        [ContextMenu("Setup Material")]
+        public void SetupMaterial()
         {
-            if (material)
-                Cleanup();
+            if (shapeGroups == null || shapeGroups.Count == 0) return;
+
+            if (IsInitialized)
+                CleanupMaterial();
+
             material = new Material(shader);
+            rayDataProvider?.ProvideData(ref material);
+            foreach (MaterialDataProvider provider in materialDataProviders)
+                provider?.ProvideData(ref material);
+            material.EnableKeyword("_SHAPE_GROUP");
 
-            SetMaterialData();
-            SetupDataProviders();
+            SetupBufferData();
 
-            shapeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
-            groupBufferProvider?.InitializeBuffer(ref material, groupProviders);
-            shapeNodeBufferProvider?.InitializeBuffer(ref material, shapeProviders);
-            visualBufferProvider?.InitializeBuffer(ref material, visualProviders);
+            leafBounds = new NativeArray<Aabb>(shapes.Length, Allocator.Persistent);
+            UpdateBufferData();
 
-            return material;
+            nodeBufferProvider = new BvhBufferProvider();
+            nodeBufferProvider.InitializeBuffer(ref material, leafBounds);
+
+            shapeBufferProvider = new ShapeBufferProvider<ShapeGroupData>();
+            shapeBufferProvider.InitializeBuffer(ref material, shapes);
+
+            colorBufferProvider = new ColorBufferProvider<ColorData>();
+            colorBufferProvider.InitializeBuffer(ref material, shapes);
+
+            groupBufferProvider = new GroupBufferProvider();
+            groupBufferProvider.InitializeBuffer(ref material, groups);
+
+            mainRenderer.material = material;
         }
 
-        public override void Cleanup()
+        [ContextMenu("Cleanup Material")]
+        public void CleanupMaterial()
         {
+            nodeBufferProvider?.ReleaseBuffer();
             shapeBufferProvider?.ReleaseBuffer();
+            colorBufferProvider?.ReleaseBuffer();
             groupBufferProvider?.ReleaseBuffer();
-            shapeNodeBufferProvider?.ReleaseBuffer();
-            visualBufferProvider?.ReleaseBuffer();
+
+            if (leafBounds.IsCreated) leafBounds.Dispose();
 
             if (Application.isEditor)
                 DestroyImmediate(material);
             else
                 Destroy(material);
-        }
-        
-#if UNITY_EDITOR
-        [ContextMenu("Find All BufferProviders")]
-        public void FindAllBufferProviders()
-        {
-            shapeBufferProvider = GetComponent<BufferProvider<ShapeProvider>>();
-            groupBufferProvider = GetComponent<BufferProvider<IRaymarchGroup>>();
-            shapeNodeBufferProvider = GetComponent<BufferProvider<IBoundsProvider>>();
-            visualBufferProvider = GetComponent<BufferProvider<VisualProvider>>();
-        }
-#endif
 
-        protected override void SetMaterialData()
-        {
-            base.SetMaterialData();
-            material.EnableKeyword("_SHAPE_GROUP");
+            if (mainRenderer)
+                mainRenderer.materials = Array.Empty<Material>();
         }
 
-        private void SetupDataProviders()
+        private void SetupBufferData()
         {
             List<ShapeGroup> groupList = new();
             List<ShapeProvider> shapeList = new();
-            List<VisualProvider> visualList = new();
 
             for (int i = 0; i < shapeGroups.Count; i++)
             {
                 ShapeGroup group = shapeGroups[i];
-                if (!group) continue;
-
                 groupList.Add(group);
-                foreach (ShapeVisual item in group.Items)
-                {
-                    if (item.ShapeProvider)
-                    {
-                        item.ShapeProvider.GroupIndex = i;
-                        shapeList.Add(item.ShapeProvider);
-                    }
-                    if (item.VisualProvider)
-                        visualList.Add(item.VisualProvider);
-                }
+
+                foreach (ShapeProvider provider in group.Shapes)
+                    shapeList.Add(provider);
             }
-            groupProviders = groupList.ToArray();
-            shapeProviders = shapeList.ToArray();
-            visualProviders = visualList.ToArray();
+            
+            groups = groupList.ToArray();
+            shapes = shapeList.ToArray();
+        }
+
+        private void UpdateBufferData()
+        {
+            for (int i = 0; i < shapes.Length; i++)
+            {
+                ShapeProvider provider = shapes[i];
+                if (!provider) continue;
+
+                leafBounds[i] = provider.GetBounds();
+            }
         }
     }
 }

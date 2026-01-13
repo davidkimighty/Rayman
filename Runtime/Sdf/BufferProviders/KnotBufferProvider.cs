@@ -1,40 +1,41 @@
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class KnotBufferProvider : BufferProvider<KnotProvider>
+    public class KnotBufferProvider : IBufferProvider<KnotProvider>
     {
         public const float DefaultTension = 1 / 3f;
         public static int BufferId = Shader.PropertyToID("_KnotBuffer");
+        public static readonly int Stride = UnsafeUtility.SizeOf<KnotData>();
 
-        private KnotProvider[] providers;
         private KnotData[] knotData;
-        
-        public override void InitializeBuffer(ref Material material, KnotProvider[] dataProviders)
+
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, KnotProvider[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            providers = dataProviders;
-            
-            int count = providers.Length;
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<KnotData>());
-            material.SetBuffer(BufferId, Buffer);
-            
+
+            int count = data.Length;
             knotData = new KnotData[count];
-            for (int i = 0; i < knotData.Length; i++)
-                knotData[i] = new KnotData(providers[i]);
-            Buffer.SetData(knotData);
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
+            material.SetBuffer(BufferId, Buffer);
         }
 
-        public override void SetData()
+        public void SetData(KnotProvider[] data)
         {
             if (!IsInitialized) return;
 
-            for (int i = 0; i < knotData.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                KnotProvider knot = providers[i];
+                KnotProvider knot = data[i];
                 if (knot.TangentMode == TangentMode.Auto)
                 {
                     Vector3 prevPos = knot.PreviousKnot.transform.position;
@@ -51,13 +52,13 @@ namespace Rayman
                 }
                 knotData[i] = new KnotData(knot);
             }
+
             Buffer.SetData(knotData);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
             knotData = null;
         }
 

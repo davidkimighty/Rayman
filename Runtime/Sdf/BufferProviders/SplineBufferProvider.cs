@@ -1,44 +1,45 @@
 ﻿using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class SplineBufferProvider : BufferProvider<Spline>
+    public class SplineBufferProvider : IBufferProvider<Spline>
     {
         public static int BufferId = Shader.PropertyToID("_SplineBuffer");
-        
-        private Spline[] providers;
+        public static readonly int Stride = UnsafeUtility.SizeOf<SplineData>();
+
         private SplineData[] splineData;
-        
-        public override void InitializeBuffer(ref Material material, Spline[] dataProviders)
+
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, Spline[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            providers = dataProviders;
-            
-            int count = providers.Length;
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<SplineData>());
-            material.SetBuffer(BufferId, Buffer);
-            
+
+            int count = data.Length;
             splineData = new SplineData[count];
-            for (int i = 0; i < splineData.Length; i++)
-                splineData[i] = new SplineData(providers[i]);
-            Buffer.SetData(splineData);
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
+            material.SetBuffer(BufferId, Buffer);
         }
 
-        public override void SetData()
+        public void SetData(Spline[] data)
         {
             if (!IsInitialized) return;
-            
-            for (int i = 0; i < splineData.Length; i++)
-                splineData[i] = new SplineData(providers[i]);
+
+            for (int i = 0; i < data.Length; i++)
+                splineData[i] = new SplineData(data[i]);
+
             Buffer.SetData(splineData);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
             splineData = null;
         }
     }

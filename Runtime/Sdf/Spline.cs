@@ -6,16 +6,16 @@ using UnityEngine;
 namespace Rayman
 {
     [Serializable]
-    public class Spline
+    public struct Spline
     {
         public event Action<Spline, int> OnChange;
         
         [HideInInspector] public int KnotStartIndex;
 
-        [SerializeField] private float ExtendedBounds = 0.01f;
+        [SerializeField] private float ExtendedBounds;
         [SerializeField] private List<KnotProvider> knots;
 
-        private bool isDirty = true;
+        private bool isDirty;
         
         public List<KnotProvider> Knots => knots;
         

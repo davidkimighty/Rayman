@@ -129,7 +129,6 @@ GameObject:
   m_Component:
   - component: {fileID: 49797633}
   - component: {fileID: 49797635}
-  - component: {fileID: 49797634}
   m_Layer: 0
   m_Name: Shape (2)
   m_TagString: Untagged
@@ -152,21 +151,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 909546963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &49797634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49797632}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.32400048, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &49797635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,6 +170,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.3254902, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &106072562
 GameObject:
@@ -324,7 +311,6 @@ GameObject:
   m_Component:
   - component: {fileID: 211514740}
   - component: {fileID: 211514742}
-  - component: {fileID: 211514741}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -347,21 +333,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2125529143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &211514741
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211514739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.50675905, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &211514742
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,6 +352,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 0
+  Color: {r: 1, g: 0.5058824, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &246280346
 GameObject:
@@ -393,12 +367,7 @@ GameObject:
   - component: {fileID: 246280351}
   - component: {fileID: 246280350}
   - component: {fileID: 246280349}
-  - component: {fileID: 246280348}
   - component: {fileID: 246280356}
-  - component: {fileID: 246280355}
-  - component: {fileID: 246280354}
-  - component: {fileID: 246280353}
-  - component: {fileID: 246280352}
   m_Layer: 0
   m_Name: ShapeGroupObject (2)
   m_TagString: Untagged
@@ -406,27 +375,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &246280348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 246280349}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 246280356}
 --- !u!23 &246280349
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -501,56 +449,6 @@ Transform:
   - {fileID: 1849466354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &246280352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &246280353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &246280354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &246280355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 246280346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &246280356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,16 +461,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  mainRenderer: {fileID: 246280349}
+  rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
-  shapeBufferProvider: {fileID: 246280355}
-  groupBufferProvider: {fileID: 246280354}
-  shapeNodeBufferProvider: {fileID: 246280353}
-  visualBufferProvider: {fileID: 246280352}
   shapeGroups:
-  - {fileID: 909546964}
-  - {fileID: 1849466355}
-  - {fileID: 422985498}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 1809447850}
+    - {fileID: 1812483115}
+    - {fileID: 49797635}
+    - {fileID: 1037404614}
+    - {fileID: 1301549127}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 841314370}
+    - {fileID: 956082640}
+    - {fileID: 261075536}
+    - {fileID: 267684241}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 452310594}
+    - {fileID: 557070851}
+  drawGizmos: 0
 --- !u!1 &261075533
 GameObject:
   m_ObjectHideFlags: 0
@@ -583,7 +498,6 @@ GameObject:
   m_Component:
   - component: {fileID: 261075534}
   - component: {fileID: 261075536}
-  - component: {fileID: 261075535}
   m_Layer: 0
   m_Name: Shape (2)
   m_TagString: Untagged
@@ -606,21 +520,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422985497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &261075535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261075533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.2709508, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &261075536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +539,9 @@ MonoBehaviour:
   Blend: 0.005
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0.27058825, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &261094812
 GameObject:
@@ -651,7 +553,6 @@ GameObject:
   m_Component:
   - component: {fileID: 261094813}
   - component: {fileID: 261094815}
-  - component: {fileID: 261094814}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -674,21 +575,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1099805979}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &261094814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 261094812}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.2686702, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &261094815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,6 +594,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &267684237
 GameObject:
@@ -719,7 +608,6 @@ GameObject:
   m_Component:
   - component: {fileID: 267684239}
   - component: {fileID: 267684241}
-  - component: {fileID: 267684240}
   m_Layer: 0
   m_Name: Shape (3)
   m_TagString: Untagged
@@ -742,21 +630,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422985497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &267684240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 267684237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.2709508, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &267684241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +649,9 @@ MonoBehaviour:
   Blend: 0.005
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0.27058825, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &271798145
 GameObject:
@@ -787,7 +663,6 @@ GameObject:
   m_Component:
   - component: {fileID: 271798147}
   - component: {fileID: 271798149}
-  - component: {fileID: 271798148}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -810,21 +685,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1157926198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &271798148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 271798145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.66279554, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &271798149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -844,6 +704,9 @@ MonoBehaviour:
   Blend: 0.003
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.6627451, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &422985495
 GameObject:
@@ -854,7 +717,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 422985497}
-  - component: {fileID: 422985498}
   m_Layer: 0
   m_Name: Group (2)
   m_TagString: Untagged
@@ -881,34 +743,6 @@ Transform:
   - {fileID: 267684239}
   m_Father: {fileID: 246280351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &422985498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 422985495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 841314367}
-  - {fileID: 956082637}
-  - {fileID: 261075533}
-  - {fileID: 267684237}
-  items:
-  - ShapeProvider: {fileID: 841314370}
-    VisualProvider: {fileID: 841314369}
-  - ShapeProvider: {fileID: 956082640}
-    VisualProvider: {fileID: 956082639}
-  - ShapeProvider: {fileID: 261075536}
-    VisualProvider: {fileID: 261075535}
-  - ShapeProvider: {fileID: 267684241}
-    VisualProvider: {fileID: 267684240}
 --- !u!1 &452310591
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +753,6 @@ GameObject:
   m_Component:
   - component: {fileID: 452310592}
   - component: {fileID: 452310594}
-  - component: {fileID: 452310593}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -942,21 +775,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1849466354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &452310593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 452310591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.6055647, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &452310594
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -976,6 +794,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.6039216, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &530505256
 GameObject:
@@ -986,7 +807,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 530505257}
-  - component: {fileID: 530505258}
   m_Layer: 0
   m_Name: Group
   m_TagString: Untagged
@@ -1014,34 +834,6 @@ Transform:
   - {fileID: 1197997717}
   m_Father: {fileID: 1544387835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &530505258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 530505256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 2128919931}
-  - {fileID: 2108574506}
-  - {fileID: 2111127658}
-  - {fileID: 1076111336}
-  items:
-  - ShapeProvider: {fileID: 2128919934}
-    VisualProvider: {fileID: 2128919933}
-  - ShapeProvider: {fileID: 2108574509}
-    VisualProvider: {fileID: 2108574508}
-  - ShapeProvider: {fileID: 2111127661}
-    VisualProvider: {fileID: 2111127660}
-  - ShapeProvider: {fileID: 1076111339}
-    VisualProvider: {fileID: 1076111338}
 --- !u!1 &557070847
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,7 +844,6 @@ GameObject:
   m_Component:
   - component: {fileID: 557070849}
   - component: {fileID: 557070851}
-  - component: {fileID: 557070850}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -1075,21 +866,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1849466354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &557070850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 557070847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.6055647, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &557070851
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1109,6 +885,9 @@ MonoBehaviour:
   Blend: 0.002
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.6039216, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &567782900
 GameObject:
@@ -1199,7 +978,6 @@ GameObject:
   m_Component:
   - component: {fileID: 648396550}
   - component: {fileID: 648396552}
-  - component: {fileID: 648396551}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -1222,21 +1000,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1157926198}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &648396551
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 648396549}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.66279554, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &648396552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1256,6 +1019,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0.002
   Shape: 5
+  Color: {r: 1, g: 0.6627451, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &783164003
 GameObject:
@@ -1267,7 +1033,6 @@ GameObject:
   m_Component:
   - component: {fileID: 783164004}
   - component: {fileID: 783164006}
-  - component: {fileID: 783164005}
   m_Layer: 0
   m_Name: Shape (2)
   m_TagString: Untagged
@@ -1290,21 +1055,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1099805979}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &783164005
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783164003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.2686702, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &783164006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1324,6 +1074,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &800339455
 GameObject:
@@ -1472,7 +1225,6 @@ GameObject:
   m_Component:
   - component: {fileID: 841314368}
   - component: {fileID: 841314370}
-  - component: {fileID: 841314369}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -1495,21 +1247,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422985497}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &841314369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 841314367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.2709508, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &841314370
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1529,6 +1266,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 1
+  Color: {r: 0, g: 0.27058825, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &890309541
 GameObject:
@@ -1540,7 +1280,6 @@ GameObject:
   m_Component:
   - component: {fileID: 890309542}
   - component: {fileID: 890309544}
-  - component: {fileID: 890309543}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -1563,21 +1302,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1044891543}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &890309543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890309541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.26801538, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &890309544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1597,6 +1321,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 6
+  Color: {r: 0, g: 0.26666668, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 3
 --- !u!1 &909546961
 GameObject:
@@ -1607,7 +1334,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 909546963}
-  - component: {fileID: 909546964}
   m_Layer: 0
   m_Name: Group
   m_TagString: Untagged
@@ -1635,37 +1361,6 @@ Transform:
   - {fileID: 1301549125}
   m_Father: {fileID: 246280351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &909546964
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909546961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 1809447846}
-  - {fileID: 1812483112}
-  - {fileID: 49797632}
-  - {fileID: 1037404611}
-  - {fileID: 1301549123}
-  items:
-  - ShapeProvider: {fileID: 1809447850}
-    VisualProvider: {fileID: 1809447849}
-  - ShapeProvider: {fileID: 1812483115}
-    VisualProvider: {fileID: 1812483114}
-  - ShapeProvider: {fileID: 49797635}
-    VisualProvider: {fileID: 49797634}
-  - ShapeProvider: {fileID: 1037404614}
-    VisualProvider: {fileID: 1037404613}
-  - ShapeProvider: {fileID: 1301549127}
-    VisualProvider: {fileID: 1301549126}
 --- !u!1 &956082637
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,7 +1371,6 @@ GameObject:
   m_Component:
   - component: {fileID: 956082638}
   - component: {fileID: 956082640}
-  - component: {fileID: 956082639}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -1699,21 +1393,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422985497}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &956082639
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956082637}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.2709508, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &956082640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1733,6 +1412,9 @@ MonoBehaviour:
   Blend: 0.003
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0.27058825, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 2
 --- !u!1 &994599425
 GameObject:
@@ -1819,7 +1501,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1037404612}
   - component: {fileID: 1037404614}
-  - component: {fileID: 1037404613}
   m_Layer: 0
   m_Name: Shape (3)
   m_TagString: Untagged
@@ -1842,21 +1523,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 909546963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1037404613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1037404611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.32400048, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1037404614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1876,6 +1542,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.3254902, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1044891541
 GameObject:
@@ -1886,7 +1555,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1044891543}
-  - component: {fileID: 1044891544}
   m_Layer: 0
   m_Name: Group (2)
   m_TagString: Untagged
@@ -1911,28 +1579,6 @@ Transform:
   - {fileID: 1070863515}
   m_Father: {fileID: 1544387835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1044891544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044891541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 890309541}
-  - {fileID: 1070863513}
-  items:
-  - ShapeProvider: {fileID: 890309544}
-    VisualProvider: {fileID: 890309543}
-  - ShapeProvider: {fileID: 1070863517}
-    VisualProvider: {fileID: 1070863516}
 --- !u!1 &1070863513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1943,7 +1589,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1070863515}
   - component: {fileID: 1070863517}
-  - component: {fileID: 1070863516}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -1966,21 +1611,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1044891543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1070863516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070863513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0, g: 0.26801538, b: 1, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1070863517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2000,6 +1630,9 @@ MonoBehaviour:
   Blend: 0.006
   Roundness: 0
   Shape: 5
+  Color: {r: 0, g: 0.26666668, b: 1, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 3
 --- !u!1 &1076111336
 GameObject:
@@ -2011,7 +1644,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1076111337}
   - component: {fileID: 1076111339}
-  - component: {fileID: 1076111338}
   m_Layer: 0
   m_Name: Shape (3)
   m_TagString: Untagged
@@ -2034,21 +1666,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 530505257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1076111338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1076111336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1076111339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2068,6 +1685,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1099805977
 GameObject:
@@ -2078,7 +1698,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1099805979}
-  - component: {fileID: 1099805980}
   m_Layer: 0
   m_Name: Group
   m_TagString: Untagged
@@ -2105,34 +1724,6 @@ Transform:
   - {fileID: 1990663523}
   m_Father: {fileID: 2080271395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1099805980
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1099805977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 261094812}
-  - {fileID: 2034891304}
-  - {fileID: 783164003}
-  - {fileID: 1990663521}
-  items:
-  - ShapeProvider: {fileID: 261094815}
-    VisualProvider: {fileID: 261094814}
-  - ShapeProvider: {fileID: 2034891307}
-    VisualProvider: {fileID: 2034891306}
-  - ShapeProvider: {fileID: 783164006}
-    VisualProvider: {fileID: 783164005}
-  - ShapeProvider: {fileID: 1990663525}
-    VisualProvider: {fileID: 1990663524}
 --- !u!1 &1157926196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2142,7 +1733,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1157926198}
-  - component: {fileID: 1157926199}
   m_Layer: 0
   m_Name: Group (3)
   m_TagString: Untagged
@@ -2167,28 +1757,6 @@ Transform:
   - {fileID: 271798147}
   m_Father: {fileID: 1544387835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1157926199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1157926196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 648396549}
-  - {fileID: 271798145}
-  items:
-  - ShapeProvider: {fileID: 648396552}
-    VisualProvider: {fileID: 648396551}
-  - ShapeProvider: {fileID: 271798149}
-    VisualProvider: {fileID: 271798148}
 --- !u!1 &1197997715
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,7 +1766,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1197997717}
-  - component: {fileID: 1197997718}
   m_Layer: 0
   m_Name: Group (1)
   m_TagString: Untagged
@@ -2223,28 +1790,6 @@ Transform:
   - {fileID: 1598783558}
   m_Father: {fileID: 530505257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1197997718
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1197997715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 1
-  blend: 0.002
-  EditorTargetGameObejcts:
-  - {fileID: 1209994145}
-  - {fileID: 1598783556}
-  items:
-  - ShapeProvider: {fileID: 1209994148}
-    VisualProvider: {fileID: 1209994147}
-  - ShapeProvider: {fileID: 1598783560}
-    VisualProvider: {fileID: 1598783559}
 --- !u!1 &1209994145
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,7 +1800,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1209994146}
   - component: {fileID: 1209994148}
-  - component: {fileID: 1209994147}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -2278,21 +1822,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1197997717}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1209994147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1209994145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1209994148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2312,6 +1841,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &1301549123
 GameObject:
@@ -2323,7 +1855,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1301549125}
   - component: {fileID: 1301549127}
-  - component: {fileID: 1301549126}
   m_Layer: 0
   m_Name: Shape (4)
   m_TagString: Untagged
@@ -2346,21 +1877,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 909546963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1301549126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1301549123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.32400048, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1301549127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2380,6 +1896,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.3254902, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1406361793
 GameObject:
@@ -2476,12 +1995,7 @@ GameObject:
   - component: {fileID: 1544387835}
   - component: {fileID: 1544387834}
   - component: {fileID: 1544387833}
-  - component: {fileID: 1544387832}
   - component: {fileID: 1544387840}
-  - component: {fileID: 1544387839}
-  - component: {fileID: 1544387838}
-  - component: {fileID: 1544387837}
-  - component: {fileID: 1544387836}
   m_Layer: 0
   m_Name: ShapeGroupObject
   m_TagString: Untagged
@@ -2489,27 +2003,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1544387832
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 1544387833}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 1544387840}
 --- !u!23 &1544387833
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2584,56 +2077,6 @@ Transform:
   - {fileID: 1157926198}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &1544387836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &1544387837
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &1544387838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &1544387839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1544387830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &1544387840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2646,17 +2089,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  mainRenderer: {fileID: 1544387833}
+  rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
-  shapeBufferProvider: {fileID: 1544387839}
-  groupBufferProvider: {fileID: 1544387838}
-  shapeNodeBufferProvider: {fileID: 1544387837}
-  visualBufferProvider: {fileID: 1544387836}
   shapeGroups:
-  - {fileID: 530505258}
-  - {fileID: 1197997718}
-  - {fileID: 1157926199}
-  - {fileID: 1044891544}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 2128919934}
+    - {fileID: 2108574509}
+    - {fileID: 2111127661}
+    - {fileID: 1076111339}
+  - Operation: 1
+    Blend: 0.002
+    Shapes:
+    - {fileID: 1209994148}
+    - {fileID: 1598783560}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 890309544}
+    - {fileID: 1070863517}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 648396552}
+    - {fileID: 271798149}
+  drawGizmos: 1
 --- !u!1 &1598783556
 GameObject:
   m_ObjectHideFlags: 0
@@ -2667,7 +2128,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1598783558}
   - component: {fileID: 1598783560}
-  - component: {fileID: 1598783559}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -2690,21 +2150,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1197997717}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1598783559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1598783556}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1598783560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2724,6 +2169,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &1809447846
 GameObject:
@@ -2735,7 +2183,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1809447848}
   - component: {fileID: 1809447850}
-  - component: {fileID: 1809447849}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -2758,21 +2205,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 909546963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1809447849
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809447846}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.32400048, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1809447850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2792,6 +2224,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.3254902, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1812483112
 GameObject:
@@ -2803,7 +2238,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1812483113}
   - component: {fileID: 1812483115}
-  - component: {fileID: 1812483114}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -2826,21 +2260,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 909546963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1812483114
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1812483112}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.32400048, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1812483115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2860,6 +2279,9 @@ MonoBehaviour:
   Blend: 0.001
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.3254902, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &1849466352
 GameObject:
@@ -2870,7 +2292,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1849466354}
-  - component: {fileID: 1849466355}
   m_Layer: 0
   m_Name: Group (3)
   m_TagString: Untagged
@@ -2895,28 +2316,6 @@ Transform:
   - {fileID: 557070849}
   m_Father: {fileID: 246280351}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1849466355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849466352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 0
-  blend: 0
-  EditorTargetGameObejcts:
-  - {fileID: 452310591}
-  - {fileID: 557070847}
-  items:
-  - ShapeProvider: {fileID: 452310594}
-    VisualProvider: {fileID: 452310593}
-  - ShapeProvider: {fileID: 557070851}
-    VisualProvider: {fileID: 557070850}
 --- !u!1 &1885618901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2976,7 +2375,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1990663523}
   - component: {fileID: 1990663525}
-  - component: {fileID: 1990663524}
   m_Layer: 0
   m_Name: Shape (3)
   m_TagString: Untagged
@@ -2999,21 +2397,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1099805979}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1990663524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1990663521}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.2686702, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &1990663525
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3033,6 +2416,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2034891304
 GameObject:
@@ -3044,7 +2430,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2034891305}
   - component: {fileID: 2034891307}
-  - component: {fileID: 2034891306}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -3067,21 +2452,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1099805979}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2034891306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2034891304}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.2686702, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &2034891307
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3101,6 +2471,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2080271390
 GameObject:
@@ -3113,12 +2486,7 @@ GameObject:
   - component: {fileID: 2080271395}
   - component: {fileID: 2080271394}
   - component: {fileID: 2080271393}
-  - component: {fileID: 2080271392}
   - component: {fileID: 2080271400}
-  - component: {fileID: 2080271399}
-  - component: {fileID: 2080271398}
-  - component: {fileID: 2080271397}
-  - component: {fileID: 2080271396}
   m_Layer: 0
   m_Name: ShapeGroupObject (1)
   m_TagString: Untagged
@@ -3126,27 +2494,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2080271392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 2080271393}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 2080271400}
 --- !u!23 &2080271393
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3220,56 +2567,6 @@ Transform:
   - {fileID: 2125529143}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &2080271396
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
---- !u!114 &2080271397
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &2080271398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
---- !u!114 &2080271399
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2080271390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c72f0113a25162498af393a81ff646f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
 --- !u!114 &2080271400
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3282,15 +2579,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6802fd603422c2240be7b8638dfae182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  mainRenderer: {fileID: 2080271393}
+  rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
-  shapeBufferProvider: {fileID: 2080271399}
-  groupBufferProvider: {fileID: 2080271398}
-  shapeNodeBufferProvider: {fileID: 2080271397}
-  visualBufferProvider: {fileID: 2080271396}
   shapeGroups:
-  - {fileID: 1099805980}
-  - {fileID: 2125529144}
+  - Operation: 0
+    Blend: 0
+    Shapes:
+    - {fileID: 261094815}
+    - {fileID: 2034891307}
+    - {fileID: 783164006}
+    - {fileID: 1990663525}
+  - Operation: 1
+    Blend: 0.005
+    Shapes:
+    - {fileID: 211514742}
+    - {fileID: 2127876282}
+  drawGizmos: 0
 --- !u!1 &2108574506
 GameObject:
   m_ObjectHideFlags: 0
@@ -3301,7 +2608,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2108574507}
   - component: {fileID: 2108574509}
-  - component: {fileID: 2108574508}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -3324,21 +2630,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 530505257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2108574508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108574506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &2108574509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3358,6 +2649,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2111127658
 GameObject:
@@ -3369,7 +2663,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2111127659}
   - component: {fileID: 2111127661}
-  - component: {fileID: 2111127660}
   m_Layer: 0
   m_Name: Shape (2)
   m_TagString: Untagged
@@ -3392,21 +2685,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 530505257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2111127660
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2111127658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &2111127661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3426,6 +2704,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &2125529141
 GameObject:
@@ -3436,7 +2717,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2125529143}
-  - component: {fileID: 2125529144}
   m_Layer: 0
   m_Name: Group (1)
   m_TagString: Untagged
@@ -3461,28 +2741,6 @@ Transform:
   - {fileID: 2127876280}
   m_Father: {fileID: 2080271395}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2125529144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2125529141}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29a84639bb65115459c662d8c1698a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeGroup
-  operation: 1
-  blend: 0.005
-  EditorTargetGameObejcts:
-  - {fileID: 211514739}
-  - {fileID: 2127876278}
-  items:
-  - ShapeProvider: {fileID: 211514742}
-    VisualProvider: {fileID: 211514741}
-  - ShapeProvider: {fileID: 2127876282}
-    VisualProvider: {fileID: 2127876281}
 --- !u!1 &2127876278
 GameObject:
   m_ObjectHideFlags: 0
@@ -3493,7 +2751,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2127876280}
   - component: {fileID: 2127876282}
-  - component: {fileID: 2127876281}
   m_Layer: 0
   m_Name: Shape (1)
   m_TagString: Untagged
@@ -3516,21 +2773,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2125529143}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2127876281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127876278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.50675905, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &2127876282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3550,6 +2792,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 0
+  Color: {r: 1, g: 0.5058824, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 1
 --- !u!1 &2128919931
 GameObject:
@@ -3561,7 +2806,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2128919932}
   - component: {fileID: 2128919934}
-  - component: {fileID: 2128919933}
   m_Layer: 0
   m_Name: Shape
   m_TagString: Untagged
@@ -3584,21 +2828,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 530505257}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2128919933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2128919931}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 1, g: 0.19596562, b: 0, a: 1}
-  GradientColor: {r: 0, g: 0, b: 0, a: 0}
-  UseGradient: 0
 --- !u!114 &2128919934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3618,6 +2847,9 @@ MonoBehaviour:
   Blend: 0
   Roundness: 0
   Shape: 5
+  Color: {r: 1, g: 0.19607843, b: 0, a: 1}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

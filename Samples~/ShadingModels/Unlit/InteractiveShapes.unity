@@ -315,13 +315,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.3, y: 0.3, z: 0.3}
-  ExpandBounds: 0.15
-  UseLossyScale: 1
+  ExpandBounds: 0.3
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.001
   Roundness: 0.003
   Shape: 2
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &447563325
 GameObject:
@@ -384,13 +386,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.1, y: 0.1, z: 0.1}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.2
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.3
   Roundness: 0
   Shape: 0
+  Color: {r: 0, g: 0, b: 0, a: 0}
+  GradientColor: {r: 0, g: 0, b: 0, a: 0}
+  UseGradient: 0
   GroupIndex: 0
 --- !u!1 &492288772
 GameObject:
@@ -403,39 +407,14 @@ GameObject:
   - component: {fileID: 492288776}
   - component: {fileID: 492288775}
   - component: {fileID: 492288774}
-  - component: {fileID: 492288773}
   - component: {fileID: 492288781}
-  - component: {fileID: 492288782}
-  - component: {fileID: 492288779}
-  - component: {fileID: 492288778}
   m_Layer: 0
-  m_Name: Raymarch Renderer
+  m_Name: ShapeObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &492288773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 492288774}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  materialDataProviders: []
-  raymarchObjects:
-  - {fileID: 492288781}
 --- !u!23 &492288774
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -501,38 +480,12 @@ Transform:
   m_GameObject: {fileID: 492288772}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.3}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1077939009}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &492288778
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &492288779
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc9af06e44563224897c519d9a6c8f77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.GroupBufferProvider
 --- !u!114 &492288781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,26 +498,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  drawGizmos: 1
+  mainRenderer: {fileID: 492288774}
+  rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: 76129d70969fded4eb83a7c422ae7824, type: 3}
-  materialDataProviders: []
-  shapeBufferProvider: {fileID: 492288782}
-  shapeNodeBufferProvider: {fileID: 492288778}
-  visualBufferProvider: {fileID: 0}
-  shapes:
-  - {fileID: 207929451}
-  - {fileID: 447563325}
---- !u!114 &492288782
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492288772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57b665f8d1565454787b5af1fad2cdcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
+  materialDataProvider: {fileID: 0}
+  shapeProviders:
+  - {fileID: 207929459}
+  - {fileID: 447563330}
 --- !u!1 &623862682
 GameObject:
   m_ObjectHideFlags: 0
@@ -809,8 +751,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -2.3}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 492288776}
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1077939010
@@ -901,7 +842,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a6dc9ecca4049f7a14bda2660d1a6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  raymarchObject: {fileID: 492288781}
+  shapeObject: {fileID: 492288781}
   clickActionReference: {fileID: 3001919216989983466, guid: 3201f5c4325f5f64da19b3b321c07df1, type: 3}
   matcaps:
   - {fileID: 2800000, guid: 0c265bf844f3ab645aec459fd5ef6162, type: 3}
@@ -957,5 +898,6 @@ SceneRoots:
   - {fileID: 623862685}
   - {fileID: 166409784}
   - {fileID: 1467616808}
+  - {fileID: 492288776}
   - {fileID: 207929453}
   - {fileID: 447563326}

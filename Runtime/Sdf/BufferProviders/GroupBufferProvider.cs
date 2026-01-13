@@ -1,53 +1,59 @@
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using UnityEngine;
 
 namespace Rayman
 {
-    public class GroupBufferProvider : BufferProvider<IRaymarchGroup>
+    public class GroupBufferProvider : IBufferProvider<ShapeGroup>
     {
         public static readonly int BufferId = Shader.PropertyToID("_GroupBuffer");
-        
-        private IRaymarchGroup[] groupProviders;
+        public static readonly int Stride = UnsafeUtility.SizeOf<GroupData>();
+
         private GroupData[] groupData;
 
-        public override void InitializeBuffer(ref Material material, IRaymarchGroup[] dataProviders)
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, ShapeGroup[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            groupProviders = dataProviders;
-            int count = groupProviders.Length;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<GroupData>());
-            material.SetBuffer(BufferId, Buffer);
-
+            int count = data.Length;
             groupData = new GroupData[count];
-            for (int i = 0; i < groupProviders.Length; i++)
-                groupData[i] = new GroupData(groupProviders[i]);
-            Buffer.SetData(groupData);
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
+            material.SetBuffer(BufferId, Buffer);
         }
 
-        public override void SetData()
+        public void SetData(ShapeGroup[] data)
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
-            for (int i = 0; i < groupProviders.Length; i++)
-            {
-                IRaymarchGroup group = groupProviders[i];
-                if (group == null || !group.IsGroupDirty) continue;
+            for (int i = 0; i < data.Length; i++)
+                groupData[i] = new GroupData(data[i]);
 
-                groupData[i] = new GroupData(group);
-                group.IsGroupDirty = false;
-                setData = true;
-            }
-            if (setData)
-                Buffer.SetData(groupData);
+            Buffer.SetData(groupData);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
+            groupData = null;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct GroupData
+    {
+        public int Operation;
+        public float Blend;
+
+        public GroupData(ShapeGroup group)
+        {
+            Operation = (int)group.Operation;
+            Blend = group.Blend;
         }
     }
 }

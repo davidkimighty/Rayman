@@ -1,65 +1,56 @@
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class ShapeBufferProvider<T> : BufferProvider<ShapeProvider>
+    public class ShapeBufferProvider<T> : IBufferProvider<ShapeProvider>
         where T : struct, IPopulateData<ShapeProvider>
     {
         public static int BufferId = Shader.PropertyToID("_ShapeBuffer");
-        
-        private ShapeProvider[] providers;
+        public static readonly int Stride = UnsafeUtility.SizeOf<T>();
+
         private T[] shapeData;
 
-        public override int DataCount => shapeData?.Length ?? 0;
+        public GraphicsBuffer Buffer { get; private set; }
 
-        public override void InitializeBuffer(ref Material material, ShapeProvider[] dataProviders)
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, ShapeProvider[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
-            providers = dataProviders;
-            int count = providers.Length;
 
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
-            material.SetBuffer(BufferId, Buffer);
-
+            int count = data.Length;
             shapeData = new T[count];
-            for (int i = 0; i < count; i++)
-            {
-                shapeData[i] = new T();
-                shapeData[i].Populate(providers[i]);
-            }
-            Buffer.SetData(shapeData);
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
+            material.SetBuffer(BufferId, Buffer);
         }
 
-        public override void SetData()
+        public void SetData(ShapeProvider[] data)
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
-            for (int i = 0; i < providers.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                ShapeProvider provider = providers[i];
-                if (!provider || provider.gameObject.isStatic) continue;
+                ShapeProvider provider = data[i];
+                if (!provider) continue;
 
                 shapeData[i] = new T();
                 shapeData[i].Populate(provider);
-                setData = true;
             }
-            if (setData)
-                Buffer.SetData(shapeData);
+
+            Buffer.SetData(shapeData);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
-            Buffer = null;
             shapeData = null;
         }
     }
-
-    public class ShapeBufferProvider : ShapeBufferProvider<ShapeData> { }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
     public struct ShapeData : IPopulateData<ShapeProvider>
@@ -73,6 +64,34 @@ namespace Rayman
         public float Blend;
         public float Roundness;
         public int ShapeType;
+        
+        public void Populate(ShapeProvider provider)
+        {
+            Position = provider.transform.position;
+            Rotation = Quaternion.Inverse(provider.transform.rotation);
+            Scale = provider.GetScale();
+            Size = provider.Size;
+            Pivot = provider.Pivot;
+            Operation = (int)provider.Operation;
+            Blend = provider.Blend;
+            Roundness = provider.Roundness;
+            ShapeType = (int)provider.Shape;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct ShapeGroupData : IPopulateData<ShapeProvider>
+    {
+        public float3 Position;
+        public Quaternion Rotation;
+        public float3 Scale;
+        public float3 Size;
+        public float3 Pivot;
+        public int Operation;
+        public float Blend;
+        public float Roundness;
+        public int ShapeType;
+        public int GroupIndex;
 
         public void Populate(ShapeProvider provider)
         {
@@ -85,6 +104,7 @@ namespace Rayman
             Blend = provider.Blend;
             Roundness = provider.Roundness;
             ShapeType = (int)provider.Shape;
+            GroupIndex = provider.GroupIndex;
         }
     }
 }

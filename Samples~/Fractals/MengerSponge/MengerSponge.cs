@@ -1,13 +1,21 @@
-using Rayman;
 using UnityEngine;
 
 [ExecuteInEditMode]
-public class MengerSponge : RaymarchObject
+public class MengerSponge : MonoBehaviour
 {
+    public Renderer mainRenderer;
+    public Shader shader;
     public float Size = 0.5f;
     [Range(1, 10)] public int Iterations = 4;
     public float Scale = 3.0f;
     public float ScaleMultiplier = 4.0f;
+
+    private Material material;
+
+    private void Awake()
+    {
+        SetupMaterial();
+    }
 
     private void LateUpdate()
     {
@@ -15,7 +23,7 @@ public class MengerSponge : RaymarchObject
 
         UpdateData();
     }
-    
+
 #if UNITY_EDITOR
     private void OnValidate()
     {
@@ -25,16 +33,14 @@ public class MengerSponge : RaymarchObject
     }
 #endif
     
-    public override Material CreateMaterial()
+    public void SetupMaterial()
     {
         material = new Material(shader);
-        if (!material) return null;
-
+        mainRenderer.material = material;
         UpdateData();
-        return material;
     }
 
-    public override void Cleanup()
+    public void CleanupMaterial()
     {
         if (Application.isEditor)
             DestroyImmediate(material);

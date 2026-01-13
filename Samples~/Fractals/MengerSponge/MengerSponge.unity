@@ -582,7 +582,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1125509069}
-  - component: {fileID: 1125509071}
   - component: {fileID: 1125509065}
   - component: {fileID: 1125509072}
   m_Layer: 0
@@ -604,8 +603,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2a57ab2a68b28498fabf3eea2180ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainRenderer: {fileID: 176528895}
   shader: {fileID: 4800000, guid: 851f5f1f868bcb64daa127c3ef87d507, type: 3}
-  matDataProviders: []
   Size: 1
   Iterations: 6
   Scale: 1
@@ -625,28 +624,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -26.294, y: 52.065, z: -29.61}
---- !u!114 &1125509071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1125509064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd98d31955a5d6945971676973e87415, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainRenderer: {fileID: 176528895}
-  setupOnAwake: 1
-  epsilonMin: 0.001
-  epsilonMax: 0.01
-  maxSteps: 64
-  maxRayDistance: 100
-  shadowMaxSteps: 16
-  shadowMaxRayDistance: 30
-  raymarchObjects:
-  - {fileID: 1125509065}
 --- !u!114 &1125509072
 MonoBehaviour:
   m_ObjectHideFlags: 0

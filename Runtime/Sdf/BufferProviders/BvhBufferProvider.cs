@@ -5,33 +5,94 @@ using UnityEngine;
 
 namespace Rayman
 {
-    public class BvhAabbBufferProvider : BufferProvider<IBoundsProvider>
+    public class BvhBufferProvider : INativeBufferProvider<Aabb>
     {
         public static readonly int BufferId = Shader.PropertyToID("_NodeBuffer");
         public static readonly int Stride = UnsafeUtility.SizeOf<AabbNodeData>();
 
-        [SerializeField] private float syncMargin = 0.01f;
-#if UNITY_EDITOR
-        [SerializeField] private bool drawGizmos;
-#endif
-        private IBoundsProvider[] providers;
-
         private NativeArray<AabbNode> nodes;
         private NativeArray<int> indices;
-        private NativeArray<Aabb> leafBounds;
         private NativeArray<AabbNodeData> nodeData;
+
         private NativeReference<int> rootIndexRef;
         private NativeReference<int> nodeCountRef;
 
-        public override int DataCount => 0;
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null && nodes.IsCreated;
+
+        public int DataLength => nodeCountRef != null ? nodeCountRef.Value : 0;
+
+        public void InitializeBuffer(ref Material material, NativeArray<Aabb> data)
+        {
+            if (IsInitialized)
+                ReleaseBuffer();
+
+            int dataCount = data.Length;
+            int nodeCount = 2 * dataCount - 1;
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, Stride);
+            material.SetBuffer(BufferId, Buffer);
+
+            nodes = new NativeArray<AabbNode>(nodeCount, Allocator.Persistent);
+            indices = new NativeArray<int>(dataCount, Allocator.Persistent);
+            nodeData = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
+
+            for (int i = 0; i < dataCount; i++)
+                indices[i] = i;
+
+            rootIndexRef = new NativeReference<int>(Allocator.Persistent);
+            nodeCountRef = new NativeReference<int>(Allocator.Persistent);
+
+            var job = new BvhBulkBuildJob
+            {
+                Nodes = nodes,
+                Indices = indices,
+                LeafBounds = data,
+                RootIndexRef = rootIndexRef,
+                NodeCountRef = nodeCountRef
+            };
+            job.Execute();
+        }
+
+        public void SetData(NativeArray<Aabb> data)
+        {
+            if (!IsInitialized) return;
+
+            int nodeCount = nodeCountRef.Value;
+            int rootIndex = rootIndexRef.Value;
+
+            BvhUtils.Refit(nodes, data, nodeCount);
+
+            if (!nodeData.IsCreated || nodeData.Length != nodeCount)
+            {
+                if (nodeData.IsCreated)
+                    nodeData.Dispose();
+                nodeData = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
+            }
+            BvhUtils.Flatten(nodes, rootIndex, nodeCount, nodeData);
+
+            Buffer.SetData(nodeData);
+        }
+
+        public void ReleaseBuffer()
+        {
+            Buffer?.Release();
+
+            if (nodes.IsCreated) nodes.Dispose();
+            if (indices.IsCreated) indices.Dispose();
+            if (nodeData.IsCreated) nodeData.Dispose();
+            if (nodeCountRef.IsCreated) nodeCountRef.Dispose();
+            if (rootIndexRef.IsCreated) rootIndexRef.Dispose();
+        }
 
 #if UNITY_EDITOR
-        private void OnDrawGizmos()
+        public void DrawGizmos()
         {
-            if (!drawGizmos || !nodes.IsCreated) return;
+            if (!nodes.IsCreated) return;
 
             ReadOnlySpan<AabbNode> span = nodes.AsReadOnlySpan();
-            int nodeCount = nodeCountRef.Value;
+            int nodeCount = this.nodeCountRef.Value;
             int rootHeight = span[rootIndexRef.Value].Height;
 
             for (int i = 0; i < nodeCount; i++)
@@ -56,78 +117,5 @@ namespace Rayman
             }
         }
 #endif
-        public override void InitializeBuffer(ref Material material, IBoundsProvider[] dataProviders)
-        {
-            if (IsInitialized)
-                ReleaseBuffer();
-
-            providers = dataProviders;
-            int dataCount = providers.Length;
-            int nodeCount = 2 * dataCount - 1;
-
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, nodeCount, Stride);
-            material.SetBuffer(BufferId, Buffer);
-
-            nodes = new NativeArray<AabbNode>(nodeCount, Allocator.Persistent);
-            indices = new NativeArray<int>(dataCount, Allocator.Persistent);
-            leafBounds = new NativeArray<Aabb>(dataCount, Allocator.Persistent);
-            nodeData = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
-
-            for (int i = 0; i < dataCount; i++)
-            {
-                indices[i] = i;
-                leafBounds[i] = providers[i].GetBounds();
-            }
-
-            rootIndexRef = new NativeReference<int>(Allocator.Persistent);
-            nodeCountRef = new NativeReference<int>(Allocator.Persistent);
-
-            var job = new BvhBulkBuildJob
-            {
-                Nodes = nodes,
-                Indices = indices,
-                LeafBounds = leafBounds,
-                RootIndexRef = rootIndexRef,
-                NodeCountRef = nodeCountRef
-            };
-            job.Execute();
-        }
-
-        public override void SetData()
-        {
-            if (!IsInitialized) return;
-
-            for (int i = 0; i < providers.Length; i++)
-                leafBounds[i] = providers[i].GetBounds();
-
-            int nodeCount = nodeCountRef.Value;
-            int rootIndex = rootIndexRef.Value;
-
-            BvhUtils.Refit(nodes, leafBounds, nodeCount);
-
-            if (!nodeData.IsCreated || nodeData.Length != nodeCount)
-            {
-                if (nodeData.IsCreated)
-                    nodeData.Dispose();
-                nodeData = new NativeArray<AabbNodeData>(nodeCount, Allocator.Persistent);
-            }
-            BvhUtils.Flatten(nodes, rootIndex, nodeCount, nodeData);
-
-            Buffer.SetData(nodeData);
-        }
-
-        public override void ReleaseBuffer()
-        {
-            Buffer?.Release();
-            providers = null;
-
-            if (nodes.IsCreated) nodes.Dispose();
-            if (indices.IsCreated) indices.Dispose();
-            if (nodeCountRef.IsCreated) nodeCountRef.Dispose();
-            if (rootIndexRef.IsCreated) rootIndexRef.Dispose();
-
-            if (leafBounds.IsCreated) leafBounds.Dispose();
-            if (nodeData.IsCreated) nodeData.Dispose();
-        }
     }
 }

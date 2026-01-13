@@ -1,5 +1,94 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &422071446738447453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3921874350906397634}
+  - component: {fileID: 3280156118057511349}
+  - component: {fileID: 2074629541568230155}
+  m_Layer: 0
+  m_Name: Renderer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3921874350906397634
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422071446738447453}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 623054652300250353}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3280156118057511349
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422071446738447453}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &2074629541568230155
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 422071446738447453}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials: []
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &439264396888025707
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,7 +99,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5492763852620233069}
   - component: {fileID: 1920645647085116646}
-  - component: {fileID: 197632997447898978}
   m_Layer: 0
   m_Name: Ear.L
   m_TagString: Untagged
@@ -47,29 +135,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.035, y: 0.03, z: 0.001}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.015
   Roundness: 0.02
   Shape: 9
-  GroupIndex: 0
---- !u!114 &197632997447898978
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439264396888025707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
+  Color: {r: 0.41960785, g: 0.6117647, b: 0.11372549, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &546671557711746959
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +155,6 @@ GameObject:
   m_Component:
   - component: {fileID: 212110216273633525}
   - component: {fileID: 4260640896590414342}
-  - component: {fileID: 153141405851376126}
   m_Layer: 0
   m_Name: Head
   m_TagString: Untagged
@@ -117,29 +191,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.2, y: 0.2, z: 0.2}
-  ExpandBounds: 0.1
-  UseLossyScale: 1
+  ExpandBounds: 0.15
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 0
-  GroupIndex: 0
---- !u!114 &153141405851376126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546671557711746959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
+  Color: {r: 0.41960785, g: 0.6117647, b: 0.11372549, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &935731666881967999
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,7 +211,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7973946961575932320}
   - component: {fileID: 1980408934314697282}
-  - component: {fileID: 5599887913370426117}
   m_Layer: 0
   m_Name: Nose
   m_TagString: Untagged
@@ -186,29 +246,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.055, y: 0.04, z: 0.025}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.05
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.01
   Roundness: 0
   Shape: 1
-  GroupIndex: 0
---- !u!114 &5599887913370426117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935731666881967999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.27690014, g: 0.3962264, b: 0.072890714, a: 1}
+  Color: {r: 0.2784314, g: 0.39607844, b: 0.07450981, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &1057045909138786191
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,7 +266,6 @@ GameObject:
   m_Component:
   - component: {fileID: 515096754498309778}
   - component: {fileID: 2703020622106193515}
-  - component: {fileID: 4834963229384175556}
   m_Layer: 0
   m_Name: TopHead
   m_TagString: Untagged
@@ -255,29 +301,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.13, y: 0.13, z: 0.13}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.13
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.13
   Roundness: 0
   Shape: 0
-  GroupIndex: 0
---- !u!114 &4834963229384175556
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1057045909138786191}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
+  Color: {r: 0.41960785, g: 0.6117647, b: 0.11372549, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &1689958482481471478
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +321,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8664489470204828148}
   - component: {fileID: 4555992219932562627}
-  - component: {fileID: 9024890206753090604}
   m_Layer: 0
   m_Name: Eye.L
   m_TagString: Untagged
@@ -325,28 +357,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.02, y: 0.02, z: 0.013}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.001
   Roundness: 0
   Shape: 1
-  GroupIndex: 0
---- !u!114 &9024890206753090604
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1689958482481471478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &2126076267621674284
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +376,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6070048473853265958}
   - component: {fileID: 3830441863108236894}
-  - component: {fileID: 9018555156531107521}
   m_Layer: 0
   m_Name: EarHole.R
   m_TagString: Untagged
@@ -394,28 +412,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.03, y: 0.03, z: 0.03}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.011
   Roundness: 0
   Shape: 0
-  GroupIndex: 0
---- !u!114 &9018555156531107521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2126076267621674284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.34509805, g: 0.47058824, b: 0.14117648, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &3205302936871007959
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +431,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6989119382431168539}
   - component: {fileID: 5812244149599280024}
-  - component: {fileID: 7480100319601474885}
   m_Layer: 0
   m_Name: Eye.R
   m_TagString: Untagged
@@ -463,28 +467,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.02, y: 0.02, z: 0.013}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.001
   Roundness: 0
   Shape: 1
-  GroupIndex: 0
---- !u!114 &7480100319601474885
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3205302936871007959}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0, g: 0, b: 0, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &3947492394204024988
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,7 +486,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1980706813670229906}
   - component: {fileID: 21808732853870137}
-  - component: {fileID: 4916198155472201120}
   m_Layer: 0
   m_Name: Ear.R
   m_TagString: Untagged
@@ -532,29 +522,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.035, y: 0.03, z: 0.001}
-  ExpandBounds: 0.001
-  UseLossyScale: 1
+  ExpandBounds: 0.1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.015
   Roundness: 0.02
   Shape: 9
-  GroupIndex: 0
---- !u!114 &4916198155472201120
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3947492394204024988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.42105374, g: 0.6132076, b: 0.112807065, a: 1}
+  Color: {r: 0.41960785, g: 0.6117647, b: 0.11372549, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &5108480026871741860
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,7 +542,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8995930791076911032}
   - component: {fileID: 2796288562607742514}
-  - component: {fileID: 3198708700413982324}
   m_Layer: 0
   m_Name: EarHole.L
   m_TagString: Untagged
@@ -602,28 +578,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.03, y: 0.03, z: 0.03}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.011
   Roundness: 0
   Shape: 0
-  GroupIndex: 0
---- !u!114 &3198708700413982324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5108480026871741860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
   Color: {r: 0.34509805, g: 0.47058824, b: 0.14117648, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &5149330296701390332
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,7 +597,6 @@ GameObject:
   m_Component:
   - component: {fileID: 379722755289881616}
   - component: {fileID: 4717105201912645986}
-  - component: {fileID: 6055883594764553512}
   m_Layer: 0
   m_Name: EyeBrow.L
   m_TagString: Untagged
@@ -671,28 +633,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.3, y: 0.03, z: 0.005}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.007
   Roundness: 0
   Shape: 7
-  GroupIndex: 0
---- !u!114 &6055883594764553512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5149330296701390332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.122641504, g: 0.07409757, b: 0.031817373, a: 1}
+  Color: {r: 0.12156863, g: 0.07450981, b: 0.03137255, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &5849472829781437794
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,9 +652,6 @@ GameObject:
   m_Component:
   - component: {fileID: 623054652300250353}
   - component: {fileID: 8055343700996435345}
-  - component: {fileID: 9051388734041570431}
-  - component: {fileID: 6001248217901851133}
-  - component: {fileID: 5534420368931555946}
   m_Layer: 0
   m_Name: Shrek
   m_TagString: Untagged
@@ -726,6 +672,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3921874350906397634}
   - {fileID: 212110216273633525}
   - {fileID: 1980706813670229906}
   - {fileID: 5492763852620233069}
@@ -749,66 +696,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
+  setupOnAwake: 1
+  drawGizmos: 0
+  mainRenderer: {fileID: 2074629541568230155}
+  rayDataProvider: {fileID: 11400000, guid: e8cbbdcffaaef448fbbe687a870f9865, type: 2}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
   materialDataProviders: []
-  shapeBufferProvider: {fileID: 9051388734041570431}
-  shapeNodeBufferProvider: {fileID: 6001248217901851133}
-  visualBufferProvider: {fileID: 5534420368931555946}
-  shapes:
-  - {fileID: 546671557711746959}
-  - {fileID: 1057045909138786191}
-  - {fileID: 3947492394204024988}
-  - {fileID: 2126076267621674284}
-  - {fileID: 439264396888025707}
-  - {fileID: 5108480026871741860}
-  - {fileID: 5149330296701390332}
-  - {fileID: 6206598447517181208}
-  - {fileID: 1689958482481471478}
-  - {fileID: 3205302936871007959}
-  - {fileID: 935731666881967999}
-  - {fileID: 6502897702228670282}
-  - {fileID: 8709710343657490091}
-  - {fileID: 8898296327347569124}
-  - {fileID: 8011013171693633989}
-  - {fileID: 8423836395134069784}
---- !u!114 &9051388734041570431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57b665f8d1565454787b5af1fad2cdcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeBufferProvider
---- !u!114 &6001248217901851133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30207a84c6eb829439d3636731c5d267, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.BvhAabbBufferProvider
-  syncMargin: 0.01
-  drawGizmos: 1
---- !u!114 &5534420368931555946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5849472829781437794}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0267493204058ff46880b447cf064de3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorBufferProvider
+  shapeProviders:
+  - {fileID: 4260640896590414342}
+  - {fileID: 2703020622106193515}
+  - {fileID: 21808732853870137}
+  - {fileID: 3830441863108236894}
+  - {fileID: 1920645647085116646}
+  - {fileID: 2796288562607742514}
+  - {fileID: 4717105201912645986}
+  - {fileID: 3944243427079431763}
+  - {fileID: 4555992219932562627}
+  - {fileID: 5812244149599280024}
+  - {fileID: 1980408934314697282}
+  - {fileID: 529120759142905436}
+  - {fileID: 9171398723221757609}
+  - {fileID: 2079499354356311873}
+  - {fileID: 309539299591089789}
+  - {fileID: 195877798610282108}
 --- !u!1 &6206598447517181208
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,7 +729,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8861269763219011542}
   - component: {fileID: 3944243427079431763}
-  - component: {fileID: 6387561697627180148}
   m_Layer: 0
   m_Name: EyeBrow.R
   m_TagString: Untagged
@@ -856,28 +765,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.3, y: 0.03, z: 0.005}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.007
   Roundness: 0
   Shape: 7
-  GroupIndex: 0
---- !u!114 &6387561697627180148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6206598447517181208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.122641504, g: 0.07409757, b: 0.031817373, a: 1}
+  Color: {r: 0.12156863, g: 0.07450981, b: 0.03137255, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &6502897702228670282
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,7 +784,6 @@ GameObject:
   m_Component:
   - component: {fileID: 554842634410135526}
   - component: {fileID: 529120759142905436}
-  - component: {fileID: 1211866961960333624}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -929,28 +824,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.65, y: 0.09, z: 0.04}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 1
   Blend: 0.01
   Roundness: 0
   Shape: 7
-  GroupIndex: 0
---- !u!114 &1211866961960333624
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6502897702228670282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.3018868, g: 0.046991818, b: 0.08169355, a: 1}
+  Color: {r: 0.3019608, g: 0.047058824, b: 0.08235294, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &8011013171693633989
 GameObject:
   m_ObjectHideFlags: 0
@@ -961,7 +843,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6845069632716254158}
   - component: {fileID: 309539299591089789}
-  - component: {fileID: 7420569937624134543}
   m_Layer: 0
   m_Name: Teeth (2)
   m_TagString: Untagged
@@ -998,28 +879,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.01, y: 0.025, z: 0.01}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 4
-  GroupIndex: 0
---- !u!114 &7420569937624134543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8011013171693633989}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
+  Color: {r: 0.9843137, g: 1, b: 0.7882353, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &8423836395134069784
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +898,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6176674599749039762}
   - component: {fileID: 195877798610282108}
-  - component: {fileID: 5909269985279769466}
   m_Layer: 0
   m_Name: Teeth (3)
   m_TagString: Untagged
@@ -1067,28 +934,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.01, y: 0.025, z: 0.01}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 4
-  GroupIndex: 0
---- !u!114 &5909269985279769466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8423836395134069784}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
+  Color: {r: 0.9843137, g: 1, b: 0.7882353, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &8709710343657490091
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +953,6 @@ GameObject:
   m_Component:
   - component: {fileID: 610693307648573217}
   - component: {fileID: 9171398723221757609}
-  - component: {fileID: 8360031198227814173}
   m_Layer: 0
   m_Name: Teeth
   m_TagString: Untagged
@@ -1136,28 +989,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.01, y: 0.025, z: 0.01}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 4
-  GroupIndex: 0
---- !u!114 &8360031198227814173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8709710343657490091}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
+  Color: {r: 0.9843137, g: 1, b: 0.7882353, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0
 --- !u!1 &8898296327347569124
 GameObject:
   m_ObjectHideFlags: 0
@@ -1168,7 +1008,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6415315127788180003}
   - component: {fileID: 2079499354356311873}
-  - component: {fileID: 8447041892389973981}
   m_Layer: 0
   m_Name: Teeth (1)
   m_TagString: Untagged
@@ -1205,25 +1044,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.01, y: 0.025, z: 0.01}
   ExpandBounds: 0.001
-  UseLossyScale: 1
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
   Roundness: 0
   Shape: 4
-  GroupIndex: 0
---- !u!114 &8447041892389973981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8898296327347569124}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25bde0d1167c90e4695bf4312653a6e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Rayman.Runtime::Rayman.ColorProvider
-  Color: {r: 0.98425287, g: 1, b: 0.7877358, a: 1}
+  Color: {r: 0.9843137, g: 1, b: 0.7882353, a: 1}
   GradientColor: {r: 0, g: 0, b: 0, a: 0}
   UseGradient: 0
+  GroupIndex: 0

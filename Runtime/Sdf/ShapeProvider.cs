@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace Rayman
 {
+    public enum OperationType
+    {
+        Union,
+        Subtract,
+        Intersect
+    }
+
     public enum ShapeType
     {
         Sphere,
@@ -29,6 +36,10 @@ namespace Rayman
         [Range(0, 1f)] public float Roundness;
         public ShapeType Shape = ShapeType.Sphere;
 
+        public Color Color;
+        public Color GradientColor;
+        public bool UseGradient;
+
         [HideInInspector] public int GroupIndex;
 
 #if UNITY_EDITOR
@@ -42,7 +53,7 @@ namespace Rayman
         public Aabb GetBounds()
         {
             Aabb aabb = CreateAabb(transform, GetShapeSize(Shape, Size), GetScale(), Pivot);
-            aabb.Expand(ExpandBounds);
+            aabb.Expand(Blend + Roundness + ExpandBounds);
             return aabb;
         }
 

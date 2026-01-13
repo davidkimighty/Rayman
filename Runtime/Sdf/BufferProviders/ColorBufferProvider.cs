@@ -1,92 +1,80 @@
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.Mathematics;
 using UnityEngine;
 
 namespace Rayman
 {
-    public abstract class ColorBufferProvider<T> : BufferProvider<VisualProvider>
-        where T : struct, IPopulateData<ColorProvider>
+    public class ColorBufferProvider<T> : IBufferProvider<ShapeProvider>
+        where T : struct, IPopulateData<ShapeProvider>
     {
         public static int BufferId = Shader.PropertyToID("_ColorBuffer");
-        
-        private ColorProvider[] providers;
+        public static readonly int Stride = UnsafeUtility.SizeOf<T>();
+
         private T[] colorData;
 
-        public override void InitializeBuffer(ref Material material, VisualProvider[] dataProviders)
+        public GraphicsBuffer Buffer { get; private set; }
+
+        public bool IsInitialized => Buffer != null;
+
+        public void InitializeBuffer(ref Material material, ShapeProvider[] data)
         {
             if (IsInitialized)
                 ReleaseBuffer();
 
-            providers = GetColorProviders(dataProviders);
-            int count = providers.Length;
-            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Marshal.SizeOf<T>());
-            material.SetBuffer(BufferId, Buffer);
-
+            int count = data.Length;
             colorData = new T[count];
-            for (int i = 0; i < providers.Length; i++)
-            {
-                colorData[i] = new T();
-                colorData[i].Populate(providers[i]);
-            }
-            Buffer.SetData(colorData);
+
+            Buffer = new GraphicsBuffer(GraphicsBuffer.Target.Structured, count, Stride);
+            material.SetBuffer(BufferId, Buffer);
         }
 
-        public override void SetData()
+        public void SetData(ShapeProvider[] data)
         {
             if (!IsInitialized) return;
 
-            bool setData = false;
-            for (int i = 0; i < providers.Length; i++)
+            for (int i = 0; i < data.Length; i++)
             {
-                ColorProvider provider = providers[i];
-                if (!provider || !provider.IsDirty) continue;
+                ShapeProvider provider = data[i];
+                if (!provider) continue;
 
                 colorData[i] = new T();
-                colorData[i].Populate(providers[i]);
-
-                provider.IsDirty = false;
-                setData = true;
+                colorData[i].Populate(provider);
             }
-            if (setData)
-                Buffer.SetData(colorData);
+
+            Buffer.SetData(colorData);
         }
 
-        public override void ReleaseBuffer()
+        public void ReleaseBuffer()
         {
             Buffer?.Release();
             colorData = null;
         }
-        
-        private ColorProvider[] GetColorProviders(VisualProvider[] dataProviders)
-        {
-            List<ColorProvider> valids = new();
-            for (int i = 0; i < dataProviders.Length; i++)
-            {
-                if (dataProviders[i] is ColorProvider colorProvider)
-                    valids.Add(colorProvider);
-            }
-            return valids.ToArray();
-        }
-    }
-    
-    public class ColorBufferProvider : ColorBufferProvider<ColorData>
-    {
-        public override void InitializeBuffer(ref Material material, VisualProvider[] dataProviders)
-        {
-            material.DisableKeyword("_GRADIENT_COLOR");
-            base.InitializeBuffer(ref material, dataProviders);
-        }
     }
     
     [StructLayout(LayoutKind.Sequential, Pack = 0)]
-    public struct ColorData : IPopulateData<ColorProvider>
+    public struct ColorData : IPopulateData<ShapeProvider>
     {
         public float4 Color;
 
-        public void Populate(ColorProvider provider)
+        public void Populate(ShapeProvider provider)
         {
             Color = (Vector4)provider.Color;
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 0)]
+    public struct GradientColorData : IPopulateData<ShapeProvider>
+    {
+        public float4 Color;
+        public float4 GradientColor;
+        public int UseGradient; // 4byte alignment
+
+        public void Populate(ShapeProvider provider)
+        {
+            Color = (Vector4)provider.Color;
+            GradientColor = (Vector4)provider.GradientColor;
+            UseGradient = provider.UseGradient ? 1 : 0;
         }
     }
 }
