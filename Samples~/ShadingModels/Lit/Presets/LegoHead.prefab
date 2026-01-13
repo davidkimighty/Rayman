@@ -272,17 +272,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   setupOnAwake: 1
-  drawGizmos: 0
   mainRenderer: {fileID: 9176791255342323076}
   rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: 0199af74cfdfcbb4a95b5f8b7d01d80c, type: 3}
-  materialDataProvider: {fileID: 0}
+  materialDataProviders:
+  - {fileID: 11400000, guid: 60c96d644a10cbb4b9a2b5920cb592e7, type: 2}
+  - {fileID: 11400000, guid: 360373e46404ccb4db093f8ab5b18480, type: 2}
   shapeProviders:
   - {fileID: 1164652201963050390}
   - {fileID: 8810058460819094180}
   - {fileID: 297288028495310014}
   - {fileID: 276019764088408480}
   - {fileID: 2129128949694109027}
+  drawGizmos: 0
 --- !u!1 &6678338647048060674
 GameObject:
   m_ObjectHideFlags: 0

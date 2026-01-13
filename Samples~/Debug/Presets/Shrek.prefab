@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 422071446738447453}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.0421, y: 0.02651, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -672,6 +672,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3921874350906397634}
   - {fileID: 212110216273633525}
   - {fileID: 1980706813670229906}
   - {fileID: 5492763852620233069}
@@ -681,7 +682,6 @@ Transform:
   - {fileID: 6989119382431168539}
   - {fileID: 7973946961575932320}
   - {fileID: 554842634410135526}
-  - {fileID: 3921874350906397634}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8055343700996435345
@@ -697,10 +697,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
   setupOnAwake: 1
+  drawGizmos: 0
   mainRenderer: {fileID: 2074629541568230155}
   rayDataProvider: {fileID: 11400000, guid: e8cbbdcffaaef448fbbe687a870f9865, type: 2}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
-  materialDataProvider: {fileID: 0}
+  materialDataProviders: []
   shapeProviders:
   - {fileID: 4260640896590414342}
   - {fileID: 2703020622106193515}

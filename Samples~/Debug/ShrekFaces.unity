@@ -246,9 +246,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -308,9 +316,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -370,9 +386,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -432,9 +456,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -756,9 +788,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -818,9 +858,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -880,9 +928,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -942,9 +998,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1004,9 +1068,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1066,9 +1138,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1128,9 +1208,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1190,9 +1278,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1252,9 +1348,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1314,9 +1418,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1376,9 +1488,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1438,9 +1558,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1500,9 +1628,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1562,9 +1698,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1624,9 +1768,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1686,9 +1838,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1748,9 +1908,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1810,9 +1978,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1872,9 +2048,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2071,9 +2255,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2200,9 +2392,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2262,9 +2462,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2324,9 +2532,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2386,9 +2602,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2448,9 +2672,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2510,9 +2742,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2572,9 +2812,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2634,9 +2882,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2696,9 +2952,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2860,9 +3124,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2922,9 +3194,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2984,9 +3264,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
+      objectReference: {fileID: 0}
+    - target: {fileID: 8055343700996435345, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: drawGizmos
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

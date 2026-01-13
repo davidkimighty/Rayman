@@ -8,39 +8,30 @@ public class ShapeDebug : MonoBehaviour
     private static readonly int DebugModeId = Shader.PropertyToID("_DebugMode");
     private static readonly int BoundsDisplayThresholdId = Shader.PropertyToID("_BoundsDisplayThreshold");
 
-    [SerializeField] private RaymarchObject raymarchObject;
+    [SerializeField] private ShapeObject shapeObject;
     [SerializeField] private DebugModeTypes debugMode = DebugModeTypes.Hitmap;
     [SerializeField] private int boundsDisplayThreshold = 300;
 
-    private void OnEnable()
+    private void Awake()
     {
-        if (!raymarchObject) return;
+        if (!shapeObject) return;
             
-        if (raymarchObject.Material)
-            Setup(raymarchObject);
-        
-        raymarchObject.OnCreateMaterial += Setup;
-    }
-
-    private void OnDisable()
-    {
-        if (!raymarchObject) return;
-            
-        raymarchObject.OnCreateMaterial -= Setup;
+        if (shapeObject.Material)
+            Setup(shapeObject);
     }
 
 #if UNITY_EDITOR
     private void OnValidate()
     {
-        if (!raymarchObject)
-            raymarchObject = GetComponent<RaymarchObject>();
+        if (!shapeObject)
+            shapeObject = GetComponent<ShapeObject>();
             
-        if (raymarchObject)
-            SetupShaderProperties(raymarchObject.Material);
+        if (shapeObject)
+            SetupShaderProperties(shapeObject.Material);
     }
 #endif
 
-    private void Setup(IMaterialProvider provider)
+    private void Setup(ShapeObject provider)
     {
         SetupShaderProperties(provider.Material);
     }

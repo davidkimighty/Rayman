@@ -11,32 +11,33 @@ namespace Rayman
     [ExecuteInEditMode]
     public class ShapeObject : MonoBehaviour
     {
-        [SerializeField] private bool setupOnAwake = true;
-        [SerializeField] private bool drawGizmos;
+        [SerializeField] private bool setupOnStart = true;
         [SerializeField] private Renderer mainRenderer;
         [SerializeField] private RayDataProvider rayDataProvider;
         [SerializeField] private Shader shader;
         [SerializeField] private List<MaterialDataProvider> materialDataProviders = new();
         [SerializeField] private List<ShapeProvider> shapeProviders;
+#if UNITY_EDITOR
+        [SerializeField] private bool drawGizmos;
+#endif
 
         private Material material;
+        private ShapeProvider[] shapes;
 
         private BvhBufferProvider nodeBufferProvider;
-        private ShapeBufferProvider shapeBufferProvider;
-        private ColorBufferProvider colorBufferProvider;
+        private ShapeBufferProvider<ShapeData> shapeBufferProvider;
+        private ColorBufferProvider<ColorData> colorBufferProvider;
 
         private NativeArray<Aabb> leafBounds;
-        private ShapeData[] shapeData;
-        private ColorData[] colorData;
-
+        
         public bool IsInitialized => material && nodeBufferProvider != null;
         public Material Material => material;
         public int ShapeCount => shapeProviders.Count;
         public int NodeCount => IsInitialized ? nodeBufferProvider.DataLength : 0;
 
-        private void Awake()
+        private void Start()
         {
-            if (setupOnAwake)
+            if (Application.isPlaying && setupOnStart)
                 SetupMaterial();
         }
 
@@ -48,8 +49,8 @@ namespace Rayman
 
             // isDirty checks?
             nodeBufferProvider.SetData(leafBounds);
-            shapeBufferProvider.SetData(shapeData);
-            colorBufferProvider.SetData(colorData);
+            shapeBufferProvider.SetData(shapes);
+            colorBufferProvider.SetData(shapes);
         }
 
         private void OnDestroy()
@@ -60,6 +61,8 @@ namespace Rayman
 #if UNITY_EDITOR
         private void OnValidate()
         {
+            if (!IsInitialized) return;
+
             rayDataProvider?.ProvideData(ref material);
             foreach (MaterialDataProvider provider in materialDataProviders)
                 provider?.ProvideData(ref material);
@@ -85,22 +88,21 @@ namespace Rayman
             rayDataProvider?.ProvideData(ref material);
             foreach (MaterialDataProvider provider in materialDataProviders)
                 provider?.ProvideData(ref material);
+            // material.EnableKeyword("_GRADIENT_COLOR");
 
-            int providerCount = shapeProviders.Count;
-            leafBounds = new NativeArray<Aabb>(providerCount, Allocator.Persistent);
-            shapeData = new ShapeData[providerCount];
-            colorData = new ColorData[providerCount];
+            shapes = shapeProviders.ToArray();
 
+            leafBounds = new NativeArray<Aabb>(shapes.Length, Allocator.Persistent);
             UpdateBufferData();
 
             nodeBufferProvider = new BvhBufferProvider();
             nodeBufferProvider.InitializeBuffer(ref material, leafBounds);
 
-            shapeBufferProvider = new ShapeBufferProvider();
-            shapeBufferProvider.InitializeBuffer(ref material, shapeData);
+            shapeBufferProvider = new ShapeBufferProvider<ShapeData>();
+            shapeBufferProvider.InitializeBuffer(ref material, shapes);
 
-            colorBufferProvider = new ColorBufferProvider();
-            colorBufferProvider.InitializeBuffer(ref material, colorData);
+            colorBufferProvider = new ColorBufferProvider<ColorData>();
+            colorBufferProvider.InitializeBuffer(ref material, shapes);
 
             mainRenderer.material = material;
         }
@@ -113,8 +115,6 @@ namespace Rayman
             colorBufferProvider?.ReleaseBuffer();
 
             if (leafBounds.IsCreated) leafBounds.Dispose();
-            shapeData = null;
-            colorData = null;
 
             if (Application.isEditor)
                 DestroyImmediate(material);
@@ -141,14 +141,12 @@ namespace Rayman
 
         private void UpdateBufferData()
         {
-            for (int i = 0; i < shapeProviders.Count; i++)
+            for (int i = 0; i < shapes.Length; i++)
             {
-                ShapeProvider provider = shapeProviders[i];
-                if (provider == null) continue;
+                ShapeProvider provider = shapes[i];
+                if (!provider) continue;
 
                 leafBounds[i] = provider.GetBounds();
-                shapeData[i] = new ShapeData(provider);
-                colorData[i] = new ColorData(provider);
             }
         }
     }

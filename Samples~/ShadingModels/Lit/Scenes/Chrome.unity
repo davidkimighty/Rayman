@@ -690,67 +690,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 994599425}
   m_CullTransparentMesh: 1
---- !u!21 &1223444974
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/SplineChrome
-  m_Shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _BezierSubdiv: 8
-    - _Cull: 2
-    - _DepthNormalMaxDistance: 100
-    - _DepthNormalMaxSteps: 16
-    - _DstBlend: 0
-    - _EnvIntensity: 2
-    - _EnvPower: 1
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _FresnelPower: 2
-    - _GIIntensity: 1
-    - _GISharpness: 2
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0
-    - _GradientScaleY: 1
-    - _MaxDistance: 100
-    - _MaxSteps: 64
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _ShadowMaxDistance: 30
-    - _ShadowMaxSteps: 16
-    - _Smoothness: 0.5
-    - _SpecularIntensity: 1
-    - _SpecularPower: 5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _GradientColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1319927317
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,11 +771,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.SplineObject
   setupOnAwake: 1
-  drawGizmos: 1
   mainRenderer: {fileID: 1420960109}
   rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
-  materialDataProvider: {fileID: 0}
+  materialDataProviders:
+  - {fileID: 11400000, guid: 60c96d644a10cbb4b9a2b5920cb592e7, type: 2}
   splines:
   - KnotStartIndex: 0
     ExtendedBounds: 0.1
@@ -849,6 +788,7 @@ MonoBehaviour:
     - {fileID: 72849532}
     - {fileID: 1724034780}
     - {fileID: 83509927}
+  drawGizmos: 1
 --- !u!4 &1321416619
 Transform:
   m_ObjectHideFlags: 0
@@ -1050,8 +990,7 @@ MeshRenderer:
   m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 1223444974}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1249,64 +1188,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!21 &1890640793
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rayman/ShapeChrome
-  m_Shader: {fileID: 4800000, guid: 0199af74cfdfcbb4a95b5f8b7d01d80c, type: 3}
-  m_Parent: {fileID: 0}
-  m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ZWRITE_ON
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_LockedProperties: 
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BaseMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _Cull: 2
-    - _DepthNormalMaxDistance: 100
-    - _DepthNormalMaxSteps: 16
-    - _DstBlend: 0
-    - _EnvIntensity: 2
-    - _EnvPower: 1
-    - _EpsilonMax: 0.01
-    - _EpsilonMin: 0.001
-    - _FresnelPower: 2
-    - _GIIntensity: 1
-    - _GISharpness: 2
-    - _GradientAngle: 0
-    - _GradientOffsetY: 0
-    - _GradientScaleY: 1
-    - _MaxDistance: 100
-    - _MaxSteps: 64
-    - _Metallic: 0
-    - _RayShadowBias: 0.006
-    - _ShadowMaxDistance: 30
-    - _ShadowMaxSteps: 16
-    - _Smoothness: 0.5
-    - _SpecularIntensity: 1
-    - _SpecularPower: 5
-    - _SrcBlend: 1
-    - _ZWrite: 1
-    m_Colors: []
-  m_BuildTextureStacks: []
-  m_AllowLocking: 1
 --- !u!1 &1979757806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,66 +1247,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 297288028495310014, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Roundness
-      value: 0.003
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209129825241873659, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.b
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209129825241873659, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.g
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209129825241873659, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.r
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1841382619906705930, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.b
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1841382619906705930, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.g
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 1841382619906705930, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.r
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693384060659943306, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.b
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693384060659943306, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.g
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 3693384060659943306, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.r
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970239111023012147, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.b
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970239111023012147, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.g
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 4970239111023012147, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.r
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 5557154334753630040, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: drawGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5719683026055963195, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: drawGizmos
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6194813086192931254, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
       propertyPath: m_Name
       value: LegoHead
@@ -1470,30 +1291,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7269385218271481470, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.b
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 7269385218271481470, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.g
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 7269385218271481470, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Color.r
-      value: 0.7830189
-      objectReference: {fileID: 0}
-    - target: {fileID: 8810058460819094180, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: Roundness
-      value: 0.003
-      objectReference: {fileID: 0}
-    - target: {fileID: 9176791255342323076, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5149203921970347068, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-    - {fileID: 5719683026055963195, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
-    - {fileID: 1825973482965242111, guid: 2dc367b5d04393145a3dc9f536da51e7, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

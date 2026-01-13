@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.RayDataProvider
   EpsilonMin: 0.001
   EpsilonMax: 0.01
-  MaxSteps: 32
+  MaxSteps: 64
   MaxRayDistance: 100
   DepthNormalMaxSteps: 16
   DepthNormalMaxRayDistance: 100
