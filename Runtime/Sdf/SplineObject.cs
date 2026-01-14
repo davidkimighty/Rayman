@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
+using static UnityEngine.Rendering.HableCurve;
 
 namespace Rayman
 {
@@ -129,24 +130,36 @@ namespace Rayman
             List<Segment> segmentList = new();
             List<KnotProvider> knotList = new();
             int knotIndex = 0;
-            
+
             for (int i = 0; i < splines.Count; i++)
             {
                 Spline spline = splines[i];
                 spline.KnotStartIndex = knotIndex;
-                int knotCount = spline.Knots.Count;
-                
-                for (int j = 0; j < knotCount; j++)
-                {
-                    KnotProvider knot = spline[j];
-                    knot.SplineIndex = i;
-                    knot.PreviousKnot = j > 0 ? spline[j - 1] : knot;
-                    knot.NextKnot = j < knotCount - 1 ? spline[j + 1] : knot;
-                }
-                knotIndex += knotCount;
+                var knots = spline.Knots;
+                int knotCount = knots.Count;
 
-                segmentList.AddRange(spline.GetSegments());
-                knotList.AddRange(spline.Knots);
+                if (knotCount > 0)
+                {
+                    KnotProvider prevKnot = knots[0];
+                    prevKnot.SplineIndex = i;
+                    prevKnot.PreviousKnot = prevKnot;
+
+                    for (int j = 1; j < knotCount; j++)
+                    {
+                        KnotProvider currentKnot = knots[j];
+                        currentKnot.SplineIndex = i;
+
+                        prevKnot.NextKnot = currentKnot;
+                        currentKnot.PreviousKnot = prevKnot;
+
+                        segmentList.Add(new Segment(prevKnot, currentKnot, spline.ExtendedBounds));
+                        prevKnot = currentKnot;
+                    }
+                    prevKnot.NextKnot = prevKnot;
+                }
+
+                knotList.AddRange(knots);
+                knotIndex += knotCount;
             }
 
             splineArray = splines.ToArray();
@@ -157,12 +170,7 @@ namespace Rayman
         private void UpdateNodeBufferData()
         {
             for (int i = 0; i < segmentArray.Length; i++)
-            {
-                Segment segment = segmentArray[i];
-                if (segment == null) continue;
-
-                leafBounds[i] = segment.GetBounds();
-            }
+                leafBounds[i] = segmentArray[i].GetBounds();
         }
     }
 }

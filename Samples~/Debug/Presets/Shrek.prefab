@@ -135,7 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.035, y: 0.03, z: 0.001}
-  ExpandBounds: 0.1
+  ExpandBounds: 0.005
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.015
@@ -191,7 +191,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.2, y: 0.2, z: 0.2}
-  ExpandBounds: 0.15
+  ExpandBounds: 0.135
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.055, y: 0.04, z: 0.025}
-  ExpandBounds: 0.05
+  ExpandBounds: 0.01
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.01
@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.13, y: 0.13, z: 0.13}
-  ExpandBounds: 0.13
+  ExpandBounds: 0.001
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.13
@@ -522,7 +522,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeProvider
   Size: {x: 0.035, y: 0.03, z: 0.001}
-  ExpandBounds: 0.1
+  ExpandBounds: 0.005
   Pivot: {x: 0.5, y: 0.5, z: 0.5}
   Operation: 0
   Blend: 0.015
@@ -696,8 +696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43095b59b725ea640b30435b48bb5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.ShapeObject
-  setupOnAwake: 1
-  drawGizmos: 0
+  setupOnStart: 1
   mainRenderer: {fileID: 2074629541568230155}
   rayDataProvider: {fileID: 11400000, guid: e8cbbdcffaaef448fbbe687a870f9865, type: 2}
   shader: {fileID: 4800000, guid: 57f1094beed097e41b71949e22dc894f, type: 3}
@@ -719,6 +718,7 @@ MonoBehaviour:
   - {fileID: 2079499354356311873}
   - {fileID: 309539299591089789}
   - {fileID: 195877798610282108}
+  drawGizmos: 0
 --- !u!1 &6206598447517181208
 GameObject:
   m_ObjectHideFlags: 0

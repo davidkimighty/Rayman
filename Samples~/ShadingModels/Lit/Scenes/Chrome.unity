@@ -770,7 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e328c2af89e478fbb369f84f19dfe02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Rayman.Runtime::Rayman.SplineObject
-  setupOnAwake: 1
+  setupOnStart: 1
   mainRenderer: {fileID: 1420960109}
   rayDataProvider: {fileID: 0}
   shader: {fileID: 4800000, guid: ba6202e2369d59b4ab9ff3f03824a70f, type: 3}
@@ -778,7 +778,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 60c96d644a10cbb4b9a2b5920cb592e7, type: 2}
   splines:
   - KnotStartIndex: 0
-    ExtendedBounds: 0.1
+    extendedBounds: 0.05
     knots:
     - {fileID: 1786569442}
     - {fileID: 1319927318}
