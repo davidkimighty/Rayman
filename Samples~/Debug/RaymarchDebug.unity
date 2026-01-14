@@ -246,6 +246,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2074629541568230155, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1155022481}
     - target: {fileID: 5849472829781437794, guid: c7bcc9f13de03be479c82ec93b0826e2, type: 3}
       propertyPath: m_Name
       value: Shrek
@@ -514,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 20.26
       objectReference: {fileID: 0}
     - target: {fileID: 3684717306419905006, guid: 758ac06eb1738bc43a6b5117dc8b8bf1, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -562,8 +570,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Rayman.Sample.Debugger::ShapeDebug
   shapeObject: {fileID: 1004133554}
-  debugMode: 1
+  debugMode: 0
   boundsDisplayThreshold: 300
+--- !u!21 &1155022481
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Rayman/ShapeDebug
+  m_Shader: {fileID: 4800000, guid: 4933f155fab2eaa46a245c3073f9af33, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _ZWRITE_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BoundsDisplayThreshold: 300
+    - _Cull: 2
+    - _DebugMode: 0
+    - _DstBlend: 0
+    - _EpsilonMax: 0.01
+    - _EpsilonMin: 0.001
+    - _MaxDistance: 100
+    - _MaxSteps: 64
+    - _ShadowMaxDistance: 30
+    - _ShadowMaxSteps: 16
+    - _SrcBlend: 1
+    - _ZWrite: 1
+    m_Colors: []
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!1 &1269901865
 GameObject:
   m_ObjectHideFlags: 0
