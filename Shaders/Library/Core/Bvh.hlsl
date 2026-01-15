@@ -9,7 +9,7 @@ struct NodeAabb
 {
     float3 min;
     float3 max;
-    int left;
+    int skipIndex;
 };
 
 int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayInvDir, inout int hitIds[RAY_MAX_HITS])
@@ -25,9 +25,9 @@ int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayI
         NodeAabb node = buffer[currentIndex];
         if (!RayIntersect(rayOrigin, rayInvDir, node.min, node.max)) continue;
        
-        if (node.left < 0) // leaf
+        if (node.skipIndex < 0) // leaf
         {
-            hitIds[count++] = -(node.left + 1);
+            hitIds[count++] = -(node.skipIndex + 1);
             if (count >= RAY_MAX_HITS) break;
         }
         else
@@ -37,7 +37,7 @@ int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayI
             float dstLeft;
             RayIntersect(rayOrigin, rayInvDir, leftNode.min, leftNode.max, dstLeft);
             
-            int rightIndex = currentIndex + node.left;
+            int rightIndex = currentIndex + node.skipIndex;
             NodeAabb rightNode = buffer[rightIndex];
             float dstRight;
             RayIntersect(rayOrigin, rayInvDir, rightNode.min, rightNode.max, dstRight);
@@ -63,9 +63,9 @@ int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float
         NodeAabb node = buffer[currentIndex];
         if (!RayIntersect(rayOrigin, rayInvDir, node.min, node.max)) continue;
         
-        if (node.left < 0) // leaf
+        if (node.skipIndex < 0) // leaf
         {
-            hitIds[count.x++] = -(node.left + 1);
+            hitIds[count.x++] = -(node.skipIndex + 1);
             if (count.x >= RAY_MAX_HITS) break;
         }
         else
@@ -75,7 +75,7 @@ int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float
             float dstLeft;
             RayIntersect(rayOrigin, rayInvDir, leftNode.min, leftNode.max, dstLeft);
             
-            int rightIndex = currentIndex + node.left;
+            int rightIndex = currentIndex + node.skipIndex;
             NodeAabb rightNode = buffer[rightIndex];
             float dstRight;
             RayIntersect(rayOrigin, rayInvDir, rightNode.min, rightNode.max, dstRight);

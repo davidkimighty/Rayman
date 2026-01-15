@@ -28,7 +28,8 @@ namespace Rayman
         private KnotBufferProvider knotBufferProvider;
 
         private NativeArray<Aabb> leafBounds;
-        
+        private NativeArray<int> primitiveIds;
+
         public bool IsInitialized => material && nodeBufferProvider != null;
         public Material Material => material;
 
@@ -88,11 +89,15 @@ namespace Rayman
 
             SetupBufferData();
 
-            leafBounds = new NativeArray<Aabb>(segmentArray.Length, Allocator.Persistent);
+            int boundsCount = segmentArray.Length;
+            leafBounds = new NativeArray<Aabb>(boundsCount, Allocator.Persistent);
+            primitiveIds = new NativeArray<int>(boundsCount, Allocator.Persistent);
+
             UpdateNodeBufferData();
+            SetupPrimitiveIds();
 
             nodeBufferProvider = new BvhBufferProvider();
-            nodeBufferProvider.InitializeBuffer(ref material, leafBounds);
+            nodeBufferProvider.InitializeBuffer(ref material, leafBounds, primitiveIds);
 
             splineBufferProvider = new SplineBufferProvider();
             splineBufferProvider.InitializeBuffer(ref material, splineArray);
@@ -111,6 +116,7 @@ namespace Rayman
             knotBufferProvider?.ReleaseBuffer();
 
             if (leafBounds.IsCreated) leafBounds.Dispose();
+            if (primitiveIds.IsCreated) primitiveIds.Dispose();
 
             segmentArray = null;
             knotArray = null;
@@ -163,6 +169,19 @@ namespace Rayman
             splineArray = splines.ToArray();
             segmentArray = segmentList.ToArray();
             knotArray = knotList.ToArray();
+        }
+
+        private void SetupPrimitiveIds()
+        {
+            int index = 0;
+            int id = 0;
+            for (int i = 0; i < splines.Count; i++)
+            {
+                int knotCount = splines[i].Knots.Count - 1;
+                for (int j = 0; j < knotCount; j++)
+                    primitiveIds[index++] = id++;
+                id++;
+            }
         }
 
         private void UpdateNodeBufferData()

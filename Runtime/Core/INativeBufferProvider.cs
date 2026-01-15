@@ -9,7 +9,7 @@ namespace Rayman
         bool IsInitialized { get; }
         int DataLength { get; }
 
-        void InitializeBuffer(ref Material material, NativeArray<T> data);
+        void InitializeBuffer(ref Material material, NativeArray<T> data, NativeArray<int> primitiveIds);
         void SetData(NativeArray<T> data);
         void ReleaseBuffer();
     }

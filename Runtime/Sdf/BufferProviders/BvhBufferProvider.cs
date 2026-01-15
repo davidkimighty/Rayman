@@ -23,7 +23,7 @@ namespace Rayman
 
         public int DataLength => nodeCountRef != null ? nodeCountRef.Value : 0;
 
-        public void InitializeBuffer(ref Material material, NativeArray<Aabb> data)
+        public void InitializeBuffer(ref Material material, NativeArray<Aabb> data, NativeArray<int> primitiveIds)
         {
             if (IsInitialized)
                 ReleaseBuffer();
@@ -49,6 +49,7 @@ namespace Rayman
                 Nodes = nodes,
                 Indices = indices,
                 LeafBounds = data,
+                PointIds = primitiveIds,
                 RootIndexRef = rootIndexRef,
                 NodeCountRef = nodeCountRef
             };
