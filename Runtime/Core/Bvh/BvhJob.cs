@@ -12,6 +12,7 @@ namespace Rayman
         public NativeArray<AabbNode> Nodes;
         public NativeArray<int> Indices;
         [ReadOnly] public NativeArray<Aabb> LeafBounds;
+        [ReadOnly] public NativeArray<int> PointIds;
         public NativeReference<int> RootIndexRef;
         public NativeReference<int> NodeCountRef;
 
@@ -45,10 +46,13 @@ namespace Rayman
 
                 if (count == 1)
                 {
+                    int index = indexSpan[start];
+                    int pointId = PointIds[index];
+
                     nodesSpan[nodeIdx] = new AabbNode(totalBounds)
                     {
-                        LeftChild = ~indexSpan[start],
-                        RightChild = -1,
+                        LeftChild = ~index,
+                        RightChild = ~pointId, // using right child for id
                         Height = 0
                     };
                     continue;

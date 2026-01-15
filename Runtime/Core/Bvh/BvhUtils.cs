@@ -52,7 +52,7 @@ namespace Rayman
             {
                 int originalIndex = traversalOrder[i];
                 ref readonly AabbNode node = ref nodes.AsReadOnlySpan()[originalIndex];
-                int skipIndex = node.IsLeaf ? node.LeftChild : flatPos[node.RightChild] - i;
+                int skipIndex = node.IsLeaf ? node.RightChild : flatPos[node.RightChild] - i;
                 result[i] = new AabbNodeData(node, skipIndex);
             }
 

@@ -29,7 +29,8 @@ namespace Rayman
         private ColorBufferProvider<ColorData> colorBufferProvider;
 
         private NativeArray<Aabb> leafBounds;
-        
+        private NativeArray<int> primitiveIds;
+
         public bool IsInitialized => material && nodeBufferProvider != null;
         public Material Material => material;
         public int ShapeCount => shapeProviders.Count;
@@ -92,11 +93,17 @@ namespace Rayman
 
             shapes = shapeProviders.ToArray();
 
-            leafBounds = new NativeArray<Aabb>(shapes.Length, Allocator.Persistent);
+            int shapeCount = shapes.Length;
+            leafBounds = new NativeArray<Aabb>(shapeCount, Allocator.Persistent);
+            primitiveIds = new NativeArray<int>(shapeCount, Allocator.Persistent);
+
             UpdateBufferData();
 
+            for (int i = 0; i < shapeCount; i++)
+                primitiveIds[i] = i;
+
             nodeBufferProvider = new BvhBufferProvider();
-            nodeBufferProvider.InitializeBuffer(ref material, leafBounds);
+            nodeBufferProvider.InitializeBuffer(ref material, leafBounds, primitiveIds);
 
             shapeBufferProvider = new ShapeBufferProvider<ShapeData>();
             shapeBufferProvider.InitializeBuffer(ref material, shapes);
@@ -115,6 +122,7 @@ namespace Rayman
             colorBufferProvider?.ReleaseBuffer();
 
             if (leafBounds.IsCreated) leafBounds.Dispose();
+            if (primitiveIds.IsCreated) primitiveIds.Dispose();
 
             if (Application.isEditor)
                 DestroyImmediate(material);
