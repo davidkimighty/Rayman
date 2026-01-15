@@ -14,7 +14,7 @@ namespace Rayman
             {
                 ref AabbNode node = ref span[i];
                 if (node.IsLeaf)
-                    node.Bounds = leafBounds[node.LeafId];
+                    node.Bounds = leafBounds[~node.LeftChild];
                 else
                     node.Bounds = Aabb.Union(span[node.LeftChild].Bounds, span[node.RightChild].Bounds);
             }
@@ -52,7 +52,7 @@ namespace Rayman
             {
                 int originalIndex = traversalOrder[i];
                 ref readonly AabbNode node = ref nodes.AsReadOnlySpan()[originalIndex];
-                int skipIndex = node.IsLeaf ? -1 : flatPos[node.RightChild] - i;
+                int skipIndex = node.IsLeaf ? node.LeftChild : flatPos[node.RightChild] - i;
                 result[i] = new AabbNodeData(node, skipIndex);
             }
 

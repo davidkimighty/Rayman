@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Unity.Collections;
 using UnityEngine;
-using static UnityEngine.Rendering.HableCurve;
 
 namespace Rayman
 {
@@ -161,7 +160,6 @@ namespace Rayman
                 knotList.AddRange(knots);
                 knotIndex += knotCount;
             }
-
             splineArray = splines.ToArray();
             segmentArray = segmentList.ToArray();
             knotArray = knotList.ToArray();
