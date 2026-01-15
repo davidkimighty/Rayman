@@ -13,14 +13,14 @@ namespace Rayman
         public NativeReference<int> NodeCount;
         public NativeReference<int> NextFreeNode;
 
-        public int InsertNode(Aabb bounds, int leafId)
+        public int InsertNode(Aabb bounds)
         {
             Span<AabbNode> nodesSpan = Nodes.AsSpan();
 
             int leafIndex = NextFreeNode.Value++;
             NodeCount.Value++;
             ref AabbNode leafNode = ref nodesSpan[leafIndex];
-            leafNode = new AabbNode(bounds, leafId);
+            leafNode = new AabbNode(bounds);
 
             if (RootIndex.Value == -1)
             {
@@ -41,8 +41,7 @@ namespace Rayman
                 Parent = oldParentIndex,
                 LeftChild = siblingIndex,
                 RightChild = leafIndex,
-                Height = 1 + sibling.Height,
-                LeafId = -1
+                Height = 1 + sibling.Height
             };
 
             sibling.Parent = newParentIndex;
@@ -68,7 +67,6 @@ namespace Rayman
             Span<AabbNode> span = Nodes.AsSpan();
 
             ref AabbNode toRemove = ref span[nodeIndex];
-            toRemove.LeafId = -1;
             toRemove.Parent = -1;
 
             int parentIdx = toRemove.Parent;

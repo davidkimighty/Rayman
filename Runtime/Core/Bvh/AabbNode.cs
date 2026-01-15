@@ -11,18 +11,16 @@ namespace Rayman
         public int LeftChild;
         public int RightChild;
         public int Height;
-        public int LeafId;
 
-        public bool IsLeaf => LeafId != -1;
+        public bool IsLeaf => LeftChild < 0;
 
-        public AabbNode(Aabb bounds, int leafId)
+        public AabbNode(Aabb bounds)
         {
             Bounds = bounds;
             Parent = -1;
             LeftChild = -1;
             RightChild = -1;
             Height = 0;
-            LeafId = leafId;
         }
     }
 
@@ -32,14 +30,12 @@ namespace Rayman
         public float3 Min;
         public float3 Max;
         public int LeftChild;
-        public int LeafId;
 
         public AabbNodeData(AabbNode node, int leftChild)
         {
             Min = node.Bounds.Min;
             Max = node.Bounds.Max;
             LeftChild = leftChild;
-            LeafId = node.LeafId;
         }
     }
 }

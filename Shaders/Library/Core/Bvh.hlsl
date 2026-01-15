@@ -10,7 +10,6 @@ struct NodeAabb
     float3 min;
     float3 max;
     int left;
-    int id;
 };
 
 int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayInvDir, inout int hitIds[RAY_MAX_HITS])
@@ -28,7 +27,7 @@ int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayI
        
         if (node.left < 0) // leaf
         {
-            hitIds[count++] = node.id;
+            hitIds[count++] = -(node.left + 1);
             if (count >= RAY_MAX_HITS) break;
         }
         else
@@ -66,7 +65,7 @@ int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float
         
         if (node.left < 0) // leaf
         {
-            hitIds[count.x++] = node.id;
+            hitIds[count.x++] = -(node.left + 1);
             if (count.x >= RAY_MAX_HITS) break;
         }
         else

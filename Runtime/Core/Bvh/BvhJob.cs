@@ -45,7 +45,12 @@ namespace Rayman
 
                 if (count == 1)
                 {
-                    nodesSpan[nodeIdx] = new AabbNode(totalBounds, indexSpan[start]);
+                    nodesSpan[nodeIdx] = new AabbNode(totalBounds)
+                    {
+                        LeftChild = ~indexSpan[start],
+                        RightChild = -1,
+                        Height = 0
+                    };
                     continue;
                 }
 
@@ -66,7 +71,6 @@ namespace Rayman
                 node.Bounds = totalBounds;
                 node.LeftChild = leftIdx;
                 node.RightChild = rightIdx;
-                node.LeafId = -1;
 
                 stack[stackPtr++] = (start + midRel, count - midRel, rightIdx);
                 stack[stackPtr++] = (start, midRel, leftIdx);
