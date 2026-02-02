@@ -3,7 +3,9 @@
 
 #include "Packages/com.davidkimighty.rayman/Shaders/Library/Core/Aabb.hlsl"
 
+#ifndef STACK_SIZE
 #define STACK_SIZE 32
+#endif
 
 struct NodeAabb
 {
@@ -27,7 +29,16 @@ int TraverseBvh(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float3 rayI
        
         if (node.skipIndex < 0) // leaf
         {
-            hitIds[count++] = -(node.skipIndex + 1);
+            int shapeIndex = -(node.skipIndex + 1);
+            int k = count;
+            while (k > 0 && hitIds[k - 1] > shapeIndex)
+            {
+                hitIds[k] = hitIds[k - 1];
+                k--;
+            }
+            hitIds[k] = shapeIndex;
+            count++;
+
             if (count >= RAY_MAX_HITS) break;
         }
         else
@@ -65,7 +76,16 @@ int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float
         
         if (node.skipIndex < 0) // leaf
         {
-            hitIds[count.x++] = -(node.skipIndex + 1);
+            int shapeIndex = -(node.skipIndex + 1);
+            int k = count.x;
+            while (k > 0 && hitIds[k - 1] > shapeIndex)
+            {
+                hitIds[k] = hitIds[k - 1];
+                k--;
+            }
+            hitIds[k] = shapeIndex;
+            count.x++;
+
             if (count.x >= RAY_MAX_HITS) break;
         }
         else
@@ -87,22 +107,6 @@ int2 TraverseBvhCount(StructuredBuffer<NodeAabb> buffer, float3 rayOrigin, float
         }
     }
     return count;
-}
-
-void InsertionSort(inout int hitIds[RAY_MAX_HITS], inout int numHits)
-{
-    for (int i = 1; i < numHits; i++)
-    {
-        int key = hitIds[i];
-        int j = i - 1;
-
-        while (j >= 0 && hitIds[j] > key)
-        {
-            hitIds[j + 1] = hitIds[j];
-            j -= 1;
-        }
-        hitIds[j + 1] = key;
-    }
 }
 
 #endif

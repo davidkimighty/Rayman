@@ -26,7 +26,7 @@ struct Varyings
 	float3 positionWS : TEXCOORD1;
 	float3 normalWS : TEXCOORD2;
 	half4 tangentWS : TEXCOORD3;
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	half4 fogFactorAndVertexLight : TEXCOORD4; // x: fogFactor, yzw: vertex light
 #else
@@ -36,7 +36,7 @@ struct Varyings
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
 	float4 shadowCoord : TEXCOORD5;
 #endif
-	
+
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 6);
 #ifdef DYNAMICLIGHTMAP_ON
 	float2  dynamicLightmapUV : TEXCOORD7;
@@ -166,7 +166,7 @@ inline half3 CelLighting(BRDFData brdfData, Light light, float2 uv, half3 normal
 	half specCelMask = lerp(0, _SpecTexRange, 1.0 - mask);
 	specular = CelShade(specular, specCelMask, _SpecCelSpread, 1.0, _SpecSmooth) * _SpecIntensity;
 	radiance += light.color * lightAttenuation * (celDiffuse * specular);
-	
+
 	half roughness = saturate(1.0 - brdfData.roughness);
 	half rimIntensity = 1.0 - dot(viewDirectionWS, normalWS);
 	half rimCelMask = lerp(0, _RimTexRange, mask);
@@ -226,7 +226,7 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
+
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
@@ -241,12 +241,12 @@ Varyings Vert (Attributes input)
 #if defined(REQUIRES_WORLD_SPACE_TANGENT_INTERPOLATOR)
 	output.tangentWS = tangentWS;
 #endif
-	
+
 	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
 #ifdef DYNAMICLIGHTMAP_ON
 	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
 #endif
-	
+
 	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 
@@ -255,7 +255,7 @@ Varyings Vert (Attributes input)
 	fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 #endif
 	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
 #else
@@ -268,19 +268,18 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
     hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
 	if (hitCount == 0) discard;
 
-	InsertionSort(hitIds, hitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 	float depth = GetNonLinearDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
-    
+
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
@@ -301,15 +300,15 @@ FragOutput Frag (Varyings input)
 
 	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
 	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
-	
+
 	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
 	Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
-	
+
 	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
-	
+
 	float3 F0 = lerp(_F0, brdfData.albedo, _Metallic);
 	half3 celLighting = 0;
-	
+
 #ifdef _LIGHT_LAYERS
 	uint meshRenderingLayers = GetMeshRenderingLayer();
 	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
@@ -317,7 +316,7 @@ FragOutput Frag (Varyings input)
 	{
 		celLighting = CelLighting(brdfData, mainLight, uv, inputData.normalWS, inputData.viewDirectionWS, F0);
 	}
-	
+
 #if defined(_ADDITIONAL_LIGHTS)
 	uint pixelLightCount = GetAdditionalLightsCount();
 #if USE_CLUSTER_LIGHT_LOOP
@@ -349,14 +348,14 @@ FragOutput Frag (Varyings input)
 #if defined(_ADDITIONAL_LIGHTS_VERTEX)
 	celLighting += inputData.vertexLighting;
 #endif
-	
+
 	half3 giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
 		inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
 		inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
 
 	half4 color = half4(giColor + celLighting + _EmissionColor, baseColor.a);
 	color.rgb = MixFog(color.rgb, input.fogFactor);
-	
+
 	FragOutput output;
 	output.color = color;
 	output.depth = depth;

@@ -45,7 +45,7 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
+
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	output.positionCS = vertexInput.positionCS;
 	output.positionWS = vertexInput.positionWS;
@@ -56,14 +56,13 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
 	hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
 	if (hitCount == 0) discard;
 
-	InsertionSort(hitIds, hitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 	float depth = GetNonLinearDepth(ray.hitPoint);
@@ -74,7 +73,7 @@ FragOutput Frag (Varyings input)
 
 	const float fresnel = GetFresnel(viewDirWS, normal, _FresnelPow);
 	finalColor.rgb = lerp(finalColor.rgb, _FresnelColor, fresnel);
-	
+
 	FragOutput output;
 	output.color = finalColor;
 	output.depth = depth;

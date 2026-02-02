@@ -40,7 +40,7 @@ Varyings Vert(Attributes input)
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-    
+
     output.posCS = TransformObjectToHClip(input.position.xyz);
     output.posWS = TransformObjectToWorld(input.position.xyz);
 #if defined(_ALPHATEST_ON)
@@ -53,20 +53,19 @@ FragOut Frag(Varyings input)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-    
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
     Ray ray = CreateRay(input.posWS, -viewDirWS);
 
     hitCount =  TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (hitCount == 0) discard;
-    
-    InsertionSort(hitIds, hitCount);
+
     if (!Raymarch(ray, _DepthOnlyMaxSteps, _DepthOnlyMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 #if defined(_ALPHATEST_ON)
     Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
 #endif
-    
+
     FragOut output;
     output.color = output.depth = GetNonLinearDepth(ray.hitPoint);
     return output;

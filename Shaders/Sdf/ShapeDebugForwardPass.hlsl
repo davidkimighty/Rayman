@@ -67,7 +67,7 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
+
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
@@ -89,13 +89,12 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
 	int2 bvhCount = TraverseBvhCount(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
 	hitCount = bvhCount.x;
-	InsertionSort(hitIds, hitCount);
 
 	int rayHitCount;
 	bool rayHit = RaymarchHitCount(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax, rayHitCount);
@@ -123,7 +122,7 @@ FragOutput Frag (Varyings input)
 		int total = hitCount + bvhCount.y;
 		color = 1 * saturate((float)total / (total + _BoundsDisplayThreshold));
 	}
-	
+
 	FragOutput output;
 	output.color = color;
 	output.depth = depth;

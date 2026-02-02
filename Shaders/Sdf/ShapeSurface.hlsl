@@ -86,6 +86,7 @@ inline float GetSceneDistance(const int passType, const float3 positionWS)
     {
         int shapeIndex = hitIds[i];
         Shape shape = _ShapeBuffer[shapeIndex];
+
         float3 localPos = positionWS - shape.position;
         float shapeDist = GetShapeDistance(shape, localPos);
 #ifdef SHAPE_BLENDING

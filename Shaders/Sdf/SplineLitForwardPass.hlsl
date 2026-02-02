@@ -25,7 +25,7 @@ struct Varyings
 	float3 positionWS : TEXCOORD1;
 	float3 normalWS : TEXCOORD2;
 	half4 tangentWS : TEXCOORD3;
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	half4 fogFactorAndVertexLight : TEXCOORD4; // x: fogFactor, yzw: vertex light
 #else
@@ -35,7 +35,7 @@ struct Varyings
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
 	float4 shadowCoord : TEXCOORD5;
 #endif
-	
+
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 6);
 #ifdef DYNAMICLIGHTMAP_ON
 	float2  dynamicLightmapUV : TEXCOORD7;
@@ -76,7 +76,7 @@ inline void SplineBlend(const int passType, float blend)
 	uv = GetRotatedUV(uv, float2(0.5, 0.5), radians(_GradientAngle));
 	uv.y = 1.0 - uv.y;
 	uv = saturate(uv);
-	
+
 	half4 color = lerp(_Color, _GradientColor, uv.y);
 	baseColor = color;
 }
@@ -133,7 +133,7 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
+
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
@@ -148,12 +148,12 @@ Varyings Vert (Attributes input)
 #if defined(REQUIRES_WORLD_SPACE_TANGENT_INTERPOLATOR)
 	output.tangentWS = tangentWS;
 #endif
-	
+
 	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
 #ifdef DYNAMICLIGHTMAP_ON
 	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
 #endif
-	
+
 	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 
@@ -162,7 +162,7 @@ Varyings Vert (Attributes input)
 	fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 #endif
 	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
 #else
@@ -175,31 +175,30 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
     hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
 	if (hitCount == 0) discard;
 
-	InsertionSort(hitIds, hitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 	float depth = GetNonLinearDepth(ray.hitPoint);
 	float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
-    
+
 	InputData inputData;
 	InitializeInputData(input, ray.hitPoint, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
 	InitializeBakedGIData(input, inputData);
-	
+
 	SurfaceData surfaceData = (SurfaceData)0;
 	InitializeStandardLitSurfaceData(input.uv, surfaceData);
 	surfaceData.albedo = baseColor.rgb * _BaseMap.Sample(sampler_BaseMap, input.uv);
 	surfaceData.metallic = _Metallic;
 	surfaceData.smoothness = _Smoothness;
 	surfaceData.emission = _EmissionColor;
-	
+
 	half4 finalColor = UniversalFragmentPBR(inputData, surfaceData);
 	finalColor.rgb = MixFog(finalColor.rgb, inputData.fogCoord);
 	finalColor.a = baseColor.a;
