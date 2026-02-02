@@ -40,7 +40,7 @@ Varyings Vert(Attributes input)
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-    
+
     output.posCS = TransformObjectToHClip(input.vertex.xyz);
     output.posWS = TransformObjectToWorld(input.vertex.xyz);
     output.normalWS = TransformObjectToWorldNormal(input.normal);
@@ -51,16 +51,15 @@ FragOut Frag(Varyings input)
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-    
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.posWS);
     Ray ray = CreateRay(input.posWS, -viewDirWS);
 
     hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (hitCount == 0) discard;
-    
-    InsertionSort(hitIds, hitCount);
+
     if (!Raymarch(ray, _DepthNormalMaxSteps, _DepthNormalMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
-    
+
     const float3 normal = GetNormal(ray.hitPoint, _EpsilonMin);
     const float depth = GetNonLinearDepth(ray.hitPoint);
 

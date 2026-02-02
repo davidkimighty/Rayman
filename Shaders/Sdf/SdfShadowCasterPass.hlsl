@@ -48,7 +48,7 @@ Varyings Vert(Attributes input)
 
     float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
     positionCS = ApplyShadowClamping(positionCS);
-    
+
     output.positionCS = positionCS;
     output.positionWS = positionWS;
     return output;
@@ -57,14 +57,13 @@ Varyings Vert(Attributes input)
 float Frag(Varyings input) : SV_Depth
 {
     UNITY_SETUP_INSTANCE_ID(input);
-    
+
     float3 lightDirWS = -_LightDirection.xyz;
     Ray ray = CreateRay(input.positionWS, lightDirWS);
 
     hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (hitCount == 0) discard;
-    
-    InsertionSort(hitIds, hitCount);
+
     if (!Raymarch(ray, _ShadowMaxSteps, _ShadowMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 #if defined(LOD_FADE_CROSSFADE)

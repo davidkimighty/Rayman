@@ -26,7 +26,7 @@ struct Varyings
 	float3 positionWS : TEXCOORD1;
 	float3 normalWS : TEXCOORD2;
 	half4 tangentWS : TEXCOORD3;
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	half4 fogFactorAndVertexLight : TEXCOORD4; // x: fogFactor, yzw: vertex light
 #else
@@ -36,7 +36,7 @@ struct Varyings
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
 	float4 shadowCoord : TEXCOORD5;
 #endif
-	
+
 	DECLARE_LIGHTMAP_OR_SH(staticLightmapUV, vertexSH, 6);
 #ifdef DYNAMICLIGHTMAP_ON
 	float2  dynamicLightmapUV : TEXCOORD7;
@@ -139,8 +139,8 @@ inline half3 ChromeLighting(BRDFData brdfData, Light light, half3 normalWS, half
 
 	half fresnel = GetFresnel(viewDirWS, normalWS, _FresnelPower);
 	half3 iridescence = float3(
-		sin(fresnel * 6.28 + 0.0), 
-		sin(fresnel * 6.28 + 2.1), 
+		sin(fresnel * 6.28 + 0.0),
+		sin(fresnel * 6.28 + 2.1),
 		sin(fresnel * 6.28 + 4.2)
 	) * 0.5 + 0.5;
 	iridescence *= fresnel;
@@ -167,10 +167,10 @@ inline half3 ChromeGlobalIllumination(BRDFData brdfData, half3 bakedGI, half occ
 	half reflLuminance = Luminance(chromeRefl);
 	half expansion = pow(reflLuminance, _EnvPower) * _EnvIntensity;
 	indirectSpecular += expansion;
-	
+
 	half NoV = saturate(dot(normalWS, viewDirectionWS));
 	half fresnelTerm = Pow4(1.0 - NoV);
-	
+
 	half3 color = EnvironmentBRDF(brdfData, bakedGI, indirectSpecular, fresnelTerm);
 	return color * occlusion;
 }
@@ -226,7 +226,7 @@ Varyings Vert (Attributes input)
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_TRANSFER_INSTANCE_ID(input, output);
 	UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
-	
+
 	VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
 	VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
 
@@ -241,12 +241,12 @@ Varyings Vert (Attributes input)
 #if defined(REQUIRES_WORLD_SPACE_TANGENT_INTERPOLATOR)
 	output.tangentWS = tangentWS;
 #endif
-	
+
 	OUTPUT_LIGHTMAP_UV(input.staticLightmapUV, unity_LightmapST, output.staticLightmapUV);
 #ifdef DYNAMICLIGHTMAP_ON
 	output.dynamicLightmapUV = input.dynamicLightmapUV.xy * unity_DynamicLightmapST.xy + unity_DynamicLightmapST.zw;
 #endif
-	
+
 	half3 viewDirectionWS = GetWorldSpaceNormalizeViewDir(vertexInput.positionWS);
 	OUTPUT_SH4(vertexInput.positionWS, normalInput.normalWS.xyz, viewDirectionWS, output.vertexSH, output.probeOcclusion);
 
@@ -255,7 +255,7 @@ Varyings Vert (Attributes input)
 	fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 #endif
 	half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
-	
+
 #ifdef _ADDITIONAL_LIGHTS_VERTEX
 	output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
 #else
@@ -268,20 +268,19 @@ FragOutput Frag (Varyings input)
 {
 	UNITY_SETUP_INSTANCE_ID(input);
 	UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-	
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
     hitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
 	if (hitCount == 0) discard;
 
-	InsertionSort(hitIds, hitCount);
 	if (!Raymarch(ray, _MaxSteps, _MaxDistance, _EpsilonMin, _EpsilonMax)) discard;
 
 	float3 posWS = ray.hitPoint;
 	float depth = GetNonLinearDepth(posWS);
 	float3 normal = GetNormal(posWS, _EpsilonMin);
-    
+
 	InputData inputData;
 	InitializeInputData(input, posWS, viewDirWS, normal, inputData);
 	inputData.shadowCoord.z += _RayShadowBias;
@@ -297,21 +296,21 @@ FragOutput Frag (Varyings input)
 	ApplyDecalToSurfaceData(input.positionCS, surfaceData, inputData);
 #endif
 	InitializeBakedGIData(input, inputData);
-	
+
 	BRDFData brdfData;
 	InitializeBRDFData(surfaceData, brdfData);
 
 	BRDFData brdfDataClearCoat = CreateClearCoatBRDFData(surfaceData, brdfData);
 	AmbientOcclusionFactor aoFactor = CreateAmbientOcclusionFactor(inputData, surfaceData);
-	
+
 	half4 shadowMask = SAMPLE_SHADOWMASK(input.staticLightmapUV);
 	Light mainLight = GetMainLight(inputData, shadowMask, aoFactor);
-	
+
 	MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
-	
+
 	float3 F0 = lerp(_FresnelPower, brdfData.albedo, _Metallic);
 	half3 lightColor = 0;
-	
+
 #ifdef _LIGHT_LAYERS
 	uint meshRenderingLayers = GetMeshRenderingLayer();
 	if (IsMatchingLightLayer(mainLight.layerMask, meshRenderingLayers))
@@ -319,7 +318,7 @@ FragOutput Frag (Varyings input)
 	{
 		lightColor = ChromeLighting(brdfData, mainLight, normal, viewDirWS, F0);
 	}
-	
+
 #if defined(_ADDITIONAL_LIGHTS)
 	uint pixelLightCount = GetAdditionalLightsCount();
 #if USE_CLUSTER_LIGHT_LOOP
@@ -351,13 +350,13 @@ FragOutput Frag (Varyings input)
 #if defined(_ADDITIONAL_LIGHTS_VERTEX)
 	lightColor += inputData.vertexLighting;
 #endif
-	
+
 	half3 giColor = ChromeGlobalIllumination(brdfData, inputData.bakedGI, aoFactor.indirectAmbientOcclusion,
 		posWS, normal, viewDirWS, inputData.normalizedScreenSpaceUV);
 
 	half4 color = half4(giColor + lightColor + _EmissionColor, baseColor.a);
 	color.rgb = MixFog(color.rgb, input.fogFactor);
-	
+
 	FragOutput output;
 	output.color = color;
 	output.depth = depth;

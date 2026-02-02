@@ -1,8 +1,13 @@
 ﻿#ifndef RAYMAN_RAY
 #define RAYMAN_RAY
 
+#ifndef RAY_MAX_DISTANCE
 #define RAY_MAX_DISTANCE 100.0
+#endif
+
+#ifndef RAY_MAX_HITS
 #define RAY_MAX_HITS 16
+#endif
 
 struct Ray
 {

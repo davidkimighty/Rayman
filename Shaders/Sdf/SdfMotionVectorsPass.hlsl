@@ -73,16 +73,15 @@ float4 Frag(Varyings input) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
-    
+
     half3 viewDirWS = GetWorldSpaceNormalizeViewDir(input.positionWS);
     Ray ray = CreateRay(input.positionWS, -viewDirWS);
 
     shapeHitCount = TraverseBvh(_NodeBuffer, ray.origin, rcp(ray.dir), hitIds);
     if (shapeHitCount == 0) discard;
-    
-    InsertionSort(shapeHitIds, shapeHitCount);
+
     if (!Raymarch(ray, _MotionVectorsMaxSteps, _MotionVectorsMaxDistance, _EpsilonMin, _EpsilonMax)) discard;
-    
+
 #if defined(_ALPHATEST_ON)
     Alpha(SampleAlbedoAlpha(input.uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap)).a, _BaseColor, _Cutoff);
 #endif

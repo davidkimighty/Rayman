@@ -10,7 +10,7 @@ Shader "Rayman/ShapeLit"
     	_GradientOffsetY("Gradient Offset Y", Range(-1.0, 1.0)) = 0.0
     	_GradientAngle("Gradient Angle", Float) = 0.0
     	_RayShadowBias("Ray Shadow Bias", Range(0.0, 0.1)) = 0.006
-    	
+
     	[Header(Raymarching)][Space]
     	_EpsilonMin("Epsilon Min", Float) = 0.001
     	_EpsilonMax("Epsilon Max", Float) = 0.01
@@ -20,7 +20,7 @@ Shader "Rayman/ShapeLit"
     	_DepthNormalMaxDistance("DepthNormal Max Distance", Float) = 100.0
     	_ShadowMaxSteps("Shadow Max Steps", Int) = 16
     	_ShadowMaxDistance("Shadow Max Distance", Float) = 30.0
-    	
+
     	[Header(Blending)][Space]
     	[Enum(UnityEngine.Rendering.BlendMode)] _SrcBlend("SrcBlend", Float) = 1.0
 		[Enum(UnityEngine.Rendering.BlendMode)] _DstBlend("DstBlend ", Float) = 0.0
@@ -38,7 +38,7 @@ Shader "Rayman/ShapeLit"
         	"DisableBatching" = "True"
         }
         LOD 100
-        
+
         Pass
 		{
 			Name "Forward"
@@ -46,14 +46,14 @@ Shader "Rayman/ShapeLit"
 			{
 				"LightMode" = "UniversalForward"
 			}
-			
+
 			Blend [_SrcBlend] [_DstBlend]
 		    ZWrite [_ZWrite]
 		    Cull [_Cull]
-		    
+
 			HLSLPROGRAM
 			#pragma target 2.0
-			
+
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
             #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
             #pragma multi_compile _ EVALUATE_SH_MIXED EVALUATE_SH_VERTEX
@@ -76,16 +76,18 @@ Shader "Rayman/ShapeLit"
             #pragma multi_compile_fragment _ LIGHTMAP_BICUBIC_SAMPLING
 			#include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Fog.hlsl"
             #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ProbeVolumeVariants.hlsl"
-		    
+
             #pragma multi_compile_instancing
             #pragma instancing_options renderinglayer
 
 			#pragma multi_compile_fragment _ _SHAPE_GROUP
 			#pragma multi_compile_fragment _ _GRADIENT_COLOR
-			
+
+			#define RAY_MAX_HITS 8
+			#define STACK_SIZE 16
 			#define SHAPE_BLENDING
 			#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/ShapeSurface.hlsl"
-			
+
 			#pragma vertex Vert
             #pragma fragment Frag
 			#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/ShapeLitForwardPass.hlsl"
@@ -102,7 +104,7 @@ Shader "Rayman/ShapeLit"
 
 		    HLSLPROGRAM
 		    #pragma target 2.0
-		    
+
 		    #pragma multi_compile _ LOD_FADE_CROSSFADE
 		    #include_with_pragmas "Packages/com.unity.render-pipelines.universal/ShaderLibrary/RenderingLayers.hlsl"
 		    #pragma multi_compile_instancing
@@ -110,7 +112,7 @@ Shader "Rayman/ShapeLit"
 
 		    #pragma multi_compile_fragment _ _SHAPE_GROUP
 		    #include "Packages/com.davidkimighty.rayman/Shaders/Sdf/ShapeSurface.hlsl"
-		    
+
 			#pragma vertex Vert
 		    #pragma fragment Frag
 			#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/SdfDepthNormalPass.hlsl"
@@ -133,13 +135,13 @@ Shader "Rayman/ShapeLit"
 			HLSLPROGRAM
 			#pragma target 2.0
 			#pragma multi_compile_instancing
-			
+
 			#pragma multi_compile _ LOD_FADE_CROSSFADE
 			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
 			#pragma multi_compile_fragment _ _SHAPE_GROUP
 			#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/ShapeSurface.hlsl"
-			
+
 			#pragma vertex Vert
 		    #pragma fragment Frag
 			#include "Packages/com.davidkimighty.rayman/Shaders/Sdf/SdfShadowCasterPass.hlsl"
